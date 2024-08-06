@@ -6,7 +6,14 @@ BlueWave DataRoom is an open source DocSend alternative where you can share your
 
 Currently, BlueWave DataRoom is in its early stage of development. The current designs and the style guide can be viewed [here](https://www.figma.com/design/GLFfhwOQeHmbcflgCTuMKA/File-Server?node-id=0-1&t=be2sQyhaO4ylDg6z-1). Note that they are WIP.
 
-![Frame 840](https://github.com/user-attachments/assets/b2345a66-037a-471b-b150-2f839559756b)
+Main dashboard:
+
+![Frame 17](https://github.com/user-attachments/assets/7b324b19-6f87-4a0d-9946-bd9e9103104c)
+
+Dataroom: 
+
+![Frame 18](https://github.com/user-attachments/assets/3b550d9a-46a7-4bc6-9b9a-a5eb9f19e981)
+
 
 ## Features
 
