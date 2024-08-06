@@ -4,7 +4,7 @@
 
 BlueWave DataRoom is an open source DocSend alternative where you can share your files privately with anyone outside of your organization. 
 
-Currently, BlueWave DataRoom is in its early stage of development. The current designs can be viewed [here](https://www.figma.com/design/GLFfhwOQeHmbcflgCTuMKA/File-Server?node-id=0-1&t=be2sQyhaO4ylDg6z-1).
+Currently, BlueWave DataRoom is in its early stage of development. The current designs and the style guide can be viewed [here](https://www.figma.com/design/GLFfhwOQeHmbcflgCTuMKA/File-Server?node-id=0-1&t=be2sQyhaO4ylDg6z-1). Note that they are WIP.
 
 ![Frame 840](https://github.com/user-attachments/assets/b2345a66-037a-471b-b150-2f839559756b)
 
