@@ -22,6 +22,5 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 * [MUI (React framework)](https://mui.com/)
 * [Node.js](https://nodejs.org/en)
 * [MongoDB](https://mongodb.com)
- 
 
 
