@@ -104,8 +104,25 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 
 ## Endpoints
 
-
 ### Auth
+
+<details>
+<summary id='#get-all-users-id'><code>GET</code> <b>/api/v1/auth/users</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value            |
+> | -------------- | ---------------- |
+> | Method         | GET              |
+> | content-type   | application/json |
+
+###### Response Payload
+
+> | Type          | Notes                                 |
+> | ------------- | ------------------------------------- |
+> | `Array<User>` | Returns an array containing all users |
+
+</details>
 
 <details>
 <summary id='post-register'><code>POST</code> <b>/api/v1/auth/register</b></summary>
@@ -163,7 +180,7 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 </details>
 
 <details>
-<summary id='post-auth-user-edit-id'><code>POST</code><b>/api/v1/auth/user/{userId}</b></summary>
+<summary id='post-auth-user-edit-id'><code>POST</code> <b>/api/v1/auth/user/{userId}</b></summary>
 
 ###### Method/Headers
 
@@ -191,25 +208,7 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 </details>
 
 <details>
-<summary id='#get-all-users-id'><code>GET</code><b>/api/v1/auth/users</b></summary>
-
-###### Method/Headers
-
-> | Method/Headers | Value            |
-> | -------------- | ---------------- |
-> | Method         | GET              |
-> | content-type   | application/json |
-
-###### Response Payload
-
-> | Type          | Notes                                 |
-> | ------------- | ------------------------------------- |
-> | `Array<User>` | Returns an array containing all users |
-
-</details>
-
-<details>
-<summary id='post-auth-recovery-request-id'><code>POST</code><b>/api/v1/auth/recovery/request</b></summary>
+<summary id='post-auth-recovery-request-id'><code>POST</code> <b>/api/v1/auth/recovery/request</b></summary>
 
 ###### Method/Headers
 
@@ -233,7 +232,7 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 </details>
 
 <details>
-<summary id='post-auth-recovery-validate-id'><code>POST</code><b>/api/v1/auth/recovery/validate</b></summary>
+<summary id='post-auth-recovery-validate-id'><code>POST</code> <b>/api/v1/auth/recovery/validate</b></summary>
 
 ###### Method/Headers
 
@@ -257,7 +256,7 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 </details>
 
 <details>
-<summary id='post-auth-recovery-reset-id'><code>POST</code><b>/api/v1/auth/recovery/reset</b></summary>
+<summary id='post-auth-recovery-reset-id'><code>POST</code> <b>/api/v1/auth/recovery/reset</b></summary>
 
 ###### Method/Headers
 
@@ -340,7 +339,7 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 </details>
 
 <details>
-<summary id='post-document'><code>POST</code><b>/api/v1/document</b></summary>
+<summary id='post-document'><code>POST</code> <b>/api/v1/document</b></summary>
 
 ###### Method/Headers
 
@@ -369,7 +368,7 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 </details>
 
 <details>
-<summary id='post-document-del-id'><code>POST</code><b>/api/v1/document/delete/{fileId}</b></summary>
+<summary id='post-document-del-id'><code>POST</code> <b>/api/v1/document/delete/{fileId}</b></summary>
 
 ###### Method/Headers
 
@@ -387,7 +386,7 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 </details>
 
 <details>
-<summary id='post-document-edit-id'><code>POST</code><b>/api/v1/document/edit/{fileId}</b></summary>
+<summary id='post-document-edit-id'><code>POST</code> <b>/api/v1/document/edit/{fileId}</b></summary>
 
 ###### Method/Headers
 
@@ -449,12 +448,12 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 
 > | Type               | Notes                                                |
 > | ------------------ | ---------------------------------------------------- |
-> | `DataRoom`         | Single dataroon with the id in the request parameter |
+> | `DataRoom`         | Single dataroom with the id in the request parameter |
 
 </details>
 
 <details>
-<summary id='post-dataroom'><code>POST</code><b>/api/v1/dataroom</b></summary>
+<summary id='post-dataroom'><code>POST</code> <b>/api/v1/dataroom</b></summary>
 
 ###### Method/Headers
 
@@ -479,7 +478,7 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 </details>
 
 <details>
-<summary id='post-dataroom-del-id'><code>POST</code><b>/api/v1/dataroom/delete/{folderId}</b></summary>
+<summary id='post-dataroom-del-id'><code>POST</code> <b>/api/v1/dataroom/delete/{folderId}</b></summary>
 
 ###### Method/Headers
 
@@ -497,7 +496,7 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 </details>
 
 <details>
-<summary id='post-document-edit-id'><code>POST</code><b>/api/v1/dataroom/edit/{folderId}</b></summary>
+<summary id='post-document-edit-id'><code>POST</code> <b>/api/v1/dataroom/edit/{folderId}</b></summary>
 
 ###### Method/Headers
 
@@ -555,12 +554,12 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 
 > | Type               | Notes                                                |
 > | ------------------ | ---------------------------------------------------- |
-> | `Link`             | Single dataroon with the id in the request parameter |
+> | `Link`             | Singe Link with the id in the request parameter      |
 
 </details>
 
 <details>
-<summary id='post-link'><code>POST</code><b>/api/v1/link</b></summary>
+<summary id='post-link'><code>POST</code> <b>/api/v1/link</b></summary>
 
 ###### Method/Headers
 
@@ -585,12 +584,12 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 
 > | Type      | Notes                             |
 > | --------- | --------------------------------- |
-> | `Link` | Returns newly created `Link` |
+> | `Link`    | Returns newly created `Link`       |
 
 </details>
 
 <details>
-<summary id='post-link-del-id'><code>POST</code><b>/api/v1/link/delete/{linkId}</b></summary>
+<summary id='post-link-del-id'><code>POST</code> <b>/api/v1/link/delete/{linkId}</b></summary>
 
 ###### Method/Headers
 
@@ -608,14 +607,14 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 </details>
 
 <details>
-<summary id='post-link-edit-id'><code>POST</code><b>/api/v1/link/edit/{linkId}</b></summary>
+<summary id='post-link-edit-id'><code>POST</code> <b>/api/v1/link/edit/{linkId}</b></summary>
 
 ###### Method/Headers
 
 > | Method/Headers | Value               |
 > | -------------- | ------------------- |
 > | Method         | POST                |
-> | content-type   |   application/json  |
+> | content-type   | application/json    |
 
 ##### Body
 > | Name              | Type      | Notes                                            | Accepted Values                         |
@@ -632,7 +631,7 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 
 > | Type      | Notes                             |
 > | --------- | --------------------------------- |
-> | `Link` | Returns updated `Link`       |
+> | `Link`    | Returns updated `Link`            |
 
 </details>
 
