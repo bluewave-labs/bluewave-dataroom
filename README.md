@@ -37,6 +37,7 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 | **Name**          | **Type**  | **Notes**                                                   |
 | ----------------- | --------- | ----------------------------------------------------------- |
 | `fileId`          | `string`  | **Primary Key**. Unique ID identifying the file             |
+| `parentFileId`    | `string`  | **Foreign Key**. References `Documents.fileId`              |
 | `fileName`        | `string`  | Name of the file                                            |
 | `type`            | `string`  | File type / extension                                       |
 | `fileDirectory`   | `string`  | Directory where the file is located                         |
@@ -44,24 +45,6 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 | `mimeType`        | `string`  | MIME type of the file                                       |
 | `createdBy`       | `string`  | **Foreign Key**. References `User.userId`                   |
 | `createdAt`       | `Date`    | **Not Null**. Creation time                                 |
-| `updatedAt`       | `Date`    | **Not Null**. Last update time                              |
-| `updatedBy`       | `string`  | **Foreign Key**. References `User.userId`                   |
-| `totalViews`      | `int`     | Total number of times the file was viewed                   |
-| `uniqueViews`     | `int`     | Number of unique viewers of the file                        |
-
-</details>
-
-<details>
-<summary><code>DocumentArchives</code></summary>
-
-| **Name**          | **Type**  | **Notes**                                                   |
-| ----------------- | --------- | ----------------------------------------------------------- |
-| `fileId`          | `string`  | **Primary Key**. Unique ID identifying the file             |
-| `documentId`      | `string`  | **Foreign Key**. References `Documents.fileId`              |
-| `type`            | `string`  | File type / extension                                       |
-| `fileDirectory`   | `string`  | Directory where the file is located                         |
-| `fileSize`        | `int`     | Size of the file in bytes                                   |
-| `mimeType`        | `string`  | MIME type of the file                                       |
 | `updatedAt`       | `Date`    | **Not Null**. Last update time                              |
 | `updatedBy`       | `string`  | **Foreign Key**. References `User.userId`                   |
 | `totalViews`      | `int`     | Total number of times the file was viewed                   |
@@ -314,14 +297,14 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 
 ##### Response Payload
 
-> | Type               | Notes                  |
-> | ------------------ | ---------------------- |
-> | `Array<Document>`  | Array of all documents |
+> | Type               | Notes                                     |
+> | ------------------ | ----------------------------------------- |
+> | `Array<Document>`  | Array of all latest versions of documents |
 
 </details>
 
 <details>
-<summary id='get-document'><code>GET</code> <b>/api/v1/document/version/{documentId}</b></summary>
+<summary id='get-documents'><code>GET</code> <b>/api/v1/documents/versions/{documentId}</b></summary>
 
 ##### Method/Headers
 
@@ -332,9 +315,9 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 
 ##### Response Payload
 
-> | Type               | Notes                                                                  |
-> | ------------------ | ---------------------------------------------------------------------- |
-> | `Document`         | Specified version of the document with the id in the request parameter |
+> | Type               | Notes                                                   |
+> | ------------------ | ------------------------------------------------------- |
+> | `Array<Document>`  | Array of all documents versions for the parent document |
 
 </details>
 
@@ -352,7 +335,7 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 
 > | Type               | Notes                                                               |
 > | ------------------ | ------------------------------------------------------------------- |
-> | `Document`         | Latest version of the document with the id in the request parameter |
+> | `Document`         | Document with the id in the request parameter                       |
 
 </details>
 
