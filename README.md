@@ -52,21 +52,42 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 </details>
 
 <details>
-<summary><code>Links</code></summary>
+<summary><code>DocumentArchives</code></summary>
 
 | **Name**          | **Type**  | **Notes**                                                   |
 | ----------------- | --------- | ----------------------------------------------------------- |
-| `linkId`          | `string`  | **Primary Key**. Unique ID for the link                     |
-| `fileId`          | `string`  | **Foreign Key**. References `Documents.fileId`              |
-| `linkName`        | `string`  | Name of the link                                            |
-| `linkUrl`         | `string`  | URL of the link                                             |
-| `isPublic`        | `boolean` | Indicates if the link is public                             |
-| `emailRequired`   | `boolean` | Indicates if an email is required for download              |
-| `canExpire`       | `boolean` | Indicates if the link can expire                            |
-| `expirationTime`  | `Date`    | Expiration date of the link (nullable)                      |
+| `fileId`          | `string`  | **Primary Key**. Unique ID identifying the file             |
+| `documentId`      | `string`  | **Foreign Key**. References `Documents.fileId`              |
+| `type`            | `string`  | File type / extension                                       |
+| `fileDirectory`   | `string`  | Directory where the file is located                         |
+| `fileSize`        | `int`     | Size of the file in bytes                                   |
+| `mimeType`        | `string`  | MIME type of the file                                       |
 | `updatedAt`       | `Date`    | **Not Null**. Last update time                              |
-| `createdAt`       | `Date`    | **Not Null**. Creation time                                 |
-| `createdBy`       | `string`  | **Foreign Key**. References `User.userId`                   |
+| `updatedBy`       | `string`  | **Foreign Key**. References `User.userId`                   |
+| `totalViews`      | `int`     | Total number of times the file was viewed                   |
+| `uniqueViews`     | `int`     | Number of unique viewers of the file                        |
+
+</details>
+
+<details>
+<summary><code>Links</code></summary>
+
+| **Name**          | **Type**  | **Notes**                                                           |
+| ----------------- | --------- | ------------------------------------------------------------------- |
+| `linkId`          | `string`  | **Primary Key**. Unique ID for the link                             |
+| `fileId`          | `string`  | **Foreign Key**. References `Documents.fileId`                      |
+| `linkName`        | `string`  | Name of the link                                                    |
+| `linkUrl`         | `string`  | URL of the link                                                     |
+| `isPublic`        | `boolean` | Indicates if the link is public                                     |
+| `emailRequired`   | `boolean` | Indicates if an email is required for download                      |
+| `passwordRequired`| `boolean` | Indicates if a password is required to view and download the file   |
+| `linkPassword`    | `string`  | Password reqired to view and download the file                      |
+| `linkUrl`         | `string`  | URL of the link                                                     |
+| `canExpire`       | `boolean` | Indicates if the link can expire                                    |
+| `expirationTime`  | `Date`    | Expiration date of the link (nullable)                              |
+| `updatedAt`       | `Date`    | **Not Null**. Last update time                                      |
+| `createdAt`       | `Date`    | **Not Null**. Creation time                                         |
+| `createdBy`       | `string`  | **Foreign Key**. References `User.userId`                           |
 
 </details>
 
@@ -98,7 +119,539 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 
 </details>
 
+## Endpoints
 
+
+### Auth
+
+<details>
+<summary id='post-register'><code>POST</code> <b>/api/v1/auth/register</b></summary>
+
+##### Method/Headers
+
+> | Method/Headers | Value               |
+> | -------------- | ------------------- |
+> | Method         | POST                |
+> | content-type   | multipart/form-data |
+
+##### Form
+
+> | Name      | Type            | Notes                                           |
+> | --------- | --------------- | ----------------------------------------------- |
+> | firstName | `string`        |                                                 |
+> | lastName  | `string`        |                                                 |
+> | email     | `string`        | Valid email address                             |
+> | password  | `string`        | Min 8 chars, One Upper, one number, one special |
+> | role      | `Array<string>` | Array of user roles                             |
+
+##### Response Payload
+
+> | Type | Notes          |
+> | ---- | -------------- |
+> | User | User data      |
+> | JWT  | JSON web token |
+
+</details>
+
+<details>
+<summary id='post-login'><code>POST</code> <b>/api/v1/auth/login</b></summary>
+
+##### Method/Headers
+
+> | Method/Headers | Value            |
+> | -------------- | ---------------- |
+> | Method         | POST             |
+> | content-type   | application/json |
+
+##### Body
+
+> | Name     | Type     | Notes               |
+> | -------- | -------- | ------------------- |
+> | email    | `string` | Valid email address |
+> | password | `string` |                     |
+
+##### Response Payload
+
+> | Type | Notes          |
+> | ---- | -------------- |
+> | User | User data      |
+> | JWT  | JSON web token |
+
+</details>
+
+<details>
+<summary id='post-auth-user-edit-id'><code>POST</code><b>/api/v1/auth/user/{userId}</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value               |
+> | -------------- | ------------------- |
+> | Method         | POST                |
+> | content-type   | multipart/form-data |
+
+##### Form
+
+> | Name        | Type     | Notes                       |
+> | ----------- | -------- | --------------------------- |
+> | firstName   | `string` | Optional                    |
+> | lastName    | `string` | Optional                    |
+> | profileIame | `file`   | Optional                    |
+> | password    | `string` | Required to change password |
+> | newPassword | `string` | Required to change password |
+
+###### Response Payload
+
+> | Type   | Notes                    |
+> | ------ | ------------------------ |
+> | `User` | Returns the updated user |
+
+</details>
+
+<details>
+<summary id='#get-all-users-id'><code>GET</code><b>/api/v1/auth/users</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value            |
+> | -------------- | ---------------- |
+> | Method         | GET              |
+> | content-type   | application/json |
+
+###### Response Payload
+
+> | Type          | Notes                                 |
+> | ------------- | ------------------------------------- |
+> | `Array<User>` | Returns an array containing all users |
+
+</details>
+
+<details>
+<summary id='post-auth-recovery-request-id'><code>POST</code><b>/api/v1/auth/recovery/request</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value            |
+> | -------------- | ---------------- |
+> | Method         | POST             |
+> | content-type   | application/json |
+
+##### Body
+
+> | Name  | Type     | Notes        |
+> | ----- | -------- | ------------ |
+> | email | `string` | User's email |
+
+###### Response Payload
+
+> | Type            | Notes                                   |
+> | --------------- | --------------------------------------- |
+> | `RecoveryToken` | Returns a recovery token if email found |
+
+</details>
+
+<details>
+<summary id='post-auth-recovery-validate-id'><code>POST</code><b>/api/v1/auth/recovery/validate</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value            |
+> | -------------- | ---------------- |
+> | Method         | POST             |
+> | content-type   | application/json |
+
+##### Body
+
+> | Name          | Type     | Notes                               |
+> | ------------- | -------- | ----------------------------------- |
+> | recoveryToken | `string` | Token issued in `/recovery/request` |
+
+###### Response Payload
+
+> | Type            | Notes                      |
+> | --------------- | -------------------------- |
+> | `RecoveryToken` | Returns the recovery token |
+
+</details>
+
+<details>
+<summary id='post-auth-recovery-reset-id'><code>POST</code><b>/api/v1/auth/recovery/reset</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value            |
+> | -------------- | ---------------- |
+> | Method         | POST             |
+> | content-type   | application/json |
+
+##### Body
+
+> | Name          | Type     | Notes                                         |
+> | ------------- | -------- | --------------------------------------------- |
+> | recoveryToken | `string` | Token issued returned by `/recovery/validate` |
+> | password      | `string` | User's new password`                          |
+
+###### Response Payload
+
+> | Type   | Notes                    |
+> | ------ | ------------------------ |
+> | `User` | Returns the updated user |
+
+</details>
+
+---
+
+### Documents
+
+<details>
+<summary id='get-documents'><code>GET</code> <b>/api/v1/documents</b></summary>
+
+##### Method/Headers
+
+> | Method/Headers | Value            |
+> | -------------- | ---------------- |
+> | Method         | GET              |
+> | content-type   | application/json |
+
+##### Response Payload
+
+> | Type               | Notes                  |
+> | ------------------ | ---------------------- |
+> | `Array<Document>`  | Array of all documents |
+
+</details>
+
+<details>
+<summary id='get-document'><code>GET</code> <b>/api/v1/document/version/{documentId}</b></summary>
+
+##### Method/Headers
+
+> | Method/Headers | Value            |
+> | -------------- | ---------------- |
+> | Method         | GET              |
+> | content-type   | application/json |
+
+##### Response Payload
+
+> | Type               | Notes                                                                  |
+> | ------------------ | ---------------------------------------------------------------------- |
+> | `Document`         | Specified version of the document with the id in the request parameter |
+
+</details>
+
+<details>
+<summary id='get-document'><code>GET</code> <b>/api/v1/document/{documentId}</b></summary>
+
+##### Method/Headers
+
+> | Method/Headers | Value            |
+> | -------------- | ---------------- |
+> | Method         | GET              |
+> | content-type   | application/json |
+
+##### Response Payload
+
+> | Type               | Notes                                                               |
+> | ------------------ | ------------------------------------------------------------------- |
+> | `Document`         | Latest version of the document with the id in the request parameter |
+
+</details>
+
+<details>
+<summary id='post-document'><code>POST</code><b>/api/v1/document</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value               |
+> | -------------- | ------------------- |
+> | Method         | POST                |
+> | content-type   | multipart/form-data |
+
+##### Body
+> | Name              | Type      | Notes                                  | Accepted Values                         |
+> | ----------------- | --------- | -------------------------------------- | --------------------------------------- |
+> | `fileData`        | `string`  | The file to be uploaded                |                                         |
+> | `fileName`        | `string`  | Name of the file                       |                                         |
+> | `type`            | `string`  | File type / extension                  |                                         |
+> | `fileDirectory`   | `string`  | Directory where the file should go     |                                         |
+> | `fileSize`        | `int`     | Size of the file in bytes              |                                         |
+> | `mimeType`        | `string`  | MIME type of the file                  |                                         |
+> | `userId`          | `string`  | UserId of current user                 |                                         |
+
+###### Response Payload
+
+> | Type      | Notes                             |
+> | --------- | --------------------------------- |
+> | `Document` | Returns newly created `Document` |
+
+</details>
+
+<details>
+<summary id='post-document-del-id'><code>POST</code><b>/api/v1/document/delete/{fileId}</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value               |
+> | -------------- | ------------------- |
+> | Method         | POST                |
+> | content-type   | application/json    |
+
+###### Response Payload
+
+> | Type      | Notes                             |
+> | --------- | --------------------------------- |
+> | `None`    | No payload returned               |
+
+</details>
+
+<details>
+<summary id='post-document-edit-id'><code>POST</code><b>/api/v1/document/edit/{fileId}</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value               |
+> | -------------- | ------------------- |
+> | Method         | POST                |
+> | content-type   | multipart/form-data |
+
+##### Body
+> | Name              | Type      | Notes                                  | Accepted Values                         |
+> | ----------------- | --------- | -------------------------------------- | --------------------------------------- |
+> | `fileData`        | `string`  | The file to be uploaded                |                                         |
+> | `fileName`        | `string`  | Name of the file                       |                                         |
+> | `type`            | `string`  | File type / extension                  |                                         |
+> | `fileDirectory`   | `string`  | Directory where the file should go     |                                         |
+> | `fileSize`        | `int`     | Size of the file in bytes              |                                         |
+> | `mimeType`        | `string`  | MIME type of the file                  |                                         |
+> | `userId`          | `string`  | UserId of current user                 |                                         |
+
+###### Response Payload
+
+> | Type      | Notes                             |
+> | --------- | --------------------------------- |
+> | `Document` | Returns updated `Document`       |
+
+</details>
+
+### DataRooms
+
+<details>
+<summary id='get-datarooms'><code>GET</code> <b>/api/v1/datarooms</b></summary>
+
+##### Method/Headers
+
+> | Method/Headers | Value            |
+> | -------------- | ---------------- |
+> | Method         | GET              |
+> | content-type   | application/json |
+
+##### Response Payload
+
+> | Type               | Notes                  |
+> | ------------------ | ---------------------- |
+> | `Array<DataRoom>`  | Array of all datarooms |
+
+</details>
+
+<details>
+<summary id='get-dataroom'><code>GET</code> <b>/api/v1/dataroom/{folderId}</b></summary>
+
+##### Method/Headers
+
+> | Method/Headers | Value            |
+> | -------------- | ---------------- |
+> | Method         | GET              |
+> | content-type   | application/json |
+
+##### Response Payload
+
+> | Type               | Notes                                                |
+> | ------------------ | ---------------------------------------------------- |
+> | `DataRoom`         | Single dataroon with the id in the request parameter |
+
+</details>
+
+<details>
+<summary id='post-dataroom'><code>POST</code><b>/api/v1/dataroom</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value               |
+> | -------------- | ------------------- |
+> | Method         | POST                |
+> | content-type   | application/json    |
+
+##### Body
+> | Name              | Type      | Notes                       | Accepted Values                         |
+> | ----------------- | --------- | --------------------------- | --------------------------------------- |
+> | `folderName`      | `string`  | Name of the file            |                                         |
+> | `folderLocation`  | `string`  | File type / extension       |                                         |
+> | `userId`          | `string`  | UserId of current user      |                                         |
+
+###### Response Payload
+
+> | Type      | Notes                             |
+> | --------- | --------------------------------- |
+> | `DataRoom` | Returns newly created `DataRoom` |
+
+</details>
+
+<details>
+<summary id='post-dataroom-del-id'><code>POST</code><b>/api/v1/dataroom/delete/{folderId}</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value               |
+> | -------------- | ------------------- |
+> | Method         | POST                |
+> | content-type   | application/json    |
+
+###### Response Payload
+
+> | Type      | Notes                             |
+> | --------- | --------------------------------- |
+> | `None`    | No payload returned               |
+
+</details>
+
+<details>
+<summary id='post-document-edit-id'><code>POST</code><b>/api/v1/dataroom/edit/{folderId}</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value               |
+> | -------------- | ------------------- |
+> | Method         | POST                |
+> | content-type   | application/json    |
+
+##### Body
+> | Name              | Type      | Notes                       | Accepted Values                         |
+> | ----------------- | --------- | --------------------------- | --------------------------------------- |
+> | `folderName`      | `string`  | Name of the file            |                                         |
+> | `folderLocation`  | `string`  | File type / extension       |                                         |
+> | `userId`          | `string`  | UserId of current user      |                                         |
+
+###### Response Payload
+
+> | Type      | Notes                             |
+> | --------- | --------------------------------- |
+> | `DataRoom` | Returns updated  `DataRoom`      |
+
+</details>
+
+### Links
+
+<details>
+<summary id='get-links'><code>GET</code> <b>/api/v1/links</b></summary>
+
+##### Method/Headers
+
+> | Method/Headers | Value            |
+> | -------------- | ---------------- |
+> | Method         | GET              |
+> | content-type   | application/json |
+
+##### Response Payload
+
+> | Type               | Notes                  |
+> | ------------------ | ---------------------- |
+> | `Array<Links>`     | Array of all links     |
+
+</details>
+
+<details>
+<summary id='get-link'><code>GET</code> <b>/api/v1/link/{linkId}</b></summary>
+
+##### Method/Headers
+
+> | Method/Headers | Value            |
+> | -------------- | ---------------- |
+> | Method         | GET              |
+> | content-type   | application/json |
+
+##### Response Payload
+
+> | Type               | Notes                                                |
+> | ------------------ | ---------------------------------------------------- |
+> | `Link`             | Single dataroon with the id in the request parameter |
+
+</details>
+
+<details>
+<summary id='post-link'><code>POST</code><b>/api/v1/link</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value               |
+> | -------------- | ------------------- |
+> | Method         | POST                |
+> | content-type   | application/json    |
+
+##### Body
+> | Name              | Type      | Notes                                            | Accepted Values                         |
+> | ----------------- | --------- | ------------------------------------------------ | --------------------------------------- |
+> | `fileId`          | `string`  | The fileId of the file the link is generated for |                                         |
+> | `linkName`        | `string`  | Name of the link                                 |                                         |
+> | `isPublic`        | `boolean` | Indicates if the link is public                  |                                         |
+> | `emailRequired`   | `boolean` | Indicates if email is required to download       |                                         |
+> | `passwordRequired`| `boolean` | Indicates if password is required to download    |                                         |
+> | `linkPassword`    | `string`  | Password required to download                    |                                         |
+> | `canExpire`       | `boolean` | Indicates if the link can expire                 |                                         |
+> | `expirationTime`  | `Date`    | Date in which the link expires                   |                                         |
+
+###### Response Payload
+
+> | Type      | Notes                             |
+> | --------- | --------------------------------- |
+> | `Link` | Returns newly created `Link` |
+
+</details>
+
+<details>
+<summary id='post-link-del-id'><code>POST</code><b>/api/v1/link/delete/{linkId}</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value               |
+> | -------------- | ------------------- |
+> | Method         | POST                |
+> | content-type   | application/json    |
+
+###### Response Payload
+
+> | Type      | Notes                             |
+> | --------- | --------------------------------- |
+> | `None`    | No payload returned               |
+
+</details>
+
+<details>
+<summary id='post-link-edit-id'><code>POST</code><b>/api/v1/link/edit/{linkId}</b></summary>
+
+###### Method/Headers
+
+> | Method/Headers | Value               |
+> | -------------- | ------------------- |
+> | Method         | POST                |
+> | content-type   |   application/json  |
+
+##### Body
+> | Name              | Type      | Notes                                            | Accepted Values                         |
+> | ----------------- | --------- | ------------------------------------------------ | --------------------------------------- |
+> | `linkName`        | `string`  | Name of the link                                 |                                         |
+> | `isPublic`        | `boolean` | Indicates if the link is public                  |                                         |
+> | `emailRequired`   | `boolean` | Indicates if email is required to download       |                                         |
+> | `passwordRequired`| `boolean` | Indicates if password is required to download    |                                         |
+> | `linkPassword`    | `string`  | Password required to download                    |                                         |
+> | `canExpire`       | `boolean` | Indicates if the link can expire                 |                                         |
+> | `expirationTime`  | `Date`    | Date in which the link expires                   |                                         |
+
+###### Response Payload
+
+> | Type      | Notes                             |
+> | --------- | --------------------------------- |
+> | `Link` | Returns updated `Link`       |
+
+</details>
 
 ## Features & roadmap
 
