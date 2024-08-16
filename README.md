@@ -8,6 +8,21 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 
 ![Github social](https://github.com/user-attachments/assets/061eaa7d-0d56-4a32-8553-bbfb7fd9e0e3)
 
+## Features & roadmap
+
+* Uploading and editing files
+* Sharing and link control
+* Tracking and analytics
+* Document viewer
+* Company branding
+
+## Tech stack
+
+* [ReactJs](https://react.dev/)
+* [MUI (React framework)](https://mui.com/)
+* [Node.js](https://nodejs.org/en)
+* [MongoDB](https://mongodb.com)
+
 ## Database
 
 
@@ -635,17 +650,3 @@ Currently, BlueWave DataRoom is in its early stage of development. The current d
 
 </details>
 
-## Features & roadmap
-
-* Uploading and editing files
-* Sharing and link control
-* Tracking and analytics
-* Document viewer
-* Company branding
-
-## Tech stack
-
-* [ReactJs](https://react.dev/)
-* [MUI (React framework)](https://mui.com/)
-* [Node.js](https://nodejs.org/en)
-* [MongoDB](https://mongodb.com)
