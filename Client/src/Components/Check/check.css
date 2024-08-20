@@ -1,0 +1,17 @@
+.check > span.MuiTypography-root {
+  font-size: var(--env-var-font-size-small-plus);
+  color: var(--env-var-color-2);
+  opacity: 0.8;
+}
+.check-error span.MuiTypography-root {
+  color: var(--env-var-color-24);
+}
+.check-error svg > path {
+  fill: var(--env-var-color-19);
+}
+.check-success span.MuiTypography-root {
+  color: var(--env-var-color-17);
+}
+.check-success svg > path {
+  fill: var(--env-var-color-23);
+}
