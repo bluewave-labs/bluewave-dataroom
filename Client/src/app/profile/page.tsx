@@ -1,6 +1,4 @@
 'use client';
-
-import Button from '@mui/material/Button';
 import {
 	Alert,
 	Avatar,
@@ -8,16 +6,19 @@ import {
 	Container,
 	Divider,
 	Link,
-	Stack,
 	Tab,
 	Tabs,
 	TextField,
 	Typography,
 } from '@mui/material';
-import styles from './page.module.css';
+import Button from '@mui/material/Button';
 import { useState } from 'react';
 
 function ProfileForm() {
+	const [firstName, setFirstName] = useState('');
+	const [lastName, setLastName] = useState('');
+	const [photo, setPhoto] = useState('');
+
 	const handleSave = () => {
 		console.log('Profile Updated Successfully!');
 	};
@@ -78,7 +79,14 @@ function ProfileForm() {
 							This is your current email address — it cannot be changed.
 						</Typography>
 					</Box>
-					<TextField size="small" id="email" variant="outlined" fullWidth />
+					<TextField
+						size="small"
+						id="email"
+						variant="outlined"
+						disabled
+						fullWidth
+						placeholder="mahid@acme.com"
+					/>
 				</Box>
 				<Box sx={{ display: 'flex', alignItems: 'center', mt: 5 }}>
 					<Box sx={{ flexGrow: 0.55 }}>
@@ -152,42 +160,6 @@ function ProfileForm() {
 	);
 }
 
-// function PasswordForm() {
-// 	return (
-// 		<Box
-// 			component="form"
-// 			sx={{
-// 				'& .MuiTextField-root': { width: '100%', maxWidth: '30rem' },
-// 			}}
-// 			noValidate
-// 			autoComplete="off">
-// 			<Box sx={{ display: 'flex', alignItems: 'center', mb: 4, justifyContent: 'space-between' }}>
-// 				<Typography variant="body1" sx={{ fontWeight: '600' }}>
-// 					Current Password
-// 				</Typography>
-// 				<TextField size="small" id="password" variant="outlined" fullWidth type="password" />
-// 			</Box>
-// 			<Box sx={{ display: 'flex', alignItems: 'center', mb: 4, justifyContent: 'space-between' }}>
-// 				<Typography variant="body1" sx={{ fontWeight: '600' }}>
-// 					Password
-// 				</Typography>
-// 				<TextField size="small" id="newPassword" variant="outlined" fullWidth type="password" />
-// 			</Box>
-// 			<Box sx={{ display: 'flex', alignItems: 'center', mb: 4, justifyContent: 'space-between' }}>
-// 				<Typography variant="body1" sx={{ fontWeight: '600' }}>
-// 					Confirm Password
-// 				</Typography>
-// 				<TextField size="small" id="confirm-password" variant="outlined" fullWidth type="password" />
-// 			</Box>
-// 			<Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 15, mb: 5 }}>
-// 				<Button variant="contained" size="large" sx={{ backgroundColor: '#4C7DE7', paddingX: '4rem' }}>
-// 					Save
-// 				</Button>
-// 			</Box>
-// 		</Box>
-// 	);
-// }
-
 function PasswordForm() {
 	const [currentPassword, setCurrentPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
@@ -214,7 +186,7 @@ function PasswordForm() {
 		}
 
 		setError('');
-		// Proceed with save logic (e.g., API call)
+
 		console.log('Password updated successfully');
 	};
 
