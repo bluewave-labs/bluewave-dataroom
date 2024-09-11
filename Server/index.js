@@ -1,19 +1,39 @@
-const express = require("express");
-const cors = require("cors");
-require("dotenv").config();
+const express = require('express');
+const cors = require('cors');
+const helmet = require('helmet');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const authRouter = require("./routes/authRoute");
+const UserModel = require('./models/user');
+
+const SERVICE_NAME = 'blw-dataroom-backend';
+const PORT = process.env.PORT || 7000;
+const MONGOURL = process.env.DB_CONNECTION_STRING;
 
 const startApp = async () => {
-  const db = require("./db/mongo/MongoDB")
   const app = express();
-  const { startServerWithDbConnection } = require("./configs/db");
   app.use(cors());
   app.use(express.json());
-
-  app.get("/", (req, res) => {
-    res.send("Hello World!");
+  app.use(helmet());
+  app.use((req, res, next) => {
+    next();
   });
 
-  app.listen(process.env.PORT, () => {
-    console.log(`Server is running on port ${process.env.PORT}`);
-  });
-}
+  app.use("/api/v1/auth", authRouter);
+
+  await mongoose.connect(MONGOURL)
+                .then(() => {
+                  console.log('Connected to the database');
+                  app.listen(PORT, () => {
+                    console.log(`Server running on port ${PORT}`);
+                  });
+                })
+
+};
+
+startApp().catch((error) => {
+  console.error(error);
+});

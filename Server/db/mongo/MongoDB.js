@@ -26,3 +26,8 @@ const checkAdminUser = async (req, res) => {
         throw error;
     }
 }
+
+module.exports = { 
+    connect,
+    checkAdminUser 
+};
