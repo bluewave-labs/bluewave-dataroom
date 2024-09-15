@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Container, Divider, Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
 import PasswordForm from './components/PasswordForm';
