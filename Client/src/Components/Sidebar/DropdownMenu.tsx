@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import Menu, { MenuProps } from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Box from "@mui/material/Box";
 
 import "./dropdownMenu.css";
 
@@ -52,8 +53,19 @@ export default function DropdownMenu() {
     setAnchorEl(null);
   };
 
+  function fixName(text: string): string {
+    return text.replace(/\s+/g, "");
+  }
+
+  const menuItems: { [key: string]: string } = {
+    Profile: Profile,
+    Password: Password,
+    Team: Team,
+    Logout: LogOut,
+  };
+
   return (
-    <div>
+    <Box>
       <Button
         disableElevation
         onClick={handleClick}
@@ -77,72 +89,31 @@ export default function DropdownMenu() {
       >
         Account Name
       </Button>
+
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <Link href={"/profile/user"} className="no-styling">
-          <MenuItem
-            onClick={handleClose}
-            disableRipple
-            sx={{ "&:hover": { backgroundColor: "#f5f9ff" } }}
-          >
-            <Image
-              src={Profile}
-              alt="Profile icon"
-              width={16}
-              height={16}
-              className="icon-mr"
-            />
-            Profile
-          </MenuItem>
-        </Link>
-        <Link href={"/profile/password"} className="no-styling">
-          <MenuItem
-            onClick={handleClose}
-            disableRipple
-            sx={{ "&:hover": { backgroundColor: "#f5f9ff" } }}
-          >
-            <Image
-              src={Password}
-              alt="Password icon"
-              width={16}
-              height={16}
-              className="icon-mr"
-            />
-            Password
-          </MenuItem>
-        </Link>
-        <Link href={"/profile/team"} className="no-styling">
-          <MenuItem
-            onClick={handleClose}
-            disableRipple
-            sx={{ "&:hover": { backgroundColor: "#f5f9ff" } }}
-          >
-            <Image
-              src={Team}
-              alt="Team icon"
-              width={16}
-              height={16}
-              className="icon-mr"
-            />
-            Team
-          </MenuItem>
-        </Link>
-        <Link href={"/logout"} className="no-styling">
-          <MenuItem
-            onClick={handleClose}
-            disableRipple
-            sx={{ "&:hover": { backgroundColor: "#f5f9ff" } }}
-          >
-            <Image
-              src={LogOut}
-              alt="Log out icon"
-              width={16}
-              height={16}
-              className="icon-mr"
-            />
-            Log out
-          </MenuItem>
-        </Link>
+        {["Profile", "Password", "Team", "Log out"].map((text) => (
+          <Link href={`/profile/${text.toLowerCase()}`} className="no-styling">
+            <MenuItem
+              onClick={handleClose}
+              disableRipple
+              sx={{ "&:hover": { backgroundColor: "#f5f9ff" } }}
+            >
+              <Image
+                src={
+                  text.includes(" ")
+                    ? menuItems[fixName(text)]
+                    : menuItems[text]
+                }
+                alt={text}
+                height={16}
+                width={16}
+                className="icon-mr"
+              />
+              {text}
+            </MenuItem>
+          </Link>
+        ))}
       </StyledMenu>
-    </div>
+    </Box>
   );
 }

@@ -20,8 +20,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Sidebar />
-        {children}
+        <Container
+          maxWidth={"lg"}
+          sx={{
+            display: "flex",
+            backgroundColor: "lightgray",
+            height: "100vh",
+            pt: 4,
+            pb: 3,
+            gap: 4,
+          }}
+        >
+          <Sidebar />
+          <>{children}</>
+        </Container>
       </body>
     </html>
   );
