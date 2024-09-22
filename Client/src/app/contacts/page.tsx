@@ -1,22 +1,35 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, Button, Stack, Typography } from '@mui/material';
-import Link from 'next/link';
+import HomeIcon from '@mui/icons-material/Home';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import { Box, Container, Typography } from '@mui/material';
+import Breadcrumbs from '@mui/material/Breadcrumbs';
+import Link from '@mui/material/Link';
 import ContactsTable from './components/ContactsTable';
 
 export default function ContactsPage() {
 	return (
-		<Stack spacing={4} maxWidth="lg" sx={{ pb: '15rem', pt: '4rem' }}>
-			<Box>
-				<Link href="/" passHref>
-					<Button
-						color="secondary"
-						variant="outlined"
-						size="small"
-						sx={{ paddingX: '1.2rem', paddingY: '0.1rem' }}
-						startIcon={<ArrowBackIcon />}>
-						Back
-					</Button>
-				</Link>
+		<Container maxWidth="lg" sx={{ pb: '15rem', pt: '2rem' }}>
+			<Box marginBottom="4rem">
+				<div role="presentation">
+					<Breadcrumbs aria-label="breadcrumb">
+						<Link
+							underline="hover"
+							sx={{ display: 'flex', alignItems: 'center' }}
+							color="inherit"
+							href="/">
+							<HomeIcon sx={{ mr: 0.5 }} fontSize="inherit" />
+							Home
+						</Link>
+						<Typography
+							sx={{
+								color: 'text.primary',
+								display: 'flex',
+								alignItems: 'center',
+							}}>
+							<PersonOutlineIcon sx={{ mr: 0.5 }} fontSize="inherit" />
+							Contacts
+						</Typography>
+					</Breadcrumbs>
+				</div>
 			</Box>
 			<Box>
 				<Typography
@@ -29,6 +42,6 @@ export default function ContactsPage() {
 				</Typography>
 				<ContactsTable />
 			</Box>
-		</Stack>
+		</Container>
 	);
 }
