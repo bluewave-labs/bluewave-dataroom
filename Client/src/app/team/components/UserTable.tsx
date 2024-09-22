@@ -1,7 +1,7 @@
 import Dropdown from '@/components/Dropdown';
+import Paginator from '@/components/Paginator';
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
-	IconButton,
 	Paper,
 	Table,
 	TableBody,
@@ -10,11 +10,10 @@ import {
 	TableHead,
 	TableRow,
 	Typography,
-	useTheme,
 } from '@mui/material';
-import { useState } from 'react';
+import IconButton from '@mui/material/IconButton';
 
-interface User {
+export interface User {
 	id: number;
 	name: string;
 	email: string;
@@ -23,87 +22,34 @@ interface User {
 }
 
 interface Props {
+	users: User[];
+	page: number;
+	setPage: (page: number) => void;
 	filterRole: 'All' | 'Administrator' | 'Member';
+	pageSize: number;
+	totalUsers: number;
 }
 
-const UserTable = ({ filterRole }: Props) => {
-	const [users, setUsers] = useState<User[]>([
-		{
-			id: 1,
-			name: 'John Connor',
-			email: 'john@domain.com',
-			role: 'Administrator',
-			createdAt: '10/4/2022',
-		},
-		{
-			id: 2,
-			name: 'Adam McFadden',
-			email: 'adam@domain.com',
-			role: 'Member',
-			createdAt: '10/4/2022',
-		},
-		{
-			id: 3,
-			name: 'Cris Cross',
-			email: 'cris@domain.com',
-			role: 'Member',
-			createdAt: '10/4/2022',
-		},
-		{
-			id: 4,
-			name: 'Prince',
-			email: 'prince@domain.com',
-			role: 'Member',
-			createdAt: '10/4/2022',
-		},
-	]);
-	const theme = useTheme();
-	// Filter users based on selected role
-	const filteredUsers =
-		filterRole === 'All'
-			? users
-			: users.filter((user) => user.role === filterRole);
-
-	// const handleRoleChange = async (userId: number, newRole: string) => {
-	// 	try {
-	// 		await axios.post('/api/update-role', { userId, role: newRole });
-	// 		setUsers((prevUsers) =>
-	// 			prevUsers.map((user) =>
-	// 				user.id === userId ? { ...user, role: newRole } : user
-	// 			)
-	// 		);
-	// 		console.log('Role updated successfully');
-	// 	} catch (error) {
-	// 		console.error('Failed to update role', error);
-	// 	}
-	// };
-
-	const options = [
-		{ value: 'Administrator', label: 'Administrator' },
-		{ value: 'Member', label: 'Member' },
-	];
-
-	return (
+const UserTable = ({ users, page, setPage, pageSize, totalUsers }: Props) => (
+	<>
 		<TableContainer component={Paper}>
-			<Table sx={{ minWidth: 650 }}>
+			<Table sx={{ minWidth: 650 }} aria-label="User Table">
 				<TableHead>
 					<TableRow>
-						<TableCell>Name</TableCell>
-						<TableCell>Email</TableCell>
-						<TableCell>Role</TableCell>
-						<TableCell>Action</TableCell>
+						<TableCell sx={{ width: '25%' }}>Name</TableCell>
+						<TableCell sx={{ width: '40%' }}>Email</TableCell>
+						<TableCell sx={{ width: '30%' }}>Role</TableCell>
+						<TableCell sx={{ width: '5%' }}>Action</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{filteredUsers.map((user) => (
+					{users.map((user) => (
 						<TableRow key={user.id}>
 							<TableCell>
 								<Typography variant="subtitle1" sx={{ marginBottom: '-5px' }}>
 									{user.name}
 								</Typography>
-								<Typography
-									variant="caption"
-									sx={{ color: theme.palette.primary.light }}>
+								<Typography variant="caption" sx={{ color: 'text.secondary' }}>
 									Created {user.createdAt}
 								</Typography>
 							</TableCell>
@@ -112,9 +58,11 @@ const UserTable = ({ filterRole }: Props) => {
 								<Dropdown
 									initialValue={user.role}
 									variant="standard"
-									options={options}
+									options={[
+										{ value: 'Administrator', label: 'Administrator' },
+										{ value: 'Member', label: 'Member' },
+									]}
 									onValueChange={(newRole) => {
-										// handleRoleChange(user.id, newRole); // Uncomment when backend is ready
 										console.log(
 											`Role changed to ${newRole} for user ${user.id}`
 										);
@@ -131,7 +79,14 @@ const UserTable = ({ filterRole }: Props) => {
 				</TableBody>
 			</Table>
 		</TableContainer>
-	);
-};
+		<Paginator
+			page={page}
+			totalPages={Math.ceil(totalUsers / pageSize)}
+			onPageChange={setPage}
+			pageSize={pageSize}
+			totalItems={totalUsers}
+		/>
+	</>
+);
 
 export default UserTable;
