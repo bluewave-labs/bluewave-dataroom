@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 import "./globals.css";
 
-import globalTheme from "@/utils/theme/globalTheme";
+import Sidebar from "../Components/Sidebar/Sidebar";
+import { Container } from "@mui/material";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,10 +20,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider theme={globalTheme}>
-          <CssBaseline />
+        <Container
+          maxWidth={"lg"}
+          sx={{
+            display: "flex",
+            backgroundColor: "white",
+            height: "100vh",
+            pt: 4,
+            pb: 3,
+            gap: 4,
+          }}
+        >
+          <Sidebar />
           <>{children}</>
-        </ThemeProvider>
+        </Container>
       </body>
     </html>
   );
