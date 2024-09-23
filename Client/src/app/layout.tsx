@@ -21,21 +21,21 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className={inter.className}>
-      <ThemeProvider theme={globalTheme}>
-        <Container
-          sx={{
-            display: "flex",
-            backgroundColor: "white",
-            height: "100vh",
-            paddingTop: 4,
-            paddingBottom: 3,
-            gap: 4,
-          }}
-        >
-          <Sidebar />
+        <ThemeProvider theme={globalTheme}>
           <CssBaseline />
-          {children}
-        </Container>
+          <Container
+            sx={{
+              display: "flex",
+              backgroundColor: "white",
+              height: "100vh",
+              pt: 4,
+              pb: 3,
+              gap: 4,
+            }}
+          >
+            <Sidebar />
+            {children}
+          </Container>
         </ThemeProvider>
       </body>
     </html>
