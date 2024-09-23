@@ -24,7 +24,7 @@ export default function RootLayout({
           maxWidth={"lg"}
           sx={{
             display: "flex",
-            backgroundColor: "lightgray",
+            backgroundColor: "white",
             height: "100vh",
             pt: 4,
             pb: 3,
