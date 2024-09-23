@@ -16,13 +16,16 @@ export const DocumentsTableHeader = ({
 }: Props) => (
 	<TableRow>
 		<TableCell sx={{ width: '5%' }}></TableCell>
-		<TableCell sx={{ color: 'grey.600', fontWeight: 'bold', width: '45%' }}>
+		<TableCell
+			sx={{
+				color: 'rgba(161, 175, 198)',
+				width: '45%',
+			}}>
 			DOCUMENT
 		</TableCell>
 		<TableCell
 			sx={{
-				color: 'grey.600',
-				fontWeight: 'bold',
+				color: 'rgba(161, 175, 198)',
 				paddingLeft: '1.5rem',
 				width: '25%',
 			}}>
@@ -40,14 +43,13 @@ export const DocumentsTableHeader = ({
 		</TableCell>
 		<TableCell
 			sx={{
-				color: 'grey.600',
-				fontWeight: 'bold',
+				color: 'rgba(161, 175, 198)',
 				paddingLeft: '1.5rem',
 				width: '15%',
 			}}>
 			ANALYTICS
 		</TableCell>
-		<TableCell sx={{ color: 'grey.600', fontWeight: 'bold', width: '10%' }}>
+		<TableCell sx={{ color: 'rgba(161, 175, 198)', width: '10%' }}>
 			ACTION
 		</TableCell>
 	</TableRow>
