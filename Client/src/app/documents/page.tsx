@@ -13,7 +13,7 @@ import DragAndDropBox from './components/DragAndDropBox';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 
 export default function DocumentsPage() {
-	const documentCount: number = 0;
+	const documentCount: number = 24;
 	const isEmptyState = documentCount === 0;
 
 	return (
