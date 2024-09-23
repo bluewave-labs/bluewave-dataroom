@@ -4,7 +4,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import "./globals.css";
 
-import globalTheme from "@/utils/theme/globaTheme";
+import globalTheme from "@/utils/theme/globalTheme";
 
 const inter = Inter({ subsets: ["latin"] });
 
