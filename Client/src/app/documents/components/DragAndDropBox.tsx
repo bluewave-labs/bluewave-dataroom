@@ -9,17 +9,17 @@ const DragAndDropBox = ({ text }: DragAndDropBoxProps) => {
 	return (
 		<Box
 			sx={{
-				border: '2px dashed #CBD5E0',
-				borderRadius: '8px',
+				border: '2px dashed rgba(236, 236, 236)',
+				borderRadius: '4px',
 				padding: '2rem',
 				textAlign: 'center',
-				backgroundColor: '#F7FAFC',
+				backgroundColor: 'rgba(255, 255, 255, 0.6)',
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
 				flexDirection: 'column',
 				cursor: 'pointer',
-				height: '220px',
+				height: '250px',
 			}}
 			onClick={() => {
 				// Trigger the file input click when box is clicked
