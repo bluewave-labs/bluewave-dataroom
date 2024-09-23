@@ -10,11 +10,11 @@ import "./dropdownMenu.css";
 import Image from "next/image";
 import Link from "next/link";
 
-import DropdownArrow from "../../app/Assets/Icons/Sidebar/sidebar-arrow-acc-icon.svg";
-import Avatar from "../../app/Assets/Icons/Sidebar/sidebar-avatar-icon.svg";
-import Profile from "../../app/Assets/Icons/Sidebar/sidebar-profile-icon.svg";
-import LogOut from "../../app/Assets/Icons/Sidebar/sidebar-log-out-icon.svg";
-import Team from "../../app/Assets/Icons/Sidebar/sidebar-team-icon.svg";
+import DropdownArrow from "../../assets/icons/sidebar/sidebar-arrow-acc-icon.svg";
+import Avatar from "../../assets/icons/sidebar/sidebar-avatar-icon.svg";
+import Profile from "../../assets/icons/Sidebar/sidebar-profile-icon.svg";
+import LogOut from "../../assets/icons/Sidebar/sidebar-log-out-icon.svg";
+import Team from "../../assets/icons/Sidebar/sidebar-team-icon.svg";
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
