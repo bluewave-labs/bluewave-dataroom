@@ -13,7 +13,6 @@ import Link from "next/link";
 import DropdownArrow from "../../app/Assets/Icons/Sidebar/sidebar-arrow-acc-icon.svg";
 import Avatar from "../../app/Assets/Icons/Sidebar/sidebar-avatar-icon.svg";
 import Profile from "../../app/Assets/Icons/Sidebar/sidebar-profile-icon.svg";
-import Password from "../../app/Assets/Icons/Sidebar/sidebar-password-icon.svg";
 import LogOut from "../../app/Assets/Icons/Sidebar/sidebar-log-out-icon.svg";
 import Team from "../../app/Assets/Icons/Sidebar/sidebar-team-icon.svg";
 
@@ -59,7 +58,6 @@ export default function DropdownMenu() {
 
   const menuItems: { [key: string]: string } = {
     Profile: Profile,
-    Password: Password,
     Team: Team,
     Logout: LogOut,
   };
@@ -91,8 +89,8 @@ export default function DropdownMenu() {
       </Button>
 
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        {["Profile", "Password", "Team", "Log out"].map((text) => (
-          <Link href={`/profile/${text.toLowerCase()}`} className="no-styling">
+        {["Profile","Team", "Log out"].map((text) => (
+          <Link href={`${text.toLowerCase()}`} className="no-styling">
             <MenuItem
               onClick={handleClose}
               disableRipple
