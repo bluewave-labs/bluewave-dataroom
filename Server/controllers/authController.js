@@ -466,23 +466,7 @@ const issueToken = (payload) => {
       const result = await req.db.getMonitorsByTeamId({
         params: { teamId: user.teamId },
       });
-      if (user.role.includes("superadmin") && result?.monitors.length > 0) {
-        //2.  Remove all jobs, delete checks and alerts
-        await Promise.all(
-          monitors.map(async (monitor) => {
-            await req.jobQueue.deleteJob(monitor);
-  
-            await req.db.deleteChecks(monitor._id);
-            await req.db.deleteAlertByMonitorId(monitor._id);
-            await req.db.deletePageSpeedChecksByMonitorId(monitor._id);
-            await req.db.deleteNotificationsByMonitorId(monitor._id);
-          })
-        );
-  
-        // 3. Delete each monitor
-        await req.db.deleteMonitorsByUserId(user._id);
-      }
-      // 4. Delete the user by id
+
       await req.db.deleteUser(user._id);
   
       return res.status(200).json({
