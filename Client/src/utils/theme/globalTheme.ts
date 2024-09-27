@@ -31,7 +31,7 @@ const globalTheme = createTheme({
     fontSize: 13,
     h1: { fontSize: 16, color: text.primary, fontWeight: 600 },
     h2: { fontSize: 12, color: text.primary, fontWeight: 600 },
-    body1: { fontSize: 11, color: text.tertiary, fontWeight: 400 },
+    body1: { fontSize: 16, color: text.tertiary, fontWeight: 400 },
     body2: { fontSize: 11, color: text.notes, fontWeight: 400 },
   },
   palette: {

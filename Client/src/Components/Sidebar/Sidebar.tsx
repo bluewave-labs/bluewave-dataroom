@@ -11,10 +11,10 @@ import { Stack, Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
-import DocumentsIcon from "../../app/Assets/Icons/Sidebar/sidebar-documents-icon.svg";
-import ContactsIcon from "../../app/Assets/Icons/Sidebar/sidebar-contacts-icon.svg";
-import SettingsIcon from "../../app/Assets/Icons/Sidebar/sidebar-settings-icon.svg";
-import Title from "../../app/Assets/Icons/Sidebar/sidebar-title.svg";
+import DocumentsIcon from "../../assets/icons/Sidebar/sidebar-documents-icon.svg";
+import ContactsIcon from "../../assets/icons/Sidebar/sidebar-contacts-icon.svg";
+import SettingsIcon from "../../assets/icons/Sidebar/sidebar-settings-icon.svg";
+import Title from "../../assets/icons/Sidebar/sidebar-title.svg";
 import DropdownMenu from "./DropdownMenu";
 
 export default function Sidebar() {
