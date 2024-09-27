@@ -22,7 +22,7 @@ export default function DocumentsPage() {
 			sx={{
 				paddingTop: '2rem',
 				paddingBottom: '4rem',
-				backgroundImage: 'url(/docBackground.svg)',
+				backgroundImage: 'url(/doc-background.svg)',
 				backgroundSize: 'cover',
 				backgroundPosition: 'center',
 				minHeight: '100vh',

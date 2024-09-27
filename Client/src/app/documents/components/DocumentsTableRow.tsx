@@ -12,13 +12,12 @@ import {
 import { useState } from 'react';
 import ActionMenu from './ActionMenu';
 import { Document } from './DocumentsTable';
-import theme from '@/theme/theme';
 
 const docTypeIcons: Record<Document['type'], string> = {
-	PDF: '/pdf.svg',
-	DOC: '/word.svg',
-	XLSX: '/xlsx.svg',
-	PPT: '/ppt.svg',
+	PDF: '/pdf-icon.svg',
+	DOC: '/word-icon.svg',
+	XLSX: '/xlsx-icon.svg',
+	PPT: '/ppt-icon.svg',
 };
 
 interface Props {
@@ -51,9 +50,7 @@ const DocumentsTableRow = ({ document }: Props) => {
 				<Box display="flex" alignItems="center">
 					<Box>
 						<Typography variant="body2">{document.name}</Typography>
-						<Typography
-							variant="caption"
-							sx={{ color: theme.palette.primary.light }}>
+						<Typography variant="caption" sx={{ color: 'blue' }}>
 							{document.createdAt.toDateString()} • {document.links} links •{' '}
 							{document.viewers} viewers
 						</Typography>
