@@ -1,6 +1,4 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Box, Button, Stack, Typography } from '@mui/material';
-import Link from 'next/link';
+import { Box, Stack, Typography } from '@mui/material';
 import ContactsTable from './components/ContactsTable';
 
 export default function ContactsPage() {
