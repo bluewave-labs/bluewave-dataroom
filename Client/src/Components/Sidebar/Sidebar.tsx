@@ -24,6 +24,8 @@ export default function Sidebar() {
     Settings: SettingsIcon,
   };
 
+  const menu: string[] = ["Documents", "Contacts", "Settings"];
+
   return (
     <Stack
       justifyContent="space-between"
@@ -33,12 +35,18 @@ export default function Sidebar() {
       <Box>
         <Image src={Title} alt="Title" style={{ margin: "0 8px 16px 8px" }} />
         <List>
-          {["Documents", "Contacts", "Settings"].map((text) => (
+          {menu.map((text) => (
             <ListItem key={text} disablePadding>
-              <Link href={`/${text.toLowerCase()}`} className="no-styling">
+              <Link
+                href={`/${text.toLowerCase()}`}
+                className="no-styling width-area"
+              >
                 <ListItemButton
                   disableRipple
-                  sx={{ px: 1, "&:hover": { backgroundColor: "#f5f9ff" } }}
+                  sx={{
+                    px: 1,
+                    "&:hover": { backgroundColor: "#f5f9ff" },
+                  }}
                 >
                   <ListItemIcon>
                     <Image src={menuItems[text]} alt={text} height={24} />
