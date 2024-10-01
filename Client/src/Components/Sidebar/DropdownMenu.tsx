@@ -52,7 +52,7 @@ export default function DropdownMenu() {
     setAnchorEl(null);
   };
 
-  function fixName(text: string): string {
+  function removeEmptySpace(text: string): string {
     return text.replace(/\s+/g, "");
   }
 
@@ -61,6 +61,8 @@ export default function DropdownMenu() {
     Team: Team,
     Logout: LogOut,
   };
+
+  const menu: string[] = ["Profile", "Team", "Log out"];
 
   return (
     <Box>
@@ -89,7 +91,7 @@ export default function DropdownMenu() {
       </Button>
 
       <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        {["Profile","Team", "Log out"].map((text) => (
+        {menu.map((text) => (
           <Link href={`${text.toLowerCase()}`} className="no-styling">
             <MenuItem
               onClick={handleClose}
@@ -99,7 +101,7 @@ export default function DropdownMenu() {
               <Image
                 src={
                   text.includes(" ")
-                    ? menuItems[fixName(text)]
+                    ? menuItems[removeEmptySpace(text)]
                     : menuItems[text]
                 }
                 alt={text}
