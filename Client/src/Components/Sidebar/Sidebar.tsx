@@ -7,6 +7,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import { Stack, Box } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -24,16 +25,35 @@ export default function Sidebar() {
     Settings: SettingsIcon,
   };
 
+  const theme = useTheme();
   const menu: string[] = ["Documents", "Contacts", "Settings"];
 
   return (
     <Stack
       justifyContent="space-between"
       direction="column"
-      sx={{ maxHeight: "100vh" }}
+      sx={{
+        maxHeight: "100vh",
+        mt: -16,
+        mb: -12,
+        ml: -4,
+        pt: 16,
+        pb: 12,
+        pl: 8,
+        pr: 8,
+        border: `1px solid ${theme.palette.border.light}`,
+      }}
     >
       <Box>
-        <Image src={Title} alt="Title" style={{ margin: "0 8px 16px 8px" }} />
+        <Image
+          src={Title}
+          alt="Title"
+          style={{
+            margin: `0 ${theme.spacing(4)} ${theme.spacing(16)} ${theme.spacing(
+              4
+            )}`,
+          }}
+        />
         <List>
           {menu.map((text) => (
             <ListItem key={text} disablePadding>
@@ -42,14 +62,20 @@ export default function Sidebar() {
                 className="no-styling width-area"
               >
                 <ListItemButton
-                  disableRipple
                   sx={{
-                    px: 1,
-                    "&:hover": { backgroundColor: "#f5f9ff" },
+                    px: 4,
+                    "&:hover": {
+                      backgroundColor: theme.palette.background.alt,
+                    },
                   }}
                 >
                   <ListItemIcon>
-                    <Image src={menuItems[text]} alt={text} height={24} />
+                    <Image
+                      src={menuItems[text]}
+                      alt={text}
+                      height={24}
+                      width={24}
+                    />
                   </ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItemButton>
