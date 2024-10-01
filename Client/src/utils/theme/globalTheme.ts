@@ -12,7 +12,7 @@ const text = {
 };
 const background = {
   content: "#FFFFFF",
-  alt: "#F9F9FA",
+  alt: "#f5f9ff",
   brand: "#1570EF",
   fill: "#FCFCFD",
   error: "#D92D20",
@@ -23,6 +23,8 @@ const fontFamilyDefault =
   '"Inter","system-ui", "Avenir", "Helvetica", "Arial", sans-serif';
 const shadow =
   "0px 4px 24px -4px rgba(16, 24, 40, 0.08), 0px 3px 3px -3px rgba(16, 24, 40, 0.03)";
+const modalShadow =
+  "rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px";
 
 const globalTheme = createTheme({
   spacing: 2,
@@ -33,6 +35,9 @@ const globalTheme = createTheme({
     h2: { fontSize: 12, color: text.primary, fontWeight: 600 },
     body1: { fontSize: 16, color: text.tertiary, fontWeight: 400 },
     body2: { fontSize: 11, color: text.notes, fontWeight: 400 },
+  },
+  customShadows: {
+    menu: modalShadow,
   },
   palette: {
     // primary: { main: "#1570EF" },
@@ -87,10 +92,12 @@ const globalTheme = createTheme({
         },
       },
     },
-    MuiButton: {
+    MuiButtonBase: {
       defaultProps: {
         disableRipple: true,
       },
+    },
+    MuiButton: {
       styleOverrides: {
         root: ({ theme }) => ({
           // variants: [
@@ -167,6 +174,14 @@ const globalTheme = createTheme({
         },
       },
     },
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          minWidth: "0px",
+          padding: "0 16px 0 0",
+        },
+      },
+    },
     MuiListItemButton: {
       styleOverrides: {
         root: {
@@ -186,7 +201,7 @@ const globalTheme = createTheme({
           minWidth: 100,
           "&:hover, &.Mui-selected, &.Mui-selected:hover, &.Mui-selected.Mui-focusVisible":
             {
-              backgroundColor: background.fill,
+              backgroundColor: background.alt,
             },
         },
       },

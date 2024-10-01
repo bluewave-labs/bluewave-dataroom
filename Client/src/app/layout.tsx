@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Container } from "@mui/material";
-import Sidebar from "@/components/sidebar/Sidebar";
+import Sidebar from "@/Components/Sidebar/Sidebar";
 import CssBaseline from "@mui/material/CssBaseline";
 import globalTheme from "@/utils/theme/globalTheme";
 import { ThemeProvider } from "@mui/material/styles";
@@ -28,10 +28,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
               display: "flex",
               backgroundColor: "white",
               height: "100vh",
-
-              pt: 4,
-              pb: 3,
-              gap: 4,
+              maxWidth: "1600px",
+              minWidth: "1600px",
+              pt: 16,
+              pb: 12,
+              gap: 16,
             }}
           >
             <Sidebar />
