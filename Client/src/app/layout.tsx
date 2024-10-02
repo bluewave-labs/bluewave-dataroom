@@ -6,6 +6,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import globalTheme from "@/utils/theme/globalTheme";
 import { ThemeProvider } from "@mui/material/styles";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
