@@ -40,13 +40,11 @@ export default function DeleteConfirmationModal({
           },
         }}
         open={showDeleteModal}
-        keepMounted
         onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
       >
         <DialogTitle
           sx={{
-            fontSize: "13px",
+            fontSize: 13,
             color: "#344054",
             p: 0,
             mb: 5,
@@ -58,7 +56,7 @@ export default function DeleteConfirmationModal({
           <DialogContentText
             id="alert-dialog-slide-description"
             sx={{
-              fontSize: "13px",
+              fontSize: 13,
               color: "#344054",
               textAlign: "justify",
             }}

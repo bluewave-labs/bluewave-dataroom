@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import React from "react";
-import UploadIcon from "../../App/Assets/Icons/UploadModal/upload-cloud-02.svg";
+import UploadIcon from "../../app/assets/icons/uploadModal/upload-cloud-01.svg";
 
 interface UploadModalProps {
   titleText: string;
@@ -47,7 +47,6 @@ export default function UploadModal({
           },
         }}
         open={showUploadModal}
-        keepMounted
         onClose={handleClose}
       >
         <DialogTitle sx={{ p: 0, mb: 9 }}>
