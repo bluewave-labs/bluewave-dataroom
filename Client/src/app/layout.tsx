@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-
-import Sidebar from "../Components/Sidebar/Sidebar";
 import { Container } from "@mui/material";
+import Sidebar from "@/Components/Sidebar/Sidebar";
+import CssBaseline from "@mui/material/CssBaseline";
+import globalTheme from "@/utils/theme/globalTheme";
+import { ThemeProvider } from "@mui/material/styles";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,28 +14,32 @@ export const metadata: Metadata = {
   description: "Share documents safely with your team and customers",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+interface RootLayoutProps {
   children: React.ReactNode;
-}>) {
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Container
-          maxWidth={"lg"}
-          sx={{
-            display: "flex",
-            backgroundColor: "white",
-            height: "100vh",
-            pt: 4,
-            pb: 3,
-            gap: 4,
-          }}
-        >
-          <Sidebar />
-          <>{children}</>
-        </Container>
+        <ThemeProvider theme={globalTheme}>
+          <CssBaseline />
+          <Container
+            sx={{
+              display: "flex",
+              backgroundColor: "white",
+              height: "100vh",
+              maxWidth: "1600px",
+              minWidth: "1600px",
+              pt: 16,
+              pb: 12,
+              gap: 16,
+            }}
+          >
+            <Sidebar />
+            <>{children}</>
+          </Container>
+        </ThemeProvider>
       </body>
     </html>
   );

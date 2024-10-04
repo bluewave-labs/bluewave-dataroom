@@ -6,3 +6,7 @@
   text-decoration: none;
   color: inherit;
 }
+
+.width-area {
+  width: 100%;
+}
