@@ -35,7 +35,7 @@ const DragAndDropBox = ({ text }: DragAndDropBoxProps) => {
 			}}>
 			<Box
 				component="img"
-				src="/document-upload-icon.svg"
+				src="/assets/icons/documentPage/document-upload-icon.svg"
 				alt="Document Icon"
 				sx={{ width: '8rem', height: '8rem', marginBottom: '1rem' }}
 			/>
