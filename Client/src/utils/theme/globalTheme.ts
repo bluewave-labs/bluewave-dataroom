@@ -28,6 +28,8 @@ const fontFamilyDefault =
 	'"Inter","system-ui", "Avenir", "Helvetica", "Arial", sans-serif';
 const shadow =
 	'0px 4px 24px -4px rgba(16, 24, 40, 0.08), 0px 3px 3px -3px rgba(16, 24, 40, 0.03)';
+const modalShadow =
+	'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px';
 
 const globalTheme = createTheme({
 	spacing: 2,
@@ -47,6 +49,9 @@ const globalTheme = createTheme({
 			lineHeight: '20px',
 			textAlign: 'left',
 		},
+	},
+	customShadows: {
+		menu: modalShadow,
 	},
 	palette: {
 		primary: {

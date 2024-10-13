@@ -29,10 +29,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
 						<Container
 							sx={{
 								display: 'flex',
-								backgroundColor: '#fdfdfd',
+								backgroundColor: '#fcfcfd',
 								height: '100vh',
-								border: '1px solid #e9e9e9',
-								gap: 4,
+								maxWidth: '1600px',
+								minWidth: '1600px',
+								pt: 16,
+								pb: 12,
+								gap: 16,
 							}}>
 							<Sidebar />
 							<Box
