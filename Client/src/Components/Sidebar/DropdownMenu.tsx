@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -30,19 +30,16 @@ const StyledMenu = styled((props: MenuProps) => (
 	/>
 ))(({ theme }) => ({
 	'& .MuiPaper-root': {
-		borderRadius: 6,
-		marginTop: theme.spacing(-1),
-		minWidth: 180,
-		color: 'rgb(55, 65, 81)',
-		boxShadow:
-			'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+		marginTop: theme.spacing(-4),
+		boxShadow: theme.customShadows.menu,
 		'& .MuiMenu-list': {
-			padding: '4px 0',
+			padding: `${theme.spacing(2)} ${theme.spacing(7)}`,
 		},
 	},
 }));
 
 export default function DropdownMenu() {
+	const theme = useTheme();
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -52,7 +49,7 @@ export default function DropdownMenu() {
 		setAnchorEl(null);
 	};
 
-	function fixName(text: string): string {
+	function removeEmptySpace(text: string): string {
 		return text.replace(/\s+/g, '');
 	}
 
@@ -62,6 +59,8 @@ export default function DropdownMenu() {
 		Logout: LogOut,
 	};
 
+	const menu: string[] = ['Profile', 'Team', 'Log out'];
+
 	return (
 		<Box>
 			<Button
@@ -70,8 +69,9 @@ export default function DropdownMenu() {
 				size="small"
 				className="no-styling"
 				sx={{
-					fontSize: 16,
-					textTransform: 'none',
+					fontSize: theme.typography.body1,
+					padding: theme.spacing(4),
+					marginBottom: `-${theme.spacing(4)}`,
 				}}
 				startIcon={
 					<Image src={Avatar} alt="Dropdown Arrow" width={24} height={24} />
@@ -88,19 +88,13 @@ export default function DropdownMenu() {
 			</Button>
 
 			<StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
-				{['Profile', 'Team', 'Log out'].map((text) => (
-					<Link
-						href={`${text.toLowerCase()}`}
-						className="no-styling"
-						key={text}>
-						<MenuItem
-							onClick={handleClose}
-							disableRipple
-							sx={{ '&:hover': { backgroundColor: '#f5f9ff' } }}>
+				{menu.map((text) => (
+					<Link href={`${text.toLowerCase()}`} className="no-styling">
+						<MenuItem onClick={handleClose}>
 							<Image
 								src={
 									text.includes(' ')
-										? menuItems[fixName(text)]
+										? menuItems[removeEmptySpace(text)]
 										: menuItems[text]
 								}
 								alt={text}

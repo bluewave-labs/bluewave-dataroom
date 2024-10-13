@@ -6,6 +6,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { useTheme } from '@mui/material/styles';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,36 +24,54 @@ export default function Sidebar() {
 		Settings: SettingsIcon,
 	};
 
+	const theme = useTheme();
+	const menu: string[] = ['Documents', 'Contacts', 'Settings'];
+
 	return (
 		<Stack
 			justifyContent="space-between"
 			direction="column"
 			sx={{
-				backgroundColor: 'white',
-				paddingBottom: '1rem',
-				paddingTop: '2rem',
-				paddingX: '1rem',
-				borderRight: '1.5px solid #EBEBEB',
+				maxHeight: '100vh',
+				mt: -16,
+				mb: -12,
+				ml: -4,
+				pt: 16,
+				pb: 12,
+				pl: 8,
+				pr: 8,
+				border: `1px solid ${theme.palette.border.light}`,
 			}}>
 			<Box>
-				<Image src={Title} alt="Title" style={{ margin: '0 8px 16px 8px' }} />
+				<Image
+					src={Title}
+					alt="Title"
+					style={{
+						margin: `0 ${theme.spacing(4)} ${theme.spacing(16)} ${theme.spacing(
+							4
+						)}`,
+					}}
+				/>
 				<List>
-					{['Documents', 'Contacts', 'Settings'].map((text) => (
-						<ListItem
-							key={text}
-							disablePadding
-							sx={{
-								'&:hover': { backgroundColor: '#f5f9ff' },
-								borderRadius: 4,
-							}}>
-							<Link href={`/${text.toLowerCase()}`} className="no-styling">
+					{menu.map((text) => (
+						<ListItem key={text} disablePadding>
+							<Link
+								href={`/${text.toLowerCase()}`}
+								className="no-styling width-area">
 								<ListItemButton
-									disableRipple
 									sx={{
-										'&:hover': { backgroundColor: '#f5f9ff' },
+										px: 4,
+										'&:hover': {
+											backgroundColor: theme.palette.background.alt,
+										},
 									}}>
-									<ListItemIcon sx={{ minWidth: 0, paddingRight: '1rem' }}>
-										<Image src={menuItems[text]} alt={text} height={24} />
+									<ListItemIcon>
+										<Image
+											src={menuItems[text]}
+											alt={text}
+											height={24}
+											width={24}
+										/>
 									</ListItemIcon>
 									<ListItemText primary={text} />
 								</ListItemButton>
