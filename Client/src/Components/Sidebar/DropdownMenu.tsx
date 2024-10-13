@@ -5,6 +5,7 @@ import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 
+
 import './dropdownMenu.css';
 
 import Image from 'next/image';
@@ -29,6 +30,7 @@ const StyledMenu = styled((props: MenuProps) => (
 		{...props}
 	/>
 ))(({ theme }) => ({
+
 	'& .MuiPaper-root': {
 		marginTop: theme.spacing(-4),
 		boxShadow: theme.customShadows.menu,
@@ -52,6 +54,7 @@ export default function DropdownMenu() {
 	function removeEmptySpace(text: string): string {
 		return text.replace(/\s+/g, '');
 	}
+
 
 	const menuItems: { [key: string]: string } = {
 		Profile: Profile,
@@ -109,4 +112,5 @@ export default function DropdownMenu() {
 			</StyledMenu>
 		</Box>
 	);
+
 }

@@ -8,18 +8,20 @@ import { ThemeProvider } from '@mui/material/styles';
 import Breadcrumb from '@/components/Breadcrumb';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 
-const inter = Inter({ subsets: ['latin'] });
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: 'Blw-Dataroom',
-	description: 'Share documents safely with your team and customers',
+  title: "Blw-Dataroom",
+  description: "Share documents safely with your team and customers",
 };
 
 interface RootLayoutProps {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
+
 	return (
 		<html lang="en">
 			<body className={inter.className}>

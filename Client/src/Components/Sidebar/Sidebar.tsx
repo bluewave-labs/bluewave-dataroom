@@ -8,6 +8,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { useTheme } from '@mui/material/styles';
 
+
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -83,4 +84,5 @@ export default function Sidebar() {
 			<DropdownMenu />
 		</Stack>
 	);
+
 }

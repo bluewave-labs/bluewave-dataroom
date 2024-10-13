@@ -12,6 +12,7 @@ const text = {
 };
 
 const background = {
+
 	content: '#fcfcfd',
 	alt: '#dceaf5',
 	brand: '#1570EF',
@@ -20,6 +21,7 @@ const background = {
 	secondary: '#F9FAFB',
 	errorDark: '#D92D20',
 	primaryDark: '#175CD3',
+
 };
 
 const border = { light: '#EBEBEB', dark: '#CCCCCC' };
@@ -360,6 +362,7 @@ const globalTheme = createTheme({
 		borderThick: 2,
 		boxShadow: shadow,
 	},
+
 });
 
 export default globalTheme;
