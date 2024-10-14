@@ -1,6 +1,7 @@
 import Dropdown from '@/components/Dropdown';
 import Paginator from '@/components/Paginator';
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from '../../../../public/assets/icons/teamPage/trash-icon.svg';
+
 import {
 	Paper,
 	Table,
@@ -12,6 +13,7 @@ import {
 	Typography,
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
+import Image from 'next/image';
 
 export interface User {
 	id: number;
@@ -33,23 +35,21 @@ interface Props {
 const UserTable = ({ users, page, setPage, pageSize, totalUsers }: Props) => (
 	<>
 		<TableContainer component={Paper}>
-			<Table sx={{ minWidth: 650 }} aria-label="User Table">
+			<Table aria-label="User Table">
 				<TableHead>
 					<TableRow>
-						<TableCell sx={{ width: '25%' }}>Name</TableCell>
-						<TableCell sx={{ width: '40%' }}>Email</TableCell>
+						<TableCell sx={{ width: '30%' }}>Name</TableCell>
+						<TableCell sx={{ width: '32%' }}>Email</TableCell>
 						<TableCell sx={{ width: '30%' }}>Role</TableCell>
-						<TableCell sx={{ width: '5%' }}>Action</TableCell>
+						<TableCell sx={{ width: '8%' }}>Action</TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
 					{users.map((user) => (
 						<TableRow key={user.id}>
 							<TableCell>
-								<Typography variant="subtitle1" sx={{ marginBottom: '-5px' }}>
-									{user.name}
-								</Typography>
-								<Typography variant="caption" sx={{ color: 'text.secondary' }}>
+								<Typography variant="body1">{user.name}</Typography>
+								<Typography variant="caption">
 									Created {user.createdAt}
 								</Typography>
 							</TableCell>
@@ -71,7 +71,7 @@ const UserTable = ({ users, page, setPage, pageSize, totalUsers }: Props) => (
 							</TableCell>
 							<TableCell>
 								<IconButton>
-									<DeleteIcon color="secondary" />
+									<Image src={DeleteIcon} alt="Delete icon" />
 								</IconButton>
 							</TableCell>
 						</TableRow>

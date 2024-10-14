@@ -3,11 +3,12 @@
 import { Box, IconButton, TextField, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const OrganizationName = () => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [companyName, setCompanyName] = useState('Bluewave Labs');
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	const handleEditClick = () => {
 		setIsEditing(true);
@@ -23,15 +24,22 @@ const OrganizationName = () => {
 		setCompanyName(event.target.value);
 	};
 
+	// Moves cursor to the end of Organization Name Textfield (Weird Requirment on figma)
+	useEffect(() => {
+		if (isEditing && inputRef.current) {
+			const input = inputRef.current;
+			input.focus();
+			input.setSelectionRange(input.value.length, input.value.length);
+		}
+	}, [isEditing]);
+
 	return (
 		<Box
 			display="flex"
 			justifyContent="space-between"
 			alignItems="center"
 			sx={{ marginBottom: '1rem' }}>
-			<Typography sx={{ fontSize: '1rem', fontWeight: 'bold' }}>
-				Organization name
-			</Typography>
+			<Typography variant="h2">Organization name</Typography>
 			<Box display="flex" alignItems="center" height={5}>
 				{isEditing ? (
 					<TextField
@@ -39,6 +47,7 @@ const OrganizationName = () => {
 						onChange={handleNameChange}
 						variant="standard"
 						size="small"
+						inputRef={inputRef}
 						sx={{
 							marginRight: '1rem',
 							'& .MuiInputBase-root': {
@@ -47,7 +56,8 @@ const OrganizationName = () => {
 								height: 'auto',
 							},
 							'& .MuiInputBase-input': {
-								marginRight: '-2rem',
+								marginRight: '-2.375rem',
+								marginBottom: '-0.12rem',
 								padding: '1px 0px 1px 5px',
 								fontSize: '1rem',
 								fontWeight: 'normal',

@@ -4,14 +4,10 @@ import TeamClient from './components/TeamClient';
 
 export default function TeamPage() {
 	return (
-		<Container maxWidth="lg" sx={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
-			<Typography variant="h5" sx={{ color: 'primary.main' }}>
-				Team
-			</Typography>
+		<Container>
+			<Typography variant="h1">Team</Typography>
 			<Divider sx={{ marginBottom: '1rem' }} />
-			<Typography
-				variant="body2"
-				sx={{ color: 'text.secondary', marginBottom: '4rem' }}>
+			<Typography variant="body1" sx={{ marginBottom: '4rem' }}>
 				Set up your team here.
 			</Typography>
 

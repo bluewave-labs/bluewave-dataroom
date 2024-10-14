@@ -15,19 +15,7 @@ const FilterToggle = ({ currentFilter, onFilterChange }: Props) => (
 			}
 		}}
 		aria-label="Filter by role"
-		size="small"
-		sx={{
-			backgroundColor: 'white',
-			'& .MuiToggleButton-root': {
-				color: 'black',
-				textTransform: 'none',
-				paddingX: '1.25rem',
-				paddingY: '0.25rem',
-			},
-			'& .MuiToggleButton-root.Mui-selected': {
-				fontWeight: 'bold',
-			},
-		}}>
+		size="small">
 		<ToggleButton value="All">All</ToggleButton>
 		<ToggleButton value="Administrator">Administrator</ToggleButton>
 		<ToggleButton value="Member">Member</ToggleButton>
