@@ -58,25 +58,17 @@ const ContactsTable = () => {
 	return (
 		<>
 			<TableContainer component={Paper}>
-				<Table sx={{ minWidth: 650 }} aria-label="Contacts Table">
+				<Table aria-label="Contacts Table">
 					<TableHead>
 						<TableRow>
-							<TableCell
-								sx={{ color: 'grey.600', fontWeight: 'bold', width: '30%' }}>
-								NAME
-							</TableCell>
-							<TableCell
-								sx={{ color: 'grey.600', fontWeight: 'bold', width: '25%' }}>
-								LAST VIEWED LINK
-							</TableCell>
-							<TableCell
-								sx={{ color: 'grey.600', fontWeight: 'bold', width: '30%' }}>
+							<TableCell sx={{ width: '30%' }}>NAME</TableCell>
+							<TableCell sx={{ width: '25%' }}>LAST VIEWED LINK</TableCell>
+							<TableCell sx={{ width: '30%' }}>
 								<TableSortLabel
 									active={orderBy === 'lastActivity'}
 									direction={orderDirection}
 									onClick={() => handleSortRequest('lastActivity')}
 									hideSortIcon={false}
-									sx={{ '& .MuiTableSortLabel-icon': { opacity: 1 } }}
 									IconComponent={
 										orderDirection === undefined
 											? UnfoldMoreIcon
@@ -85,10 +77,7 @@ const ContactsTable = () => {
 									LAST ACTIVITY
 								</TableSortLabel>
 							</TableCell>
-							<TableCell
-								sx={{ color: 'grey.600', fontWeight: 'bold', width: '15%' }}>
-								VISITS
-							</TableCell>
+							<TableCell sx={{ width: '15%' }}>VISITS</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>

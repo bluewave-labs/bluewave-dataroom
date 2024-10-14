@@ -1,4 +1,3 @@
-import theme from '@/theme/theme';
 import { TableCell, TableRow, Typography } from '@mui/material';
 import { Contact } from './ContactsTable';
 
@@ -21,14 +20,11 @@ interface Props {
 }
 
 const ContactsTableRow = ({ contact }: Props) => (
-	<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-		<TableCell component="th" scope="row">
-			<Typography variant="subtitle1" sx={{ marginBottom: '-5px' }}>
-				{contact.name}
-			</Typography>
-			<Typography variant="caption" sx={{ color: theme.palette.primary.light }}>
-				{contact.email}
-			</Typography>
+	<TableRow>
+		<TableCell>
+			{contact.name}
+			<br />
+			<Typography variant="caption">{contact.email}</Typography>
 		</TableCell>
 		<TableCell>{contact.lastViewedLink}</TableCell>
 		<TableCell>{formatDate(contact.lastActivity)}</TableCell>
