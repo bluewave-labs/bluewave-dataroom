@@ -1,7 +1,7 @@
 import { Menu, MenuItem, Typography } from '@mui/material';
 import { useState } from 'react';
-import DeleteConfirmationModal from '@/Components/DeleteConfirmationModal';
-import UploadModal from '@/Components/UploadModal';
+import DeleteConfirmationModal from '@/components/DeleteConfirmationModal';
+import UploadModal from '@/components/UploadModal';
 
 interface Props {
 	anchorEl: HTMLElement | null;

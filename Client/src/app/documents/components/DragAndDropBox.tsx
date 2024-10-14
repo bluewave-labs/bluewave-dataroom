@@ -3,9 +3,18 @@
 import { Box, Typography } from '@mui/material';
 interface DragAndDropBoxProps {
 	text: string;
+	height?: string;
 }
 
-const DragAndDropBox = ({ text }: DragAndDropBoxProps) => {
+const DragAndDropBox = ({ text, height }: DragAndDropBoxProps) => {
+	const handleInput = (e: any) => {
+		// Handle file upload logic here
+		const file = e.target.files?.[0];
+		if (file) {
+			console.log('File selected:', file.name);
+		}
+	};
+
 	return (
 		<Box
 			sx={{
@@ -19,7 +28,7 @@ const DragAndDropBox = ({ text }: DragAndDropBoxProps) => {
 				justifyContent: 'center',
 				flexDirection: 'column',
 				cursor: 'pointer',
-				height: '250px',
+				height: { height },
 			}}
 			onClick={() => {
 				// Trigger the file input click when box is clicked
@@ -27,7 +36,7 @@ const DragAndDropBox = ({ text }: DragAndDropBoxProps) => {
 			}}>
 			<Box
 				component="img"
-				src="/documentUpload.svg"
+				src="/assets/icons/documentPage/document-upload-icon.svg"
 				alt="Document Icon"
 				sx={{ width: '8rem', height: '8rem', marginBottom: '1rem' }}
 			/>
@@ -39,13 +48,7 @@ const DragAndDropBox = ({ text }: DragAndDropBoxProps) => {
 				type="file"
 				id="file-input"
 				style={{ display: 'none' }}
-				onChange={(e) => {
-					// Handle file upload logic here
-					const file = e.target.files?.[0];
-					if (file) {
-						console.log('File selected:', file.name);
-					}
-				}}
+				onChange={handleInput}
 			/>
 		</Box>
 	);

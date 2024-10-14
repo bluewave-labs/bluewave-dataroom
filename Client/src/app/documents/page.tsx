@@ -81,15 +81,9 @@ export default function DocumentsPage() {
 							<Typography variant="h6" sx={{ fontWeight: 'bold' }}>
 								Manage your documents
 							</Typography>
-							<Typography variant="subtitle2" color="text.secondary">
-								{documentCount} documents
-							</Typography>
+							<Typography variant="body1">{documentCount} documents</Typography>
 						</Box>
-						<Button
-							variant="contained"
-							color="primary"
-							size="small"
-							sx={{ padding: '0.4rem 1rem', textTransform: 'none' }}>
+						<Button variant="contained" color="primary" size="medium">
 							Upload new document
 						</Button>
 					</Box>
@@ -108,4 +102,3 @@ export default function DocumentsPage() {
 		</Container>
 	);
 }
-
