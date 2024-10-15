@@ -14,10 +14,10 @@ import ActionMenu from './ActionMenu';
 import { Document } from './DocumentsTable';
 
 const docTypeIcons: Record<Document['type'], string> = {
-	PDF: '/pdf-icon.svg',
-	DOC: '/word-icon.svg',
-	XLSX: '/xlsx-icon.svg',
-	PPT: '/ppt-icon.svg',
+	PDF: '/assets/icons/documentPage/pdf-icon.svg',
+	DOC: '/assets/icons/documentPage/word-icon.svg',
+	XLSX: '/assets/icons/documentPage/xlsx-icon.svg',
+	PPT: '/assets/icons/documentPage/ppt-icon.svg',
 };
 
 interface Props {

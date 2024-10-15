@@ -12,10 +12,10 @@ import { useTheme } from "@mui/material/styles";
 import Image from "next/image";
 import Link from "next/link";
 
-import DocumentsIcon from "../../assets/icons/Sidebar/sidebar-documents-icon.svg";
-import ContactsIcon from "../../assets/icons/Sidebar/sidebar-contacts-icon.svg";
-import SettingsIcon from "../../assets/icons/Sidebar/sidebar-settings-icon.svg";
-import Title from "../../assets/icons/Sidebar/sidebar-title.svg";
+import DocumentsIcon from "../../../public/assets/icons/Sidebar/sidebar-documents-icon.svg";
+import ContactsIcon from "../../../public/assets/icons/Sidebar/sidebar-contacts-icon.svg";
+import SettingsIcon from "../../../public/assets/icons/Sidebar/sidebar-settings-icon.svg";
+import Title from "../../../public/assets/icons/Sidebar/sidebar-title.svg";
 import DropdownMenu from "./DropdownMenu";
 
 export default function Sidebar() {
