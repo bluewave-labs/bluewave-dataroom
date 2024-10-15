@@ -1,56 +1,72 @@
-'use client';
+"use client";
 
-import { Box, Typography } from '@mui/material';
+import UploadModal from "@/Components/UploadModal";
+import { Box, Button } from "@mui/material";
+import { useState } from "react";
 interface DragAndDropBoxProps {
-	text: string;
+  text: string;
 }
 
 const DragAndDropBox = ({ text }: DragAndDropBoxProps) => {
-	const handleInput = (e: any) => {
-		// Handle file upload logic here
-		const file = e.target.files?.[0];
-		if (file) {
-			console.log('File selected:', file.name);
-		}
-	};
+  // State for update/upload modal
+  const [showUploadModal, setShowUploadModal] = useState(false);
 
-	return (
-		<Box
-			sx={{
-				border: '2px dashed rgba(236, 236, 236)',
-				borderRadius: '4px',
-				padding: '2rem',
-				textAlign: 'center',
-				backgroundColor: 'rgba(255, 255, 255, 0.6)',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				flexDirection: 'column',
-				cursor: 'pointer',
-				height: '250px',
-			}}
-			onClick={() => {
-				// Trigger the file input click when box is clicked
-				document.getElementById('file-input')?.click();
-			}}>
-			<Box
-				component="img"
-				src="/assets/icons/documentPage/document-upload-icon.svg"
-				alt="Document Icon"
-				sx={{ width: '8rem', height: '8rem', marginBottom: '1rem' }}
-			/>
+  const handleUpdateClick = () => {
+    setShowUploadModal(true); // Open update/upload modal
+  };
 
-			<Typography variant="body1" fontWeight={600}>
-				{text}
-			</Typography>
-			<input
-				type="file"
-				id="file-input"
-				style={{ display: 'none' }}
-				onChange={handleInput}
-			/>
-		</Box>
-	);
+  const handleInput = (e: any) => {
+    // Handle file upload logic here
+    const file = e.target.files?.[0];
+    if (file) {
+      console.log("File selected:", file.name);
+    }
+  };
+
+  return (
+    <Box
+      sx={{
+        border: "2px dashed rgba(236, 236, 236)",
+        borderRadius: "4px",
+        padding: "2rem",
+        textAlign: "center",
+        backgroundColor: "rgba(255, 255, 255, 0.6)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        cursor: "pointer",
+        height: "250px",
+      }}
+    >
+      <Box
+        component="img"
+        src="/assets/icons/documentPage/document-upload-icon.svg"
+        alt="Document Icon"
+        sx={{ width: "8rem", height: "8rem", marginBottom: "1rem" }}
+      />
+      <Button color="inherit" onClick={handleUpdateClick}>
+        {text}
+      </Button>
+
+      <input
+        type="file"
+        id="file-input"
+        style={{ display: "none" }}
+        onChange={handleInput}
+      />
+
+      {/* Upload/Update Modal */}
+      <UploadModal
+        title="Upload a new file"
+        maxFileSize="50"
+        fileFormats="PDF"
+        confirmButtonText="Upload"
+        toggleModal={setShowUploadModal}
+        showModal={showUploadModal}
+      />
+    </Box>
+  );
 };
 
 export default DragAndDropBox;

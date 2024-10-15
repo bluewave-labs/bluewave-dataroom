@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Box,
   Button,
@@ -13,19 +11,10 @@ import {
 import DocumentsTable from "./components/DocumentsTable";
 import DragAndDropBox from "./components/DragAndDropBox";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
-import { useState } from "react";
-import UploadModal from "@/Components/UploadModal";
 
 export default function DocumentsPage() {
-  // State for update/upload modal
-  const [showUploadModal, setShowUploadModal] = useState(false);
-
   const documentCount: number = 2;
   const isEmptyState = documentCount === 0;
-
-  const handleUpdateClick = () => {
-    setShowUploadModal(true); // Open update/upload modal
-  };
 
   return (
     <>
@@ -109,7 +98,6 @@ export default function DocumentsPage() {
                 color="primary"
                 size="small"
                 sx={{ padding: "0.4rem 1rem", textTransform: "none" }}
-                onClick={handleUpdateClick}
               >
                 Upload new document
               </Button>
@@ -124,16 +112,6 @@ export default function DocumentsPage() {
           </>
         )}
       </Container>
-
-      {/* Upload/Update Modal */}
-      <UploadModal
-        title="Upload a new file"
-        maxFileSize="50"
-        fileFormats="PDF"
-        confirmButtonText="Upload"
-        toggleModal={setShowUploadModal}
-        showModal={showUploadModal}
-      />
     </>
   );
 }
