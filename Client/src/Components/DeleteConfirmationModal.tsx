@@ -24,6 +24,7 @@ export default function DeleteConfirmationModal({
   toggleModal,
   showDeleteModal,
 }: DeleteConfirmationModalProps) {
+  
   const handleClose = () => {
     toggleModal(false);
   };

@@ -128,7 +128,6 @@ export default function DocumentsPage() {
       {/* Upload/Update Modal */}
       <UploadModal
         title="Upload a new file"
-        description=""
         maxFileSize="50"
         fileFormats="PDF"
         confirmButtonText="Upload"

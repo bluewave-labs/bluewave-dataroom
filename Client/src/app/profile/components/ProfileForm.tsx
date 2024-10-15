@@ -205,10 +205,10 @@ export default function ProfileForm() {
       {/* Upload/Update Modal */}
       <UploadModal
         title="Upload profile image"
-        description=""
         maxFileSize="3"
         fileFormats="JPG, PNG"
         confirmButtonText="Update"
+        cancelButtonText="Remove"
         toggleModal={setShowUploadModal}
         showModal={showUploadModal}
       />

@@ -13,7 +13,7 @@ import UploadIcon from "../../public/assets/icons/uploadModel/upload-cloud-icon.
 
 interface UploadModalProps {
   title: string;
-  description: string;
+  description?: string;
   maxFileSize: string;
   fileFormats: string;
   confirmButtonText: string;

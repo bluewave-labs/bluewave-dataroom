@@ -10,6 +10,7 @@ interface Props {
 }
 
 const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
+  
   // State for multiple modals
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
