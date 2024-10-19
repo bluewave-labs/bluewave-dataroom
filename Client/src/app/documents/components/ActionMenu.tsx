@@ -1,7 +1,6 @@
 import { Menu, MenuItem, Typography } from "@mui/material";
 import { useState } from "react";
-import DeleteConfirmationModal from "@/Components/DeleteConfirmationModal";
-import UploadModal from "@/Components/UploadModal";
+import ModalWrapper from "@/Components/ModalWrapper";
 
 interface Props {
   anchorEl: HTMLElement | null;
@@ -10,31 +9,14 @@ interface Props {
 }
 
 const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
-  
-  // State for multiple modals
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [modalState, setModalState] = useState<"delete" | "upload" | null>(null);
 
-  // Modal handlers
-  const handleDeleteClick = () => {
-    setShowDeleteModal(true); // Open delete confirmation modal
-    onClose(); // Close the action menu
+  const openModal = (type: "delete" | "upload") => {
+    setModalState(type);
+    onClose();
   };
 
-  const handleUpdateClick = () => {
-    setShowUploadModal(true); // Open update/upload modal
-    onClose(); // Close the action menu
-  };
-
-  const handleDelete = () => {
-    console.log("File Deleted");
-    setShowDeleteModal(false); // Close delete modal after action
-  };
-
-  const closeModal = () => {
-    setShowDeleteModal(false);
-    setShowUploadModal(false);
-  };
+  const closeModal = () => setModalState(null);
 
   return (
     <>
@@ -52,32 +34,29 @@ const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
       >
         <MenuItem onClick={onClose}>Add new link</MenuItem>
         <MenuItem onClick={onClose}>Duplicate document</MenuItem>
-        <MenuItem onClick={handleUpdateClick}>Update document</MenuItem>
+        <MenuItem onClick={() => openModal("upload")}>Update document</MenuItem>
         <MenuItem onClick={onClose}>View analytics</MenuItem>
-        <MenuItem onClick={handleDeleteClick}>
+        <MenuItem onClick={() => openModal("delete")}>
           <Typography color="error">Delete</Typography>
         </MenuItem>
       </Menu>
 
-      {/* Delete Confirmation Modal */}
-      <DeleteConfirmationModal
+      <ModalWrapper
+        variant="delete"
         title="Really delete this file?"
-        description="When you delete this file, all the links associated with the file will also be removed. Note that this is a non-reversible action."
+        description="When you delete this file, all the links associated with the file will also be removed. This action is non-reversible."
         confirmButtonText="Delete file"
-        handleDelete={handleDelete}
-        toggleModal={setShowDeleteModal}
-        showDeleteModal={showDeleteModal}
+        toggleModal={() => closeModal()}
+        showModal={modalState === "delete"}
       />
 
-      {/* Upload/Update Modal */}
-      <UploadModal
+      <ModalWrapper
+        variant="upload"
         title="Update with a new document"
         description="When you update with a new document, the current link won’t change."
-        maxFileSize="50"
-        fileFormats="PDF"
         confirmButtonText="Update"
-        toggleModal={setShowUploadModal}
-        showModal={showUploadModal}
+        toggleModal={() => closeModal()} 
+        showModal={modalState === "upload"}
       />
     </>
   );
