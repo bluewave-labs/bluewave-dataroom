@@ -132,9 +132,9 @@ const globalTheme = createTheme({
 					padding: '0.4rem 1rem',
 				},
 				sizeSmall: {
-					// Placeholder for small size
-					padding: '6px 12px',
-					fontSize: 11,
+					padding: '0.3rem 0.8rem',
+					minWidth: '7rem',
+					fontSize: 12,
 				},
 				containedPrimary: {
 					backgroundColor: background.brand,
@@ -171,6 +171,13 @@ const globalTheme = createTheme({
 						backgroundColor: background.secondary,
 					},
 				},
+				textSecondary: {
+					color: text.primary,
+					backgroundColor: 'transparent',
+					'&:hover': {
+						backgroundColor: '#E5E7EB',
+					},
+				},
 			},
 		},
 		MuiChip: {
@@ -201,6 +208,15 @@ const globalTheme = createTheme({
 			styleOverrides: {
 				body: {
 					lineHeight: 'inherit',
+				},
+			},
+		},
+		MuiDialog: {
+			styleOverrides: {
+				paper: {
+					maxWidth: 410,
+					minWidth: 385,
+					padding: 4,
 				},
 			},
 		},
@@ -349,7 +365,7 @@ const globalTheme = createTheme({
 					paddingTop: '0.6rem',
 				},
 				body: {
-					padding: '1rem',
+					padding: '0.6rem',
 				},
 			},
 		},

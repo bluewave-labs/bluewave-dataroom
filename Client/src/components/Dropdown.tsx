@@ -3,15 +3,13 @@ import {
 	Select,
 	SelectChangeEvent,
 	StandardSelectProps,
-	menuClasses,
-	selectClasses,
 } from '@mui/material';
 import { useState } from 'react';
 
 interface Props extends StandardSelectProps {
 	options: { value: string; label: string }[];
-	initialValue: string; // Use initialValue instead of value
-	onValueChange?: (newValue: string) => void; // Optional callback for when the value changes
+	initialValue: string;
+	onValueChange?: (newValue: string) => void;
 }
 
 const Dropdown = ({
