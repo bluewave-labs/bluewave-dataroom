@@ -9,7 +9,9 @@ interface Props {
 }
 
 const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
-  const [modalState, setModalState] = useState<"delete" | "upload" | null>(null);
+  const [modalState, setModalState] = useState<"delete" | "upload" | null>(
+    null
+  );
 
   const openModal = (type: "delete" | "upload") => {
     setModalState(type);
@@ -55,7 +57,7 @@ const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
         title="Update with a new document"
         description="When you update with a new document, the current link won’t change."
         confirmButtonText="Update"
-        toggleModal={() => closeModal()} 
+        toggleModal={() => closeModal()}
         showModal={modalState === "upload"}
       />
     </>
