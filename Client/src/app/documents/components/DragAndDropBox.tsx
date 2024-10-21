@@ -6,9 +6,10 @@ import { Box, Button } from "@mui/material";
 import { useState } from "react";
 interface DragAndDropBoxProps {
   text: string;
+  height?: string;
 }
 
-const DragAndDropBox = ({ text }: DragAndDropBoxProps) => {
+const DragAndDropBox = ({ text, height }: DragAndDropBoxProps) => {
   const [showUploadModal, setShowUploadModal] = useState(false);
 
   const handleUpdateClick = () => {
@@ -36,7 +37,7 @@ const DragAndDropBox = ({ text }: DragAndDropBoxProps) => {
         justifyContent: "center",
         flexDirection: "column",
         cursor: "pointer",
-        height: "250px",
+        height: {height},
       }}
     >
       <Box
