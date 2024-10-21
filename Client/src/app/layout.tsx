@@ -45,8 +45,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
 								paddingTop={5}
 								paddingX={16}
 								sx={{
-									backgroundImage:
-										'url(/assets/icons/documentPage/doc-background.svg)',
+									backgroundImage: 'url(/assets/doc-background.svg)',
 									backgroundRepeat: 'no-repeat',
 									backgroundPosition: 'center',
 								}}>

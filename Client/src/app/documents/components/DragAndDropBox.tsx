@@ -1,7 +1,6 @@
 "use client";
 
-import ModalWrapper from "@/Components/ModalWrapper";
-import UploadModal from "@/Components/UploadModal";
+import ModalWrapper from '@/components/ModalWrapper';
 import { Box, Button } from "@mui/material";
 import { useState } from "react";
 interface DragAndDropBoxProps {

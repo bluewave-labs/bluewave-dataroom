@@ -1,10 +1,9 @@
-import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Box from '@mui/material/Box';
-
+import { styled, useTheme } from '@mui/material/styles';
+import * as React from 'react';
 
 import './dropdownMenu.css';
 
@@ -13,8 +12,8 @@ import Link from 'next/link';
 
 import DropdownArrow from '../../../public/assets/icons/sidebar/sidebar-arrow-acc-icon.svg';
 import Avatar from '../../../public/assets/icons/sidebar/sidebar-avatar-icon.svg';
-import Profile from '../../../public/assets/icons/sidebar/sidebar-profile-icon.svg';
 import LogOut from '../../../public/assets/icons/sidebar/sidebar-log-out-icon.svg';
+import Profile from '../../../public/assets/icons/sidebar/sidebar-profile-icon.svg';
 import Team from '../../../public/assets/icons/sidebar/sidebar-team-icon.svg';
 
 const StyledMenu = styled((props: MenuProps) => (
@@ -30,7 +29,6 @@ const StyledMenu = styled((props: MenuProps) => (
 		{...props}
 	/>
 ))(({ theme }) => ({
-
 	'& .MuiPaper-root': {
 		marginTop: theme.spacing(-4),
 		boxShadow: theme.customShadows.menu,
@@ -54,7 +52,6 @@ export default function DropdownMenu() {
 	function removeEmptySpace(text: string): string {
 		return text.replace(/\s+/g, '');
 	}
-
 
 	const menuItems: { [key: string]: string } = {
 		Profile: Profile,
@@ -112,5 +109,4 @@ export default function DropdownMenu() {
 			</StyledMenu>
 		</Box>
 	);
-
 }

@@ -1,6 +1,6 @@
 import { Menu, MenuItem, Typography } from "@mui/material";
 import { useState } from "react";
-import ModalWrapper from "@/Components/ModalWrapper";
+import ModalWrapper from '@/components/ModalWrapper';
 
 interface Props {
   anchorEl: HTMLElement | null;
