@@ -5,7 +5,6 @@ import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 
-
 import './dropdownMenu.css';
 
 import Image from 'next/image';
@@ -16,6 +15,7 @@ import Avatar from '../../../public/assets/icons/sidebar/sidebar-avatar-icon.svg
 import Profile from '../../../public/assets/icons/sidebar/sidebar-profile-icon.svg';
 import LogOut from '../../../public/assets/icons/sidebar/sidebar-log-out-icon.svg';
 import Team from '../../../public/assets/icons/sidebar/sidebar-team-icon.svg';
+import { signOut } from 'next-auth/react';
 
 const StyledMenu = styled((props: MenuProps) => (
 	<Menu
@@ -30,7 +30,6 @@ const StyledMenu = styled((props: MenuProps) => (
 		{...props}
 	/>
 ))(({ theme }) => ({
-
 	'& .MuiPaper-root': {
 		marginTop: theme.spacing(-4),
 		boxShadow: theme.customShadows.menu,
@@ -54,7 +53,6 @@ export default function DropdownMenu() {
 	function removeEmptySpace(text: string): string {
 		return text.replace(/\s+/g, '');
 	}
-
 
 	const menuItems: { [key: string]: string } = {
 		Profile: Profile,
@@ -92,7 +90,9 @@ export default function DropdownMenu() {
 
 			<StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
 				{menu.map((text) => (
-					<Link href={`${text.toLowerCase()}`} className="no-styling">
+					<Link
+						href={text === 'Log out' ? '/api/auth/signout' : `${text.toLowerCase()}` }
+						className="no-styling">
 						<MenuItem onClick={handleClose}>
 							<Image
 								src={
@@ -105,12 +105,15 @@ export default function DropdownMenu() {
 								width={16}
 								className="icon-mr"
 							/>
-							{text}
+							{text === 'Log out' ? (
+								<span onClick={() => signOut()}>{text}</span>
+							) : (
+								text
+							)}
 						</MenuItem>
 					</Link>
 				))}
 			</StyledMenu>
 		</Box>
 	);
-
 }
