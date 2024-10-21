@@ -1,12 +1,12 @@
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
 	Accordion,
+	AccordionDetails,
 	AccordionProps,
 	AccordionSummary,
-	AccordionDetails,
-	Typography,
 	Divider,
+	Typography,
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface CustomAccordionProps extends AccordionProps {
 	title: string;

@@ -1,7 +1,7 @@
-import { Box, Divider, Typography } from '@mui/material';
-import CustomTextField from '@/components/CustomTextField';
 import CustomCheckbox from '@/components/CustomCheckbox';
+import CustomTextField from '@/components/CustomTextField';
 import Dropdown from '@/components/Dropdown';
+import { Box } from '@mui/material';
 
 interface SendingAccordionProps {
 	formValues: any;

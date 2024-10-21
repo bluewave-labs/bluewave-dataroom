@@ -3,14 +3,7 @@
 import Paginator from '@/components/Paginator';
 import { dummyData } from '@/data/dummyDocuments';
 import { useSort } from '@/hooks/useSort';
-import {
-	Paper,
-	Table,
-	TableBody,
-	TableContainer,
-	TableHead,
-	Box,
-} from '@mui/material';
+import { Box, Paper, Table, TableBody, TableContainer, TableHead } from '@mui/material';
 import { useState } from 'react';
 import DocumentsTableHeader from './DocumentsTableHeader';
 import DocumentsTableRow from './DocumentsTableRow';
@@ -32,15 +25,11 @@ const DocumentsTable = () => {
 	const [page, setPage] = useState(1);
 	const pageSize = 8;
 
-	const { sortedData, orderDirection, orderBy, handleSortRequest } =
-		useSort<Document>(dummyData);
+	const { sortedData, orderDirection, orderBy, handleSortRequest } = useSort<Document>(dummyData);
 
 	const totalPages = Math.ceil(sortedData.length / pageSize);
 
-	const paginatedData = sortedData.slice(
-		(page - 1) * pageSize,
-		page * pageSize
-	);
+	const paginatedData = sortedData.slice((page - 1) * pageSize, page * pageSize);
 
 	return (
 		<Box

@@ -1,16 +1,8 @@
 import BarChartIcon from '@mui/icons-material/BarChart';
-import SettingsIcon from '../../../../public/assets/icons/sidebar/sidebar-settings-icon.svg';
-import {
-	Avatar,
-	Box,
-	Chip,
-	IconButton,
-	TableCell,
-	TableRow,
-	Typography,
-} from '@mui/material';
-import Image from 'next/image'; //+
+import { Avatar, Box, Chip, IconButton, TableCell, TableRow, Typography } from '@mui/material';
+import Image from 'next/image';
 import { useState } from 'react';
+import SettingsIcon from '../../../../public/assets/icons/sidebar/sidebar-settings-icon.svg';
 import ActionMenu from './ActionMenu';
 import { Document } from './DocumentsTable';
 
@@ -86,9 +78,7 @@ const DocumentsTableRow = ({ document }: Props) => {
 							sx={{ width: 24, height: 24, marginRight: 5 }}
 						/>
 					) : (
-						<Avatar
-							alt={document.uploader.name}
-							sx={{ width: 24, height: 24, marginRight: 5 }}>
+						<Avatar alt={document.uploader.name} sx={{ width: 24, height: 24, marginRight: 5 }}>
 							{document.uploader.name.charAt(0).toUpperCase()}
 						</Avatar>
 					)}

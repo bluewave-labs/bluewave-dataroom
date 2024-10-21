@@ -1,6 +1,6 @@
 'use client';
-
 import { Box, Typography } from '@mui/material';
+
 interface DragAndDropBoxProps {
 	text: string;
 	height?: string;
@@ -44,12 +44,7 @@ const DragAndDropBox = ({ text, height }: DragAndDropBoxProps) => {
 			<Typography variant="body1" fontWeight={600}>
 				{text}
 			</Typography>
-			<input
-				type="file"
-				id="file-input"
-				style={{ display: 'none' }}
-				onChange={handleInput}
-			/>
+			<input type="file" id="file-input" style={{ display: 'none' }} onChange={handleInput} />
 		</Box>
 	);
 };

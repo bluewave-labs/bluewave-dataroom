@@ -1,6 +1,6 @@
-import { Box, Divider, Typography, IconButton } from '@mui/material';
-import CustomTextField from '@/components/CustomTextField';
 import CustomCheckbox from '@/components/CustomCheckbox';
+import CustomTextField from '@/components/CustomTextField';
+import { Box, IconButton, Typography } from '@mui/material';
 import CopyIcon from '../../../../public/assets/icons/documentPage/CopyIcon';
 
 interface Props {
