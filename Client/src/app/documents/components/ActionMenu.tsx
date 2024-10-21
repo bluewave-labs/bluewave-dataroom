@@ -2,6 +2,7 @@ import { Menu, MenuItem, Typography } from '@mui/material';
 import { useState } from 'react';
 import DeleteConfirmationModal from '@/components/DeleteConfirmationModal';
 import UploadModal from '@/components/UploadModal';
+import CreateLink from './CreateLink';
 
 interface Props {
 	anchorEl: HTMLElement | null;
@@ -35,6 +36,16 @@ const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
 		setShowUploadModal(false);
 	};
 
+	const [openLink, setOpen] = useState(false);
+
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = (value: string) => {
+		setOpen(false);
+	};
+
 	return (
 		<>
 			<Menu
@@ -48,7 +59,7 @@ const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
 						borderRadius: '4px',
 					},
 				}}>
-				<MenuItem onClick={onClose}>Add new link</MenuItem>
+				<MenuItem onClick={handleClickOpen}>Add new link</MenuItem>
 				<MenuItem onClick={onClose}>Duplicate document</MenuItem>
 				<MenuItem onClick={handleUpdateClick}>Update document</MenuItem>
 				<MenuItem onClick={onClose}>View analytics</MenuItem>
@@ -77,6 +88,8 @@ const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
 				toggleModal={setShowUploadModal}
 				showModal={showUploadModal}
 			/>
+
+			<CreateLink open={openLink} onClose={handleClose} />
 		</>
 	);
 };

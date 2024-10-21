@@ -1,12 +1,4 @@
-import {
-	Avatar,
-	Box,
-	Button,
-	Divider,
-	Link,
-	TextField,
-	Typography,
-} from '@mui/material';
+import { Avatar, Box, Button, Divider, Link, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2'; // Correct Grid2 import from MUI
 import { useState } from 'react';
 
@@ -25,11 +17,7 @@ export default function ProfileForm() {
 
 	return (
 		<Box component="form" noValidate autoComplete="off">
-			<Grid
-				container
-				rowSpacing={14}
-				columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-				alignItems="center">
+			<Grid container rowSpacing={14} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
 				{/* First Name */}
 				<Grid size={6}>
 					<Typography variant="h2">First name</Typography>
@@ -97,16 +85,10 @@ export default function ProfileForm() {
 							src="https://picsum.photos/200/200"
 							sx={{ width: 56, height: 56, mr: 7 }}
 						/>
-						<Link
-							href="#"
-							underline="hover"
-							sx={{ px: 4, color: 'text.secondary' }}>
+						<Link href="#" underline="hover" sx={{ px: 4, color: 'text.secondary' }}>
 							Delete
 						</Link>
-						<Link
-							href="#"
-							underline="hover"
-							sx={{ px: 4, color: 'text.brand' }}>
+						<Link href="#" underline="hover" sx={{ px: 4, color: 'text.brand' }}>
 							Update
 						</Link>
 					</Box>
@@ -115,11 +97,7 @@ export default function ProfileForm() {
 
 			{/* Save Button */}
 			<Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 40 }}>
-				<Button
-					variant="contained"
-					size="medium"
-					color="primary"
-					onClick={handleSave}>
+				<Button variant="contained" size="medium" color="primary" onClick={handleSave}>
 					Save
 				</Button>
 			</Box>
@@ -138,17 +116,13 @@ export default function ProfileForm() {
 					Delete account
 				</Typography>
 				<Typography variant="subtitle1" sx={{ mb: 2 }}>
-					Note that deleting your account will remove all data from our system.
-					This is permanent and non-recoverable.
+					Note that deleting your account will remove all data from our system. This is permanent
+					and non-recoverable.
 				</Typography>
 
 				{/* Delete Account Button */}
 				<Box sx={{ justifyContent: 'flex-start' }}>
-					<Button
-						variant="contained"
-						size="medium"
-						color="error"
-						onClick={handleDelete}>
+					<Button variant="contained" size="medium" color="error" onClick={handleDelete}>
 						Delete account
 					</Button>
 				</Box>
