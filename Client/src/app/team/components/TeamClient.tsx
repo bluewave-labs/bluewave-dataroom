@@ -1,5 +1,4 @@
 'use client';
-
 import { dummyTeams } from '@/data/dummyTeams';
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';

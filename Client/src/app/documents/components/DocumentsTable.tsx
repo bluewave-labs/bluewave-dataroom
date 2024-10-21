@@ -1,5 +1,4 @@
 'use client';
-
 import Paginator from '@/components/Paginator';
 import { dummyData } from '@/data/dummyDocuments';
 import { useSort } from '@/hooks/useSort';

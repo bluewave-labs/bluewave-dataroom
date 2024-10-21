@@ -95,11 +95,10 @@ export default function DocumentsPage() {
 						/>
 					</Box>
 
-            {/* Documents Table Section */}
-            <DocumentsTable />
-          </>
-        )}
-      </Container>
-    </>
-  );
+					{/* Documents Table Section */}
+					<DocumentsTable />
+				</>
+			)}
+		</Container>
+	);
 }

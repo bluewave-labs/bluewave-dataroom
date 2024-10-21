@@ -1,10 +1,9 @@
 'use client';
-
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { Breadcrumbs, Link, Typography, Box } from '@mui/material';
+import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
-import Image from 'next/image';
 
 const Breadcrumb = () => {
 	const pathname = usePathname();
