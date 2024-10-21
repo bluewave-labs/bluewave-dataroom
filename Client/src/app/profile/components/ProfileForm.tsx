@@ -1,4 +1,4 @@
-import ModalWrapper from '@/Components/ModalWrapper';
+import ModalWrapper from '@/components/ModalWrapper';
 import { Avatar, Box, Button, Divider, Link, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useState } from 'react';
@@ -25,7 +25,6 @@ export default function ProfileForm() {
 		console.log('Account successfully deleted.');
 	};
 	return (
-
 		<>
 			<Box component="form" noValidate autoComplete="off">
 				<Grid container rowSpacing={14} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
@@ -76,7 +75,6 @@ export default function ProfileForm() {
 							fullWidth
 							placeholder="mahid@acme.com"
 						/>
-
 					</Grid>
 
 					{/* Photo */}
@@ -111,14 +109,12 @@ export default function ProfileForm() {
 					</Grid>
 				</Grid>
 
-
 				{/* Save Button */}
 				<Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 40 }}>
 					<Button variant="contained" size="medium" color="primary" onClick={handleSave}>
 						Save
 					</Button>
 				</Box>
-
 
 				<Divider sx={{ mb: 7, mt: 14 }} />
 
@@ -131,7 +127,6 @@ export default function ProfileForm() {
 						rowGap: 6,
 					}}>
 					<Typography variant="h2" fontWeight="bold">
-
 						Delete account
 					</Typography>
 					<Typography variant="subtitle1" sx={{ mb: 2 }}>
