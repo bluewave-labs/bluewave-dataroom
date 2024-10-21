@@ -365,7 +365,7 @@ const globalTheme = createTheme({
 					paddingTop: '0.6rem',
 				},
 				body: {
-					padding: '1rem',
+					padding: '0.6rem',
 				},
 			},
 		},

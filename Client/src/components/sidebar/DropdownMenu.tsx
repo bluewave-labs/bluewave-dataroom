@@ -1,21 +1,21 @@
-'use client';
-
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Menu, { MenuProps } from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
-import Image from 'next/image';
-import Link from 'next/link';
+
 
 import './dropdownMenu.css';
 
-const dropdownArrowSrc = '/assets/icons/sidebar/sidebar-arrow-acc-icon.svg';
-const avatarSrc = '/assets/icons/sidebar/sidebar-avatar-icon.svg';
-const profileSrc = '/assets/icons/sidebar/sidebar-profile-icon.svg';
-const logOutSrc = '/assets/icons/sidebar/sidebar-log-out-icon.svg';
-const teamSrc = '/assets/icons/sidebar/sidebar-team-icon.svg';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import DropdownArrow from '../../../public/assets/icons/sidebar/sidebar-arrow-acc-icon.svg';
+import Avatar from '../../../public/assets/icons/sidebar/sidebar-avatar-icon.svg';
+import Profile from '../../../public/assets/icons/sidebar/sidebar-profile-icon.svg';
+import LogOut from '../../../public/assets/icons/sidebar/sidebar-log-out-icon.svg';
+import Team from '../../../public/assets/icons/sidebar/sidebar-team-icon.svg';
 
 const StyledMenu = styled((props: MenuProps) => (
 	<Menu
@@ -30,9 +30,10 @@ const StyledMenu = styled((props: MenuProps) => (
 		{...props}
 	/>
 ))(({ theme }) => ({
+
 	'& .MuiPaper-root': {
 		marginTop: theme.spacing(-4),
-		boxShadow: theme.customShadows?.menu,
+		boxShadow: theme.customShadows.menu,
 		'& .MuiMenu-list': {
 			padding: `${theme.spacing(2)} ${theme.spacing(7)}`,
 		},
@@ -50,10 +51,15 @@ export default function DropdownMenu() {
 		setAnchorEl(null);
 	};
 
+	function removeEmptySpace(text: string): string {
+		return text.replace(/\s+/g, '');
+	}
+
+
 	const menuItems: { [key: string]: string } = {
-		Profile: profileSrc,
-		Team: teamSrc,
-		Logout: logOutSrc,
+		Profile: Profile,
+		Team: Team,
+		Logout: LogOut,
 	};
 
 	const menu: string[] = ['Profile', 'Team', 'Log out'];
@@ -71,11 +77,11 @@ export default function DropdownMenu() {
 					marginBottom: `-${theme.spacing(4)}`,
 				}}
 				startIcon={
-					<Image src={avatarSrc} alt="Avatar" width={24} height={24} />
+					<Image src={Avatar} alt="Dropdown Arrow" width={24} height={24} />
 				}
 				endIcon={
 					<Image
-						src={dropdownArrowSrc}
+						src={DropdownArrow}
 						alt="Dropdown Arrow"
 						width={10}
 						height={10}
@@ -86,16 +92,13 @@ export default function DropdownMenu() {
 
 			<StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
 				{menu.map((text) => (
-					<Link
-						href={`/${text.toLowerCase()}`}
-						key={text}
-						className="no-styling">
+					<Link href={`${text.toLowerCase()}`} className="no-styling">
 						<MenuItem onClick={handleClose}>
 							<Image
 								src={
-									menuItems[
-										text.includes(' ') ? text.replace(/\s+/g, '') : text
-									]
+									text.includes(' ')
+										? menuItems[removeEmptySpace(text)]
+										: menuItems[text]
 								}
 								alt={text}
 								height={16}
@@ -109,4 +112,5 @@ export default function DropdownMenu() {
 			</StyledMenu>
 		</Box>
 	);
+
 }
