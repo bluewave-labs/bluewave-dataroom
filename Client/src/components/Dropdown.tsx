@@ -1,9 +1,4 @@
-import {
-	MenuItem,
-	Select,
-	SelectChangeEvent,
-	StandardSelectProps,
-} from '@mui/material';
+import { MenuItem, Select, SelectChangeEvent, StandardSelectProps } from '@mui/material';
 import { useState } from 'react';
 
 interface Props extends StandardSelectProps {
@@ -12,12 +7,7 @@ interface Props extends StandardSelectProps {
 	onValueChange?: (newValue: string) => void;
 }
 
-const Dropdown = ({
-	options,
-	initialValue,
-	onValueChange,
-	...props
-}: Props) => {
+const Dropdown = ({ options, initialValue, onValueChange, ...props }: Props) => {
 	const [value, setValue] = useState<string>(initialValue);
 
 	const handleChange = (event: SelectChangeEvent<unknown>) => {
@@ -39,6 +29,7 @@ const Dropdown = ({
 			}}
 			sx={{
 				minWidth: 195,
+				'& .MuiSelect-select': { padding: '0.8rem 1rem' },
 			}}
 			{...props}>
 			{options.map((option) => (
