@@ -9,9 +9,9 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import globalTheme from '@/utils/theme/globalTheme';
 import { ThemeProvider } from '@mui/material/styles';
 import SignIn from './signIn/page';
+import { usePathname } from 'next/navigation';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-	// Ensure the client-side has mounted before rendering
 	const [isHydrated, setIsHydrated] = useState(false);
 
 	useEffect(() => {
@@ -31,13 +31,25 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
 function AuthWrapper({ children }: { children: React.ReactNode }) {
 	const { data: session, status } = useSession();
+	const pathname = usePathname(); // Get the current route path
+
+	// Define the public routes (including dynamic routes like /resetPassForm/[token])
+	const publicRoutes = ['/resetPass', '/register'];
+
+	// Check if the current path starts with /resetPassForm, which is dynamic
+	const isResetPassFormRoute = pathname.startsWith('/resetPassForm');
 
 	// Show a loading state while fetching the session
 	if (status === 'loading') {
 		return <div>Loading...</div>;
 	}
 
-	// If user is not authenticated, show the login form
+	// If the current route is a public route or the dynamic reset password route, allow access without authentication
+	if (publicRoutes.includes(pathname) || isResetPassFormRoute) {
+		return <>{children}</>;
+	}
+
+	// If user is not authenticated and the route is protected, show the login form
 	if (!session) {
 		return (
 			<Box>
