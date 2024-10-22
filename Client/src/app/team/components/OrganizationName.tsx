@@ -1,8 +1,7 @@
 'use client';
-
-import { Box, IconButton, TextField, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import { Box, IconButton, TextField, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 
 const OrganizationName = () => {

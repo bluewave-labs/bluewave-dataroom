@@ -1,15 +1,14 @@
 'use client';
-
 import Paginator from '@/components/Paginator';
 import { dummyData } from '@/data/dummyDocuments';
 import { useSort } from '@/hooks/useSort';
 import {
+	Box,
 	Paper,
 	Table,
 	TableBody,
 	TableContainer,
 	TableHead,
-	Box,
 } from '@mui/material';
 import { useState } from 'react';
 import DocumentsTableHeader from './DocumentsTableHeader';

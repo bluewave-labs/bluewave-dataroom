@@ -1,5 +1,5 @@
 'use client';
-
+import Paginator from '@/components/Paginator';
 import { dummyData } from '@/data/dummyContacts';
 import { useSort } from '@/hooks/useSort';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -14,9 +14,8 @@ import {
 	TableRow,
 	TableSortLabel,
 } from '@mui/material';
-import ContactsTableRow from './ContactsTableRow';
-import Paginator from '@/components/Paginator';
 import { useState } from 'react';
+import ContactsTableRow from './ContactsTableRow';
 
 export interface Contact {
 	userId: string;

@@ -1,5 +1,4 @@
 import BarChartIcon from '@mui/icons-material/BarChart';
-import SettingsIcon from '../../../../public/assets/icons/sidebar/sidebar-settings-icon.svg';
 import {
 	Avatar,
 	Box,
@@ -11,6 +10,7 @@ import {
 } from '@mui/material';
 import Image from 'next/image'; //+
 import { useState } from 'react';
+import SettingsIcon from '../../../../public/assets/icons/sidebar/sidebar-settings-icon.svg';
 import ActionMenu from './ActionMenu';
 import { Document } from './DocumentsTable';
 

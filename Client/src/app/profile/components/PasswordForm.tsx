@@ -1,5 +1,5 @@
 import { Alert, Box, Button, TextField, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid2'; // Correct Grid2 import from MUI
+import Grid from '@mui/material/Grid2';
 import { useState } from 'react';
 
 export default function PasswordForm() {
