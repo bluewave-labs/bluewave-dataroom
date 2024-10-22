@@ -4,7 +4,7 @@ import { SketchPicker } from "react-color";
 import Dialog from "@mui/material/Dialog";
 
 export default function ColorPickerBox() {
-  const [color, setColor] = useState("#ffffff");
+  const [pickerColor, setPickerColor] = useState("#ffffff");
   const [showPicker, setShowPicker] = useState(false);
 
   //Convert transparency number to hexadecimal
@@ -18,11 +18,11 @@ export default function ColorPickerBox() {
     const transparentColor = newColor.hex.concat(
       convertTransparencyToHex(newColor.rgb.a)
     );
-    setColor(transparentColor); //Push the changed color to color state
+    setPickerColor(transparentColor); //Push the changed color to color state
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setColor(event.target.value); //Push the hex code
+    setPickerColor(event.target.value); //Push the hex code
   };
 
   //Open and close a color picker
@@ -42,18 +42,18 @@ export default function ColorPickerBox() {
     >
       <IconButton
         sx={{
-          backgroundColor: color,
+          backgroundColor: pickerColor,
           border: 1,
           borderRadius: 2,
           p: 5,
           "&:hover": {
-            backgroundColor: color,
+            backgroundColor: pickerColor,
           },
         }}
         onClick={togglePicker}
       ></IconButton>
       <TextField
-        value={color}
+        value={pickerColor}
         onChange={handleInputChange}
         sx={{
           "& .MuiInputBase-input": { py: 0 },
@@ -73,7 +73,7 @@ export default function ColorPickerBox() {
           },
         }}
       >
-        <SketchPicker color={color} onChange={handleColorChange} />
+        <SketchPicker color={pickerColor} onChange={handleColorChange} />
       </Dialog>
     </Box>
   );
