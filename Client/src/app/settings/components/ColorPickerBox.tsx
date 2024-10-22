@@ -32,9 +32,10 @@ export default function ColorPickerBox() {
 
   return (
     <Box
-      border="1px solid #ACACAC"
+      border={1}
+      borderColor="text.notes"
       borderRadius={2}
-      width={160}
+      width={150}
       p={3}
       display="flex"
       alignItems="center"
@@ -44,7 +45,7 @@ export default function ColorPickerBox() {
           backgroundColor: color,
           border: 1,
           borderRadius: 2,
-          p: 6,
+          p: 5,
           "&:hover": {
             backgroundColor: color,
           },
@@ -63,7 +64,15 @@ export default function ColorPickerBox() {
           },
         }}
       />
-      <Dialog onClose={togglePicker} open={showPicker}>
+      <Dialog
+        onClose={togglePicker}
+        open={showPicker}
+        sx={{
+          "& .MuiPaper-root": {
+            minWidth: 200,
+          },
+        }}
+      >
         <SketchPicker color={color} onChange={handleColorChange} />
       </Dialog>
     </Box>

@@ -11,17 +11,7 @@ export default function SettingsTabs() {
   };
   return (
     <>
-      <Tabs
-        value={tabValue}
-        onChange={handleTabChange}
-        sx={{
-          "& .MuiButtonBase-root": {
-            textTransform: "none",
-            fontSize: "1rem",
-          },
-        }}
-        aria-label="Branding"
-      >
+      <Tabs value={tabValue} onChange={handleTabChange} aria-label="Branding">
         <Tab label="Branding" />
       </Tabs>
     </>
