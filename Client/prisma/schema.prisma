@@ -7,17 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Appointment {
-  id          BigInt   @id @default(autoincrement())
-  name        String
-  email       String
-  date        DateTime @db.Timestamptz(6)
-  description String
-  created_at  DateTime @default(now()) @db.Timestamptz(6)
-  user_id     String
-  User        User     @relation(fields: [user_id], references: [user_id])
-}
-
 model ArchivedUser {
   id           BigInt   @id @default(autoincrement())
   user_id      String   @unique
@@ -26,29 +15,7 @@ model ArchivedUser {
   password     String
   created_at   DateTime @default(now()) @db.Timestamptz(6)
   role         UserRole @default(USER)
-  phone_number String?  @default("")
-  country      String?  @default("")
-  province     String?  @default("")
-  gender       Gender   @default(MALE)
   address      String?  @default("")
-}
-
-model Group {
-  id          Int           @id @default(autoincrement())
-  group_name  String
-  owner_name  String
-  GroupMember GroupMember[]
-}
-
-model GroupMember {
-  id        Int      @id @default(autoincrement())
-  group_id  Int
-  user_id   BigInt
-  joined_at DateTime @default(now())
-  Group     Group    @relation(fields: [group_id], references: [id])
-  User      User     @relation(fields: [user_id], references: [id])
-
-  @@unique([group_id, user_id])
 }
 
 model PasswordResetToken {
@@ -68,21 +35,8 @@ model User {
   password           String
   created_at         DateTime             @default(now()) @db.Timestamptz(6)
   role               UserRole             @default(USER)
-  phone_number       String?              @default("")
-  country            String?              @default("")
-  province           String?              @default("")
-  gender             Gender               @default(MALE)
-  address            String?              @default("")
   Status             Status               @default(ACTIVE)
-  Appointment        Appointment[]
-  GroupMember        GroupMember[]
   PasswordResetToken PasswordResetToken[]
-}
-
-enum Gender {
-  MALE
-  FEMALE
-  THEY
 }
 
 enum Status {
@@ -96,3 +50,5 @@ enum UserRole {
   CLIENT
   USER
 }
+
+
