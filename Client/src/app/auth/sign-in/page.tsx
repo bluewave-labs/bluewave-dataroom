@@ -1,7 +1,5 @@
 'use client';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import NavLink from '@/components/NavLink';
 import {
 	Box,
 	Button,
@@ -9,10 +7,12 @@ import {
 	Container,
 	FormControlLabel,
 	FormLabel,
-	Link,
 	TextField,
 	Typography,
 } from '@mui/material';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import Title from '../../../../public/assets/icons/sidebar/SidebarTitle';
 
 export default function SignIn() {
@@ -20,10 +20,12 @@ export default function SignIn() {
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
 	const [remember, setRemember] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
+		setLoading(true);
 
 		const result = await signIn('credentials', {
 			redirect: false,
@@ -36,20 +38,26 @@ export default function SignIn() {
 		} else {
 			router.push('/');
 		}
+		setLoading(false);
 	};
 	const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setRemember(true);
+		setRemember(event.target.checked);
 	};
 	return (
 		<Container
 			component="main"
 			sx={{ display: 'flex', justifyContent: 'center' }}>
-			<Box display="flex" flexDirection="column" alignItems="center" mt={8}>
-				<Box mb={50}>
+			<Box
+				display="flex"
+				flexDirection="column"
+				alignItems="center"
+				mt={8}
+				gap={10}>
+				<Box mb={30}>
 					<Title width={244} height={64} />
 				</Box>
 
-				<Typography variant="h1" mb={15}>
+				<Typography variant="h2" mb={15}>
 					Sign in to your account
 				</Typography>
 
@@ -68,8 +76,9 @@ export default function SignIn() {
 						id="email"
 						type="email"
 						name="email"
-						placeholder="your@bluewave.com"
+						placeholder="your_email@bluewave.ca"
 						autoComplete="email"
+						size="small"
 						autoFocus
 						required
 						fullWidth
@@ -92,8 +101,9 @@ export default function SignIn() {
 						id="password"
 						type="password"
 						name="password"
-						placeholder="••••••••••••••••••••••••"
+						placeholder="••••••••••••••"
 						autoComplete="current-password"
+						size="small"
 						required
 						fullWidth
 						variant="outlined"
@@ -117,9 +127,12 @@ export default function SignIn() {
 							name="rememberPassword"
 							label="Remember for 30 days"
 						/> */}
-						<Link href="#" color="text.brand" underline="none">
-							Forgot password?
-						</Link>
+
+						<NavLink
+							href="/auth/forgot-password"
+							linkText="Forgot password?"
+							prefetch={true}
+						/>
 					</Box>
 
 					{error && (
@@ -128,16 +141,24 @@ export default function SignIn() {
 						</Typography>
 					)}
 
-					<Button type="submit" fullWidth variant="contained">
-						Sign in
+					<Button
+						type="submit"
+						fullWidth
+						variant="contained"
+						disabled={loading}>
+						{loading ? 'Signing in...' : 'Sign in'}
 					</Button>
 				</Box>
 
 				<Typography variant="body1" mt={50}>
 					Don't have an account?
-					<Link href="#" color="text.brand" underline="none" ml={1}>
-						Sign up
-					</Link>
+					<NavLink
+						href="/auth/sign-up"
+						linkText="Sign up"
+						ml={1}
+						display={'inline-flex'}
+						prefetch={true}
+					/>
 				</Typography>
 			</Box>
 		</Container>
