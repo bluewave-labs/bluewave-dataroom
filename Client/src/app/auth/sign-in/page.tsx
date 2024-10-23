@@ -4,6 +4,7 @@ import {
 	Box,
 	Button,
 	Checkbox,
+	CircularProgress,
 	Container,
 	FormControlLabel,
 	FormLabel,
@@ -27,18 +28,22 @@ export default function SignIn() {
 		event.preventDefault();
 		setLoading(true);
 
-		const result = await signIn('credentials', {
-			redirect: false,
-			email,
-			password,
-		});
+		setTimeout(() => {
+			setLoading(false);
+			router.push('/documents');
+		}, 5000); // Mock delay
 
-		if (result?.error) {
-			setError(result.error);
-		} else {
-			router.push('/');
-		}
-		setLoading(false);
+		// const result = await signIn('credentials', {
+		// 	redirect: false,
+		// 	email,
+		// 	password,
+		// });
+
+		// if (result?.error) {
+		// 	setError(result.error);
+		// } else {
+		// }
+		// setLoading(false);
 	};
 	const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setRemember(event.target.checked);
@@ -145,7 +150,10 @@ export default function SignIn() {
 						type="submit"
 						fullWidth
 						variant="contained"
-						disabled={loading}>
+						disabled={loading}
+						endIcon={
+							loading ? <CircularProgress size={20} color="inherit" /> : null
+						}>
 						{loading ? 'Signing in...' : 'Sign in'}
 					</Button>
 				</Box>

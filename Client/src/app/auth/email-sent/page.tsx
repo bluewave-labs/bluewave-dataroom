@@ -17,7 +17,7 @@ export default function EmailSent() {
 		setTimeout(() => {
 			setResending(false);
 			setResendSuccess(true);
-		}, 2000); // Mock API delay
+		}, 5000); // Mock API delay
 	};
 
 	return (

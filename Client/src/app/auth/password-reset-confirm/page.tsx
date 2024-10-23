@@ -1,5 +1,11 @@
 'use client';
-import { Box, Button, Container, Typography } from '@mui/material';
+import {
+	Box,
+	Button,
+	CircularProgress,
+	Container,
+	Typography,
+} from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import CheckIcon from '../../../../public/assets/icons/auth/CheckIcon';
@@ -13,7 +19,7 @@ export default function PasswordResetConfirm() {
 		setLoading(true);
 		setTimeout(() => {
 			setLoading(false);
-		}, 2000); // Mock delay
+		}, 5000); // Mock delay
 		router.push('/auth/sign-in');
 	};
 
@@ -61,7 +67,10 @@ export default function PasswordResetConfirm() {
 						variant="contained"
 						color="primary"
 						onClick={handleContinue}
-						disabled={loading}>
+						disabled={loading}
+						endIcon={
+							loading ? <CircularProgress size={20} color="inherit" /> : null
+						}>
 						{loading ? 'Processing...' : 'Continue'}
 					</Button>
 				</Box>

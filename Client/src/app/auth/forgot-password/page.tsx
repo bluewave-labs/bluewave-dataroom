@@ -29,7 +29,7 @@ export default function ForgotPassword() {
 			setLoading(false);
 
 			router.push('/auth/email-sent');
-		}, 2000); // Mock API delay
+		}, 5000); // Mock API delay
 	};
 
 	return (

@@ -1,5 +1,11 @@
 'use client';
-import { Box, Button, Container, Typography } from '@mui/material';
+import {
+	Box,
+	Button,
+	CircularProgress,
+	Container,
+	Typography,
+} from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import Title from '../../../../public/assets/icons/sidebar/SidebarTitle';
@@ -14,7 +20,7 @@ export default function AccountCreated() {
 		setTimeout(() => {
 			setLoading(false);
 			router.push('/documents');
-		}, 2000); // Mock delay
+		}, 5000); // Mock delay
 	};
 
 	return (
@@ -51,7 +57,10 @@ export default function AccountCreated() {
 						variant="contained"
 						color="primary"
 						onClick={handleContinue}
-						disabled={loading}>
+						disabled={loading}
+						endIcon={
+							loading ? <CircularProgress size={20} color="inherit" /> : null
+						}>
 						{loading ? 'Loading...' : 'Go to dashboard'}
 					</Button>
 				</Box>
