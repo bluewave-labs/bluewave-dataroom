@@ -64,14 +64,14 @@ export const authOptions: NextAuthOptions = {
 					return null;
 				}
 
-				// For some reason, supabase does not store bigint values. Therefore for every file where id is fetched or stored, we have converted it to string first
-				console.log('User authorized:', {
-					id: user.id.toString(), // Convert bigint to string
-					userId: user.user_id,
-					email: user.email,
-					name: user.name,
-					role: user.role,
-				});
+				//// For some reason, supabase does not store bigint values. Therefore for every file where id is fetched or stored, we have converted it to string first
+				//console.log('User authorized:', {
+				//	id: user.id.toString(), // Convert bigint to string
+				//	userId: user.user_id,
+				//	email: user.email,
+				//	name: user.name,
+				//	role: user.role,
+				//});
 
 				return {
 					id: user.id.toString(), // Convert bigint to string
