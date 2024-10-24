@@ -1,18 +1,18 @@
 'use client';
-
 import Paginator from '@/components/Paginator';
 import { dummyData } from '@/data/dummyDocuments';
+import { useSort } from '@/hooks/useSort';
 import {
+	Box,
 	Paper,
 	Table,
 	TableBody,
 	TableContainer,
 	TableHead,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import DocumentsTableHeader from './DocumentsTableHeader';
 import DocumentsTableRow from './DocumentsTableRow';
-import { DocumentsTableHeader } from './DocumentsTableHeader';
-import { useSort } from '@/hooks/useSort';
 
 type DocumentType = 'PDF' | 'DOC' | 'XLSX' | 'PPT';
 
@@ -42,9 +42,14 @@ const DocumentsTable = () => {
 	);
 
 	return (
-		<>
+		<Box
+			display="flex"
+			flexDirection="column"
+			justifyContent="space-between"
+			minWidth="100%"
+			flexGrow={1}>
 			<TableContainer component={Paper}>
-				<Table sx={{ minWidth: 650 }} aria-label="documents table">
+				<Table aria-label="documents table">
 					<TableHead>
 						<DocumentsTableHeader
 							orderBy={orderBy}
@@ -59,16 +64,19 @@ const DocumentsTable = () => {
 					</TableBody>
 				</Table>
 			</TableContainer>
+
 			{totalPages > 1 && (
-				<Paginator
-					page={page}
-					totalPages={totalPages}
-					onPageChange={setPage}
-					pageSize={pageSize}
-					totalItems={dummyData.length}
-				/>
+				<Box>
+					<Paginator
+						page={page}
+						totalPages={totalPages}
+						onPageChange={setPage}
+						pageSize={pageSize}
+						totalItems={dummyData.length}
+					/>
+				</Box>
 			)}
-		</>
+		</Box>
 	);
 };
 

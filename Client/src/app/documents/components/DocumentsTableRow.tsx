@@ -1,5 +1,4 @@
 import BarChartIcon from '@mui/icons-material/BarChart';
-import SettingsIcon from '@mui/icons-material/Settings';
 import {
 	Avatar,
 	Box,
@@ -9,15 +8,17 @@ import {
 	TableRow,
 	Typography,
 } from '@mui/material';
+import Image from 'next/image'; //+
 import { useState } from 'react';
+import SettingsIcon from '../../../../public/assets/icons/sidebar/sidebar-settings-icon.svg';
 import ActionMenu from './ActionMenu';
 import { Document } from './DocumentsTable';
 
 const docTypeIcons: Record<Document['type'], string> = {
-	PDF: '/pdf-icon.svg',
-	DOC: '/word-icon.svg',
-	XLSX: '/xlsx-icon.svg',
-	PPT: '/ppt-icon.svg',
+	PDF: '/assets/icons/documentPage/pdf-icon.svg',
+	DOC: '/assets/icons/documentPage/word-icon.svg',
+	XLSX: '/assets/icons/documentPage/xlsx-icon.svg',
+	PPT: '/assets/icons/documentPage/ppt-icon.svg',
 };
 
 interface Props {
@@ -36,6 +37,14 @@ const DocumentsTableRow = ({ document }: Props) => {
 		setAnchorEl(null);
 	};
 
+	const formatDate = (date: Date) => {
+		return date.toLocaleDateString('en-US', {
+			month: 'long',
+			day: 'numeric',
+			year: 'numeric',
+		});
+	};
+
 	return (
 		<TableRow hover>
 			<TableCell sx={{ paddingRight: 0 }}>
@@ -49,41 +58,58 @@ const DocumentsTableRow = ({ document }: Props) => {
 			<TableCell>
 				<Box display="flex" alignItems="center">
 					<Box>
-						<Typography variant="body2">{document.name}</Typography>
-						<Typography variant="caption" sx={{ color: 'blue' }}>
-							{document.createdAt.toDateString()} • {document.links} links •{' '}
-							{document.viewers} viewers
+						{document.name}
+						<br />
+						<Typography
+							variant="caption"
+							component="div"
+							sx={{
+								display: 'flex',
+								alignItems: 'center',
+								gap: '0.5rem',
+							}}>
+							<span>{formatDate(document.createdAt)}</span>
+							<span style={{ fontSize: 13 }}>•</span>
+							<span>{document.links} links</span>
+							<span style={{ fontSize: 13 }}>•</span>
+							<span>{document.viewers} viewers</span>
 						</Typography>
 					</Box>
 				</Box>
 			</TableCell>
 			<TableCell>
 				<Box display="flex" alignItems="center">
-					<Avatar
-						src={document.uploader.avatar}
-						alt={document.uploader.name}
-						sx={{ width: 24, height: 24, marginRight: 1 }}
-					/>
-					<Typography variant="body2">{document.uploader.name}</Typography>
+					{document.uploader.avatar ? (
+						<Avatar
+							src={document.uploader.avatar}
+							alt={document.uploader.name}
+							sx={{ width: 24, height: 24, marginRight: 5 }}
+						/>
+					) : (
+						<Avatar
+							alt={document.uploader.name}
+							sx={{ width: 24, height: 24, marginRight: 5 }}>
+							{document.uploader.name.charAt(0).toUpperCase()}
+						</Avatar>
+					)}
+					{document.uploader.name}
 				</Box>
 			</TableCell>
+
 			<TableCell>
 				<Chip
-					icon={<BarChartIcon color="action" />}
+					icon={<BarChartIcon />}
 					label={`${document.views} views`}
 					size="small"
 					color="secondary"
 					sx={{
-						borderRadius: '4px',
-						width: '6rem',
-						display: 'flex',
-						justifyContent: 'flex-start',
+						width: '5.5rem',
 					}}
 				/>
 			</TableCell>
 			<TableCell sx={{ paddingLeft: '1.5rem' }}>
 				<IconButton onClick={handleMenuOpen}>
-					<SettingsIcon fontSize="small" />
+					<Image src={SettingsIcon} alt="Settings icon" />
 				</IconButton>
 				<ActionMenu anchorEl={anchorEl} open={open} onClose={handleMenuClose} />
 			</TableCell>

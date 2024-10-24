@@ -1,4 +1,5 @@
 import { Alert, Box, Button, TextField, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import { useState } from 'react';
 
 export default function PasswordForm() {
@@ -31,64 +32,49 @@ export default function PasswordForm() {
 	};
 
 	return (
-		<Box
-			component="form"
-			sx={{
-				'& .MuiTextField-root': { width: '100%', maxWidth: '30rem' },
-			}}
-			noValidate
-			autoComplete="off">
-			<Box
-				sx={{
-					display: 'flex',
-					alignItems: 'center',
-					mb: 4,
-					justifyContent: 'space-between',
-				}}>
-				<Typography variant="body1" sx={{ fontWeight: '600' }}>
-					Current Password
-				</Typography>
-				<TextField
-					size="small"
-					id="current-password"
-					variant="outlined"
-					fullWidth
-					type="password"
-					value={currentPassword}
-					onChange={(e) => setCurrentPassword(e.target.value)}
-				/>
-			</Box>
-			<Box
-				sx={{
-					display: 'flex',
-					alignItems: 'center',
-					mb: 4,
-					justifyContent: 'space-between',
-				}}>
-				<Typography variant="body1" sx={{ fontWeight: '600' }}>
-					New Password
-				</Typography>
-				<TextField
-					size="small"
-					id="new-password"
-					variant="outlined"
-					fullWidth
-					type="password"
-					value={newPassword}
-					onChange={(e) => setNewPassword(e.target.value)}
-				/>
-			</Box>
-			<Box
-				sx={{
-					display: 'flex',
-					alignItems: 'flex-start',
-					mb: 4,
-					justifyContent: 'space-between',
-				}}>
-				<Typography variant="body1" sx={{ fontWeight: '600', mt: 1 }}>
-					Confirm Password
-				</Typography>
-				<Box sx={{ width: '100%', maxWidth: '30rem' }}>
+		<Box component="form" noValidate autoComplete="off">
+			<Grid
+				container
+				rowSpacing={14}
+				columnSpacing={{ xs: 5, sm: 10, md: 55 }}
+				alignItems="center">
+				{/* Current Password */}
+				<Grid size={5}>
+					<Typography variant="h2">Current Password</Typography>
+				</Grid>
+				<Grid size={7}>
+					<TextField
+						size="small"
+						id="current-password"
+						variant="outlined"
+						fullWidth
+						type="password"
+						value={currentPassword}
+						onChange={(e) => setCurrentPassword(e.target.value)}
+					/>
+				</Grid>
+
+				{/* New Password */}
+				<Grid size={5}>
+					<Typography variant="h2">New Password</Typography>
+				</Grid>
+				<Grid size={7}>
+					<TextField
+						size="small"
+						id="new-password"
+						variant="outlined"
+						fullWidth
+						type="password"
+						value={newPassword}
+						onChange={(e) => setNewPassword(e.target.value)}
+					/>
+				</Grid>
+
+				{/* Confirm Password */}
+				<Grid size={5}>
+					<Typography variant="h2">Confirm Password</Typography>
+				</Grid>
+				<Grid size={7}>
 					<TextField
 						size="small"
 						id="confirm-password"
@@ -98,26 +84,21 @@ export default function PasswordForm() {
 						value={confirmPassword}
 						onChange={(e) => setConfirmPassword(e.target.value)}
 					/>
-					{error && (
-						<Alert
-							severity="warning"
-							sx={{
-								mt: 5,
-								fontSize: '1rem',
-								'& .MuiAlert-icon': { fontSize: '1.5rem' },
-								border: '2px solid #ffcc00',
-							}}>
-							{error}
-						</Alert>
-					)}
-				</Box>
-			</Box>
+				</Grid>
 
-			<Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 15, mb: 5 }}>
+				<Grid size={7} offset={'auto'}>
+					<Box sx={{ height: 100 }}>
+						{error && <Alert severity="warning">{error}</Alert>}
+					</Box>
+				</Grid>
+			</Grid>
+
+			{/* Save Button */}
+			<Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 30 }}>
 				<Button
 					variant="contained"
-					size="large"
-					sx={{ backgroundColor: '#4C7DE7', paddingX: '4rem' }}
+					size="medium"
+					color="primary"
 					onClick={handleSave}>
 					Save
 				</Button>

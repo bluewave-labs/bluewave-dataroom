@@ -1,6 +1,6 @@
-import { Pagination, Box, PaginationItem, Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Box, Button, Pagination, PaginationItem } from '@mui/material';
 
 interface PaginatorProps {
 	page: number;
@@ -30,39 +30,38 @@ const Paginator = ({
 			display="flex"
 			justifyContent="center"
 			alignItems="center"
-			marginTop="2rem"
-			gap="1rem">
+			marginTop="1rem"
+			gap="5rem">
 			<Button
 				variant="outlined"
+				color="secondary"
 				startIcon={<ArrowBackIcon />}
 				onClick={() => onPageChange(page > 1 ? page - 1 : page)}
 				disabled={page === 1}
-				sx={{ minWidth: '8rem' }} // To make sure the button has enough space for the text
-			>
+				sx={{ minWidth: '8rem' }}>
 				Previous
 			</Button>
 
 			<Pagination
 				count={totalPages}
 				page={page}
-				size="large"
+				hideNextButton
+				hidePrevButton
+				size="medium"
 				onChange={handlePageChange}
 				shape="rounded"
-				color="primary"
+				color="secondary"
 				renderItem={(item) => (
-					<PaginationItem
-						{...item}
-						sx={{ padding: '0 8px' }} // Ensure consistent spacing inside the numbers
-					/>
+					<PaginationItem {...item} sx={{ padding: '0 8px' }} />
 				)}
 			/>
 			<Button
 				variant="outlined"
+				color="secondary"
 				endIcon={<ArrowForwardIcon />}
 				onClick={() => onPageChange(page < totalPages ? page + 1 : page)}
 				disabled={page === totalPages}
-				sx={{ minWidth: '8rem' }} // To make sure the button has enough space for the text
-			>
+				sx={{ minWidth: '8rem' }}>
 				Next
 			</Button>
 		</Box>
