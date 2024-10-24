@@ -54,7 +54,7 @@ export default function DropdownMenu() {
 		{ text: 'Profile', icon: Profile, route: '/profile' },
 		{ text: 'Team', icon: Team, route: '/team' },
 		{ text: 'Log out', icon: LogOut, route: '/logout' },
-		{ text: 'Sign In', icon: LogOut, route: '/auth/sign-in' },
+		{ text: 'Sign In', icon: LogOut, route: '/auth/sign-in' }, //Temporary method to view Authentication Flow
 	];
 	return (
 		<Box>
