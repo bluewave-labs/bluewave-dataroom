@@ -1,41 +1,40 @@
 {
-  "name": "blw-dataroom",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev --turbo",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@emotion/cache": "^11.13.1",
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
-    "@mui/icons-material": "^6.0.2",
-    "@mui/material": "^6.1.1",
-    "@mui/material-nextjs": "^6.0.1",
-    "@mui/x-charts": "^7.19.0",
-    "@prisma/client": "^5.21.1",
-    "axios": "^1.7.7",
-    "bcryptjs": "^2.4.3",
-    "next": "^14.2.13",
-    "next-auth": "^4.24.8",
-    "prisma": "^5.21.1",
-    "react": "^18",
-    "react-color": "^2.19.3",
-    "react-dom": "^18",
-    "resend": "^4.0.0"
-
-  },
-  "devDependencies": {
-    "@types/node": "20.16.5",
-    "@types/react": "18.3.8",
-    "@types/react-color": "^3.0.12",
-    "@types/react-dom": "^18",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "14.2.5",
-    "prettier": "^3.3.3",
-    "typescript": "5.6.2"
-  }
+	"name": "blw-dataroom",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev --turbo",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@emotion/cache": "^11.13.1",
+		"@emotion/react": "^11.13.3",
+		"@emotion/styled": "^11.13.0",
+		"@mui/icons-material": "^6.0.2",
+		"@mui/material": "^6.1.1",
+		"@mui/material-nextjs": "^6.0.1",
+		"@mui/x-charts": "^7.19.0",
+		"@prisma/client": "^5.21.1",
+		"axios": "^1.7.7",
+		"bcryptjs": "^2.4.3",
+		"next": "^14.2.13",
+		"next-auth": "^4.24.8",
+		"prisma": "^5.21.1",
+		"react": "^18",
+		"react-color": "^2.19.3",
+		"react-dom": "^18",
+		"resend": "^4.0.0"
+	},
+	"devDependencies": {
+		"@types/node": "20.16.5",
+		"@types/react": "18.3.8",
+		"@types/react-color": "^3.0.12",
+		"@types/react-dom": "^18",
+		"eslint": "^8.57.1",
+		"eslint-config-next": "14.2.5",
+		"prettier": "^3.3.3",
+		"typescript": "5.6.2"
+	}
 }

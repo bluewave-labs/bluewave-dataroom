@@ -50,18 +50,12 @@ export default function DropdownMenu() {
 		setAnchorEl(null);
 	};
 
-	function removeEmptySpace(text: string): string {
-		return text.replace(/\s+/g, '');
-	}
-
-	const menuItems: { [key: string]: string } = {
-		Profile: Profile,
-		Team: Team,
-		Logout: LogOut,
-	};
-
-	const menu: string[] = ['Profile', 'Team', 'Log out'];
-
+	const menu = [
+		{ text: 'Profile', icon: Profile, route: '/profile' },
+		{ text: 'Team', icon: Team, route: '/team' },
+		{ text: 'Log out', icon: LogOut, route: '/logout' },
+		{ text: 'Sign In', icon: LogOut, route: '/auth/sign-in' }, //Temporary method to view Authentication Flow
+	];
 	return (
 		<Box>
 			<Button
@@ -74,42 +68,17 @@ export default function DropdownMenu() {
 					padding: theme.spacing(4),
 					marginBottom: `-${theme.spacing(4)}`,
 				}}
-				startIcon={
-					<Image src={Avatar} alt="Dropdown Arrow" width={24} height={24} />
-				}
-				endIcon={
-					<Image
-						src={DropdownArrow}
-						alt="Dropdown Arrow"
-						width={10}
-						height={10}
-					/>
-				}>
+				startIcon={<Image src={Avatar} alt="Dropdown Arrow" width={24} height={24} />}
+				endIcon={<Image src={DropdownArrow} alt="Dropdown Arrow" width={10} height={10} />}>
 				Account Name
 			</Button>
 
 			<StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
-				{menu.map((text) => (
-					<Link
-						href={text === 'Log out' ? '/api/auth/signout' : `${text.toLowerCase()}` }
-						className="no-styling">
+				{menu.map(({ text, icon, route }) => (
+					<Link href={route} key={text} style={{ textDecoration: 'none', color: 'inherit' }}>
 						<MenuItem onClick={handleClose}>
-							<Image
-								src={
-									text.includes(' ')
-										? menuItems[removeEmptySpace(text)]
-										: menuItems[text]
-								}
-								alt={text}
-								height={16}
-								width={16}
-								className="icon-mr"
-							/>
-							{text === 'Log out' ? (
-								<span onClick={() => signOut()}>{text}</span>
-							) : (
-								text
-							)}
+							<Image src={icon} alt={text} height={16} width={16} className="icon-mr" />
+							{text === 'Log out' ? <span onClick={() => signOut()}>{text}</span> : text}
 						</MenuItem>
 					</Link>
 				))}
