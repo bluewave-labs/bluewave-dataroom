@@ -8,8 +8,8 @@ datasource db {
 }
 
 model ArchivedUser {
-  id           BigInt   @id @default(autoincrement())
-  user_id      String   @unique
+  id           Int  @id @default(autoincrement())
+  user_id      String   @unique @default(cuid()) // auto generate unique user_id
   name         String   @default("")
   email        String   @unique @default("")
   password     String
@@ -28,7 +28,7 @@ model PasswordResetToken {
 }
 
 model User {
-  id                 BigInt               @id @default(autoincrement())
+  id                 Int               @id @default(autoincrement())
   user_id            String               @unique
   name               String               @default("")
   email              String               @unique @default("")
