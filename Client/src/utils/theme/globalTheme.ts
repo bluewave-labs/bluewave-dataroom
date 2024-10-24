@@ -24,10 +24,8 @@ const background = {
 
 const border = { light: '#EBEBEB', dark: '#CCCCCC' };
 
-const fontFamilyDefault =
-	'"Inter","system-ui", "Avenir", "Helvetica", "Arial", sans-serif';
-const shadow =
-	'0px 4px 24px -4px rgba(16, 24, 40, 0.08), 0px 3px 3px -3px rgba(16, 24, 40, 0.03)';
+const fontFamilyDefault = '"Inter","system-ui", "Avenir", "Helvetica", "Arial", sans-serif';
+const shadow = '0px 4px 24px -4px rgba(16, 24, 40, 0.08), 0px 3px 3px -3px rgba(16, 24, 40, 0.03)';
 const modalShadow =
 	'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px';
 
@@ -94,6 +92,30 @@ const globalTheme = createTheme({
 		boxShadow: shadow,
 	},
 	components: {
+		MuiAccordion: {
+			styleOverrides: {
+				root: {
+					border: '0',
+					boxShadow: 'none',
+					marginY: '10px',
+					'&:before': { content: 'none' },
+				},
+			},
+		},
+		MuiAccordionSummary: {
+			styleOverrides: {
+				root: {
+					backgroundColor: '#F6F6F6',
+					borderRadius: '2px',
+					maxWidth: 150,
+					minHeight: '0 !important',
+					'& .MuiAccordionSummary-content': {
+						margin: '0 !important',
+					},
+				},
+			},
+		},
+
 		MuiAlert: {
 			styleOverrides: {
 				root: {
@@ -231,6 +253,13 @@ const globalTheme = createTheme({
 				},
 			},
 		},
+		MuiInputBase: {
+			styleOverrides: {
+				root: {
+					borderRadius: 4,
+				},
+			},
+		},
 		MuiList: {
 			styleOverrides: {
 				root: {
@@ -284,10 +313,9 @@ const globalTheme = createTheme({
 					color: text.secondary,
 					fontSize: 13,
 					minWidth: 100,
-					'&:hover, &.Mui-selected, &.Mui-selected:hover, &.Mui-selected.Mui-focusVisible':
-						{
-							backgroundColor: background.alt,
-						},
+					'&:hover, &.Mui-selected, &.Mui-selected:hover, &.Mui-selected.Mui-focusVisible': {
+						backgroundColor: background.alt,
+					},
 				},
 			},
 		},
@@ -295,6 +323,7 @@ const globalTheme = createTheme({
 			styleOverrides: {
 				root: {
 					backgroundColor: background.fill,
+					borderRadius: 4,
 				},
 				input: {
 					backgroundColor: background.fill,
@@ -305,6 +334,7 @@ const globalTheme = createTheme({
 				},
 			},
 		},
+
 		MuiPaginationItem: {
 			styleOverrides: {
 				root: {
@@ -337,7 +367,7 @@ const globalTheme = createTheme({
 			styleOverrides: {
 				select: {
 					borderRadius: 4,
-					padding: '0.8rem 1rem',
+					border: '1px solid #00000030',
 					boxShadow: '0px 0px 20px -10px rgba(0,0,0,0.1)',
 				},
 				icon: {

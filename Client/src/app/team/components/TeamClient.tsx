@@ -4,8 +4,10 @@ import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import FilterToggle from './FilterToggle';
 import UserTable, { User } from './UserTable';
+import ModalWrapper from '@/components/ModalWrapper';
 
 export default function TeamClient() {
+	const [showInviteModal, setShowInviteModal] = useState(false);
 	const [filterRole, setFilterRole] = useState<
 		'All' | 'Administrator' | 'Member'
 	>('All');
@@ -33,6 +35,10 @@ export default function TeamClient() {
 		setPage(1); // Reset to page 1 when the filter changes
 	};
 
+	const handleInviteClick = () => {
+		setShowInviteModal(true);
+	};
+
 	return (
 		<>
 			<Box display="flex" justifyContent="space-between" alignItems="center">
@@ -40,7 +46,7 @@ export default function TeamClient() {
 					currentFilter={filterRole}
 					onFilterChange={handleFilterChange}
 				/>
-				<Button variant="contained" color="primary">
+				<Button variant="contained" color="primary" onClick={handleInviteClick}>
 					Invite team member
 				</Button>
 			</Box>
@@ -54,6 +60,15 @@ export default function TeamClient() {
 					totalUsers={totalUsers}
 				/>
 			</Box>
+
+			<ModalWrapper
+				variant="invite"
+				title="Invite new team member"
+				description="When you add a new team member, they will get access to all monitors."
+				confirmButtonText="Send invite"
+				toggleModal={setShowInviteModal}
+				showModal={showInviteModal}
+			/>
 		</>
 	);
 }
