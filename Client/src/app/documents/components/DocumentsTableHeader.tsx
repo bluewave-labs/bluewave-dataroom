@@ -28,9 +28,7 @@ const DocumentsTableHeader = ({ orderBy, orderDirection, onSort }: Props) => (
 				direction={orderDirection}
 				onClick={() => onSort('uploader')}
 				hideSortIcon={false}
-				IconComponent={
-					orderDirection === undefined ? UnfoldMoreIcon : KeyboardArrowDownIcon
-				}>
+				IconComponent={orderDirection === undefined ? UnfoldMoreIcon : KeyboardArrowDownIcon}>
 				UPLOADER
 			</TableSortLabel>
 		</TableCell>
