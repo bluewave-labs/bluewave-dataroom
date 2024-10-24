@@ -15,6 +15,7 @@ import Avatar from '../../../public/assets/icons/sidebar/sidebar-avatar-icon.svg
 import LogOut from '../../../public/assets/icons/sidebar/sidebar-log-out-icon.svg';
 import Profile from '../../../public/assets/icons/sidebar/sidebar-profile-icon.svg';
 import Team from '../../../public/assets/icons/sidebar/sidebar-team-icon.svg';
+import { signOut } from 'next-auth/react';
 
 const StyledMenu = styled((props: MenuProps) => (
 	<Menu
@@ -89,7 +90,9 @@ export default function DropdownMenu() {
 
 			<StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
 				{menu.map((text) => (
-					<Link href={`${text.toLowerCase()}`} className="no-styling">
+					<Link
+						href={text === 'Log out' ? '/api/auth/signout' : `${text.toLowerCase()}` }
+						className="no-styling">
 						<MenuItem onClick={handleClose}>
 							<Image
 								src={
@@ -102,7 +105,11 @@ export default function DropdownMenu() {
 								width={16}
 								className="icon-mr"
 							/>
-							{text}
+							{text === 'Log out' ? (
+								<span onClick={() => signOut()}>{text}</span>
+							) : (
+								text
+							)}
 						</MenuItem>
 					</Link>
 				))}
