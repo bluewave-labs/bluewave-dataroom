@@ -81,26 +81,27 @@ export const authOptions: NextAuthOptions = {
 	//we use a callback when we want something more than what is return by default from next-auth. In this case, we want the id, userId, name, and role
 	callbacks: {
 		async session({ session, token }) {
-			// Debugging line: Log the session and token
+			// Debugging: log session and token
 			console.log('Session callback:', { session, token });
 
-			//return the user in sessoin
-			return {
-				...session,
-				user: {
+			// Explicitly set the `userId`, `role`, `id`, and `name` from the token into the session.user object
+			if (token) {
+				session.user = {
 					...session.user,
 					id: token.id as string,
 					userId: token.userId as string,
 					role: token.role as string,
 					name: token.name as string,
-				},
-			};
+				};
+			}
+
+			return session;
 		},
 		async jwt({ token, user }) {
-			// Debugging line: Log the token and user
+			// Debugging: log token and user
 			console.log('JWT callback:', { token, user });
 
-			//return the user
+			// Check if the user object exists and set token values
 			if (user) {
 				return {
 					...token,
