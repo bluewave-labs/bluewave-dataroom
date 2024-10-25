@@ -172,7 +172,7 @@ const globalTheme = createTheme({
 					color: text.secondary,
 					border: `1px solid ${border.light}`,
 					'&:hover': {
-						backgroundColor: '#E5E7EB',
+						backgroundColor: '#1570ef0a',
 						borderColor: '#D1D5DB',
 					},
 				},
@@ -197,7 +197,7 @@ const globalTheme = createTheme({
 					color: text.primary,
 					backgroundColor: 'transparent',
 					'&:hover': {
-						backgroundColor: '#E5E7EB',
+						backgroundColor: '#1570ef0a',
 					},
 				},
 			},
@@ -248,8 +248,7 @@ const globalTheme = createTheme({
 					padding: 4,
 					transition: 'none',
 					'&:hover': {
-						backgroundColor: '#E5E7EB',
-						borderColor: '#D1D5DB',
+						backgroundColor: '#1570ef0a',
 					},
 				},
 			},
@@ -272,6 +271,10 @@ const globalTheme = createTheme({
 			styleOverrides: {
 				root: {
 					transition: 'none',
+					borderRadius: 4,
+					'&:hover': {
+						backgroundColor: '#1570ef0a',
+					},
 				},
 			},
 		},
