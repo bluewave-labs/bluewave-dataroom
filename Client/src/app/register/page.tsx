@@ -1,7 +1,11 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'; // Use the new router from next/navigation
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+
+interface ErrorResponse {
+	message: string;
+}
 
 const Register = () => {
 	const [email, setEmail] = useState('');
@@ -13,8 +17,10 @@ const Register = () => {
 
 	const router = useRouter(); // Use the new router from next/navigation
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setError('');
+		setSuccess('');
 
 		try {
 			const response = await axios.post('/api/auth/register', {
@@ -28,9 +34,15 @@ const Register = () => {
 			setTimeout(() => {
 				router.push('/signIn');
 			}, 1000);
-		} catch (error) {
-			console.error('Error registering user:', error);
-			setError(error.response?.data?.message || 'An error occurred');
+		} catch (error: unknown) {
+			// If it's an Axios error, we assume the response has a message
+			if (axios.isAxiosError(error) && error.response?.data) {
+				const responseData = error.response.data as ErrorResponse;
+				setError(responseData.message || 'An error occurred');
+				console.error('Error registering user:', error);
+			} else {
+				setError('An error occurred');
+			}
 		}
 	};
 

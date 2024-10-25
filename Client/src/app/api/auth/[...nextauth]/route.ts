@@ -4,8 +4,7 @@
 // Also the [...nextauth] is a catch all route in nextJS. Learn more about it here: https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes
 
 // Import prisma
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import prisma from '@lib/prisma';
 
 // Bcryptjs is a npm library used to hash passwords
 import bcryptjs from 'bcryptjs';

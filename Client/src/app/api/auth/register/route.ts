@@ -5,9 +5,8 @@ import { randomUUID } from 'crypto';
 // Bcryptjs is a npm library used to hash passwords
 import bcryptjs from 'bcryptjs';
 
-// Import Prisma
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+// Import prisma
+import prisma from '@lib/prisma';
 
 export async function POST(req: NextRequest) {
 	try {

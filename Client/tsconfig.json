@@ -24,6 +24,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@lib/*": [
+        "./lib/*"
       ]
     }
   },
@@ -32,7 +35,11 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "customTypesTheme.d.ts"
-, "src/app/register/page.jsx", "src/app/register/page.jsx"  ],
-  "exclude": ["node_modules"]
+    "customTypesTheme.d.ts",
+    "src/app/register/page.jsx",
+    "src/app/register/page.jsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

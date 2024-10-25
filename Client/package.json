@@ -17,6 +17,7 @@
     "@mui/material-nextjs": "^6.0.1",
     "@mui/x-charts": "^7.19.0",
     "@prisma/client": "^5.21.1",
+    "@react-email/components": "^0.0.25",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
     "next": "^14.2.13",
@@ -24,12 +25,13 @@
     "prisma": "^5.21.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-email": "^3.0.1",
     "resend": "^4.0.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "20.16.5",
-    "@types/react": "18.3.8",
+    "@types/react": "^18.3.8",
     "@types/react-dom": "^18",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.5",
