@@ -22,6 +22,18 @@ const background = {
 	primaryDark: '#175CD3',
 };
 
+const alert = {
+	info: '#1570EF',
+	infoLight: '#F5F9FF',
+	warning: '#FEC84B',
+	warningLight: '#fff4e5',
+	error: '#DB504A',
+	errorLight: '#fdeded',
+	success: '#418944',
+	successLight: '#edf7ed',
+	default: '#FFFFFF',
+};
+
 const border = { light: '#EBEBEB', dark: '#CCCCCC' };
 
 const fontFamilyDefault = '"Inter","system-ui", "Avenir", "Helvetica", "Arial", sans-serif';
@@ -122,7 +134,7 @@ const globalTheme = createTheme({
 					'&.MuiAlert-standardWarning': {
 						fontSize: '1rem',
 						color: '#DC6803',
-						border: '2px solid #FEC84B',
+						border: `2px solid ${alert.warning}`,
 						'& .MuiAlert-icon': {
 							fontSize: '1.5rem',
 						},
@@ -372,6 +384,36 @@ const globalTheme = createTheme({
 				},
 				icon: {
 					right: '0.5rem',
+				},
+			},
+		},
+		MuiSnackbar: {
+			styleOverrides: {
+				root: {
+					'& .MuiAlert-root': {
+						fontWeight: '500',
+						borderRadius: 8,
+						minWidth: 300,
+						fontSize: 14,
+						borderLeftWidth: 5,
+						'&.MuiAlert-standardSuccess': {
+							backgroundColor: alert.successLight,
+							borderLeftColor: alert.success,
+						},
+						'&.MuiAlert-standardError': {
+							backgroundColor: alert.errorLight,
+							borderLeftColor: alert.error,
+						},
+						'&.MuiAlert-standardWarning': {
+							backgroundColor: alert.warningLight,
+							borderLeftColor: alert.warning,
+						},
+						'&.MuiAlert-standardInfo': {
+							backgroundColor: alert.default,
+							borderLeft: 'none',
+							color: text.secondary,
+						},
+					},
 				},
 			},
 		},
