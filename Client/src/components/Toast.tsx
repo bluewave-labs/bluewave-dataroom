@@ -1,72 +1,63 @@
-import { Box, IconButton, Snackbar, Link } from '@mui/material';
+import { Box, IconButton, Snackbar, Alert } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { dummyToasts } from '@/data/dummyToasts';
+import { ReactNode } from 'react';
+import NavLink from './NavLink';
 
-export interface ToastData {
-	id: number;
-	variant: 'successful' | 'error' | 'warning' | 'info';
-	color: string;
-	backgroundColor: string;
+interface BaseToastProps {
+	variant?: 'success' | 'error' | 'warning' | 'info';
+	autoHide?: boolean;
 }
 
-interface ToastProps {
-	variant: 'successful' | 'error' | 'warning' | 'info';
+type ToastWithMessage = BaseToastProps & {
 	message: string;
 	toastLink?: string;
-	toggleToast: (show: boolean) => void;
-	showToast: boolean;
-}
+	toastLinkText?: string;
+	children?: never;
+};
 
-export default function Toast({ variant, message, toastLink, toggleToast, showToast }: ToastProps) {
-	// Find the matching toast object based on the passed variant
-	const currentToast = dummyToasts.find((toast) => toast.variant === variant);
+type ToastWithChildren = BaseToastProps & {
+	children: ReactNode;
+	message?: never;
+	toastLink?: never;
+	toastLinkText?: never;
+};
 
-	const handleClose = () => {
-		toggleToast(false);
-	};
+type ToastProps = ToastWithMessage | ToastWithChildren;
+
+export default function Toast({
+	variant = 'info',
+	message,
+	toastLink,
+	toastLinkText = 'Learn more',
+	autoHide = true,
+	open,
+	hideToast,
+	children,
+}: ToastProps & { open: boolean; hideToast: () => void }) {
 	const action = (
-		<IconButton
-			onClick={handleClose}
-			sx={{
-				color: currentToast?.color,
-				'&:hover': {
-					backgroundColor: 'transparent',
-				},
-			}}>
+		<IconButton onClick={hideToast}>
 			<CloseIcon fontSize="small" />
 		</IconButton>
 	);
+
 	return (
 		<Box>
 			<Snackbar
-				open={showToast}
-				autoHideDuration={6000}
-				onClose={handleClose}
-				message={
-					<>
-						{message}{' '}
-						{toastLink && (
-							<Link href="#" underline="hover">
-								{toastLink}
-							</Link>
-						)}
-					</>
-				}
-				action={action}
-				sx={{
-					'& .MuiSnackbarContent-message': { fontSize: 13 },
-					'& .MuiSnackbarContent-root': {
-						borderRadius: 2.5,
-						color: currentToast?.color,
-						backgroundColor: currentToast?.backgroundColor,
-						...(variant !== 'info' && {
-							border: 'none',
-							borderLeft: 5,
-							borderLeftColor: currentToast?.color,
-						}),
-					},
-				}}
-			/>
+				open={open}
+				anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+				autoHideDuration={autoHide ? 6000 : null}
+				onClose={hideToast}
+				action={action}>
+				<Alert onClose={hideToast} icon={false} variant="standard" severity={variant}>
+					{message ? (
+						<Box component="span" display="inline-flex" alignItems="center" gap={5}>
+							{message} {toastLink && <NavLink href={toastLink} linkText={toastLinkText} />}
+						</Box>
+					) : (
+						children
+					)}
+				</Alert>
+			</Snackbar>
 		</Box>
 	);
 }
