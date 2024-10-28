@@ -15,6 +15,7 @@ import Image from 'next/image';
 import { FC, useState } from 'react';
 import UploadIcon from '../../public/assets/icons/uploadModel/upload-cloud-icon.svg';
 import Dropdown from './Dropdown';
+import NavLink from './NavLink';
 
 interface ModalVariant {
 	color: 'primary' | 'error';
@@ -103,11 +104,7 @@ function UploadBox({ maxFileSize, fileFormats }: { maxFileSize?: string; fileFor
 					<Image src={UploadIcon} alt="Upload icon" />
 				</Box>
 				<Box display="flex" alignItems="center">
-					<Link href="#" underline="hover">
-						<Typography variant="subtitle2" color="text.brand">
-							Click to upload
-						</Typography>
-					</Link>
+					<NavLink href="#" linkText={'Click to upload'} />
 					<Typography variant="subtitle2" sx={{ ml: 2 }}>
 						or drag and drop
 					</Typography>
