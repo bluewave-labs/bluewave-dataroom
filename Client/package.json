@@ -26,9 +26,10 @@
 		"react-color": "^2.19.3",
 		"react-dom": "^18",
 		"resend": "^4.0.0"
+
 	},
 	"devDependencies": {
-		"@types/node": "20.16.5",
+	"@types/node": "20.16.5",
 		"@types/react": "18.3.8",
 		"@types/react-color": "^3.0.12",
 		"@types/react-dom": "^18",

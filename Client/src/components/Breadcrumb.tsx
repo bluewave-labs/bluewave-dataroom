@@ -4,6 +4,7 @@ import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
+import NavLink from './NavLink';
 
 const Breadcrumb = () => {
 	const pathname = usePathname();
@@ -24,19 +25,19 @@ const Breadcrumb = () => {
 		const iconSrc = iconMap[label.toLowerCase()];
 		return (
 			<Box key={href} display="flex" alignItems="center">
-				{iconSrc && (
-					<Image src={iconSrc} alt={`${label} icon`} width={20} height={20} />
-				)}
+				{iconSrc && <Image src={iconSrc} alt={`${label} icon`} width={20} height={20} />}
 				{isLast ? (
-					<Typography variant="body1" sx={{ ml: 3 }}>
+					<Typography variant="body1" color="text.notes" sx={{ ml: 3 }}>
 						{label.charAt(0).toUpperCase() + label.slice(1)}
 					</Typography>
 				) : (
-					<Link underline="hover" color="inherit" href={href}>
-						<Typography variant="body1" sx={{ ml: 3 }}>
-							{label.charAt(0).toUpperCase() + label.slice(1)}
-						</Typography>
-					</Link>
+					<NavLink
+						href={href}
+						color="text.primary"
+						variant="body1"
+						sx={{ ml: 3 }}
+						linkText={label.charAt(0).toUpperCase() + label.slice(1)}
+					/>
 				)}
 			</Box>
 		);
@@ -57,11 +58,7 @@ const Breadcrumb = () => {
 			sx={{ marginBottom: '1rem' }}>
 			<Box display="flex" alignItems="center">
 				<Image src={iconMap['home']} alt="Home Icon" width={20} height={20} />
-				<Link underline="hover" color="inherit" href="/">
-					<Typography variant="body1" sx={{ ml: 3 }}>
-						Home
-					</Typography>
-				</Link>
+				<NavLink href="/" color="text.primary" variant="body1" sx={{ ml: 3 }} linkText="Home" />
 			</Box>
 			{breadcrumbs}
 		</Breadcrumbs>

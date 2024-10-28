@@ -2,6 +2,7 @@ import ModalWrapper from '@/components/ModalWrapper';
 import { Menu, MenuItem, Typography } from '@mui/material';
 import { useState } from 'react';
 import CreateLink from './CreateLink';
+import { useModal } from '@/hooks/useModal';
 
 interface Props {
 	anchorEl: HTMLElement | null;
@@ -10,14 +11,8 @@ interface Props {
 }
 
 const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
-	const [modalState, setModalState] = useState<'delete' | 'upload' | null>(null);
-
-	const openModal = (type: 'delete' | 'upload') => {
-		setModalState(type);
-		onClose();
-	};
-
-	const closeModal = () => setModalState(null);
+	const deleteModal = useModal();
+	const updateModal = useModal();
 
 	const [openLink, setOpen] = useState(false);
 
@@ -44,20 +39,22 @@ const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
 				}}>
 				<MenuItem onClick={handleClickOpen}>Add new link</MenuItem>
 				<MenuItem onClick={onClose}>Duplicate document</MenuItem>
-				<MenuItem onClick={() => openModal('upload')}>Update document</MenuItem>
+				<MenuItem onClick={updateModal.openModal}>Update document</MenuItem>
 				<MenuItem onClick={onClose}>View analytics</MenuItem>
-				<MenuItem onClick={() => openModal('delete')}>
+				<MenuItem onClick={deleteModal.openModal}>
 					<Typography color="error">Delete</Typography>
 				</MenuItem>
 			</Menu>
+
 			<CreateLink open={openLink} onClose={handleClose} />
+
 			<ModalWrapper
 				variant="delete"
 				title="Really delete this file?"
 				description="When you delete this file, all the links associated with the file will also be removed. This action is non-reversible."
 				confirmButtonText="Delete file"
-				toggleModal={() => closeModal()}
-				showModal={modalState === 'delete'}
+				open={deleteModal.isOpen}
+				toggleModal={deleteModal.closeModal}
 			/>
 
 			<ModalWrapper
@@ -65,8 +62,8 @@ const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
 				title="Update with a new document"
 				description="When you update with a new document, the current link won’t change."
 				confirmButtonText="Update"
-				toggleModal={() => closeModal()}
-				showModal={modalState === 'upload'}
+				open={updateModal.isOpen}
+				toggleModal={updateModal.closeModal}
 			/>
 		</>
 	);
