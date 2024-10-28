@@ -44,7 +44,7 @@ export default function Sidebar() {
 					src={Title}
 					alt="Title"
 					style={{
-						margin: '0 4px 16px',
+						margin: `0 ${theme.spacing(4)} ${theme.spacing(16)} ${theme.spacing(4)}`,
 					}}
 				/>
 				<List>
