@@ -51,7 +51,6 @@ const CreateLink = ({ onClose, open }: Props) => {
 				onSubmit: handleFormSubmit,
 				sx: { minWidth: 650, minHeight: 550 },
 			}}>
-			<DialogTitle>Add New Link</DialogTitle>
 			<DialogContent>
 				<Box width={560} px={12}>
 					<CustomAccordion title="Link Details" defaultExpanded>

@@ -3,7 +3,7 @@
 import { SessionProvider, useSession } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
 import { CssBaseline, Box, Container } from '@mui/material';
-import Sidebar from '@/components/sidebar/Sidebar';
+import Sidebar from './layout/Sidebar';
 import Breadcrumb from '@/components/Breadcrumb';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import globalTheme from '@/utils/theme/globalTheme';
@@ -82,8 +82,7 @@ function AuthWrapper({ children }: { children: React.ReactNode }) {
 							paddingTop={5}
 							paddingX={16}
 							sx={{
-								backgroundImage:
-									'url(/assets/icons/documentPage/doc-background.svg)',
+								backgroundImage: 'url(/assets/doc-background.svg)',
 								backgroundRepeat: 'no-repeat',
 								backgroundPosition: 'center',
 							}}>

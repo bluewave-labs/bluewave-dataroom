@@ -2,35 +2,34 @@ import ModalWrapper from '@/components/ModalWrapper';
 import { Avatar, Box, Button, Divider, Link, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useState } from 'react';
+import { useModal } from '@/hooks/useModal';
 
 export default function ProfileForm() {
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [photo, setPhoto] = useState('');
 
-	const [modalState, setModalState] = useState<'delete' | 'upload' | null>(null);
-
-	const openModal = (type: 'delete' | 'upload') => {
-		setModalState(type);
-		handleDelete();
-	};
-
-	const closeModal = () => setModalState(null);
+	const deleteModal = useModal();
+	const uploadModal = useModal();
 
 	const handleSave = () => {
 		console.log('Profile Updated Successfully!');
 	};
 
-	const handleDelete = () => {
-		console.log('Account successfully deleted.');
+	const handleDeleteAccount = () => {
+		console.log('Account Deleted!');
 	};
+	const handlePicUpdate = () => {
+		console.log('Picture Updated Successfully!');
+	};
+
 	return (
 		<>
 			<Box component="form" noValidate autoComplete="off">
 				<Grid container rowSpacing={14} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
 					{/* First Name */}
 					<Grid size={6}>
-						<Typography variant="h2">First name</Typography>
+						<Typography variant="h3">First name</Typography>
 					</Grid>
 					<Grid size={6}>
 						<TextField
@@ -46,7 +45,7 @@ export default function ProfileForm() {
 
 					{/* Last Name */}
 					<Grid size={6}>
-						<Typography variant="h2">Last name</Typography>
+						<Typography variant="h3">Last name</Typography>
 					</Grid>
 					<Grid size={6}>
 						<TextField
@@ -61,7 +60,7 @@ export default function ProfileForm() {
 
 					{/* Email */}
 					<Grid size={6}>
-						<Typography variant="h2">Email</Typography>
+						<Typography variant="h3">Email</Typography>
 						<Typography variant="subtitle1">
 							This is your current email address — it cannot be changed.
 						</Typography>
@@ -79,17 +78,13 @@ export default function ProfileForm() {
 
 					{/* Photo */}
 					<Grid size={6}>
-						<Typography variant="h2">Your photo</Typography>
+						<Typography variant="h3">Your photo</Typography>
 						<Typography variant="subtitle1">
 							This photo will be displayed on your profile page.
 						</Typography>
 					</Grid>
 					<Grid size={6}>
-						<Box
-							sx={{
-								display: 'flex',
-								alignItems: 'center',
-							}}>
+						<Box display="flex" alignItems="center">
 							<Avatar
 								alt="Profile Picture"
 								src="https://picsum.photos/200/200"
@@ -102,7 +97,7 @@ export default function ProfileForm() {
 								href="#"
 								underline="hover"
 								sx={{ px: 4, color: 'text.brand' }}
-								onClick={() => openModal('upload')}>
+								onClick={uploadModal.openModal}>
 								Update
 							</Link>
 						</Box>
@@ -110,7 +105,7 @@ export default function ProfileForm() {
 				</Grid>
 
 				{/* Save Button */}
-				<Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 40 }}>
+				<Box display="flex" justifyContent="flex-end" mt={40}>
 					<Button variant="contained" size="medium" color="primary" onClick={handleSave}>
 						Save
 					</Button>
@@ -119,14 +114,8 @@ export default function ProfileForm() {
 				<Divider sx={{ mb: 7, mt: 14 }} />
 
 				{/* Delete Account Section */}
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						mb: 4,
-						rowGap: 6,
-					}}>
-					<Typography variant="h2" fontWeight="bold">
+				<Box display="flex" flexDirection="column" mb={4} rowGap={6}>
+					<Typography variant="h3" fontWeight="bold">
 						Delete account
 					</Typography>
 					<Typography variant="subtitle1" sx={{ mb: 2 }}>
@@ -135,35 +124,36 @@ export default function ProfileForm() {
 					</Typography>
 
 					{/* Delete Account Button */}
-					<Box sx={{ justifyContent: 'flex-start' }}>
-						<Button
-							variant="contained"
-							size="medium"
-							color="error"
-							onClick={() => openModal('delete')}>
+					<Box justifyContent="flex-start">
+						<Button variant="contained" size="medium" color="error" onClick={deleteModal.openModal}>
 							Delete account
 						</Button>
 					</Box>
 				</Box>
 			</Box>
+
+			{/* Delete Account Modal */}
 			<ModalWrapper
 				variant="delete"
 				title="Really delete this account?"
 				description="If you delete your account, you will no longer be able to sign in, and all of your data will be deleted. Deleting your account is permanent and non-recoverable."
 				confirmButtonText="Delete account"
 				cancelButtonText="Cancel"
-				toggleModal={() => closeModal()}
-				showModal={modalState === 'delete'}
+				open={deleteModal.isOpen}
+				onClose={handleDeleteAccount}
+				toggleModal={deleteModal.closeModal}
 			/>
 
+			{/* Upload Photo Modal */}
 			<ModalWrapper
 				variant="upload"
 				title="Upload profile image"
 				confirmButtonText="Update"
-				toggleModal={() => closeModal()}
-				showModal={modalState === 'upload'}
+				open={uploadModal.isOpen}
+				onClose={handlePicUpdate}
 				maxFileSize="3"
 				fileFormats="JPG, PNG"
+				toggleModal={uploadModal.closeModal}
 			/>
 		</>
 	);

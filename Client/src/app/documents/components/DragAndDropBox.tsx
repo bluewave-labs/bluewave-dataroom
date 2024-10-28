@@ -1,7 +1,7 @@
 'use client';
 import ModalWrapper from '@/components/ModalWrapper';
+import { useModal } from '@/hooks/useModal';
 import { Box, Button } from '@mui/material';
-import { useState } from 'react';
 
 interface DragAndDropBoxProps {
 	text: string;
@@ -9,19 +9,19 @@ interface DragAndDropBoxProps {
 }
 
 const DragAndDropBox = ({ text, height }: DragAndDropBoxProps) => {
-	const [showUploadModal, setShowUploadModal] = useState(false);
+	const { isOpen, openModal, closeModal } = useModal();
 
-	const handleUpdateClick = () => {
-		setShowUploadModal(true);
+	const handleInput = () => {
+		console.log('File selected');
 	};
 
-	const handleInput = (e: any) => {
-		// Handle file upload logic here
-		const file = e.target.files?.[0];
-		if (file) {
-			console.log('File selected:', file.name);
-		}
-	};
+	// Handle file upload logic here
+	// const handleInput = (e: any) => {
+	// 	const file = e.target.files?.[0];
+	// 	if (file) {
+	// 		console.log('File selected:', file.name);
+	// 	}
+	// };
 
 	return (
 		<Box
@@ -44,7 +44,7 @@ const DragAndDropBox = ({ text, height }: DragAndDropBoxProps) => {
 				alt="Document Icon"
 				sx={{ width: '8rem', height: '8rem', marginBottom: '1rem' }}
 			/>
-			<Button color="inherit" onClick={handleUpdateClick}>
+			<Button color="inherit" onClick={openModal}>
 				{text}
 			</Button>
 
@@ -54,8 +54,9 @@ const DragAndDropBox = ({ text, height }: DragAndDropBoxProps) => {
 				variant="upload"
 				title="Upload a new file"
 				confirmButtonText="Upload"
-				toggleModal={setShowUploadModal}
-				showModal={showUploadModal}
+				toggleModal={closeModal}
+				open={isOpen}
+				onClose={handleInput}
 				maxFileSize="50"
 				fileFormats="PDF"
 			/>
