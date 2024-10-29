@@ -39,8 +39,10 @@ export default function Sidebar() {
 				border: '1px solid',
 				borderColor: 'border.light',
 			}}>
+
 			<Box display={'flex'} flexDirection={'column'} gap={21} mx={5}>
 				<BlueWaveLogo width={191} height={24} />
+
 				<List>
 					{menu.map(({ text, icon, href }) => (
 						<ListItem key={text} disablePadding>
