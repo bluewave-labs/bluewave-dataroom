@@ -1,26 +1,43 @@
 import ModalWrapper from '@/components/ModalWrapper';
+import Toast from '@/components/Toast';
+import { useModal } from '@/hooks/useModal';
+import { useToast } from '@/hooks/useToast';
+import EditIcon from '@mui/icons-material/Edit';
 import { Avatar, Box, Button, Divider, Link, TextField, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useState } from 'react';
-import { useModal } from '@/hooks/useModal';
 
 export default function ProfileForm() {
 	const [firstName, setFirstName] = useState('');
 	const [lastName, setLastName] = useState('');
 	const [photo, setPhoto] = useState('');
 
-	const deleteModal = useModal();
+	const deleteAccountModal = useModal();
+	const deletePhotoModal = useModal();
 	const uploadModal = useModal();
+
+	const photoDeleteToast = useToast();
+	const photoUpdateToast = useToast();
+	const profileSaveToast = useToast();
+	const accountDeleteToast = useToast();
 
 	const handleSave = () => {
 		console.log('Profile Updated Successfully!');
+		profileSaveToast.showToast();
 	};
 
 	const handleDeleteAccount = () => {
 		console.log('Account Deleted!');
+		accountDeleteToast.showToast();
+	};
+
+	const handleDeletePhoto = () => {
+		console.log('Photo Deleted!');
+		photoDeleteToast.showToast();
 	};
 	const handlePicUpdate = () => {
 		console.log('Picture Updated Successfully!');
+		photoUpdateToast.showToast();
 	};
 
 	return (
@@ -85,12 +102,49 @@ export default function ProfileForm() {
 					</Grid>
 					<Grid size={6}>
 						<Box display="flex" alignItems="center">
-							<Avatar
-								alt="Profile Picture"
-								src="https://picsum.photos/200/200"
-								sx={{ width: 56, height: 56, mr: 7 }}
-							/>
-							<Link href="#" underline="hover" sx={{ px: 4, color: 'text.secondary' }}>
+							<Box
+								sx={{
+									position: 'relative',
+									width: 64,
+									height: 64,
+									borderRadius: '50%',
+									overflow: 'hidden',
+									'&:hover .avatar-edit-icon': {
+										opacity: 1,
+									},
+								}}>
+								<Avatar
+									alt="Profile Picture"
+									src="https://picsum.photos/200/200"
+									sx={{ width: 64, height: 64, mr: 7 }}
+								/>
+
+								<Box
+									className="avatar-edit-icon"
+									sx={{
+										position: 'absolute',
+										top: 0,
+										left: 0,
+										width: '100%',
+										height: '100%',
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										backgroundColor: 'rgba(0, 0, 0, 0.15)',
+										color: 'white',
+										opacity: 0,
+										transition: 'opacity 0.3s',
+										cursor: 'pointer',
+									}}
+									onClick={uploadModal.openModal}>
+									<EditIcon fontSize="medium" />
+								</Box>
+							</Box>
+							<Link
+								href="#"
+								underline="hover"
+								sx={{ px: 4, color: 'text.secondary' }}
+								onClick={deletePhotoModal.openModal}>
 								Delete
 							</Link>
 							<Link
@@ -125,23 +179,26 @@ export default function ProfileForm() {
 
 					{/* Delete Account Button */}
 					<Box justifyContent="flex-start">
-						<Button variant="contained" size="medium" color="error" onClick={deleteModal.openModal}>
+						<Button
+							variant="contained"
+							size="medium"
+							color="error"
+							onClick={deleteAccountModal.openModal}>
 							Delete account
 						</Button>
 					</Box>
 				</Box>
 			</Box>
 
-			{/* Delete Account Modal */}
+			{/* Delete Photo Modal */}
 			<ModalWrapper
 				variant="delete"
-				title="Really delete this account?"
-				description="If you delete your account, you will no longer be able to sign in, and all of your data will be deleted. Deleting your account is permanent and non-recoverable."
-				confirmButtonText="Delete account"
-				cancelButtonText="Cancel"
-				open={deleteModal.isOpen}
-				onClose={handleDeleteAccount}
-				toggleModal={deleteModal.closeModal}
+				title="Really delete this Photo?"
+				description="When you delete this Photo, all the links associated with the Photo will also be removed. This action is non-reversible."
+				confirmButtonText="Delete Photo"
+				open={deletePhotoModal.isOpen}
+				onClose={handleDeletePhoto}
+				toggleModal={deletePhotoModal.closeModal}
 			/>
 
 			{/* Upload Photo Modal */}
@@ -154,6 +211,41 @@ export default function ProfileForm() {
 				maxFileSize="3"
 				fileFormats="JPG, PNG"
 				toggleModal={uploadModal.closeModal}
+			/>
+			{/* Delete Account Modal */}
+			<ModalWrapper
+				variant="delete"
+				title="Really delete this account?"
+				description="If you delete your account, you will no longer be able to sign in, and all of your data will be deleted. Deleting your account is permanent and non-recoverable."
+				confirmButtonText="Delete account"
+				cancelButtonText="Cancel"
+				open={deleteAccountModal.isOpen}
+				onClose={handleDeleteAccount}
+				toggleModal={deleteAccountModal.closeModal}
+			/>
+			<Toast
+				message="Profile Updated Successfully!"
+				open={profileSaveToast.open}
+				hideToast={profileSaveToast.hideToast}
+				variant="success"
+			/>
+			<Toast
+				message="Account Deleted!"
+				open={accountDeleteToast.open}
+				hideToast={accountDeleteToast.hideToast}
+				variant="error"
+			/>
+			<Toast
+				message="Photo Deleted!"
+				open={photoDeleteToast.open}
+				hideToast={photoDeleteToast.hideToast}
+				variant="error"
+			/>
+			<Toast
+				message="Picture Updated Successfully!"
+				open={photoUpdateToast.open}
+				hideToast={photoUpdateToast.hideToast}
+				variant="success"
 			/>
 		</>
 	);
