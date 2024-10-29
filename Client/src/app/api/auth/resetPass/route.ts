@@ -5,12 +5,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
+import { render } from '@react-email/render';
+import { BluewaveResetPasswordEmail } from '../../../../components/email-template';
+
 // npm library for cryting a string
 import { randomUUID } from 'crypto';
 
 // Import prisma
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import prisma from '@lib/prisma';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const DOMAIN = process.env.DOMAIN || 'localhost:3000';
@@ -43,40 +45,55 @@ export async function POST(req: NextRequest) {
 		}
 
 		// Create a token with crypto
+		// Generate the token string by concatenating two UUIDs and removing hyphens
+		const generatedToken = randomUUID();
+		// Store the token in Prisma
 		const token = await prisma.passwordResetToken.create({
 			data: {
-				token: `${randomUUID()}${randomUUID()}`.replace(/-/g, ''),
+				token: generatedToken,
 				User: {
 					connect: { user_id: user.user_id }, // Connecting to the user by user_id
 				},
 			},
 		});
 
+		const resetPasswordUrl = `${PROTOCOL}://${DOMAIN}/resetPassForm/${token.token}`;
+
 		const { data, error } = await resend.emails.send({
 			from: 'Acme <onboarding@resend.dev>',
-			to: ['sajanghuman18@gmail.com'],
-			subject: 'Hello world',
-			react: `Hello ${user.name}, someone (hopefully you) requested a password reset for this account. If you did want to reset your password, please click here: ${PROTOCOL}://${DOMAIN}/resetPassForm/${token.token}
-
-              For security reasons, this link is only valid for four hours.
-
-              If you did not request this reset, please ignore this email.`,
+			to: [user.email],
+			subject: 'Password Reaset Request',
+			react: BluewaveResetPasswordEmail({
+				username: user.name,
+				resetUrl: resetPasswordUrl,
+			}),
 		});
 
 		// Confirm success with 201 status
 		console.log(`Password reset email sent to ${user.email}`);
 		return NextResponse.json({ message: 'Mail sent' }, { status: 201 });
-	} catch (error: any) {
-		//using any type, as there is no way of knowing what kind of error the code throw back
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			console.error('Error during password reset process:', error.message);
 
-		// Else return error
-		console.error('Error during password reset process:', error);
-		if (error.response && error.response.body) {
-			console.error('Mailgun API error:', error.response.body);
+			// Type assertion to access response safely
+			const apiError = error as { response?: { body?: any } };
+
+			// Check if response exists and log it
+			if (apiError.response && apiError.response.body) {
+				console.error('API error:', apiError.response.body);
+			}
+
+			return NextResponse.json(
+				{ message: 'Internal server error' },
+				{ status: 500 }
+			);
+		} else {
+			console.error('Unexpected error:', error);
+			return NextResponse.json(
+				{ message: 'Internal server error' },
+				{ status: 500 }
+			);
 		}
-		return NextResponse.json(
-			{ message: 'Internal server error' },
-			{ status: 500 }
-		);
 	}
 }

@@ -1,9 +1,15 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation'; // Use the new router from next/navigation
-import middleware from '@/middleware';
 
-export default function ResetPassword({ params }) {
+interface ResetPasswordParams {
+	token: string;
+}
+export default function ResetPassword({
+	params,
+}: {
+	params: ResetPasswordParams;
+}) {
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [message, setMessage] = useState('');

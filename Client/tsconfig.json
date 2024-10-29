@@ -24,6 +24,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@lib/*": [
+        "./lib/*"
       ]
     },
     "target": "ES2017"
@@ -33,7 +36,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "customTypesTheme.d.ts"
+    "customTypesTheme.d.ts",
+    "src/app/register/page.jsx",
+    "src/app/register/page.jsx"
   ],
   "exclude": [
     "node_modules"
