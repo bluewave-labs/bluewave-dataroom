@@ -38,7 +38,7 @@ const OrganizationName = () => {
 			justifyContent="space-between"
 			alignItems="center"
 			sx={{ marginBottom: '1rem' }}>
-			<Typography variant="h2">Organization name</Typography>
+			<Typography variant="h3">Organization name</Typography>
 			<Box display="flex" alignItems="center" height={5}>
 				{isEditing ? (
 					<TextField

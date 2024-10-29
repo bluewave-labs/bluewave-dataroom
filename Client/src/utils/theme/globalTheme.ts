@@ -13,21 +13,43 @@ const text = {
 
 const background = {
 	content: '#fcfcfd',
-	alt: '#F5F9FF',
-	brand: '#1570EF',
+	alt: '#c1cee0',
+	primary: '#1570EF',
 	fill: '#FFFFFF',
 	error: '#DB504A',
 	secondary: '#F9FAFB',
-	errorDark: '#D92D20',
-	primaryDark: '#175CD3',
+};
+
+const disabled = {
+	primary: '#a6cbff',
+	secondary: '#e9eaec',
+	error: '#f5aaa6',
+};
+
+const hover = {
+	tertiary: '#1570ef0a',
+	secondary: '#e4ebf5f0',
+	alt: '#edeff25f',
+	error: '#D92D20',
+	primary: '#175CD3',
+};
+
+const alert = {
+	info: '#1570EF',
+	infoLight: '#F5F9FF',
+	warning: '#FEC84B',
+	warningLight: '#fff4e5',
+	error: '#DB504A',
+	errorLight: '#fdeded',
+	success: '#418944',
+	successLight: '#edf7ed',
+	default: '#FFFFFF',
 };
 
 const border = { light: '#EBEBEB', dark: '#CCCCCC' };
 
-const fontFamilyDefault =
-	'"Inter","system-ui", "Avenir", "Helvetica", "Arial", sans-serif';
-const shadow =
-	'0px 4px 24px -4px rgba(16, 24, 40, 0.08), 0px 3px 3px -3px rgba(16, 24, 40, 0.03)';
+const fontFamilyDefault = '"Inter","system-ui", "Avenir", "Helvetica", "Arial", sans-serif';
+const shadow = '0px 4px 24px -4px rgba(16, 24, 40, 0.08), 0px 3px 3px -3px rgba(16, 24, 40, 0.03)';
 const modalShadow =
 	'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px';
 
@@ -38,13 +60,15 @@ const globalTheme = createTheme({
 		fontFamily: fontFamilyDefault,
 		fontSize: 13,
 		h1: { fontSize: 20, color: text.brand, fontWeight: 600 },
-		h2: { fontSize: 17, color: text.primary, fontWeight: 600 },
-		h3: { fontSize: 13, color: text.primary, fontWeight: 600 },
-		h4: { fontSize: 11, color: text.primary, fontWeight: 600 },
+		h2: { fontSize: 20, color: text.primary, fontWeight: 600 },
+		h3: { fontSize: 17, color: text.primary, fontWeight: 600 },
+		h4: { fontSize: 13, color: text.primary, fontWeight: 600 },
+		h5: { fontSize: 11, color: text.primary, fontWeight: 600 },
+		h6: { fontSize: 10, color: text.primary, fontWeight: 600 }, //Unused Currently
 		body1: { fontSize: 14, color: text.secondary, fontWeight: 400 },
 		body2: { fontSize: 11, color: text.notes, fontWeight: 400 },
 		subtitle1: { fontSize: 13, color: text.notes, fontWeight: 400 },
-		subtitle2: { fontSize: 13, color: text.secondary, fontWeight: 400 }, //Unused Currently
+		subtitle2: { fontSize: 13, color: text.secondary, fontWeight: 400 },
 		caption: {
 			fontSize: 11,
 			fontWeight: 400,
@@ -94,13 +118,37 @@ const globalTheme = createTheme({
 		boxShadow: shadow,
 	},
 	components: {
+		MuiAccordion: {
+			styleOverrides: {
+				root: {
+					border: '0',
+					boxShadow: 'none',
+					marginY: '10px',
+					'&:before': { content: 'none' },
+				},
+			},
+		},
+		MuiAccordionSummary: {
+			styleOverrides: {
+				root: {
+					backgroundColor: '#F6F6F6',
+					borderRadius: '2px',
+					maxWidth: 150,
+					minHeight: '0 !important',
+					'& .MuiAccordionSummary-content': {
+						margin: '0 !important',
+					},
+				},
+			},
+		},
+
 		MuiAlert: {
 			styleOverrides: {
 				root: {
 					'&.MuiAlert-standardWarning': {
 						fontSize: '1rem',
 						color: '#DC6803',
-						border: '2px solid #FEC84B',
+						border: `2px solid ${alert.warning}`,
 						'& .MuiAlert-icon': {
 							fontSize: '1.5rem',
 						},
@@ -137,12 +185,17 @@ const globalTheme = createTheme({
 					fontSize: 12,
 				},
 				containedPrimary: {
-					backgroundColor: background.brand,
+					backgroundColor: background.primary,
 					color: text.tertiary,
-					border: `1px solid ${background.primaryDark}`,
+					border: `1px solid ${background.primary}`,
 					'&:hover': {
-						backgroundColor: background.primaryDark,
-						borderColor: background.primaryDark,
+						backgroundColor: hover.primary,
+						borderColor: hover.primary,
+					},
+					'&.Mui-disabled': {
+						backgroundColor: disabled.primary,
+						color: text.tertiary,
+						borderColor: disabled.primary,
 					},
 				},
 				containedSecondary: {
@@ -150,17 +203,27 @@ const globalTheme = createTheme({
 					color: text.secondary,
 					border: `1px solid ${border.light}`,
 					'&:hover': {
-						backgroundColor: '#E5E7EB',
-						borderColor: '#D1D5DB',
+						backgroundColor: hover.tertiary,
+						borderColor: hover.tertiary,
+					},
+					'&.Mui-disabled': {
+						backgroundColor: disabled.secondary,
+						color: text.notes,
+						borderColor: disabled.secondary,
 					},
 				},
 				containedError: {
 					backgroundColor: background.error,
 					color: text.tertiary,
-					border: `1px solid ${background.errorDark}`,
+					border: `1px solid ${background.error}`,
 					'&:hover': {
-						backgroundColor: background.errorDark,
-						borderColor: background.errorDark,
+						backgroundColor: hover.error,
+						borderColor: hover.error,
+					},
+					'&.Mui-disabled': {
+						backgroundColor: disabled.error,
+						color: text.tertiary,
+						borderColor: disabled.error,
 					},
 				},
 				outlinedSecondary: {
@@ -170,12 +233,23 @@ const globalTheme = createTheme({
 					':hover': {
 						backgroundColor: background.secondary,
 					},
+					'&.Mui-disabled': {
+						backgroundColor: disabled.secondary,
+						color: text.notes,
+						borderColor: disabled.secondary,
+					},
 				},
+
 				textSecondary: {
 					color: text.primary,
 					backgroundColor: 'transparent',
 					'&:hover': {
-						backgroundColor: '#E5E7EB',
+						backgroundColor: hover.tertiary,
+					},
+					'&.Mui-disabled': {
+						backgroundColor: disabled.secondary,
+						color: text.notes,
+						borderColor: disabled.secondary,
 					},
 				},
 			},
@@ -190,7 +264,7 @@ const globalTheme = createTheme({
 					color: text.primary,
 					border: '1.5px solid #EAECF0',
 					'& .MuiChip-icon': {
-						color: '#939393',
+						color: text.notes,
 						marginRight: '2px',
 					},
 				},
@@ -226,9 +300,15 @@ const globalTheme = createTheme({
 					padding: 4,
 					transition: 'none',
 					'&:hover': {
-						backgroundColor: '#E5E7EB',
-						borderColor: '#D1D5DB',
+						backgroundColor: hover.tertiary,
 					},
+				},
+			},
+		},
+		MuiInputBase: {
+			styleOverrides: {
+				root: {
+					borderRadius: 4,
 				},
 			},
 		},
@@ -243,6 +323,10 @@ const globalTheme = createTheme({
 			styleOverrides: {
 				root: {
 					transition: 'none',
+					borderRadius: 4,
+					'&:hover': {
+						backgroundColor: hover.tertiary,
+					},
 				},
 			},
 		},
@@ -268,7 +352,7 @@ const globalTheme = createTheme({
 						},
 						'& li.Mui-selected': {
 							color: text.tertiary,
-							backgroundColor: background.brand,
+							backgroundColor: background.primary,
 						},
 					},
 				},
@@ -281,10 +365,9 @@ const globalTheme = createTheme({
 					color: text.secondary,
 					fontSize: 13,
 					minWidth: 100,
-					'&:hover, &.Mui-selected, &.Mui-selected:hover, &.Mui-selected.Mui-focusVisible':
-						{
-							backgroundColor: background.alt,
-						},
+					'&:hover, &.Mui-selected, &.Mui-selected:hover, &.Mui-selected.Mui-focusVisible': {
+						backgroundColor: hover.tertiary,
+					},
 				},
 			},
 		},
@@ -292,25 +375,30 @@ const globalTheme = createTheme({
 			styleOverrides: {
 				root: {
 					backgroundColor: background.fill,
+					borderRadius: 4,
 				},
 				input: {
 					backgroundColor: background.fill,
 					'&.Mui-disabled': {
-						backgroundColor: '#F9F9F9',
+						backgroundColor: disabled.secondary,
 						cursor: 'not-allowed',
 					},
 				},
 			},
 		},
+
 		MuiPaginationItem: {
 			styleOverrides: {
 				root: {
 					'&.Mui-selected': {
-						backgroundColor: '#F0F2F5',
-						color: '#000000',
+						backgroundColor: background.alt,
+						color: text.primary,
 						'&:hover': {
-							backgroundColor: '#F0F2F5',
+							backgroundColor: hover.secondary,
 						},
+					},
+					'&:hover': {
+						backgroundColor: hover.secondary,
 					},
 				},
 			},
@@ -334,11 +422,41 @@ const globalTheme = createTheme({
 			styleOverrides: {
 				select: {
 					borderRadius: 4,
-					padding: '0.8rem 1rem',
+					border: '1px solid #00000030',
 					boxShadow: '0px 0px 20px -10px rgba(0,0,0,0.1)',
 				},
 				icon: {
 					right: '0.5rem',
+				},
+			},
+		},
+		MuiSnackbar: {
+			styleOverrides: {
+				root: {
+					'& .MuiAlert-root': {
+						fontWeight: '500',
+						borderRadius: 8,
+						minWidth: 300,
+						fontSize: 14,
+						borderLeftWidth: 5,
+						'&.MuiAlert-standardSuccess': {
+							backgroundColor: alert.successLight,
+							borderLeftColor: alert.success,
+						},
+						'&.MuiAlert-standardError': {
+							backgroundColor: alert.errorLight,
+							borderLeftColor: alert.error,
+						},
+						'&.MuiAlert-standardWarning': {
+							backgroundColor: alert.warningLight,
+							borderLeftColor: alert.warning,
+						},
+						'&.MuiAlert-standardInfo': {
+							backgroundColor: alert.default,
+							borderLeft: 'none',
+							color: text.secondary,
+						},
+					},
 				},
 			},
 		},
@@ -377,16 +495,16 @@ const globalTheme = createTheme({
 				},
 			},
 		},
-		MuiTableRow: {
+		MuiTableBody: {
 			styleOverrides: {
-				root: {},
-				hover: {
-					'&:hover': {
-						backgroundColor: '#f5f5f5',
+				root: {
+					'& .MuiTableRow-root:hover': {
+						backgroundColor: `${hover.alt} !important`,
 					},
 				},
 			},
 		},
+
 		MuiTableSortLabel: {
 			styleOverrides: {
 				root: {
@@ -402,7 +520,7 @@ const globalTheme = createTheme({
 					color: 'black',
 					textTransform: 'none',
 					padding: '0.25rem 1.25rem',
-					'&.Mui-selected': {
+					'& .Mui-selected': {
 						fontWeight: 'bold',
 					},
 				},
@@ -411,7 +529,7 @@ const globalTheme = createTheme({
 		MuiToggleButtonGroup: {
 			styleOverrides: {
 				root: {
-					backgroundColor: 'white',
+					backgroundColor: background.fill,
 				},
 			},
 		},
