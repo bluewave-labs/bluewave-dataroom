@@ -11,7 +11,7 @@ import {
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import CheckIcon from '../../../../public/assets/icons/auth/CheckIcon';
-import Title from '../../../../public/assets/icons/sidebar/SidebarTitle';
+import Title from '../../../../public/assets/BluewaveLogo';
 
 export default function SignUp() {
 	const [firstName, setFirstName] = useState('');
@@ -57,15 +57,8 @@ export default function SignUp() {
 	};
 
 	return (
-		<Container
-			component="main"
-			sx={{ display: 'flex', justifyContent: 'center' }}>
-			<Box
-				display="flex"
-				flexDirection="column"
-				alignItems="center"
-				mt={8}
-				gap={10}>
+		<Container component="main" sx={{ display: 'flex', justifyContent: 'center' }}>
+			<Box display="flex" flexDirection="column" alignItems="center" mt={8} gap={10}>
 				<Box mb={20}>
 					<Title width={244} height={64} />
 				</Box>
@@ -84,12 +77,7 @@ export default function SignUp() {
 					flexDirection={'column'}>
 					{/* First Name */}
 					<FormLabel htmlFor="firstName">
-						<Typography
-							color="text.primary"
-							fontSize={15}
-							fontWeight={500}
-							mt={3}
-							mb={1}>
+						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={3} mb={1}>
 							First name
 						</Typography>
 					</FormLabel>
@@ -109,12 +97,7 @@ export default function SignUp() {
 
 					{/* Last Name */}
 					<FormLabel htmlFor="lastName">
-						<Typography
-							color="text.primary"
-							fontSize={15}
-							fontWeight={500}
-							mt={3}
-							mb={1}>
+						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={3} mb={1}>
 							Last name
 						</Typography>
 					</FormLabel>
@@ -133,12 +116,7 @@ export default function SignUp() {
 
 					{/* Email */}
 					<FormLabel htmlFor="email">
-						<Typography
-							color="text.primary"
-							fontSize={15}
-							fontWeight={500}
-							mt={3}
-							mb={1}>
+						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={3} mb={1}>
 							Email
 						</Typography>
 					</FormLabel>
@@ -158,12 +136,7 @@ export default function SignUp() {
 
 					{/* Password */}
 					<FormLabel htmlFor="password">
-						<Typography
-							color="text.primary"
-							fontSize={15}
-							fontWeight={500}
-							mt={3}
-							mb={1}>
+						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={3} mb={1}>
 							Password
 						</Typography>
 					</FormLabel>
@@ -183,12 +156,7 @@ export default function SignUp() {
 
 					{/* Confirm Password */}
 					<FormLabel htmlFor="confirmPassword">
-						<Typography
-							color="text.primary"
-							fontSize={15}
-							fontWeight={500}
-							mt={3}
-							mb={1}>
+						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={3} mb={1}>
 							Confirm Password
 						</Typography>
 					</FormLabel>
@@ -215,21 +183,13 @@ export default function SignUp() {
 
 					{/* Password Validations */}
 					<Box display="flex" alignItems="center" my={5} gap={5}>
-						{isPasswordValid.length ? (
-							<CheckIcon color="success" />
-						) : (
-							<CheckIcon />
-						)}
+						{isPasswordValid.length ? <CheckIcon color="success" /> : <CheckIcon />}
 						<Typography variant="h4" ml={1}>
 							Must be at least 8 characters
 						</Typography>
 					</Box>
 					<Box display="flex" alignItems="center" mb={10} gap={5}>
-						{isPasswordValid.specialChar ? (
-							<CheckIcon color="success" />
-						) : (
-							<CheckIcon />
-						)}
+						{isPasswordValid.specialChar ? <CheckIcon color="success" /> : <CheckIcon />}
 						<Typography variant="h4" ml={1}>
 							Must contain one special character
 						</Typography>
@@ -242,9 +202,7 @@ export default function SignUp() {
 						variant="contained"
 						color="primary"
 						disabled={loading}
-						endIcon={
-							loading ? <CircularProgress size={20} color="inherit" /> : null
-						}>
+						endIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}>
 						{loading ? 'Creating Account ...' : 'Get started'}
 					</Button>
 				</Box>

@@ -10,10 +10,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
+import BlueWaveLogo from '../../../public/assets/BluewaveLogo';
 import ContactsIcon from '../../../public/assets/icons/sidebar/sidebar-contacts-icon.svg';
 import DocumentsIcon from '../../../public/assets/icons/sidebar/sidebar-documents-icon.svg';
 import SettingsIcon from '../../../public/assets/icons/sidebar/sidebar-settings-icon.svg';
-import Title from '../../../public/assets/icons/sidebar/sidebar-title.svg';
 import DropdownMenu from './DropdownMenu';
 
 export default function Sidebar() {
@@ -39,14 +39,8 @@ export default function Sidebar() {
 				border: '1px solid',
 				borderColor: 'border.light',
 			}}>
-			<Box>
-				<Image
-					src={Title}
-					alt="Title"
-					style={{
-						margin: `0 ${theme.spacing(4)} ${theme.spacing(16)} ${theme.spacing(4)}`,
-					}}
-				/>
+			<Box display={'flex'} flexDirection={'column'} gap={21} mx={5}>
+				<BlueWaveLogo width={191} height={24} />
 				<List>
 					{menu.map(({ text, icon, href }) => (
 						<ListItem key={text} disablePadding>

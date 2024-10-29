@@ -14,7 +14,7 @@ import {
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import Title from '../../../../public/assets/icons/sidebar/SidebarTitle';
+import Title from '../../../../public/assets/BluewaveLogo';
 
 export default function SignIn() {
 	const [email, setEmail] = useState('');
@@ -49,15 +49,8 @@ export default function SignIn() {
 		setRemember(event.target.checked);
 	};
 	return (
-		<Container
-			component="main"
-			sx={{ display: 'flex', justifyContent: 'center' }}>
-			<Box
-				display="flex"
-				flexDirection="column"
-				alignItems="center"
-				mt={8}
-				gap={10}>
+		<Container component="main" sx={{ display: 'flex', justifyContent: 'center' }}>
+			<Box display="flex" flexDirection="column" alignItems="center" mt={8} gap={10}>
 				<Box mb={30}>
 					<Title width={244} height={64} />
 				</Box>
@@ -68,12 +61,7 @@ export default function SignIn() {
 
 				<Box component="form" onSubmit={handleSubmit} noValidate minWidth={400}>
 					<FormLabel htmlFor="email">
-						<Typography
-							color="text.primary"
-							fontSize={15}
-							fontWeight={500}
-							mt={10}
-							mb={3}>
+						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={10} mb={3}>
 							Email
 						</Typography>
 					</FormLabel>
@@ -93,12 +81,7 @@ export default function SignIn() {
 					/>
 
 					<FormLabel htmlFor="password">
-						<Typography
-							color="text.primary"
-							fontSize={15}
-							fontWeight={500}
-							mt={10}
-							mb={3}>
+						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={10} mb={3}>
 							Password
 						</Typography>
 					</FormLabel>
@@ -116,12 +99,7 @@ export default function SignIn() {
 						onChange={(e) => setPassword(e.target.value)}
 					/>
 
-					<Box
-						display="flex"
-						justifyContent="space-between"
-						alignItems="center"
-						mt={8}
-						mb={5}>
+					<Box display="flex" justifyContent="space-between" alignItems="center" mt={8} mb={5}>
 						<FormControlLabel
 							control={<Checkbox value="remember" color="primary" />}
 							label="Remember for 30 days"
@@ -133,11 +111,7 @@ export default function SignIn() {
 							label="Remember for 30 days"
 						/> */}
 
-						<NavLink
-							href="/auth/forgot-password"
-							linkText="Forgot password?"
-							prefetch={true}
-						/>
+						<NavLink href="/auth/forgot-password" linkText="Forgot password?" prefetch={true} />
 					</Box>
 
 					{error && (
@@ -151,9 +125,7 @@ export default function SignIn() {
 						fullWidth
 						variant="contained"
 						disabled={loading}
-						endIcon={
-							loading ? <CircularProgress size={20} color="inherit" /> : null
-						}>
+						endIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}>
 						{loading ? 'Signing in...' : 'Sign in'}
 					</Button>
 				</Box>
