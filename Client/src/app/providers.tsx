@@ -71,8 +71,6 @@ function AuthWrapper({ children }: { children: React.ReactNode }) {
 							backgroundColor: '#fcfcfd',
 							height: '100vh',
 							minWidth: '100vw',
-							// maxWidth: '1600px',
-							// minWidth: '1600px',
 							pt: 16,
 							pb: 12,
 							gap: 16,
