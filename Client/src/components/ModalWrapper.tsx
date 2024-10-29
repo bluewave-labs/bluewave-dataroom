@@ -45,7 +45,7 @@ interface ModalWrapperProps {
 	cancelButtonText?: string;
 	open: boolean;
 	toggleModal: () => void;
-	onClose?: () => void;
+	onClose: () => void;
 	maxFileSize?: string;
 	fileFormats?: string;
 }
@@ -64,8 +64,12 @@ export default function ModalWrapper({
 }: ModalWrapperProps) {
 	const { color, ContentComponent } = modalVariants[variant];
 
+	const handleConfirm = () => {
+		toggleModal(), onClose();
+	};
+
 	return (
-		<Dialog open={open} onClose={onClose}>
+		<Dialog open={open}>
 			<DialogTitle variant="h2">{title}</DialogTitle>
 			<DialogContent>
 				{description && (
@@ -79,7 +83,7 @@ export default function ModalWrapper({
 				<Button variant="text" color="secondary" onClick={toggleModal}>
 					{cancelButtonText}
 				</Button>
-				<Button variant="contained" color={color} onClick={toggleModal}>
+				<Button variant="contained" color={color} onClick={handleConfirm}>
 					{confirmButtonText}
 				</Button>
 			</DialogActions>
