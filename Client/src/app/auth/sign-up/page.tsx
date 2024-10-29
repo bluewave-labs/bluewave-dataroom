@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import CheckIcon from '../../../../public/assets/icons/auth/CheckIcon';
 import Title from '../../../../public/assets/BluewaveLogo';
+import axios from 'axios';
 
 export default function SignUp() {
 	const [firstName, setFirstName] = useState('');
@@ -51,9 +52,25 @@ export default function SignUp() {
 			setLoading(false);
 			return;
 		}
-		// Continue sign-up logic here (e.g., API request)
-		setLoading(false);
-		router.push('/auth/account-created');
+
+		try {
+			const response = await axios.post('/api/auth/register', {
+				email,
+				password,
+				firstName,
+				lastName,
+			});
+			console.log('User created successfully');
+			router.push('/auth/sign-in');
+		} catch (error: unknown) {
+			if (axios.isAxiosError(error) && error.response?.data) {
+				const responseData = error.response.data;
+				console.error('Error registering user:', responseData.message);
+			} else {
+				console.log('An error occurred');
+			}
+			setLoading(false);
+		}
 	};
 
 	return (

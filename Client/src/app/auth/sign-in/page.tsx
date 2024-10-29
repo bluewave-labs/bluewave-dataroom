@@ -24,30 +24,24 @@ export default function SignIn() {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
-	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
-		setLoading(true);
+		setError('');
 
-		setTimeout(() => {
-			setLoading(false);
+		const result = await signIn('credentials', {
+			redirect: false,
+			email,
+			password,
+		});
+
+		if (result?.error) {
+			setError(result.error);
+		} else {
+			// Redirect to the desired page after successful login
 			router.push('/documents');
-		}, 5000); // Mock delay
-
-		// const result = await signIn('credentials', {
-		// 	redirect: false,
-		// 	email,
-		// 	password,
-		// });
-
-		// if (result?.error) {
-		// 	setError(result.error);
-		// } else {
-		// }
-		// setLoading(false);
+		}
 	};
-	const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setRemember(event.target.checked);
-	};
+
 	return (
 		<Container component="main" sx={{ display: 'flex', justifyContent: 'center' }}>
 			<Box display="flex" flexDirection="column" alignItems="center" mt={8} gap={10}>
