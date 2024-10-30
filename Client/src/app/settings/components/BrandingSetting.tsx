@@ -33,7 +33,7 @@ export default function BrandingSetting() {
 				<Box>
 					<Grid container rowSpacing={14} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 						{/* Logo */}
-						<Grid size={3.6}>
+						<Grid size={4}>
 							<Typography variant="h4">Logo</Typography>
 						</Grid>
 						<Grid size={6}>
@@ -105,7 +105,7 @@ export default function BrandingSetting() {
 						</Grid>
 
 						{/* Background color */}
-						<Grid size={3.6}>
+						<Grid size={4}>
 							<Typography variant="h4">Background color</Typography>
 						</Grid>
 						<Grid size={6}>
@@ -113,7 +113,7 @@ export default function BrandingSetting() {
 						</Grid>
 
 						{/* Font color */}
-						<Grid size={3.6}>
+						<Grid size={4}>
 							<Typography variant="h4">Font color</Typography>
 						</Grid>
 						<Grid size={6}>
