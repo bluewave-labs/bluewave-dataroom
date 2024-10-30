@@ -8,7 +8,7 @@ interface DragAndDropBoxProps {
 	height?: string;
 }
 
-const DragAndDropBox = ({ text, height }: DragAndDropBoxProps) => {
+const DragAndDropBox = ({ text, height = '32vh' }: DragAndDropBoxProps) => {
 	const { isOpen, openModal, closeModal } = useModal();
 
 	const handleInput = () => {
