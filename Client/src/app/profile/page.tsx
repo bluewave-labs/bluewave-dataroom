@@ -8,7 +8,7 @@ export default function ProfilePage() {
 				width: '100%',
 				margin: '0 auto',
 				minHeight: '80vh',
-				paddingRight: '8rem',
+				paddingRight: '23rem',
 			}}>
 			<ProfileClient />
 		</Box>

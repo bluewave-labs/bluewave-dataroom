@@ -39,12 +39,12 @@ const DocumentsTableRow = ({ document }: Props) => {
 
 	return (
 		<TableRow hover>
-			<TableCell sx={{ paddingRight: 0 }}>
+			<TableCell sx={{ paddingRight: 0, textAlign: 'center' }}>
 				<Box
 					component="img"
 					src={docTypeIcons[document.type]}
 					alt={`${document.type} icon`}
-					sx={{ width: '24px', height: '24px' }}
+					sx={{ width: 24, height: 24 }}
 				/>
 			</TableCell>
 			<TableCell>
