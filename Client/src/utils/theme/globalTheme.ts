@@ -60,12 +60,12 @@ const globalTheme = createTheme({
 		fontFamily: fontFamilyDefault,
 		fontSize: 13,
 		h1: { fontSize: 20, color: text.brand, fontWeight: 600 },
-		h2: { fontSize: 20, color: text.primary, fontWeight: 600 },
+		h2: { fontSize: 16, color: text.primary, fontWeight: 600 },
 		h3: { fontSize: 17, color: text.primary, fontWeight: 600 },
 		h4: { fontSize: 13, color: text.primary, fontWeight: 600 },
 		h5: { fontSize: 11, color: text.primary, fontWeight: 600 },
 		h6: { fontSize: 10, color: text.primary, fontWeight: 600 }, //Unused Currently
-		body1: { fontSize: 14, color: text.secondary, fontWeight: 400 },
+		body1: { fontSize: 13, color: text.secondary, fontWeight: 400 },
 		body2: { fontSize: 11, color: text.notes, fontWeight: 400 },
 		subtitle1: { fontSize: 13, color: text.notes, fontWeight: 400 },
 		subtitle2: { fontSize: 13, color: text.secondary, fontWeight: 400 },
@@ -253,6 +253,9 @@ const globalTheme = createTheme({
 					},
 				},
 			},
+			defaultProps: {
+				disableRipple: true, // Disable ripple effect for all buttons
+			},
 		},
 		MuiChip: {
 			styleOverrides: {
@@ -420,16 +423,29 @@ const globalTheme = createTheme({
 		},
 		MuiSelect: {
 			styleOverrides: {
-				select: {
-					borderRadius: 4,
-					border: '1px solid #00000030',
-					boxShadow: '0px 0px 20px -10px rgba(0,0,0,0.1)',
+				standard: {
+					select: {
+						borderRadius: 4,
+						border: 'none',
+						boxShadow: 'none',
+					},
+					icon: {
+						right: '0.5rem',
+					},
 				},
-				icon: {
-					right: '0.5rem',
+				outlined: {
+					select: {
+						borderRadius: 4,
+						border: '1px solid #00000030',
+						boxShadow: '0px 0px 20px -10px rgba(0,0,0,0.1)',
+					},
+					icon: {
+						right: '0.5rem',
+					},
 				},
 			},
 		},
+
 		MuiSnackbar: {
 			styleOverrides: {
 				root: {

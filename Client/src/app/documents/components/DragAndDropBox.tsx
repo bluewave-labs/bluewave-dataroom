@@ -30,7 +30,7 @@ const DragAndDropBox = ({ text, height }: DragAndDropBoxProps) => {
 				borderRadius: '4px',
 				padding: '2rem',
 				textAlign: 'center',
-				backgroundColor: 'rgba(255, 255, 255, 0.6)',
+				backgroundColor: 'rgba(255, 255, 255)',
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',

@@ -65,21 +65,17 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 
 	return (
 		<>
-			<Container
+			<Box
 				sx={{
 					display: 'flex',
 					backgroundColor: '#fcfcfd',
 					height: '100vh',
-					pt: 16,
-					pb: 12,
-					gap: 16,
 				}}>
 				<Sidebar />
-				<Box width="100%" paddingTop={5} paddingX={16}>
-					<Breadcrumb />
+				<Box width="100%" py={20} paddingX={30}>
 					{children}
 				</Box>
-			</Container>
+			</Box>
 		</>
 	);
 }

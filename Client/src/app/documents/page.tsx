@@ -11,9 +11,10 @@ import {
 } from '@mui/material';
 import DocumentsTable from './components/DocumentsTable';
 import DragAndDropBox from './components/DragAndDropBox';
+import Background from '../../../public/assets/Background';
 
 export default function DocumentsPage() {
-	const documentCount: number = 24;
+	const documentCount: number = 0;
 	const isEmptyState = documentCount === 0;
 
 	return (
@@ -27,50 +28,54 @@ export default function DocumentsPage() {
 			}}>
 			{/* Empty Section */}
 			{isEmptyState ? (
-				<Box
-					display="flex"
-					flexDirection="column"
-					alignContent="center"
-					textAlign="center"
-					width="100%">
-					<Typography variant="h2" component="span" mb={10}>
-						Welcome to BlueWave{' '}
-						<Typography variant="h1" component="span">
-							DataRoom
+				<>
+					<Background backgroundPosition={0}></Background>
+					<Box
+						display="flex"
+						flexDirection="column"
+						alignContent="center"
+						textAlign="center"
+						width="100%"
+						zIndex={1}>
+						<Typography variant="h2" component="span" mb={10}>
+							Welcome to BlueWave{' '}
+							<Typography variant="h1" component="span">
+								DataRoom
+							</Typography>
 						</Typography>
-					</Typography>
 
-					<List
-						sx={{
-							textAlign: 'left',
-							mb: 3,
-							maxWidth: '100%',
-							marginX: 'auto',
-						}}>
-						<ListItem>
-							<ListItemIcon>
-								<CheckCircleOutlineOutlinedIcon color="primary" />
-							</ListItemIcon>
-							<ListItemText primary="Securely share files and manage permissions" />
-						</ListItem>
-						<ListItem>
-							<ListItemIcon>
-								<CheckCircleOutlineOutlinedIcon color="primary" />
-							</ListItemIcon>
-							<ListItemText primary="Keep your users updated with the latest documents" />
-						</ListItem>
-						<ListItem>
-							<ListItemIcon>
-								<CheckCircleOutlineOutlinedIcon color="primary" />
-							</ListItemIcon>
-							<ListItemText primary="Build trust with a professional user interface" />
-						</ListItem>
-					</List>
-					<DragAndDropBox
-						height="25vh"
-						text="Drag and drop your first document here or click to upload"
-					/>
-				</Box>
+						<List
+							sx={{
+								textAlign: 'left',
+								mb: 3,
+								maxWidth: '100%',
+								marginX: 'auto',
+							}}>
+							<ListItem>
+								<ListItemIcon>
+									<CheckCircleOutlineOutlinedIcon color="primary" />
+								</ListItemIcon>
+								<ListItemText primary="Securely share files and manage permissions" />
+							</ListItem>
+							<ListItem>
+								<ListItemIcon>
+									<CheckCircleOutlineOutlinedIcon color="primary" />
+								</ListItemIcon>
+								<ListItemText primary="Keep your users updated with the latest documents" />
+							</ListItem>
+							<ListItem>
+								<ListItemIcon>
+									<CheckCircleOutlineOutlinedIcon color="primary" />
+								</ListItemIcon>
+								<ListItemText primary="Build trust with a professional user interface" />
+							</ListItem>
+						</List>
+						<DragAndDropBox
+							height="25vh"
+							text="Drag and drop your first document here or click to upload"
+						/>
+					</Box>
+				</>
 			) : (
 				<>
 					{/* Header Section */}

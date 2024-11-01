@@ -33,12 +33,8 @@ const OrganizationName = () => {
 	}, [isEditing]);
 
 	return (
-		<Box
-			display="flex"
-			justifyContent="space-between"
-			alignItems="center"
-			sx={{ marginBottom: '1rem' }}>
-			<Typography variant="h3">Organization name</Typography>
+		<Box display="flex" flexDirection={'column'} alignItems="left" gap={10}>
+			<Typography variant="h4">Organization name</Typography>
 			<Box display="flex" alignItems="center" height={5}>
 				{isEditing ? (
 					<TextField
@@ -75,14 +71,8 @@ const OrganizationName = () => {
 						{companyName}
 					</Typography>
 				)}
-				<IconButton
-					size="small"
-					onClick={isEditing ? handleSaveClick : handleEditClick}>
-					{isEditing ? (
-						<SaveIcon fontSize="small" />
-					) : (
-						<EditIcon fontSize="small" />
-					)}
+				<IconButton size="small" onClick={isEditing ? handleSaveClick : handleEditClick}>
+					{isEditing ? <SaveIcon fontSize="small" /> : <EditIcon fontSize="small" />}
 				</IconButton>
 			</Box>
 		</Box>

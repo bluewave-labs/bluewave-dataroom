@@ -1,14 +1,19 @@
 import { Box } from '@mui/material';
 import React from 'react';
 
-const Background = ({ width = 768, height = 768, backgroundPosition = 0, ...props }) => (
+const Background = ({
+	width = 768,
+	height = 768,
+	backgroundPosition = 0,
+	zIndex = 0,
+	...props
+}) => (
 	<Box
 		position="absolute"
 		top={backgroundPosition}
-		width="100%"
 		display="flex"
 		justifyContent="center"
-		zIndex={-1}>
+		zIndex={zIndex}>
 		<svg
 			width={width}
 			height={height}
