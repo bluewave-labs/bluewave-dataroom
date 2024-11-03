@@ -105,7 +105,7 @@ export default function SignIn() {
 							label="Remember for 30 days"
 						/> */}
 
-						<NavLink href="/auth/forgot-password" linkText="Forgot password?" prefetch={true} />
+						<NavLink href="/auth/forgotPassword" linkText="Forgot password?" prefetch={true} />
 					</Box>
 
 					{error && (
@@ -128,7 +128,7 @@ export default function SignIn() {
 					Don't have an account?
 					<NavLink
 						href="/auth/sign-up"
-						linkText="Sign up"
+						linkText="Sign-up"
 						ml={1}
 						display={'inline-flex'}
 						prefetch={true}

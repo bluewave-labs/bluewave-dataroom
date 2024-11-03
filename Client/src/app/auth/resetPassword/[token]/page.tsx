@@ -11,10 +11,14 @@ import {
 } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import CheckIcon from '../../../../public/assets/icons/auth/CheckIcon';
-import LockIcon from '../../../../public/assets/icons/auth/LockIcon';
+import CheckIcon from '../../../../../public/assets/icons/auth/CheckIcon';
+import LockIcon from '../../../../../public/assets/icons/auth/LockIcon';
 
-export default function SetNewPassword() {
+interface ResetPasswordParams {
+	token: string;
+}
+
+export default function SetNewPassword({ params }: { params: ResetPasswordParams }) {
 	const router = useRouter();
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
@@ -24,6 +28,7 @@ export default function SetNewPassword() {
 		length: false,
 		specialChar: false,
 	});
+	const token = params.token;
 
 	const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const newPassword = e.target.value;
@@ -39,8 +44,6 @@ export default function SetNewPassword() {
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setLoading(true);
-
-		// Clear the password error state first
 		setPasswordError('');
 
 		// Validate password and confirmPassword match
@@ -50,21 +53,45 @@ export default function SetNewPassword() {
 			return;
 		}
 
+		// Validate password requirements
+		if (!isPasswordValid.length || !isPasswordValid.specialChar) {
+			setPasswordError(
+				'Password must be at least 8 characters long and contain a special character.'
+			);
+			setLoading(false);
+			return;
+		}
+
 		// Continue reset password logic here (e.g., API request)
-		setLoading(false);
-		router.push('/auth/password-reset-confirm'); // Redirect after successful reset
+		try {
+			const response = await fetch(`/api/user/resetPassForm/${token}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ token, password }),
+			});
+
+			if (response.ok) {
+				setPasswordError('Password has been reset successfully.');
+				setTimeout(() => {
+					router.push('/auth/password-reset-confirm'); // Redirect after successful reset
+				}, 1000);
+			} else {
+				const data = await response.json();
+				setPasswordError(data.message || 'Failed to reset password. Please try again.');
+			}
+		} catch (error) {
+			console.error('Error resetting password:', error);
+			setPasswordError('Failed to reset password. Please try again.');
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
-		<Container
-			component="main"
-			sx={{ display: 'flex', justifyContent: 'center' }}>
-			<Box
-				display="flex"
-				flexDirection="column"
-				alignItems="center"
-				mt={8}
-				gap={10}>
+		<Container component="main" sx={{ display: 'flex', justifyContent: 'center' }}>
+			<Box display="flex" flexDirection="column" alignItems="center" mt={8} gap={10}>
 				{/* Icon Placeholder */}
 				<Box
 					width={56}
@@ -97,11 +124,7 @@ export default function SetNewPassword() {
 					gap={5}>
 					{/* Password Field */}
 					<FormLabel htmlFor="password">
-						<Typography
-							color="text.primary"
-							fontSize={15}
-							fontWeight={500}
-							mb={1}>
+						<Typography color="text.primary" fontSize={15} fontWeight={500} mb={1}>
 							Password
 						</Typography>
 					</FormLabel>
@@ -121,11 +144,7 @@ export default function SetNewPassword() {
 
 					{/* Confirm Password Field */}
 					<FormLabel htmlFor="confirmPassword">
-						<Typography
-							color="text.primary"
-							fontSize={15}
-							fontWeight={500}
-							mb={1}>
+						<Typography color="text.primary" fontSize={15} fontWeight={500} mb={1}>
 							Confirm password
 						</Typography>
 					</FormLabel>
@@ -152,21 +171,13 @@ export default function SetNewPassword() {
 
 					{/* Password Validations */}
 					<Box display="flex" alignItems="center" my={3} gap={5}>
-						{isPasswordValid.length ? (
-							<CheckIcon color="success" />
-						) : (
-							<CheckIcon />
-						)}
+						{isPasswordValid.length ? <CheckIcon color="success" /> : <CheckIcon />}
 						<Typography variant="h4" ml={1}>
 							Must be at least 8 characters
 						</Typography>
 					</Box>
 					<Box display="flex" alignItems="center" mb={3} gap={5}>
-						{isPasswordValid.specialChar ? (
-							<CheckIcon color="success" />
-						) : (
-							<CheckIcon />
-						)}
+						{isPasswordValid.specialChar ? <CheckIcon color="success" /> : <CheckIcon />}
 						<Typography variant="h4" ml={1}>
 							Must contain one special character
 						</Typography>
@@ -179,18 +190,12 @@ export default function SetNewPassword() {
 						variant="contained"
 						color="primary"
 						disabled={loading}
-						endIcon={
-							loading ? <CircularProgress size={20} color="inherit" /> : null
-						}>
+						endIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}>
 						{loading ? 'Resetting Password...' : 'Reset password'}
 					</Button>
 				</Box>
 
-				<NavLink
-					href="/auth/sign-in"
-					linkText="← Back to sign in"
-					prefetch={true}
-				/>
+				<NavLink href="/auth/sign-in" linkText="← Back to sign in" prefetch={true} />
 			</Box>
 		</Container>
 	);

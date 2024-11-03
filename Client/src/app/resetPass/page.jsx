@@ -10,7 +10,7 @@ const ResetPasswordForm = () => {
 		e.preventDefault();
 
 		try {
-			const response = await axios.post('/api/auth/resetPass', { email });
+			const response = await axios.post('/api/user/resetPass', { email });
 
 			if (response.status === 201) {
 				setMessage('A reset password link has been sent to your email.');
@@ -24,14 +24,10 @@ const ResetPasswordForm = () => {
 
 	return (
 		<div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-md">
-			<h2 className="text-2xl font-semibold mb-4 text-center text-orange-600">
-				Reset Password
-			</h2>
+			<h2 className="text-2xl font-semibold mb-4 text-center text-orange-600">Reset Password</h2>
 			<form onSubmit={handleSubmit}>
 				<div className="mb-4">
-					<label
-						htmlFor="email"
-						className="block text-sm font-medium text-gray-700">
+					<label htmlFor="email" className="block text-sm font-medium text-gray-700">
 						Email:
 					</label>
 					<input
@@ -50,9 +46,7 @@ const ResetPasswordForm = () => {
 					Submit
 				</button>
 			</form>
-			{message && (
-				<p className="mt-4 text-center text-sm text-gray-600">{message}</p>
-			)}
+			{message && <p className="mt-4 text-center text-sm text-gray-600">{message}</p>}
 		</div>
 	);
 };

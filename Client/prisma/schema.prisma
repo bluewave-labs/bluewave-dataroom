@@ -12,7 +12,7 @@ model ArchivedUser {
   user_id      String   @unique @default(cuid()) // auto generate unique user_id
   name         String   @default("")
   email        String   @unique @default("")
-  password     String
+  password     String   @default("user123")
   created_at   DateTime @default(now()) @db.Timestamptz(6)
   role         UserRole @default(USER)
   address      String?  @default("")
@@ -29,14 +29,15 @@ model PasswordResetToken {
 
 model User {
   id                 Int               @id @default(autoincrement())
-  user_id            String               @unique
-  name               String               @default("")
-  email              String               @unique @default("")
-  password           String
-  created_at         DateTime             @default(now()) @db.Timestamptz(6)
-  role               UserRole             @default(USER)
-  Status             Status               @default(ACTIVE)
-  PasswordResetToken PasswordResetToken[]
+  user_id            String            @unique
+  name               String            @default("")
+  email              String            @unique @default("")
+  password           String            @default("user123") // Consider using null or leaving it undefined until user sets it
+  created_at         DateTime          @default(now()) @db.Timestamptz(6)
+  role               UserRole          @default(USER)
+  status             Status            @default(ACTIVE)
+  setupToken         String?           @unique // Optional token for account setup
+  passwordResetToken PasswordResetToken[]
 }
 
 enum Status {
