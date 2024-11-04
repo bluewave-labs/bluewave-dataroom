@@ -5,9 +5,18 @@ interface Props extends StandardSelectProps {
 	options: { value: string; label: string }[];
 	initialValue: string;
 	onValueChange?: (newValue: string) => void;
+	isSelectFullWidth?: boolean;
+	selectPadding?: string;
 }
 
-const Dropdown = ({ options, initialValue, onValueChange, ...props }: Props) => {
+const Dropdown = ({
+	options,
+	initialValue,
+	onValueChange,
+	isSelectFullWidth = false,
+	selectPadding = '0.8rem 1rem',
+	...props
+}: Props) => {
 	const [value, setValue] = useState<string>(initialValue);
 
 	const handleChange = (event: SelectChangeEvent<unknown>) => {
@@ -23,13 +32,14 @@ const Dropdown = ({ options, initialValue, onValueChange, ...props }: Props) => 
 		<Select
 			value={value}
 			onChange={handleChange}
+			fullWidth={isSelectFullWidth}
 			disableUnderline
 			MenuProps={{
 				disableScrollLock: true,
 			}}
 			sx={{
 				minWidth: 195,
-				'& .MuiSelect-select': { padding: '0.8rem 1rem' },
+				'& .MuiSelect-select': { p: selectPadding },
 			}}
 			{...props}>
 			{options.map((option) => (
