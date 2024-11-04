@@ -11,6 +11,12 @@ const docTypeIcons: Record<Document['type'], string> = {
 	DOC: '/assets/icons/documentPage/word-icon.svg',
 	XLSX: '/assets/icons/documentPage/xlsx-icon.svg',
 	PPT: '/assets/icons/documentPage/ppt-icon.svg',
+	ZIP: '/assets/icons/documentPage/zip-icon.svg',
+	TXT: '/assets/icons/documentPage/txt-icon.svg',
+	Image: '/assets/icons/documentPage/image-icon.svg',
+	Audio: '/assets/icons/documentPage/audio-icon.svg',
+	Video: '/assets/icons/documentPage/video-icon.svg',
+	General: '/assets/icons/documentPage/general-icon.svg',
 };
 
 interface Props {
@@ -39,7 +45,7 @@ const DocumentsTableRow = ({ document }: Props) => {
 
 	return (
 		<TableRow hover>
-			<TableCell sx={{ paddingRight: 0 }}>
+			<TableCell sx={{ paddingRight: 0, textAlign: 'center' }}>
 				<Box
 					component="img"
 					src={docTypeIcons[document.type]}
