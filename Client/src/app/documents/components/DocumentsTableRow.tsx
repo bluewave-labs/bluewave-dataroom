@@ -50,7 +50,7 @@ const DocumentsTableRow = ({ document }: Props) => {
 					component="img"
 					src={docTypeIcons[document.type]}
 					alt={`${document.type} icon`}
-					sx={{ width: '24px', height: '24px' }}
+					sx={{ width: 24, height: 24 }}
 				/>
 			</TableCell>
 			<TableCell>

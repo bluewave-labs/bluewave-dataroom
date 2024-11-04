@@ -85,16 +85,10 @@ export default function DocumentsPage() {
 							<Typography variant="h3">Manage your documents</Typography>
 							<Typography variant="body1">{documentCount} documents</Typography>
 						</Box>
-						<Button variant="contained" color="primary" size="medium">
-							Upload new document
-						</Button>
 					</Box>
 					{/* Drag-and-Drop Section */}
 					<Box mb={5} width="100%">
-						<DragAndDropBox
-							height="21vh"
-							text="Drag and drop your document here or click to upload"
-						/>
+						<DragAndDropBox text="Drag and drop your document here or click to upload" />
 					</Box>
 
 					{/* Documents Table Section */}
