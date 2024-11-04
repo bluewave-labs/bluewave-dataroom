@@ -1,4 +1,4 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import KeyboardArrowDown from '@mui/icons-material/ExpandMore';
 import {
 	Accordion,
 	AccordionDetails,
@@ -7,6 +7,7 @@ import {
 	Divider,
 	Typography,
 } from '@mui/material';
+import ArrowLeft from '../../../../public/assets/icons/documentPage/ArrowLeft';
 
 interface CustomAccordionProps extends AccordionProps {
 	title: string;
@@ -15,7 +16,19 @@ interface CustomAccordionProps extends AccordionProps {
 const CustomAccordion = ({ title, children, ...props }: CustomAccordionProps) => {
 	return (
 		<Accordion {...props}>
-			<AccordionSummary expandIcon={<ExpandMoreIcon />}>
+			<AccordionSummary
+				sx={{
+					flexDirection: 'row-reverse',
+					'& .MuiAccordionSummary-expandIconWrapper': {
+						transform: 'rotate(0deg)',
+						transition: 'transform 0.3s ease',
+					},
+					'& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
+						transform: 'rotate(90deg)',
+						transition: 'transform 0.3s ease',
+					},
+				}}
+				expandIcon={<ArrowLeft />}>
 				<Typography variant="body1" color="text.brand" sx={{ paddingY: 3, paddingX: 4 }}>
 					{title}
 				</Typography>

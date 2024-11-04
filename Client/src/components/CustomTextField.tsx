@@ -21,7 +21,7 @@ const CustomTextField = ({
 		onChange={onChange}
 		variant="outlined"
 		placeholder={placeholder}
-		sx={{ minWidth }}
+		sx={{ minWidth, my: 4 }}
 	/>
 );
 
