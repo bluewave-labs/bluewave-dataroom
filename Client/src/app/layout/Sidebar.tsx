@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { Box, Stack } from '@mui/material';
@@ -11,16 +10,16 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 
 import BlueWaveLogo from '../../../public/assets/BluewaveLogo';
-import ContactsIcon from '../../../public/assets/icons/sidebar/sidebar-contacts-icon.svg';
-import DocumentsIcon from '../../../public/assets/icons/sidebar/sidebar-documents-icon.svg';
-import SettingsIcon from '../../../public/assets/icons/sidebar/sidebar-settings-icon.svg';
+import ContactsIcon from '../../../public/assets/icons/sidebar/ContactsIcon';
+import DocumentsIcon from '../../../public/assets/icons/sidebar/DocumentsIcon';
+import SettingsIcon from '../../../public/assets/icons/sidebar/SettingsIcon';
 import DropdownMenu from './DropdownMenu';
 
 export default function Sidebar() {
 	const menu = [
-		{ text: 'Documents', icon: DocumentsIcon, href: '/documents' },
-		{ text: 'Contacts', icon: ContactsIcon, href: '/contacts' },
-		{ text: 'Settings', icon: SettingsIcon, href: '/settings' },
+		{ text: 'Documents', icon: <DocumentsIcon />, href: '/documents' },
+		{ text: 'Contacts', icon: <ContactsIcon />, href: '/contacts' },
+		{ text: 'Settings', icon: <SettingsIcon />, href: '/settings' },
 	];
 
 	return (
@@ -39,7 +38,6 @@ export default function Sidebar() {
 				border: '1px solid',
 				borderColor: 'border.light',
 			}}>
-
 			<Box display={'flex'} flexDirection={'column'} gap={21} mx={5}>
 				<BlueWaveLogo width={191} height={24} />
 
@@ -58,7 +56,9 @@ export default function Sidebar() {
 										px: 4,
 									}}>
 									<ListItemIcon>
-										<Image src={icon} alt={text} height={24} width={24} />
+										<Box height={24} width={24} textAlign="center">
+											{icon}
+										</Box>
 									</ListItemIcon>
 									<ListItemText primary={text} />
 								</ListItemButton>
