@@ -1,15 +1,16 @@
 'use client';
-
 import { dummyTeams } from '@/data/dummyTeams';
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import FilterToggle from './FilterToggle';
 import UserTable, { User } from './UserTable';
+import ModalWrapper from '@/components/ModalWrapper';
+import { useModal } from '@/hooks/useModal';
 
 export default function TeamClient() {
-	const [filterRole, setFilterRole] = useState<
-		'All' | 'Administrator' | 'Member'
-	>('All');
+	const inviteModal = useModal();
+
+	const [filterRole, setFilterRole] = useState<'All' | 'Administrator' | 'Member'>('All');
 	const [page, setPage] = useState(1);
 	const [users, setUsers] = useState<User[]>([]);
 	const [totalUsers, setTotalUsers] = useState(0);
@@ -18,9 +19,7 @@ export default function TeamClient() {
 	useEffect(() => {
 		const fetchUsers = () => {
 			const filteredUsers =
-				filterRole === 'All'
-					? dummyTeams
-					: dummyTeams.filter((user) => user.role === filterRole);
+				filterRole === 'All' ? dummyTeams : dummyTeams.filter((user) => user.role === filterRole);
 
 			setTotalUsers(filteredUsers.length);
 			setUsers(filteredUsers.slice((page - 1) * pageSize, page * pageSize));
@@ -37,11 +36,8 @@ export default function TeamClient() {
 	return (
 		<>
 			<Box display="flex" justifyContent="space-between" alignItems="center">
-				<FilterToggle
-					currentFilter={filterRole}
-					onFilterChange={handleFilterChange}
-				/>
-				<Button variant="contained" color="primary">
+				<FilterToggle currentFilter={filterRole} onFilterChange={handleFilterChange} />
+				<Button variant="contained" color="primary" onClick={inviteModal.openModal}>
 					Invite team member
 				</Button>
 			</Box>
@@ -55,6 +51,15 @@ export default function TeamClient() {
 					totalUsers={totalUsers}
 				/>
 			</Box>
+
+			<ModalWrapper
+				variant="invite"
+				title="Invite new team member"
+				description="When you add a new team member, they will get access to all monitors."
+				confirmButtonText="Send invite"
+				toggleModal={inviteModal.closeModal}
+				open={inviteModal.isOpen}
+			/>
 		</>
 	);
 }

@@ -1,6 +1,6 @@
-import { Pagination, Box, PaginationItem, Button } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Box, Button, Pagination, PaginationItem } from '@mui/material';
+import ArrowBackIcon from '../../public/assets/icons/pagination/ArrowBackIcon';
+import ArrowForwardIcon from '../../public/assets/icons/pagination/ArrowForwardIcon';
 
 interface PaginatorProps {
 	page: number;
@@ -10,13 +10,7 @@ interface PaginatorProps {
 	totalItems: number;
 }
 
-const Paginator = ({
-	page,
-	totalPages,
-	onPageChange,
-	pageSize,
-	totalItems,
-}: PaginatorProps) => {
+const Paginator = ({ page, totalPages, onPageChange, pageSize, totalItems }: PaginatorProps) => {
 	const handlePageChange = (_event: any, newPage: number) => {
 		onPageChange(newPage);
 	};
@@ -26,12 +20,7 @@ const Paginator = ({
 	}
 
 	return (
-		<Box
-			display="flex"
-			justifyContent="center"
-			alignItems="center"
-			marginTop="1rem"
-			gap="5rem">
+		<Box display="flex" justifyContent="center" alignItems="center" marginTop="1rem" gap="5rem">
 			<Button
 				variant="outlined"
 				color="secondary"
@@ -51,9 +40,7 @@ const Paginator = ({
 				onChange={handlePageChange}
 				shape="rounded"
 				color="secondary"
-				renderItem={(item) => (
-					<PaginationItem {...item} sx={{ padding: '0 8px' }} />
-				)}
+				renderItem={(item) => <PaginationItem {...item} sx={{ padding: '0 8px' }} />}
 			/>
 			<Button
 				variant="outlined"

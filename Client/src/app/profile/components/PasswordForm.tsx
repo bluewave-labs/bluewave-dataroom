@@ -1,5 +1,5 @@
 import { Alert, Box, Button, TextField, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid2'; // Correct Grid2 import from MUI
+import Grid from '@mui/material/Grid2';
 import { useState } from 'react';
 
 export default function PasswordForm() {
@@ -40,7 +40,7 @@ export default function PasswordForm() {
 				alignItems="center">
 				{/* Current Password */}
 				<Grid size={5}>
-					<Typography variant="h2">Current Password</Typography>
+					<Typography variant="h3">Current Password</Typography>
 				</Grid>
 				<Grid size={7}>
 					<TextField
@@ -56,7 +56,7 @@ export default function PasswordForm() {
 
 				{/* New Password */}
 				<Grid size={5}>
-					<Typography variant="h2">New Password</Typography>
+					<Typography variant="h3">New Password</Typography>
 				</Grid>
 				<Grid size={7}>
 					<TextField
@@ -72,7 +72,7 @@ export default function PasswordForm() {
 
 				{/* Confirm Password */}
 				<Grid size={5}>
-					<Typography variant="h2">Confirm Password</Typography>
+					<Typography variant="h3">Confirm Password</Typography>
 				</Grid>
 				<Grid size={7}>
 					<TextField

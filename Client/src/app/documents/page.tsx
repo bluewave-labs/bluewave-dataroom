@@ -33,9 +33,13 @@ export default function DocumentsPage() {
 					alignContent="center"
 					textAlign="center"
 					width="100%">
-					<Typography variant="h5" sx={{ fontWeight: 'bold', mb: '1rem' }}>
-						Welcome to BlueWave DataRoom
+					<Typography variant="h2" component="span" mb={10}>
+						Welcome to BlueWave{' '}
+						<Typography variant="h1" component="span">
+							DataRoom
+						</Typography>
 					</Typography>
+
 					<List
 						sx={{
 							textAlign: 'left',
@@ -64,7 +68,7 @@ export default function DocumentsPage() {
 					</List>
 					<DragAndDropBox
 						height="25vh"
-						text="Drag and drop your first document here"
+						text="Drag and drop your first document here or click to upload"
 					/>
 				</Box>
 			) : (
@@ -74,32 +78,23 @@ export default function DocumentsPage() {
 						display="flex"
 						justifyContent="space-between"
 						alignItems="center"
-						mb="1rem"
+						mb={5}
 						textTransform="none"
 						width="100%">
 						<Box>
-							<Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-								Manage your documents
-							</Typography>
+							<Typography variant="h3">Manage your documents</Typography>
 							<Typography variant="body1">{documentCount} documents</Typography>
 						</Box>
-						<Button variant="contained" color="primary" size="medium">
-							Upload new document
-						</Button>
 					</Box>
 					{/* Drag-and-Drop Section */}
-					<Box marginBottom="1rem" width="100%">
-						<DragAndDropBox
-							height="21vh"
-							text="Drag and drop your document here or click to upload"
-						/>
+					<Box mb={5} width="100%">
+						<DragAndDropBox text="Drag and drop your document here or click to upload" />
 					</Box>
 
-            {/* Documents Table Section */}
-            <DocumentsTable />
-          </>
-        )}
-      </Container>
-    </>
-  );
+					{/* Documents Table Section */}
+					<DocumentsTable />
+				</>
+			)}
+		</Container>
+	);
 }

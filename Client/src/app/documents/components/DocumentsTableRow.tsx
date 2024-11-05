@@ -1,16 +1,8 @@
 import BarChartIcon from '@mui/icons-material/BarChart';
-import SettingsIcon from '../../../../public/assets/icons/sidebar/sidebar-settings-icon.svg';
-import {
-	Avatar,
-	Box,
-	Chip,
-	IconButton,
-	TableCell,
-	TableRow,
-	Typography,
-} from '@mui/material';
-import Image from 'next/image'; //+
+import { Avatar, Box, Chip, IconButton, TableCell, TableRow, Typography } from '@mui/material';
+import Image from 'next/image';
 import { useState } from 'react';
+import SettingsIcon from '../../../../public/assets/icons/sidebar/sidebar-settings-icon.svg';
 import ActionMenu from './ActionMenu';
 import { Document } from './DocumentsTable';
 
@@ -19,6 +11,12 @@ const docTypeIcons: Record<Document['type'], string> = {
 	DOC: '/assets/icons/documentPage/word-icon.svg',
 	XLSX: '/assets/icons/documentPage/xlsx-icon.svg',
 	PPT: '/assets/icons/documentPage/ppt-icon.svg',
+	ZIP: '/assets/icons/documentPage/zip-icon.svg',
+	TXT: '/assets/icons/documentPage/txt-icon.svg',
+	Image: '/assets/icons/documentPage/image-icon.svg',
+	Audio: '/assets/icons/documentPage/audio-icon.svg',
+	Video: '/assets/icons/documentPage/video-icon.svg',
+	General: '/assets/icons/documentPage/general-icon.svg',
 };
 
 interface Props {
@@ -47,12 +45,12 @@ const DocumentsTableRow = ({ document }: Props) => {
 
 	return (
 		<TableRow hover>
-			<TableCell sx={{ paddingRight: 0 }}>
+			<TableCell sx={{ paddingRight: 0, textAlign: 'center' }}>
 				<Box
 					component="img"
 					src={docTypeIcons[document.type]}
 					alt={`${document.type} icon`}
-					sx={{ width: '24px', height: '24px' }}
+					sx={{ width: 24, height: 24 }}
 				/>
 			</TableCell>
 			<TableCell>
@@ -86,9 +84,7 @@ const DocumentsTableRow = ({ document }: Props) => {
 							sx={{ width: 24, height: 24, marginRight: 5 }}
 						/>
 					) : (
-						<Avatar
-							alt={document.uploader.name}
-							sx={{ width: 24, height: 24, marginRight: 5 }}>
+						<Avatar alt={document.uploader.name} sx={{ width: 24, height: 24, marginRight: 5 }}>
 							{document.uploader.name.charAt(0).toUpperCase()}
 						</Avatar>
 					)}

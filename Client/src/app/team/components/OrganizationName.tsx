@@ -1,8 +1,7 @@
 'use client';
-
-import { Box, IconButton, TextField, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import { Box, IconButton, TextField, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 
 const OrganizationName = () => {
@@ -39,7 +38,7 @@ const OrganizationName = () => {
 			justifyContent="space-between"
 			alignItems="center"
 			sx={{ marginBottom: '1rem' }}>
-			<Typography variant="h2">Organization name</Typography>
+			<Typography variant="h3">Organization name</Typography>
 			<Box display="flex" alignItems="center" height={5}>
 				{isEditing ? (
 					<TextField
