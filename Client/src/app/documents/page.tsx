@@ -14,7 +14,7 @@ import DragAndDropBox from './components/DragAndDropBox';
 import Background from '../../../public/assets/Background';
 
 export default function DocumentsPage() {
-	const documentCount: number = 3;
+	const documentCount: number = 30;
 	const isEmptyState = documentCount === 0;
 
 	return (
@@ -70,10 +70,7 @@ export default function DocumentsPage() {
 								<ListItemText primary="Build trust with a professional user interface" />
 							</ListItem>
 						</List>
-						<DragAndDropBox
-							height="25vh"
-							text="Drag and drop your first document here or click to upload"
-						/>
+						<DragAndDropBox text="Drag and drop your first document here or click to upload" />
 					</Box>
 				</>
 			) : (
