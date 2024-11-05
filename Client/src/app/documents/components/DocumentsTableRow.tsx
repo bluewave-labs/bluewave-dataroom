@@ -1,8 +1,7 @@
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { Avatar, Box, Chip, IconButton, TableCell, TableRow, Typography } from '@mui/material';
-import Image from 'next/image';
 import { useState } from 'react';
-import SettingsIcon from '../../../../public/assets/icons/sidebar/sidebar-settings-icon.svg';
+import SettingsIcon from '../../../../public/assets/icons/sidebar/SettingsIcon';
 import ActionMenu from './ActionMenu';
 import { Document } from './DocumentsTable';
 
@@ -105,7 +104,7 @@ const DocumentsTableRow = ({ document }: Props) => {
 			</TableCell>
 			<TableCell sx={{ paddingLeft: '1.5rem' }}>
 				<IconButton onClick={handleMenuOpen}>
-					<Image src={SettingsIcon} alt="Settings icon" />
+					<SettingsIcon width={20} height={20} />
 				</IconButton>
 				<ActionMenu anchorEl={anchorEl} open={open} onClose={handleMenuClose} />
 			</TableCell>

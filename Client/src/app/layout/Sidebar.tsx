@@ -55,11 +55,7 @@ export default function Sidebar() {
 									sx={{
 										px: 4,
 									}}>
-									<ListItemIcon>
-										<Box height={24} width={24} textAlign="center">
-											{icon}
-										</Box>
-									</ListItemIcon>
+									<ListItemIcon>{icon}</ListItemIcon>
 									<ListItemText primary={text} />
 								</ListItemButton>
 							</Link>
