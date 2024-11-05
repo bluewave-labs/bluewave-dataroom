@@ -6,7 +6,6 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
-	Link,
 	TextField,
 	Typography,
 } from '@mui/material';
@@ -127,45 +126,43 @@ function UploadBox({ maxFileSize, fileFormats }: { maxFileSize?: string; fileFor
 // Separate component for the Invite Box
 function InviteBox() {
 	const [email, setEmail] = useState('');
-	const [role, setRole] = useState('');
 
 	return (
 		<Box component="form" autoComplete="off" mt={13}>
 			<Grid>
 				<TextField
 					variant="outlined"
-					label="Email"
+					placeholder="Email"
 					size="small"
 					type="email"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
 					fullWidth
 					sx={{
+						'& .MuiInputBase-input::placeholder': { color: '#667085', opacity: 1 },
 						'& .MuiOutlinedInput-root': {
 							'& fieldset': {
-								borderRadius: 2.5,
+								borderRadius: 2,
 							},
 						},
 					}}
 				/>
 			</Grid>
 			<Grid mt={15}>
-				<TextField
-					variant="outlined"
-					label="Select role"
-					size="small"
-					select
-					value={role}
-					onChange={(e) => setRole(e.target.value)}
-					fullWidth
-					sx={{
-						'& .MuiInputBase-input': { p: '0.56rem !important' },
-						'& .MuiOutlinedInput-root': {
-							'& fieldset': {
-								borderRadius: 2.5,
-							},
-						},
-					}}></TextField>
+				<Dropdown
+					initialValue="Select role"
+					variant="standard"
+					isSelectFullWidth={true}
+					selectPadding="0.5rem 1rem"
+					options={[
+						{ value: 'Select role', label: 'Select role' },
+						{ value: 'Administrator', label: 'Administrator' },
+						{ value: 'Member', label: 'Member' },
+					]}
+					onValueChange={(newRole) => {
+						console.log(`${newRole} is selected`);
+					}}
+				/>
 			</Grid>
 		</Box>
 	);

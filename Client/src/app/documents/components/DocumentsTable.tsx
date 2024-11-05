@@ -7,7 +7,17 @@ import { useState } from 'react';
 import DocumentsTableHeader from './DocumentsTableHeader';
 import DocumentsTableRow from './DocumentsTableRow';
 
-type DocumentType = 'PDF' | 'DOC' | 'XLSX' | 'PPT';
+type DocumentType =
+	| 'PDF'
+	| 'DOC'
+	| 'XLSX'
+	| 'PPT'
+	| 'ZIP'
+	| 'TXT'
+	| 'Image'
+	| 'Audio'
+	| 'Video'
+	| 'General';
 
 export interface Document {
 	id: string;
