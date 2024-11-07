@@ -1,20 +1,19 @@
 'use client';
+import CustomCheckbox from '@/components/CustomCheckbox';
 import NavLink from '@/components/NavLink';
 import {
 	Box,
 	Button,
-	Checkbox,
 	CircularProgress,
 	Container,
-	FormControlLabel,
 	FormLabel,
 	TextField,
 	Typography,
 } from '@mui/material';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, FormEvent, useState } from 'react';
-import Title from '../../../../public/assets/BluewaveLogo';
+import { ChangeEvent, useState } from 'react';
+import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 
 export default function SignIn() {
 	const [email, setEmail] = useState('');
@@ -24,35 +23,40 @@ export default function SignIn() {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
-	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault();
+		setError('');
 		setLoading(true);
 
-		setTimeout(() => {
+		try {
+			const result = await signIn('credentials', {
+				redirect: false,
+				email,
+				password,
+			});
+
+			if (result?.error) {
+				console.error('Sign-in error:', result.error);
+				setError(result.error);
+			} else {
+				router.push('/documents');
+			}
+		} catch (err) {
+			console.error('Unexpected sign-in error:', err);
+			setError('An unexpected error occurred.');
+		} finally {
 			setLoading(false);
-			router.push('/documents');
-		}, 5000); // Mock delay
-
-		// const result = await signIn('credentials', {
-		// 	redirect: false,
-		// 	email,
-		// 	password,
-		// });
-
-		// if (result?.error) {
-		// 	setError(result.error);
-		// } else {
-		// }
-		// setLoading(false);
+		}
 	};
+
 	const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setRemember(event.target.checked);
 	};
 	return (
 		<Container component="main" sx={{ display: 'flex', justifyContent: 'center' }}>
 			<Box display="flex" flexDirection="column" alignItems="center" mt={8} gap={10}>
-				<Box mb={30}>
-					<Title width={244} height={64} />
+				<Box my={30}>
+					<BluewaveLogo width={248} height={64} />
 				</Box>
 
 				<Typography variant="h2" mb={15}>
@@ -100,16 +104,12 @@ export default function SignIn() {
 					/>
 
 					<Box display="flex" justifyContent="space-between" alignItems="center" mt={8} mb={5}>
-						<FormControlLabel
-							control={<Checkbox value="remember" color="primary" />}
-							label="Remember for 30 days"
-						/>
-						{/* <CustomCheckbox
-							checked={false}
+						<CustomCheckbox
+							checked={remember}
 							onChange={handleCheckboxChange}
 							name="rememberPassword"
 							label="Remember for 30 days"
-						/> */}
+						/>
 
 						<NavLink href="/auth/forgot-password" linkText="Forgot password?" prefetch={true} />
 					</Box>

@@ -9,39 +9,41 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import KeyIcon from '../../../../public/assets/icons/auth/KeyIcon';
 
 export default function ForgotPassword() {
 	const router = useRouter();
-
 	const [email, setEmail] = useState('your_email@bluewave.ca');
 	const [loading, setLoading] = useState(false);
-	const [emailSent, setEmailSent] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setLoading(true);
-		// Simulate sending reset email
-		setTimeout(() => {
-			setEmailSent(true);
-			setLoading(false);
+		setErrorMessage(''); // Clear any previous error messages
 
-			router.push('/auth/email-sent');
-		}, 5000); // Mock API delay
+		try {
+			// API call to check if the email exists in the database
+			const response = await axios.post('/api/auth/verify-email', { email });
+
+			// If email is verified, navigate to the reset password page with email as a parameter
+			if (response.status === 200) {
+				router.push(`/auth/reset-password?email=${encodeURIComponent(email)}`);
+			}
+		} catch (error) {
+			console.error('Error verifying email:', error);
+			setErrorMessage('Email not found. Please try again or sign up.');
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
-		<Container
-			component="main"
-			sx={{ display: 'flex', justifyContent: 'center' }}>
-			<Box
-				display="flex"
-				flexDirection="column"
-				alignItems="center"
-				mt={8}
-				gap={10}>
+		<Container component="main" sx={{ display: 'flex', justifyContent: 'center' }}>
+			<Box display="flex" flexDirection="column" alignItems="center" mt={8} gap={10}>
 				<Box
 					width={56}
 					height={56}
@@ -51,20 +53,15 @@ export default function ForgotPassword() {
 					boxShadow="0px 1px 2px 0px #1018280D"
 					alignItems="center"
 					borderRadius="12px">
-					{/* Insert Key Icon here */}
-					<KeyIcon></KeyIcon>
+					<KeyIcon />
 				</Box>
 
 				<Typography variant="h2" mb={4}>
 					Forgot password?
 				</Typography>
 
-				<Typography
-					variant="subtitle2"
-					color="text.secondary"
-					mb={4}
-					textAlign="center">
-					No worries, we'll send you reset instructions.
+				<Typography variant="subtitle2" color="text.secondary" mb={4} textAlign="center">
+					No worries, we’ll send you reset instructions.
 				</Typography>
 
 				<Box
@@ -77,11 +74,7 @@ export default function ForgotPassword() {
 					gap={5}>
 					{/* Email Field */}
 					<FormLabel htmlFor="email">
-						<Typography
-							color="text.primary"
-							fontSize={15}
-							fontWeight={500}
-							mb={1}>
+						<Typography color="text.primary" fontSize={15} fontWeight={500} mb={1}>
 							Email
 						</Typography>
 					</FormLabel>
@@ -111,24 +104,18 @@ export default function ForgotPassword() {
 							variant="contained"
 							color="primary"
 							disabled={loading}
-							endIcon={
-								loading ? <CircularProgress size={20} color="inherit" /> : null
-							}>
-							{loading ? 'Sending Instructions...' : 'Reset password'}
+							endIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}>
+							{loading ? 'Verifying Email...' : 'Reset password'}
 						</Button>
 
-						<NavLink
-							href="/auth/sign-in"
-							linkText="← Back to sign in"
-							prefetch={true}
-						/>
+						<NavLink href="/auth/sign-in" linkText="← Back to sign in" prefetch={true} />
 					</Box>
 				</Box>
 
-				{/* Success Message for toast */}
-				{emailSent && (
-					<Typography variant="body1" color="success.main">
-						A reset email has been sent to {email}.
+				{/* Error Message for Invalid Email */}
+				{errorMessage && (
+					<Typography variant="body1" color="error" mt={2}>
+						{errorMessage}
 					</Typography>
 				)}
 			</Box>
