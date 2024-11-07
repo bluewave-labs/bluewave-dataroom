@@ -15,7 +15,6 @@ const Breadcrumb = () => {
 	const pathname = usePathname();
 
 	const iconMap: { [key: string]: React.ReactNode } = {
-		home: <HomeIcon />,
 		documents: <DocumentsIcon width={20} height={20} />,
 		contacts: <ContactsIcon width={20} height={20} />,
 		settings: <SettingsIcon width={20} height={20} />,
@@ -27,10 +26,10 @@ const Breadcrumb = () => {
 
 	// Helper function to render icon + text
 	const renderBreadcrumb = (label: string, href: string, isLast: boolean) => {
-		const iconSrc = iconMap[label.toLowerCase()];
+		const icon = iconMap[label.toLowerCase()];
 		return (
 			<Box key={href} display="flex" alignItems="center">
-				{iconSrc && iconSrc}
+				{icon}
 				{isLast ? (
 					<Typography variant="body1" color="text.notes" sx={{ ml: 3 }}>
 						{label.charAt(0).toUpperCase() + label.slice(1)}
@@ -54,7 +53,7 @@ const Breadcrumb = () => {
 			const href = `/${pathnames.slice(0, index + 1).join('/')}`;
 			return renderBreadcrumb(value, href, isLast);
 		});
-	}, [pathnames, renderBreadcrumb]);
+	}, [pathnames]);
 
 	return (
 		<Breadcrumbs
@@ -62,7 +61,7 @@ const Breadcrumb = () => {
 			separator={<NavigateNextIcon fontSize="small" />}
 			sx={{ marginBottom: '1rem' }}>
 			<Box display="flex" alignItems="center">
-				{iconMap['home']}
+				<HomeIcon width={20} height={20} />
 				<NavLink href="/" color="text.primary" variant="body1" sx={{ ml: 3 }} linkText="Home" />
 			</Box>
 			{breadcrumbs}
