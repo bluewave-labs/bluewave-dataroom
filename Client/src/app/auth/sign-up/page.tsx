@@ -8,10 +8,11 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, FormEvent, useState } from 'react';
+import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 import CheckIcon from '../../../../public/assets/icons/auth/CheckIcon';
-import Title from '../../../../public/assets/BluewaveLogo';
 
 export default function SignUp() {
 	const [firstName, setFirstName] = useState('');
@@ -51,16 +52,31 @@ export default function SignUp() {
 			setLoading(false);
 			return;
 		}
-		// Continue sign-up logic here (e.g., API request)
-		setLoading(false);
-		router.push('/auth/account-created');
+		try {
+			const response = await axios.post('/api/auth/register', {
+				email,
+				password,
+				firstName,
+				lastName,
+			});
+			console.log('User created successfully');
+			router.push('/auth/account-created');
+		} catch (error: unknown) {
+			if (axios.isAxiosError(error) && error.response?.data) {
+				const responseData = error.response.data;
+				console.error('Error registering user:', responseData.message);
+			} else {
+				console.log('An error occurred');
+			}
+			setLoading(false);
+		}
 	};
 
 	return (
 		<Container component="main" sx={{ display: 'flex', justifyContent: 'center' }}>
 			<Box display="flex" flexDirection="column" alignItems="center" mt={8} gap={10}>
 				<Box mb={20}>
-					<Title width={244} height={64} />
+					<BluewaveLogo width={248} height={64} />
 				</Box>
 
 				<Typography variant="h2" mb={12}>

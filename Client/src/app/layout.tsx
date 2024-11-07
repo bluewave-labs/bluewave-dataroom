@@ -18,7 +18,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				{/* Wrapping the client-side part */}
 				<Providers>{children}</Providers>
 			</body>
 		</html>

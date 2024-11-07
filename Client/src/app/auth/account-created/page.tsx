@@ -2,7 +2,7 @@
 import { Box, Button, CircularProgress, Container, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
-import Title from '../../../../public/assets/BluewaveLogo';
+import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 
 export default function AccountCreated() {
 	const [loading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ export default function AccountCreated() {
 
 		setTimeout(() => {
 			setLoading(false);
-			router.push('/documents');
+			router.push('/auth/signIn');
 		}, 5000); // Mock delay
 	};
 
@@ -21,7 +21,7 @@ export default function AccountCreated() {
 		<Container component="main" sx={{ display: 'flex', justifyContent: 'center' }}>
 			<Box display="flex" flexDirection="column" alignItems="center" mt={8} gap={15}>
 				<Box mb={10}>
-					<Title width={244} height={64} />
+					<BluewaveLogo width={248} height={64} />
 				</Box>
 
 				<Typography variant="h2" my={10}>
@@ -46,7 +46,7 @@ export default function AccountCreated() {
 						onClick={handleContinue}
 						disabled={loading}
 						endIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}>
-						{loading ? 'Loading...' : 'Go to dashboard'}
+						{loading ? 'Loading...' : 'Go to Sign In'}
 					</Button>
 				</Box>
 			</Box>
