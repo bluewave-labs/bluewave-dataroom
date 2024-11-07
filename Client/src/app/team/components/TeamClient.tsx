@@ -1,11 +1,11 @@
 'use client';
+import ModalWrapper from '@/components/ModalWrapper';
 import { dummyTeams } from '@/data/dummyTeams';
+import { useModal } from '@/hooks/useModal';
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import FilterToggle from './FilterToggle';
 import UserTable, { User } from './UserTable';
-import ModalWrapper from '@/components/ModalWrapper';
-import { useModal } from '@/hooks/useModal';
 
 export default function TeamClient() {
 	const inviteModal = useModal();
@@ -59,6 +59,9 @@ export default function TeamClient() {
 				confirmButtonText="Send invite"
 				toggleModal={inviteModal.closeModal}
 				open={inviteModal.isOpen}
+				onClose={function (): void {
+					throw new Error('Function not implemented.');
+				}}
 			/>
 		</>
 	);
