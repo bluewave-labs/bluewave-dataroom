@@ -1,34 +1,54 @@
 'use client';
-import AuthInput from '../components/AuthInput';
-import PasswordValidation from '../components/PasswordValidation';
 import LoadingButton from '@/components/LoadingButton';
 import Toast from '@/components/Toast';
+import { useAuthForm } from '@/hooks/useAuthForm';
+import { useFormData } from '@/hooks/useFormData';
 import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useAuthForm } from '@/hooks/useAuthForm';
-import { useState, ChangeEvent } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 import AuthFormWrapper from '../components/AuthFormWrapper';
+import AuthInput from '../components/AuthInput';
+import PasswordValidation from '../components/PasswordValidation';
 
 export default function SignUp() {
-	const [formData, setFormData] = useState({
+	const { formData, handleChange } = useFormData({
 		firstName: '',
 		lastName: '',
 		email: '',
 		password: '',
 		confirmPassword: '',
 	});
-	const [passwordError, setPasswordError] = useState('');
+
 	const [isPasswordValid, setIsPasswordValid] = useState({ length: false, specialChar: false });
+	const [inlineErrors, setInlineErrors] = useState<Record<string, string>>({});
+	const [showErrors, setShowErrors] = useState(false);
 	const router = useRouter();
 
-	const { loading, handleSubmit, toast } = useAuthForm({
+	const { loading, error, handleSubmit, toast } = useAuthForm({
 		onSubmit: async () => {
-			if (formData.password !== formData.confirmPassword) {
-				setPasswordError('Passwords do not match');
-				throw new Error('Password mismatch');
+			// Perform inline validation for client-side errors
+			const errors: Record<string, string> = {};
+
+			if (!formData.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+				errors.email = 'Please enter a valid email address.';
 			}
+
+			if (formData.password !== formData.confirmPassword) {
+				errors.confirmPassword = 'Passwords do not match';
+			}
+
+			if (!formData.firstName) errors.firstName = 'First name is required';
+			if (!formData.lastName) errors.lastName = 'Last name is required';
+
+			setInlineErrors(errors);
+
+			if (Object.keys(errors).length > 0) {
+				throw new Error('Validation error');
+			}
+
+			// Proceed with form submission if no validation errors
 			await axios.post('/api/auth/register', {
 				email: formData.email,
 				password: formData.password,
@@ -37,23 +57,22 @@ export default function SignUp() {
 			});
 			router.push('/auth/account-created');
 		},
+		isServerError: (err) => !!err.response, // Show toast if error has a server response
 	});
 
-	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const { id, value } = event.target;
-		setFormData((prevData) => ({
-			...prevData,
-			[id]: value,
-		}));
-	};
-
-	const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const newPassword = e.target.value;
-		setFormData((prevData) => ({ ...prevData, password: newPassword }));
+	const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const newPassword = event.target.value;
+		handleChange(event);
 		setIsPasswordValid({
 			length: newPassword.length >= 8,
 			specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(newPassword),
 		});
+	};
+
+	const onSubmitForm = (event: FormEvent) => {
+		event.preventDefault();
+		setShowErrors(true);
+		handleSubmit(event);
 	};
 
 	return (
@@ -68,12 +87,12 @@ export default function SignUp() {
 
 			<Box
 				component="form"
-				onSubmit={handleSubmit}
+				onSubmit={onSubmitForm}
 				noValidate
 				minWidth={400}
 				display="flex"
 				flexDirection="column"
-				gap={3}>
+				gap={8}>
 				<AuthInput
 					label="First name"
 					id="firstName"
@@ -81,6 +100,8 @@ export default function SignUp() {
 					value={formData.firstName}
 					onChange={handleChange}
 					required
+					showErrors={showErrors}
+					errorMessage={inlineErrors.firstName || ''}
 				/>
 				<AuthInput
 					label="Last name"
@@ -89,15 +110,19 @@ export default function SignUp() {
 					value={formData.lastName}
 					onChange={handleChange}
 					required
+					showErrors={showErrors}
+					errorMessage={inlineErrors.lastName || ''}
 				/>
 				<AuthInput
 					label="Email"
 					id="email"
 					type="email"
-					placeholder="your_predefined_email@bluewave.ca"
+					placeholder="your_email@bluewave.ca"
 					value={formData.email}
 					onChange={handleChange}
 					required
+					showErrors={showErrors}
+					errorMessage={inlineErrors.email || ''}
 				/>
 				<AuthInput
 					label="Password"
@@ -107,6 +132,7 @@ export default function SignUp() {
 					value={formData.password}
 					onChange={handlePasswordChange}
 					required
+					showErrors={showErrors}
 				/>
 				<AuthInput
 					label="Confirm Password"
@@ -116,13 +142,9 @@ export default function SignUp() {
 					value={formData.confirmPassword}
 					onChange={handleChange}
 					required
+					showErrors={showErrors}
+					errorMessage={inlineErrors.confirmPassword || ''}
 				/>
-
-				{passwordError && (
-					<Typography color="error" variant="body2" mt={1} mb={1}>
-						{passwordError}
-					</Typography>
-				)}
 
 				<PasswordValidation
 					isLengthValid={isPasswordValid.length}
@@ -135,12 +157,7 @@ export default function SignUp() {
 				/>
 			</Box>
 
-			<Toast
-				message="Registration failed. Please try again."
-				open={toast.open}
-				hideToast={toast.hideToast}
-				variant="error"
-			/>
+			<Toast message={error} open={toast.open} hideToast={toast.hideToast} variant="error" />
 		</AuthFormWrapper>
 	);
 }

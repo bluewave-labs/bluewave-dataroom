@@ -1,19 +1,20 @@
 'use client';
 import LoadingButton from '@/components/LoadingButton';
-import Toast from '@/components/Toast';
 import NavLink from '@/components/NavLink';
+import Toast from '@/components/Toast';
+import { useFormData } from '@/hooks/useFormData';
+import { useToast } from '@/hooks/useToast';
 import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useState, FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import KeyIcon from '../../../../public/assets/icons/auth/KeyIcon';
-import { useToast } from '@/hooks/useToast';
 import AuthFormWrapper from '../components/AuthFormWrapper';
 import AuthInput from '../components/AuthInput';
 
 export default function ForgotPassword() {
 	const router = useRouter();
-	const [email, setEmail] = useState('your_email@bluewave.ca');
+	const { formData, handleChange } = useFormData({ email: 'your_email@bluewave.ca' });
 	const [loading, setLoading] = useState(false);
 	const errorToast = useToast();
 
@@ -23,9 +24,9 @@ export default function ForgotPassword() {
 		errorToast.hideToast();
 
 		try {
-			const response = await axios.post('/api/auth/verify-email', { email });
+			const response = await axios.post('/api/auth/verify-email', { email: formData.email });
 			if (response.status === 200) {
-				router.push(`/auth/reset-password?email=${encodeURIComponent(email)}`);
+				router.push(`/auth/reset-password?email=${encodeURIComponent(formData.email)}`);
 			}
 		} catch (error) {
 			console.error('Error verifying email:', error);
@@ -70,7 +71,8 @@ export default function ForgotPassword() {
 					id="email"
 					type="email"
 					placeholder="Enter your email"
-					onChange={(e) => setEmail(e.target.value)}
+					value={formData.email}
+					onChange={handleChange}
 					required
 				/>
 
@@ -78,7 +80,7 @@ export default function ForgotPassword() {
 					mt={10}
 					display="flex"
 					justifyContent="center"
-					flexDirection={'column'}
+					flexDirection="column"
 					alignItems="center"
 					gap={8}>
 					<LoadingButton

@@ -1,19 +1,19 @@
 'use client';
 import CustomCheckbox from '@/components/CustomCheckbox';
-import NavLink from '@/components/NavLink';
-import AuthInput from '../components/AuthInput';
 import LoadingButton from '@/components/LoadingButton';
+import NavLink from '@/components/NavLink';
 import Toast from '@/components/Toast';
+import { useAuthForm } from '@/hooks/useAuthForm';
+import { useFormData } from '@/hooks/useFormData';
 import { Box, Typography } from '@mui/material';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useState, ChangeEvent } from 'react';
 import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
-import { useAuthForm } from '@/hooks/useAuthForm';
 import AuthFormWrapper from '../components/AuthFormWrapper';
+import AuthInput from '../components/AuthInput';
 
 export default function SignIn() {
-	const [formData, setFormData] = useState({
+	const { formData, handleChange } = useFormData({
 		email: '',
 		password: '',
 		remember: false,
@@ -32,13 +32,6 @@ export default function SignIn() {
 		},
 	});
 
-	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const { id, value, checked, type } = event.target;
-		setFormData((prevData) => ({
-			...prevData,
-			[id]: type === 'checkbox' ? checked : value,
-		}));
-	};
 	return (
 		<AuthFormWrapper>
 			<Box my={30}>
@@ -49,7 +42,14 @@ export default function SignIn() {
 				Sign in to your account
 			</Typography>
 
-			<Box component="form" onSubmit={handleSubmit} noValidate minWidth={400}>
+			<Box
+				component="form"
+				onSubmit={handleSubmit}
+				noValidate
+				minWidth={400}
+				display="flex"
+				flexDirection="column"
+				gap={5}>
 				<AuthInput
 					label="Email"
 					id="email"

@@ -1,55 +1,70 @@
 'use client';
-import NavLink from '@/components/NavLink';
 import LoadingButton from '@/components/LoadingButton';
+import NavLink from '@/components/NavLink';
 import Toast from '@/components/Toast';
+import { useAuthForm } from '@/hooks/useAuthForm';
+import { useFormData } from '@/hooks/useFormData';
 import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuthForm } from '@/hooks/useAuthForm';
-import { useState, ChangeEvent } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import LockIcon from '../../../../public/assets/icons/auth/LockIcon';
+import AuthFormWrapper from '../components/AuthFormWrapper';
 import AuthInput from '../components/AuthInput';
 import PasswordValidation from '../components/PasswordValidation';
-import AuthFormWrapper from '../components/AuthFormWrapper';
 
 export default function SetNewPassword() {
-	const [formData, setFormData] = useState({
+	const { formData, handleChange } = useFormData({
 		password: '',
 		confirmPassword: '',
 	});
-	const [passwordError, setPasswordError] = useState('');
 	const [isPasswordValid, setIsPasswordValid] = useState({ length: false, specialChar: false });
+	const [inlineErrors, setInlineErrors] = useState<Record<string, string>>({});
+	const [showErrors, setShowErrors] = useState(false);
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const email = searchParams.get('email');
 
-	const { loading, handleSubmit, toast } = useAuthForm({
+	const { loading, error, handleSubmit, toast } = useAuthForm({
 		onSubmit: async () => {
-			if (formData.password !== formData.confirmPassword) {
-				setPasswordError('Passwords do not match');
-				throw new Error('Password mismatch');
+			// Set inline validation errors
+			const errors: Record<string, string> = {};
+
+			if (!formData.password) errors.password = 'Password is required';
+			if (!formData.confirmPassword) errors.confirmPassword = 'Confirm password is required';
+			if (formData.password && formData.password !== formData.confirmPassword) {
+				errors.confirmPassword = 'Passwords do not match';
 			}
+
+			setInlineErrors(errors);
+
+			if (Object.keys(errors).length > 0) {
+				throw new Error('Validation error');
+			}
+
+			// Send request if there are no errors
 			await axios.post('/api/auth/resetPass', { email, password: formData.password });
 			router.push('/auth/password-reset-confirm');
 		},
+		isServerError: (err) => !!err.response,
 	});
-
-	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const { id, value } = event.target;
-		setFormData((prevData) => ({
-			...prevData,
-			[id]: value,
-		}));
-	};
 
 	const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const newPassword = event.target.value;
-		setFormData((prevData) => ({ ...prevData, password: newPassword }));
+		handleChange(event); // Update formData
 		setIsPasswordValid({
 			length: newPassword.length >= 8,
 			specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(newPassword),
 		});
 	};
+
+	const onSubmitForm = (event: FormEvent) => {
+		event.preventDefault();
+		setShowErrors(true);
+		handleSubmit(event);
+	};
+
+	const toastMessage = error || 'Failed to reset password. Please try again.';
 
 	return (
 		<AuthFormWrapper>
@@ -75,12 +90,12 @@ export default function SetNewPassword() {
 
 			<Box
 				component="form"
-				onSubmit={handleSubmit}
+				onSubmit={onSubmitForm}
 				noValidate
 				minWidth={400}
 				display="flex"
 				flexDirection="column"
-				gap={5}>
+				gap={8}>
 				<AuthInput
 					label="Password"
 					id="password"
@@ -89,6 +104,8 @@ export default function SetNewPassword() {
 					value={formData.password}
 					onChange={handlePasswordChange}
 					required
+					showErrors={showErrors}
+					errorMessage={inlineErrors.password || ''}
 				/>
 				<AuthInput
 					label="Confirm Password"
@@ -98,13 +115,9 @@ export default function SetNewPassword() {
 					value={formData.confirmPassword}
 					onChange={handleChange}
 					required
+					showErrors={showErrors}
+					errorMessage={inlineErrors.confirmPassword || ''}
 				/>
-
-				{passwordError && (
-					<Typography color="error" variant="body2" mt={1} mb={1}>
-						{passwordError}
-					</Typography>
-				)}
 
 				<PasswordValidation
 					isLengthValid={isPasswordValid.length}
@@ -118,12 +131,7 @@ export default function SetNewPassword() {
 			</Box>
 
 			<NavLink href="/auth/sign-in" linkText="← Back to sign in" prefetch={true} />
-			<Toast
-				message="Failed to reset password. Please try again."
-				open={toast.open}
-				hideToast={toast.hideToast}
-				variant="error"
-			/>
+			<Toast message={toastMessage} open={toast.open} hideToast={toast.hideToast} variant="error" />
 		</AuthFormWrapper>
 	);
 }

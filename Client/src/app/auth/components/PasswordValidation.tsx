@@ -6,16 +6,16 @@ interface PasswordValidationProps {
 }
 const PasswordValidation = ({ isLengthValid, hasSpecialChar }: PasswordValidationProps) => {
 	return (
-		<>
-			<Box display="flex" alignItems="center" my={2} gap={1}>
+		<Box display="flex" flexDirection="column" gap={6} mb={3}>
+			<Box display="flex" alignItems="center" gap={5}>
 				<CheckIcon color={isLengthValid ? 'success' : undefined} />
 				<Typography variant="body2">Must be at least 8 characters</Typography>
 			</Box>
-			<Box display="flex" alignItems="center" my={2} gap={1}>
+			<Box display="flex" alignItems="center" gap={5}>
 				<CheckIcon color={hasSpecialChar ? 'success' : undefined} />
 				<Typography variant="body2">Must contain one special character</Typography>
 			</Box>
-		</>
+		</Box>
 	);
 };
 export default PasswordValidation;
