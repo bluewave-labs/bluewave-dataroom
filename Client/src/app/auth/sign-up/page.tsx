@@ -1,228 +1,146 @@
 'use client';
-import {
-	Box,
-	Button,
-	CircularProgress,
-	Container,
-	FormLabel,
-	TextField,
-	Typography,
-} from '@mui/material';
+import AuthInput from '../components/AuthInput';
+import PasswordValidation from '../components/PasswordValidation';
+import LoadingButton from '@/components/LoadingButton';
+import Toast from '@/components/Toast';
+import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { useAuthForm } from '@/hooks/useAuthForm';
+import { useState, ChangeEvent } from 'react';
 import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
-import CheckIcon from '../../../../public/assets/icons/auth/CheckIcon';
+import AuthFormWrapper from '../components/AuthFormWrapper';
 
 export default function SignUp() {
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
-	const [loading, setLoading] = useState(false);
-	const [passwordError, setPasswordError] = useState(''); // Track password mismatch error
-	const [isPasswordValid, setIsPasswordValid] = useState({
-		length: false,
-		specialChar: false,
+	const [formData, setFormData] = useState({
+		firstName: '',
+		lastName: '',
+		email: '',
+		password: '',
+		confirmPassword: '',
 	});
+	const [passwordError, setPasswordError] = useState('');
+	const [isPasswordValid, setIsPasswordValid] = useState({ length: false, specialChar: false });
 	const router = useRouter();
+
+	const { loading, handleSubmit, toast } = useAuthForm({
+		onSubmit: async () => {
+			if (formData.password !== formData.confirmPassword) {
+				setPasswordError('Passwords do not match');
+				throw new Error('Password mismatch');
+			}
+			await axios.post('/api/auth/register', {
+				email: formData.email,
+				password: formData.password,
+				firstName: formData.firstName,
+				lastName: formData.lastName,
+			});
+			router.push('/auth/account-created');
+		},
+	});
+
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const { id, value } = event.target;
+		setFormData((prevData) => ({
+			...prevData,
+			[id]: value,
+		}));
+	};
 
 	const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const newPassword = e.target.value;
-		setPassword(newPassword);
-
-		// Check password length and special character
+		setFormData((prevData) => ({ ...prevData, password: newPassword }));
 		setIsPasswordValid({
 			length: newPassword.length >= 8,
 			specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(newPassword),
 		});
 	};
 
-	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		setLoading(true);
-
-		// Clear the password error state first
-		setPasswordError('');
-
-		// Validate password and confirmPassword match
-		if (password !== confirmPassword) {
-			setPasswordError('Passwords do not match');
-			setLoading(false);
-			return;
-		}
-		try {
-			const response = await axios.post('/api/auth/register', {
-				email,
-				password,
-				firstName,
-				lastName,
-			});
-			console.log('User created successfully');
-			router.push('/auth/account-created');
-		} catch (error: unknown) {
-			if (axios.isAxiosError(error) && error.response?.data) {
-				const responseData = error.response.data;
-				console.error('Error registering user:', responseData.message);
-			} else {
-				console.log('An error occurred');
-			}
-			setLoading(false);
-		}
-	};
-
 	return (
-		<Container component="main" sx={{ display: 'flex', justifyContent: 'center' }}>
-			<Box display="flex" flexDirection="column" alignItems="center" mt={8} gap={10}>
-				<Box mb={20}>
-					<BluewaveLogo width={248} height={64} />
-				</Box>
-
-				<Typography variant="h2" mb={12}>
-					Create an account
-				</Typography>
-
-				<Box
-					component="form"
-					onSubmit={handleSubmit}
-					noValidate
-					minWidth={400}
-					gap={3}
-					display={'flex'}
-					flexDirection={'column'}>
-					{/* First Name */}
-					<FormLabel htmlFor="firstName">
-						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={3} mb={1}>
-							First name
-						</Typography>
-					</FormLabel>
-					<TextField
-						id="firstName"
-						name="firstName"
-						placeholder="Enter your name"
-						autoComplete="given-name"
-						size="small"
-						autoFocus
-						required
-						fullWidth
-						variant="outlined"
-						value={firstName}
-						onChange={(e) => setFirstName(e.target.value)}
-					/>
-
-					{/* Last Name */}
-					<FormLabel htmlFor="lastName">
-						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={3} mb={1}>
-							Last name
-						</Typography>
-					</FormLabel>
-					<TextField
-						id="lastName"
-						name="lastName"
-						placeholder="Enter your surname"
-						size="small"
-						autoComplete="family-name"
-						required
-						fullWidth
-						variant="outlined"
-						value={lastName}
-						onChange={(e) => setLastName(e.target.value)}
-					/>
-
-					{/* Email */}
-					<FormLabel htmlFor="email">
-						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={3} mb={1}>
-							Email
-						</Typography>
-					</FormLabel>
-					<TextField
-						id="email"
-						type="email"
-						name="email"
-						placeholder="your_predefined_email@bluewave.ca"
-						size="small"
-						autoComplete="email"
-						required
-						fullWidth
-						variant="outlined"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-
-					{/* Password */}
-					<FormLabel htmlFor="password">
-						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={3} mb={1}>
-							Password
-						</Typography>
-					</FormLabel>
-					<TextField
-						id="password"
-						type="password"
-						name="password"
-						placeholder="Create a password"
-						size="small"
-						autoComplete="new-password"
-						required
-						fullWidth
-						variant="outlined"
-						value={password}
-						onChange={handlePasswordChange}
-					/>
-
-					{/* Confirm Password */}
-					<FormLabel htmlFor="confirmPassword">
-						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={3} mb={1}>
-							Confirm Password
-						</Typography>
-					</FormLabel>
-					<TextField
-						id="confirmPassword"
-						type="password"
-						name="confirmPassword"
-						placeholder="Create a password"
-						size="small"
-						autoComplete="new-password"
-						required
-						fullWidth
-						variant="outlined"
-						value={confirmPassword}
-						onChange={(e) => setConfirmPassword(e.target.value)}
-					/>
-
-					{/* Password Error Message */}
-					{passwordError && (
-						<Typography color="error" variant="body2" mt={1} mb={1}>
-							{passwordError}
-						</Typography>
-					)}
-
-					{/* Password Validations */}
-					<Box display="flex" alignItems="center" my={5} gap={5}>
-						{isPasswordValid.length ? <CheckIcon color="success" /> : <CheckIcon />}
-						<Typography variant="h4" ml={1}>
-							Must be at least 8 characters
-						</Typography>
-					</Box>
-					<Box display="flex" alignItems="center" mb={10} gap={5}>
-						{isPasswordValid.specialChar ? <CheckIcon color="success" /> : <CheckIcon />}
-						<Typography variant="h4" ml={1}>
-							Must contain one special character
-						</Typography>
-					</Box>
-
-					{/* Submit Button with Loading Indicator */}
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						disabled={loading}
-						endIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}>
-						{loading ? 'Creating Account ...' : 'Get started'}
-					</Button>
-				</Box>
+		<AuthFormWrapper>
+			<Box mb={20}>
+				<BluewaveLogo width={248} height={64} />
 			</Box>
-		</Container>
+
+			<Typography variant="h2" mb={12}>
+				Create an account
+			</Typography>
+
+			<Box
+				component="form"
+				onSubmit={handleSubmit}
+				noValidate
+				minWidth={400}
+				display="flex"
+				flexDirection="column"
+				gap={3}>
+				<AuthInput
+					label="First name"
+					id="firstName"
+					placeholder="Enter your name"
+					value={formData.firstName}
+					onChange={handleChange}
+					required
+				/>
+				<AuthInput
+					label="Last name"
+					id="lastName"
+					placeholder="Enter your surname"
+					value={formData.lastName}
+					onChange={handleChange}
+					required
+				/>
+				<AuthInput
+					label="Email"
+					id="email"
+					type="email"
+					placeholder="your_predefined_email@bluewave.ca"
+					value={formData.email}
+					onChange={handleChange}
+					required
+				/>
+				<AuthInput
+					label="Password"
+					id="password"
+					type="password"
+					placeholder="Create a password"
+					value={formData.password}
+					onChange={handlePasswordChange}
+					required
+				/>
+				<AuthInput
+					label="Confirm Password"
+					id="confirmPassword"
+					type="password"
+					placeholder="Confirm your password"
+					value={formData.confirmPassword}
+					onChange={handleChange}
+					required
+				/>
+
+				{passwordError && (
+					<Typography color="error" variant="body2" mt={1} mb={1}>
+						{passwordError}
+					</Typography>
+				)}
+
+				<PasswordValidation
+					isLengthValid={isPasswordValid.length}
+					hasSpecialChar={isPasswordValid.specialChar}
+				/>
+				<LoadingButton
+					loading={loading}
+					buttonText="Get started"
+					loadingText="Creating Account ..."
+				/>
+			</Box>
+
+			<Toast
+				message="Registration failed. Please try again."
+				open={toast.open}
+				hideToast={toast.hideToast}
+				variant="error"
+			/>
+		</AuthFormWrapper>
 	);
 }

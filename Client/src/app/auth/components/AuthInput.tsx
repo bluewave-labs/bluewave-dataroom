@@ -5,7 +5,7 @@ interface AuthInputProps {
 	id: string;
 	type?: string;
 	placeholder?: string;
-	value: string;
+	value?: string;
 	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 	required?: boolean;
 	autoComplete?: string;

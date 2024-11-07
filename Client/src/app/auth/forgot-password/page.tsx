@@ -1,124 +1,103 @@
 'use client';
+import LoadingButton from '@/components/LoadingButton';
+import Toast from '@/components/Toast';
 import NavLink from '@/components/NavLink';
-import {
-	Box,
-	Button,
-	CircularProgress,
-	Container,
-	FormLabel,
-	TextField,
-	Typography,
-} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+import { useState, FormEvent } from 'react';
 import KeyIcon from '../../../../public/assets/icons/auth/KeyIcon';
+import { useToast } from '@/hooks/useToast';
+import AuthFormWrapper from '../components/AuthFormWrapper';
+import AuthInput from '../components/AuthInput';
 
 export default function ForgotPassword() {
 	const router = useRouter();
 	const [email, setEmail] = useState('your_email@bluewave.ca');
 	const [loading, setLoading] = useState(false);
-	const [errorMessage, setErrorMessage] = useState('');
+	const errorToast = useToast();
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setLoading(true);
-		setErrorMessage(''); // Clear any previous error messages
+		errorToast.hideToast();
 
 		try {
-			// API call to check if the email exists in the database
 			const response = await axios.post('/api/auth/verify-email', { email });
-
-			// If email is verified, navigate to the reset password page with email as a parameter
 			if (response.status === 200) {
 				router.push(`/auth/reset-password?email=${encodeURIComponent(email)}`);
 			}
 		} catch (error) {
 			console.error('Error verifying email:', error);
-			setErrorMessage('Email not found. Please try again or sign up.');
+			errorToast.showToast();
 		} finally {
 			setLoading(false);
 		}
 	};
 
 	return (
-		<Container component="main" sx={{ display: 'flex', justifyContent: 'center' }}>
-			<Box display="flex" flexDirection="column" alignItems="center" mt={8} gap={10}>
+		<AuthFormWrapper>
+			<Box
+				width={56}
+				height={56}
+				border="1px solid #EAECF0"
+				display="flex"
+				justifyContent="center"
+				boxShadow="0px 1px 2px 0px #1018280D"
+				alignItems="center"
+				borderRadius="12px">
+				<KeyIcon />
+			</Box>
+
+			<Typography variant="h2" mb={4}>
+				Forgot password?
+			</Typography>
+
+			<Typography variant="subtitle2" color="text.secondary" mb={4} textAlign="center">
+				No worries, we’ll send you reset instructions.
+			</Typography>
+
+			<Box
+				component="form"
+				onSubmit={handleSubmit}
+				noValidate
+				minWidth={400}
+				display="flex"
+				flexDirection="column"
+				gap={5}>
+				<AuthInput
+					label="Email"
+					id="email"
+					type="email"
+					placeholder="Enter your email"
+					onChange={(e) => setEmail(e.target.value)}
+					required
+				/>
+
 				<Box
-					width={56}
-					height={56}
-					border="1px solid #EAECF0"
+					mt={10}
 					display="flex"
 					justifyContent="center"
-					boxShadow="0px 1px 2px 0px #1018280D"
-					alignItems="center"
-					borderRadius="12px">
-					<KeyIcon />
-				</Box>
-
-				<Typography variant="h2" mb={4}>
-					Forgot password?
-				</Typography>
-
-				<Typography variant="subtitle2" color="text.secondary" mb={4} textAlign="center">
-					No worries, we’ll send you reset instructions.
-				</Typography>
-
-				<Box
-					component="form"
-					onSubmit={handleSubmit}
-					noValidate
-					minWidth={400}
-					display={'flex'}
 					flexDirection={'column'}
-					gap={5}>
-					{/* Email Field */}
-					<FormLabel htmlFor="email">
-						<Typography color="text.primary" fontSize={15} fontWeight={500} mb={1}>
-							Email
-						</Typography>
-					</FormLabel>
-					<TextField
-						id="email"
-						type="email"
-						name="email"
-						placeholder="Enter your email"
-						size="small"
-						autoComplete="email"
-						required
+					alignItems="center"
+					gap={8}>
+					<LoadingButton
+						loading={loading}
+						buttonText="Reset password"
+						loadingText="Verifying Email..."
 						fullWidth
-						variant="outlined"
-						onChange={(e) => setEmail(e.target.value)}
 					/>
 
-					<Box
-						mt={10}
-						display="flex"
-						justifyContent="center"
-						flexDirection={'column'}
-						alignItems="center"
-						gap={8}>
-						<Button
-							type="submit"
-							fullWidth
-							variant="contained"
-							color="primary"
-							disabled={loading}
-							endIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}>
-							{loading ? 'Verifying Email...' : 'Reset password'}
-						</Button>
-
-						<NavLink href="/auth/sign-in" linkText="← Back to sign in" prefetch={true} />
-					</Box>
+					<NavLink href="/auth/sign-in" linkText="← Back to sign in" prefetch={true} />
 				</Box>
-
-				{/* Error Message for Invalid Email */}
-				{errorMessage && (
-					<Typography variant="body1" color="error" mt={2}>
-						{errorMessage}
-					</Typography>
-				)}
 			</Box>
-		</Container>
+
+			<Toast
+				message="Email not found. Please try again or sign up."
+				open={errorToast.open}
+				hideToast={errorToast.hideToast}
+				variant="error"
+			/>
+		</AuthFormWrapper>
 	);
 }
