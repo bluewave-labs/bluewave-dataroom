@@ -1,12 +1,10 @@
 import Breadcrumb from '@/components/Breadcrumb';
-import Sidebar from './layout/Sidebar';
 import { Box, CircularProgress, Container } from '@mui/material';
 import { useSession } from 'next-auth/react';
-import { usePathname, useRouter } from 'next/navigation';
-import React, { ReactNode, useEffect, useState } from 'react';
-import Background from '../../public/assets/Background';
-// import SignIn from './signIn/page';
+import { usePathname } from 'next/navigation';
+import { ReactNode, useEffect, useState } from 'react';
 import SignIn from './auth/sign-in/page';
+import Sidebar from './layout/Sidebar';
 
 export default function AuthWrapper({ children }: { children: ReactNode }) {
 	const { data: session, status } = useSession();
@@ -52,12 +50,9 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 		return <>{children}</>;
 	}
 
-	const backgroundPosition = session ? 0 : -264;
-
 	if (!session) {
 		return (
 			<>
-				<Background backgroundPosition={backgroundPosition} />
 				<SignIn />
 			</>
 		);
