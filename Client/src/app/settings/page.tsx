@@ -1,4 +1,4 @@
-import { Box, Container, Divider } from '@mui/material';
+import { Container, Divider } from '@mui/material';
 import BrandingSetting from './components/BrandingSetting';
 import SettingsTabs from './components/SettingsTabs';
 

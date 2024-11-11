@@ -1,12 +1,10 @@
-import Breadcrumb from '@/components/Breadcrumb';
-import Sidebar from './layout/Sidebar';
-import { Box, CircularProgress, Container } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { useSession } from 'next-auth/react';
-import { usePathname, useRouter } from 'next/navigation';
-import React, { ReactNode, useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { ReactNode, useEffect, useState } from 'react';
 import Background from '../../public/assets/Background';
-// import SignIn from './signIn/page';
 import SignIn from './auth/sign-in/page';
+import Sidebar from './layout/Sidebar';
 
 export default function AuthWrapper({ children }: { children: ReactNode }) {
 	const { data: session, status } = useSession();

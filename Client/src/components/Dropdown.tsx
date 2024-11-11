@@ -1,18 +1,20 @@
-import { MenuItem, Select, SelectChangeEvent, StandardSelectProps } from '@mui/material';
+import { MenuItem, Select, SelectChangeEvent, SelectProps } from '@mui/material';
 import { useState } from 'react';
 
-interface Props extends StandardSelectProps {
+interface Props {
 	options: { value: string; label: string }[];
 	initialValue: string;
 	onValueChange?: (newValue: string) => void;
 	isSelectFullWidth?: boolean;
 	selectPadding?: string;
+	variant?: SelectProps['variant'];
 }
 
 const Dropdown = ({
 	options,
 	initialValue,
 	onValueChange,
+	variant,
 	isSelectFullWidth = false,
 	selectPadding = '0.8rem 1rem',
 	...props
@@ -33,6 +35,7 @@ const Dropdown = ({
 			value={value}
 			onChange={handleChange}
 			fullWidth={isSelectFullWidth}
+			variant={variant}
 			disableUnderline
 			MenuProps={{
 				disableScrollLock: true,

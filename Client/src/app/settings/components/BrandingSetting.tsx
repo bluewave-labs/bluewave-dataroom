@@ -133,7 +133,6 @@ export default function BrandingSetting() {
 						</Grid>
 						<Box width="100%" display="flex" justifyContent="flex-end">
 							<Button
-								// sx={{ placeSelf: 'end', justifySelf: 'flex-end' }}
 								variant="contained"
 								onClick={handleSave}
 								disabled={loading}
