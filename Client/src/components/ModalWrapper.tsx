@@ -151,7 +151,7 @@ function InviteBox() {
 			<Grid mt={15}>
 				<Dropdown
 					initialValue="Select role"
-					variant="standard"
+					variant="outlined"
 					isSelectFullWidth={true}
 					selectPadding="0.5rem 1rem"
 					options={[

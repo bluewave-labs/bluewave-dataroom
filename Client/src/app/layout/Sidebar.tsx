@@ -28,18 +28,14 @@ export default function Sidebar() {
 			justifyContent="space-between"
 			direction="column"
 			sx={{
-				maxHeight: '100vh',
+				height: '100vh',
 				backgroundColor: 'background.fill',
-				mt: -16,
-				mb: -12,
-				ml: -4,
 				pt: 16,
-				pb: 12,
+				pb: 10,
 				px: 8,
 				border: '1px solid',
 				borderColor: 'border.light',
 			}}>
-
 			<Box display={'flex'} flexDirection={'column'} gap={21} mx={5}>
 				<BlueWaveLogo width={191} height={24} />
 

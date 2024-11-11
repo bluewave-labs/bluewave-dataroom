@@ -2,20 +2,28 @@
 import ModalWrapper from '@/components/ModalWrapper';
 import { useModal } from '@/hooks/useModal';
 import EditIcon from '@mui/icons-material/Edit';
-import { Avatar, Box, Button, Link, Typography } from '@mui/material';
+import { Avatar, Box, Button, CircularProgress, Link, Typography } from '@mui/material';
 import ColorPickerBox from './ColorPickerBox';
 import Grid from '@mui/material/Grid2';
+import { useState } from 'react';
 
 export default function BrandingSetting() {
 	const deleteModal = useModal();
 	const uploadModal = useModal();
+
+	const [loading, setLoading] = useState(false);
 
 	const handleDelete = () => {
 		console.log('Logo Deleted');
 	};
 
 	const handleSave = () => {
-		console.log('Update successful!');
+		setLoading(true);
+
+		setTimeout(() => {
+			console.log('Update successful!');
+			setLoading(false);
+		}, 2000);
 	};
 	const handleUpdate = () => {
 		console.log('Logo Update successful!');
@@ -31,12 +39,16 @@ export default function BrandingSetting() {
 					</Typography>
 				</Box>
 				<Box>
-					<Grid container rowSpacing={14} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+					<Grid
+						container
+						rowSpacing={12}
+						columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+						alignItems="center">
 						{/* Logo */}
-						<Grid size={4}>
+						<Grid size={5}>
 							<Typography variant="h4">Logo</Typography>
 						</Grid>
-						<Grid size={6}>
+						<Grid size={7}>
 							<Box display="flex" alignItems="center">
 								{/* Edit Icon on hover */}
 								<Box
@@ -105,26 +117,30 @@ export default function BrandingSetting() {
 						</Grid>
 
 						{/* Background color */}
-						<Grid size={4}>
+						<Grid size={5}>
 							<Typography variant="h4">Background color</Typography>
 						</Grid>
-						<Grid size={6}>
+						<Grid size={7}>
 							<ColorPickerBox />
 						</Grid>
 
 						{/* Font color */}
-						<Grid size={4}>
+						<Grid size={5}>
 							<Typography variant="h4">Font color</Typography>
 						</Grid>
-						<Grid size={6}>
+						<Grid size={7}>
 							<ColorPickerBox />
 						</Grid>
+						<Box width="100%" display="flex" justifyContent="flex-end">
+							<Button
+								variant="contained"
+								onClick={handleSave}
+								disabled={loading}
+								endIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}>
+								{loading ? 'Saving...' : 'Save'}
+							</Button>
+						</Box>
 					</Grid>
-				</Box>
-				<Box ml={330} mt={70}>
-					<Button variant="contained" onClick={handleSave}>
-						Save
-					</Button>
 				</Box>
 			</Box>
 

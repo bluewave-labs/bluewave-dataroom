@@ -49,9 +49,7 @@ const UserTable = ({ users, page, setPage, pageSize, totalUsers }: Props) => (
 						<TableRow key={user.id}>
 							<TableCell>
 								<Typography variant="body1">{user.name}</Typography>
-								<Typography variant="caption">
-									Created {user.createdAt}
-								</Typography>
+								<Typography variant="caption">Created {user.createdAt}</Typography>
 							</TableCell>
 							<TableCell>{user.email}</TableCell>
 							<TableCell>
@@ -63,9 +61,7 @@ const UserTable = ({ users, page, setPage, pageSize, totalUsers }: Props) => (
 										{ value: 'Member', label: 'Member' },
 									]}
 									onValueChange={(newRole) => {
-										console.log(
-											`Role changed to ${newRole} for user ${user.id}`
-										);
+										console.log(`Role changed to ${newRole} for user ${user.id}`);
 									}}
 								/>
 							</TableCell>

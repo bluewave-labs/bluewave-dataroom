@@ -1,5 +1,5 @@
-import { Box, IconButton, Snackbar, Alert } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { Alert, Box, IconButton, Snackbar } from '@mui/material';
 import { ReactNode } from 'react';
 import NavLink from './NavLink';
 

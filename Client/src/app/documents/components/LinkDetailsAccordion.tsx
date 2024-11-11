@@ -14,7 +14,7 @@ const LinkDetailsAccordion = ({ formValues, handleCheckboxChange }: Props) => (
 		<Typography variant="body2" sx={{ mb: 5 }}>
 			This is an automatically generated link address.
 		</Typography>
-		<Box display="flex" alignItems="center" justifyContent="space-between" mt={1} mb={2}>
+		<Box display="flex" alignItems="center" justifyContent="space-between">
 			<CustomTextField
 				minWidth={460}
 				value="https://app.bluewavelabs.ca/settings/general"

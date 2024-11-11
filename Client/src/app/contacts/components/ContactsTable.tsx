@@ -27,30 +27,22 @@ export interface Contact {
 }
 
 const ContactsTable = () => {
-	const pageSize = 8;
+	const pageSize = 12;
 	const [page, setPage] = useState(1);
 
 	// Sort the entire data set
-	const { sortedData, orderDirection, orderBy, handleSortRequest } =
-		useSort<Contact>(
-			dummyData,
-			undefined,
-			(
-				a: Contact,
-				b: Contact,
-				orderDirection: 'asc' | 'desc' | undefined
-			): number => {
-				const timeA = a.lastActivity.getTime();
-				const timeB = b.lastActivity.getTime();
-				return orderDirection === 'asc' ? timeA - timeB : timeB - timeA;
-			}
-		);
+	const { sortedData, orderDirection, orderBy, handleSortRequest } = useSort<Contact>(
+		dummyData,
+		undefined,
+		(a: Contact, b: Contact, orderDirection: 'asc' | 'desc' | undefined): number => {
+			const timeA = a.lastActivity.getTime();
+			const timeB = b.lastActivity.getTime();
+			return orderDirection === 'asc' ? timeA - timeB : timeB - timeA;
+		}
+	);
 
 	// Paginate the sorted data
-	const paginatedData = sortedData.slice(
-		(page - 1) * pageSize,
-		page * pageSize
-	);
+	const paginatedData = sortedData.slice((page - 1) * pageSize, page * pageSize);
 
 	const totalPages = Math.ceil(sortedData.length / pageSize);
 
@@ -69,9 +61,7 @@ const ContactsTable = () => {
 									onClick={() => handleSortRequest('lastActivity')}
 									hideSortIcon={false}
 									IconComponent={
-										orderDirection === undefined
-											? UnfoldMoreIcon
-											: KeyboardArrowDownIcon
+										orderDirection === undefined ? UnfoldMoreIcon : KeyboardArrowDownIcon
 									}>
 									LAST ACTIVITY
 								</TableSortLabel>

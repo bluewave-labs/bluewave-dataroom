@@ -5,10 +5,10 @@ import { Box, Button } from '@mui/material';
 
 interface DragAndDropBoxProps {
 	text: string;
-	height?: string;
+	height?: number;
 }
 
-const DragAndDropBox = ({ text, height = '32vh' }: DragAndDropBoxProps) => {
+const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 	const { isOpen, openModal, closeModal } = useModal();
 
 	const handleInput = () => {
@@ -32,7 +32,7 @@ const DragAndDropBox = ({ text, height = '32vh' }: DragAndDropBoxProps) => {
 					borderRadius: 2,
 					padding: '2rem',
 					textAlign: 'center',
-					backgroundColor: 'rgba(255, 255, 255, 0.6)',
+					backgroundColor: 'rgba(255, 255, 255)',
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',

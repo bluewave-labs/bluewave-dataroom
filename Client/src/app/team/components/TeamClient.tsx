@@ -14,7 +14,7 @@ export default function TeamClient() {
 	const [page, setPage] = useState(1);
 	const [users, setUsers] = useState<User[]>([]);
 	const [totalUsers, setTotalUsers] = useState(0);
-	const pageSize = 5;
+	const pageSize = 6;
 
 	useEffect(() => {
 		const fetchUsers = () => {
