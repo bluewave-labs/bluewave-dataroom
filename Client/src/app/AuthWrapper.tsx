@@ -67,7 +67,7 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 					height: '100vh',
 				}}>
 				<Sidebar />
-				<Box width="100%" py={20} paddingX={30}>
+				<Box width="100%" py={20} px={30}>
 					{children}
 				</Box>
 			</Box>
