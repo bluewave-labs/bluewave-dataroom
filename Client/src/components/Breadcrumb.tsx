@@ -1,31 +1,35 @@
 'use client';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import { Box, Breadcrumbs, Link, Typography } from '@mui/material';
-import Image from 'next/image';
+import { Box, Breadcrumbs, Typography } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import NavLink from './NavLink';
+import DocumentsIcon from '../../public/assets/icons/sidebar/DocumentsIcon';
+import ContactsIcon from '../../public/assets/icons/sidebar/ContactsIcon';
+import SettingsIcon from '../../public/assets/icons/sidebar/SettingsIcon';
+import ProfileIcon from '../../public/assets/icons/sidebar/ProfileIcon';
+import TeamIcon from '../../public/assets/icons/sidebar/TeamIcon';
+import HomeIcon from '../../public/assets/icons/breadcrumb/HomeIcon';
 
 const Breadcrumb = () => {
 	const pathname = usePathname();
 
-	const iconMap: { [key: string]: string } = {
-		home: '/assets/icons/breadcrumb/breadcrumb-home-icon.svg',
-		documents: '/assets/icons/sidebar/sidebar-documents-icon.svg',
-		contacts: '/assets/icons/sidebar/sidebar-contacts-icon.svg',
-		settings: '/assets/icons/sidebar/sidebar-settings-icon.svg',
-		profile: '/assets/icons/sidebar/sidebar-profile-icon.svg',
-		team: '/assets/icons/sidebar/sidebar-team-icon.svg',
+	const iconMap: { [key: string]: React.ReactNode } = {
+		documents: <DocumentsIcon width={20} height={20} />,
+		contacts: <ContactsIcon width={20} height={20} />,
+		settings: <SettingsIcon width={20} height={20} />,
+		profile: <ProfileIcon width={20} height={20} />,
+		team: <TeamIcon width={20} height={20} />,
 	};
 
 	const pathnames = pathname.split('/').filter((x) => x);
 
 	// Helper function to render icon + text
 	const renderBreadcrumb = (label: string, href: string, isLast: boolean) => {
-		const iconSrc = iconMap[label.toLowerCase()];
+		const icon = iconMap[label.toLowerCase()];
 		return (
 			<Box key={href} display="flex" alignItems="center">
-				{iconSrc && <Image src={iconSrc} alt={`${label} icon`} width={20} height={20} />}
+				{icon}
 				{isLast ? (
 					<Typography variant="body1" color="text.notes" sx={{ ml: 3 }}>
 						{label.charAt(0).toUpperCase() + label.slice(1)}
@@ -49,7 +53,7 @@ const Breadcrumb = () => {
 			const href = `/${pathnames.slice(0, index + 1).join('/')}`;
 			return renderBreadcrumb(value, href, isLast);
 		});
-	}, [pathnames, renderBreadcrumb]);
+	}, [pathnames]);
 
 	return (
 		<Breadcrumbs
@@ -57,7 +61,7 @@ const Breadcrumb = () => {
 			separator={<NavigateNextIcon fontSize="small" />}
 			sx={{ marginBottom: '1rem' }}>
 			<Box display="flex" alignItems="center">
-				<Image src={iconMap['home']} alt="Home Icon" width={20} height={20} />
+				<HomeIcon width={20} height={20} />
 				<NavLink href="/" color="text.primary" variant="body1" sx={{ ml: 3 }} linkText="Home" />
 			</Box>
 			{breadcrumbs}
