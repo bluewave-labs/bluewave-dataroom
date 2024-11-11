@@ -50,12 +50,9 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 		return <>{children}</>;
 	}
 
-	const backgroundPosition = session ? 0 : -264;
-
 	if (!session) {
 		return (
 			<>
-				<Background backgroundPosition={backgroundPosition} />
 				<SignIn />
 			</>
 		);

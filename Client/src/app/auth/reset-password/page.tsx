@@ -1,192 +1,137 @@
 'use client';
+import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
-import {
-	Box,
-	Button,
-	CircularProgress,
-	Container,
-	FormLabel,
-	TextField,
-	Typography,
-} from '@mui/material';
+import Toast from '@/components/Toast';
+import { useAuthForm } from '@/hooks/useAuthForm';
+import { useFormData } from '@/hooks/useFormData';
+import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import CheckIcon from '../../../../public/assets/icons/auth/CheckIcon';
 import LockIcon from '../../../../public/assets/icons/auth/LockIcon';
+import AuthFormWrapper from '../components/AuthFormWrapper';
+import AuthInput from '../components/AuthInput';
+import PasswordValidation from '../components/PasswordValidation';
 
 export default function SetNewPassword() {
+	const { formData, handleChange } = useFormData({
+		password: '',
+		confirmPassword: '',
+	});
+	const [isPasswordValid, setIsPasswordValid] = useState({ length: false, specialChar: false });
+	const [inlineErrors, setInlineErrors] = useState<Record<string, string>>({});
+	const [showErrors, setShowErrors] = useState(false);
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	const email = searchParams.get('email'); // Get the email from the URL
+	const email = searchParams.get('email');
 
-	const [password, setPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
-	const [loading, setLoading] = useState(false);
-	const [passwordError, setPasswordError] = useState('');
-	const [isPasswordValid, setIsPasswordValid] = useState({
-		length: false,
-		specialChar: false,
+	const { loading, error, handleSubmit, toast } = useAuthForm({
+		onSubmit: async () => {
+			// Set inline validation errors
+			const errors: Record<string, string> = {};
+
+			if (!formData.password) errors.password = 'Password is required';
+			if (!formData.confirmPassword) errors.confirmPassword = 'Confirm password is required';
+			if (formData.password && formData.password !== formData.confirmPassword) {
+				errors.confirmPassword = 'Passwords do not match';
+			}
+
+			setInlineErrors(errors);
+
+			if (Object.keys(errors).length > 0) {
+				throw new Error('Validation error');
+			}
+
+			// Send request if there are no errors
+			await axios.post('/api/auth/resetPass', { email, password: formData.password });
+			router.push('/auth/password-reset-confirm');
+		},
+		isServerError: (err) => !!err.response,
 	});
 
-	const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const newPassword = e.target.value;
-		setPassword(newPassword);
-
-		// Check password length and special character
+	const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const newPassword = event.target.value;
+		handleChange(event); // Update formData
 		setIsPasswordValid({
 			length: newPassword.length >= 8,
 			specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(newPassword),
 		});
 	};
 
-	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+	const onSubmitForm = (event: FormEvent) => {
 		event.preventDefault();
-		setLoading(true);
-		setPasswordError(''); // Clear any existing errors
-
-		// Check if passwords match
-		if (password !== confirmPassword) {
-			setPasswordError('Passwords do not match');
-			setLoading(false);
-			return;
-		}
-
-		// Verify password validity
-		if (!isPasswordValid.length || !isPasswordValid.specialChar) {
-			setPasswordError('Password does not meet the required criteria');
-			setLoading(false);
-			return;
-		}
-
-		try {
-			// API request to update the password using email
-			const response = await axios.post(`/api/auth/resetPass`, {
-				email, // Pass the email as part of the request body
-				password,
-			});
-
-			if (response.status === 200) {
-				router.push('/auth/password-reset-confirm');
-			} else {
-				setPasswordError('Unable to reset password. Please try again.');
-			}
-		} catch (error) {
-			console.error('Error resetting password:', error);
-			setPasswordError('An error occurred while resetting your password.');
-		} finally {
-			setLoading(false);
-		}
+		setShowErrors(true);
+		handleSubmit(event);
 	};
 
+	const toastMessage = error || 'Failed to reset password. Please try again.';
+
 	return (
-		<Container component="main" sx={{ display: 'flex', justifyContent: 'center' }}>
-			<Box display="flex" flexDirection="column" alignItems="center" mt={8} gap={10}>
-				{/* Icon Placeholder */}
-				<Box
-					width={56}
-					height={56}
-					border="1px solid #EAECF0"
-					display="flex"
-					justifyContent="center"
-					boxShadow="0px 1px 2px 0px #1018280D"
-					alignItems="center"
-					borderRadius="12px">
-					<LockIcon />
-				</Box>
-
-				<Typography variant="h2" mb={4}>
-					Set new password
-				</Typography>
-
-				<Typography variant="subtitle2" mb={4} textAlign="center">
-					Your new password must be different from previously used passwords.
-				</Typography>
-
-				{/* Password Form */}
-				<Box
-					component="form"
-					onSubmit={handleSubmit}
-					noValidate
-					minWidth={400}
-					display={'flex'}
-					flexDirection={'column'}
-					gap={5}>
-					{/* Password Field */}
-					<FormLabel htmlFor="password">
-						<Typography color="text.primary" fontSize={15} fontWeight={500} mb={1}>
-							Password
-						</Typography>
-					</FormLabel>
-					<TextField
-						id="password"
-						type="password"
-						name="password"
-						placeholder="Create a password"
-						size="small"
-						autoComplete="new-password"
-						required
-						fullWidth
-						variant="outlined"
-						value={password}
-						onChange={handlePasswordChange}
-					/>
-
-					{/* Confirm Password Field */}
-					<FormLabel htmlFor="confirmPassword">
-						<Typography color="text.primary" fontSize={15} fontWeight={500} mb={1}>
-							Confirm password
-						</Typography>
-					</FormLabel>
-					<TextField
-						id="confirmPassword"
-						type="password"
-						name="confirmPassword"
-						placeholder="Confirm your password"
-						size="small"
-						autoComplete="new-password"
-						required
-						fullWidth
-						variant="outlined"
-						value={confirmPassword}
-						onChange={(e) => setConfirmPassword(e.target.value)}
-					/>
-
-					{/* Password Error Message */}
-					{passwordError && (
-						<Typography color="error" variant="body2" mt={1} mb={1}>
-							{passwordError}
-						</Typography>
-					)}
-
-					{/* Password Validations */}
-					<Box display="flex" alignItems="center" my={3} gap={5}>
-						{isPasswordValid.length ? <CheckIcon color="success" /> : <CheckIcon />}
-						<Typography variant="h4" ml={1}>
-							Must be at least 8 characters
-						</Typography>
-					</Box>
-					<Box display="flex" alignItems="center" mb={3} gap={5}>
-						{isPasswordValid.specialChar ? <CheckIcon color="success" /> : <CheckIcon />}
-						<Typography variant="h4" ml={1}>
-							Must contain one special character
-						</Typography>
-					</Box>
-
-					{/* Submit Button */}
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						disabled={loading}
-						endIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}>
-						{loading ? 'Resetting Password...' : 'Reset password'}
-					</Button>
-				</Box>
-
-				<NavLink href="/auth/sign-in" linkText="← Back to sign in" prefetch={true} />
+		<AuthFormWrapper>
+			<Box
+				width={56}
+				height={56}
+				border="1px solid #EAECF0"
+				display="flex"
+				justifyContent="center"
+				boxShadow="0px 1px 2px 0px #1018280D"
+				alignItems="center"
+				borderRadius="12px">
+				<LockIcon />
 			</Box>
-		</Container>
+
+			<Typography variant="h2" mb={4}>
+				Set new password
+			</Typography>
+
+			<Typography variant="subtitle2" mb={4} textAlign="center">
+				Your new password must be different from previously used passwords.
+			</Typography>
+
+			<Box
+				component="form"
+				onSubmit={onSubmitForm}
+				noValidate
+				minWidth={400}
+				display="flex"
+				flexDirection="column"
+				gap={8}>
+				<AuthInput
+					label="Password"
+					id="password"
+					type="password"
+					placeholder="Create a password"
+					value={formData.password}
+					onChange={handlePasswordChange}
+					required
+					showErrors={showErrors}
+					errorMessage={inlineErrors.password || ''}
+				/>
+				<AuthInput
+					label="Confirm Password"
+					id="confirmPassword"
+					type="password"
+					placeholder="Confirm your password"
+					value={formData.confirmPassword}
+					onChange={handleChange}
+					required
+					showErrors={showErrors}
+					errorMessage={inlineErrors.confirmPassword || ''}
+				/>
+
+				<PasswordValidation
+					isLengthValid={isPasswordValid.length}
+					hasSpecialChar={isPasswordValid.specialChar}
+				/>
+				<LoadingButton
+					loading={loading}
+					buttonText="Reset password"
+					loadingText="Resetting Password..."
+				/>
+			</Box>
+
+			<NavLink href="/auth/sign-in" linkText="← Back to sign in" prefetch={true} />
+			<Toast message={toastMessage} open={toast.open} hideToast={toast.hideToast} variant="error" />
+		</AuthFormWrapper>
 	);
 }

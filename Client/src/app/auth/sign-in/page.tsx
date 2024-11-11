@@ -1,146 +1,104 @@
 'use client';
 import CustomCheckbox from '@/components/CustomCheckbox';
+import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
-import {
-	Box,
-	Button,
-	CircularProgress,
-	Container,
-	FormLabel,
-	TextField,
-	Typography,
-} from '@mui/material';
+import Toast from '@/components/Toast';
+import { useAuthForm } from '@/hooks/useAuthForm';
+import { useFormData } from '@/hooks/useFormData';
+import { Box, Typography } from '@mui/material';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, useState } from 'react';
 import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
+import AuthFormWrapper from '../components/AuthFormWrapper';
+import AuthInput from '../components/AuthInput';
 
 export default function SignIn() {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [error, setError] = useState('');
-	const [remember, setRemember] = useState(false);
-	const [loading, setLoading] = useState(false);
+	const { formData, handleChange } = useFormData({
+		email: '',
+		password: '',
+		remember: false,
+	});
 	const router = useRouter();
 
-	const handleSubmit = async (event: React.FormEvent) => {
-		event.preventDefault();
-		setError('');
-		setLoading(true);
-
-		try {
+	const { loading, handleSubmit, toast } = useAuthForm({
+		onSubmit: async () => {
 			const result = await signIn('credentials', {
 				redirect: false,
-				email,
-				password,
+				email: formData.email,
+				password: formData.password,
 			});
+			if (result?.error) throw new Error(result.error);
+			router.push('/documents');
+		},
+	});
 
-			if (result?.error) {
-				console.error('Sign-in error:', result.error);
-				setError(result.error);
-			} else {
-				router.push('/documents');
-			}
-		} catch (err) {
-			console.error('Unexpected sign-in error:', err);
-			setError('An unexpected error occurred.');
-		} finally {
-			setLoading(false);
-		}
-	};
-
-	const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setRemember(event.target.checked);
-	};
 	return (
-		<Container component="main" sx={{ display: 'flex', justifyContent: 'center' }}>
-			<Box display="flex" flexDirection="column" alignItems="center" mt={8} gap={10}>
-				<Box my={30}>
-					<BluewaveLogo width={248} height={64} />
-				</Box>
-
-				<Typography variant="h2" mb={15}>
-					Sign in to your account
-				</Typography>
-
-				<Box component="form" onSubmit={handleSubmit} noValidate minWidth={400}>
-					<FormLabel htmlFor="email">
-						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={10} mb={3}>
-							Email
-						</Typography>
-					</FormLabel>
-					<TextField
-						id="email"
-						type="email"
-						name="email"
-						placeholder="your_email@bluewave.ca"
-						autoComplete="email"
-						size="small"
-						autoFocus
-						required
-						fullWidth
-						variant="outlined"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-
-					<FormLabel htmlFor="password">
-						<Typography color="text.primary" fontSize={15} fontWeight={500} mt={10} mb={3}>
-							Password
-						</Typography>
-					</FormLabel>
-					<TextField
-						id="password"
-						type="password"
-						name="password"
-						placeholder="••••••••••••••"
-						autoComplete="current-password"
-						size="small"
-						required
-						fullWidth
-						variant="outlined"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-
-					<Box display="flex" justifyContent="space-between" alignItems="center" mt={8} mb={5}>
-						<CustomCheckbox
-							checked={remember}
-							onChange={handleCheckboxChange}
-							name="rememberPassword"
-							label="Remember for 30 days"
-						/>
-
-						<NavLink href="/auth/forgot-password" linkText="Forgot password?" prefetch={true} />
-					</Box>
-
-					{error && (
-						<Typography color="error" variant="body2" mt={2} mb={2}>
-							{error}
-						</Typography>
-					)}
-
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						disabled={loading}
-						endIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}>
-						{loading ? 'Signing in...' : 'Sign in'}
-					</Button>
-				</Box>
-
-				<Typography variant="body1" mt={50}>
-					Don't have an account?
-					<NavLink
-						href="/auth/sign-up"
-						linkText="Sign up"
-						ml={1}
-						display={'inline-flex'}
-						prefetch={true}
-					/>
-				</Typography>
+		<AuthFormWrapper>
+			<Box my={30}>
+				<BluewaveLogo width={248} height={64} />
 			</Box>
-		</Container>
+
+			<Typography variant="h2" mb={15}>
+				Sign in to your account
+			</Typography>
+
+			<Box
+				component="form"
+				onSubmit={handleSubmit}
+				noValidate
+				minWidth={400}
+				display="flex"
+				flexDirection="column"
+				gap={5}>
+				<AuthInput
+					label="Email"
+					id="email"
+					type="email"
+					placeholder="your_email@bluewave.ca"
+					value={formData.email}
+					onChange={handleChange}
+					required
+				/>
+				<AuthInput
+					label="Password"
+					id="password"
+					type="password"
+					placeholder="••••••••••••••"
+					value={formData.password}
+					onChange={handleChange}
+					required
+				/>
+
+				<Box display="flex" justifyContent="space-between" alignItems="center" mt={8} mb={5}>
+					<CustomCheckbox
+						checked={formData.remember}
+						onChange={handleChange}
+						name="remember"
+						label="Remember for 30 days"
+					/>
+					<NavLink href="/auth/forgot-password" linkText="Forgot password?" prefetch={true} />
+				</Box>
+
+				<LoadingButton loading={loading} buttonText="Sign in" loadingText="Signing in..." />
+			</Box>
+
+			<Typography variant="body1" mt={50}>
+				Don't have an account?{' '}
+				<NavLink
+					href="/auth/sign-up"
+					linkText="Sign up"
+					ml={1}
+					display="inline-flex"
+					prefetch={true}
+				/>
+			</Typography>
+
+			<Toast
+				message="Sign-in failed. Please try again."
+				open={toast.open}
+				hideToast={toast.hideToast}
+				variant="error"
+			/>
+		</AuthFormWrapper>
 	);
 }
