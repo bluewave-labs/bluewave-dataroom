@@ -39,6 +39,7 @@ const DocumentsTableHeader = ({ orderBy, orderDirection, onSort }: Props) => (
 			}}>
 			ANALYTICS
 		</TableCell>
+		<TableCell sx={{ width: '10%' }}>LINK</TableCell>
 		<TableCell sx={{ width: '10%' }}>ACTION</TableCell>
 	</TableRow>
 );

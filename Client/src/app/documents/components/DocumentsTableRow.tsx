@@ -4,6 +4,10 @@ import { useState } from 'react';
 import SettingsIcon from '../../../../public/assets/icons/sidebar/SettingsIcon';
 import ActionMenu from './ActionMenu';
 import { Document } from './DocumentsTable';
+import LinkIcon from '../../../../public/assets/icons/documentPage/LinkIcon';
+import CheckIcon from '@mui/icons-material/Check';
+import { useToast } from '@/hooks/useToast';
+import Toast from '@/components/Toast';
 
 const docTypeIcons: Record<Document['type'], string> = {
 	PDF: '/assets/icons/documentPage/pdf-icon.svg',
@@ -23,6 +27,10 @@ interface Props {
 }
 
 const DocumentsTableRow = ({ document }: Props) => {
+	const linkCopyToast = useToast();
+
+	const [isLinkCopied, setIsLinkCopied] = useState(false);
+
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
@@ -34,6 +42,19 @@ const DocumentsTableRow = ({ document }: Props) => {
 		setAnchorEl(null);
 	};
 
+	const handleLinkCopy = () => {
+		document.createdLinks?.map((link) => {
+			navigator.clipboard
+				.writeText(link.createdLink)
+				.then(() => {
+					setIsLinkCopied(!isLinkCopied);
+				})
+				.catch(() => {
+					linkCopyToast.showToast();
+				});
+		});
+	};
+
 	const formatDate = (date: Date) => {
 		return date.toLocaleDateString('en-US', {
 			month: 'long',
@@ -43,72 +64,90 @@ const DocumentsTableRow = ({ document }: Props) => {
 	};
 
 	return (
-		<TableRow hover>
-			<TableCell sx={{ paddingRight: 0, textAlign: 'center' }}>
-				<Box
-					component="img"
-					src={docTypeIcons[document.type]}
-					alt={`${document.type} icon`}
-					sx={{ width: 24, height: 24 }}
-				/>
-			</TableCell>
-			<TableCell>
-				<Box display="flex" alignItems="center">
-					<Box>
-						{document.name}
-						<br />
-						<Typography
-							variant="caption"
-							component="div"
-							sx={{
-								display: 'flex',
-								alignItems: 'center',
-								gap: '0.5rem',
-							}}>
-							<span>{formatDate(document.createdAt)}</span>
-							<span style={{ fontSize: 13 }}>•</span>
-							<span>{document.links} links</span>
-							<span style={{ fontSize: 13 }}>•</span>
-							<span>{document.viewers} viewers</span>
-						</Typography>
+		<>
+			<TableRow hover>
+				<TableCell sx={{ paddingRight: 0, textAlign: 'center' }}>
+					<Box
+						component="img"
+						src={docTypeIcons[document.type]}
+						alt={`${document.type} icon`}
+						sx={{ width: 24, height: 24 }}
+					/>
+				</TableCell>
+				<TableCell>
+					<Box display="flex" alignItems="center">
+						<Box>
+							{document.name}
+							<br />
+							<Typography
+								variant="caption"
+								component="div"
+								sx={{
+									display: 'flex',
+									alignItems: 'center',
+									gap: '0.5rem',
+								}}>
+								<span>{formatDate(document.createdAt)}</span>
+								<span style={{ fontSize: 13 }}>•</span>
+								<span>{document.links} links</span>
+								<span style={{ fontSize: 13 }}>•</span>
+								<span>{document.viewers} viewers</span>
+							</Typography>
+						</Box>
 					</Box>
-				</Box>
-			</TableCell>
-			<TableCell>
-				<Box display="flex" alignItems="center">
-					{document.uploader.avatar ? (
-						<Avatar
-							src={document.uploader.avatar}
-							alt={document.uploader.name}
-							sx={{ width: 24, height: 24, marginRight: 5 }}
-						/>
-					) : (
-						<Avatar alt={document.uploader.name} sx={{ width: 24, height: 24, marginRight: 5 }}>
-							{document.uploader.name.charAt(0).toUpperCase()}
-						</Avatar>
-					)}
-					{document.uploader.name}
-				</Box>
-			</TableCell>
+				</TableCell>
+				<TableCell>
+					<Box display="flex" alignItems="center">
+						{document.uploader.avatar ? (
+							<Avatar
+								src={document.uploader.avatar}
+								alt={document.uploader.name}
+								sx={{ width: 24, height: 24, marginRight: 5 }}
+							/>
+						) : (
+							<Avatar alt={document.uploader.name} sx={{ width: 24, height: 24, marginRight: 5 }}>
+								{document.uploader.name.charAt(0).toUpperCase()}
+							</Avatar>
+						)}
+						{document.uploader.name}
+					</Box>
+				</TableCell>
 
-			<TableCell>
-				<Chip
-					icon={<BarChartIcon />}
-					label={`${document.views} views`}
-					size="small"
-					color="secondary"
-					sx={{
-						width: '5.5rem',
-					}}
-				/>
-			</TableCell>
-			<TableCell sx={{ paddingLeft: '1.5rem' }}>
-				<IconButton onClick={handleMenuOpen}>
-					<SettingsIcon width={20} height={20} />
-				</IconButton>
-				<ActionMenu anchorEl={anchorEl} open={open} onClose={handleMenuClose} />
-			</TableCell>
-		</TableRow>
+				<TableCell>
+					<Chip
+						icon={<BarChartIcon />}
+						label={`${document.views} views`}
+						size="small"
+						color="secondary"
+						sx={{
+							width: '5.5rem',
+						}}
+					/>
+				</TableCell>
+				<TableCell sx={{ paddingLeft: '1.1rem' }}>
+					<IconButton disabled={document.createdLinks?.length === 0} onClick={handleLinkCopy}>
+						{isLinkCopied ? (
+							<CheckIcon />
+						) : (
+							<LinkIcon disabled={document.createdLinks?.length === 0} />
+						)}
+					</IconButton>
+				</TableCell>
+				<TableCell sx={{ paddingLeft: '1.5rem' }}>
+					<IconButton onClick={handleMenuOpen}>
+						<SettingsIcon width={20} height={20} />
+					</IconButton>
+					<ActionMenu anchorEl={anchorEl} open={open} onClose={handleMenuClose} />
+				</TableCell>
+			</TableRow>
+
+			<Toast
+				message="Failed to copy link!"
+				open={linkCopyToast.open}
+				hideToast={linkCopyToast.hideToast}
+				variant="error"
+			/>
+		</>
 	);
 };
 

@@ -13,6 +13,7 @@ export const dummyData: Document[] = [
 			avatar: '/assets/icons/sidebar/sidebar-avatar-icon.svg',
 		},
 		views: 4,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 	{
 		id: '2',
@@ -23,6 +24,7 @@ export const dummyData: Document[] = [
 		viewers: 4,
 		uploader: { name: 'Neeraj Sunil', avatar: '' },
 		views: 9,
+		createdLinks: [],
 	},
 	{
 		id: '3',
@@ -33,6 +35,7 @@ export const dummyData: Document[] = [
 		viewers: 0,
 		uploader: { name: 'Mahid Ahmad', avatar: '' },
 		views: 11,
+		createdLinks: [],
 	},
 	{
 		id: '4',
@@ -43,6 +46,7 @@ export const dummyData: Document[] = [
 		viewers: 5,
 		uploader: { name: 'Alice Brown', avatar: '' },
 		views: 15,
+		createdLinks: [{ id: 1, createdLink: 'https://github.com/bluewave-labs/bluewave-dataroom' }],
 	},
 	{
 		id: '5',
@@ -53,6 +57,7 @@ export const dummyData: Document[] = [
 		viewers: 3,
 		uploader: { name: 'John Doe', avatar: '' },
 		views: 7,
+		createdLinks: [{ id: 1, createdLink: 'https://github.com/bluewave-labs/bluewave-dataroom' }],
 	},
 	{
 		id: '6',
@@ -63,6 +68,7 @@ export const dummyData: Document[] = [
 		viewers: 6,
 		uploader: { name: 'Neeraj Sunil', avatar: '' },
 		views: 12,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 	{
 		id: '7',
@@ -73,6 +79,7 @@ export const dummyData: Document[] = [
 		viewers: 1,
 		uploader: { name: 'Alice Brown', avatar: '' },
 		views: 3,
+		createdLinks: [],
 	},
 	{
 		id: '8',
@@ -83,6 +90,7 @@ export const dummyData: Document[] = [
 		viewers: 3,
 		uploader: { name: 'Sarah Lee', avatar: '' },
 		views: 14,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 	{
 		id: '9',
@@ -93,6 +101,7 @@ export const dummyData: Document[] = [
 		viewers: 5,
 		uploader: { name: 'Michael Chen', avatar: '' },
 		views: 18,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 	{
 		id: '10',
@@ -103,6 +112,7 @@ export const dummyData: Document[] = [
 		viewers: 4,
 		uploader: { name: 'Linda Thompson', avatar: '' },
 		views: 9,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 	{
 		id: '11',
@@ -113,6 +123,7 @@ export const dummyData: Document[] = [
 		viewers: 7,
 		uploader: { name: 'David Wilson', avatar: '' },
 		views: 16,
+		createdLinks: [],
 	},
 	{
 		id: '12',
@@ -123,6 +134,7 @@ export const dummyData: Document[] = [
 		viewers: 6,
 		uploader: { name: 'Emma Davis', avatar: '' },
 		views: 20,
+		createdLinks: [],
 	},
 	{
 		id: '13',
@@ -133,6 +145,7 @@ export const dummyData: Document[] = [
 		viewers: 3,
 		uploader: { name: 'Oliver Martinez', avatar: '' },
 		views: 11,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 	{
 		id: '14',
@@ -143,6 +156,7 @@ export const dummyData: Document[] = [
 		viewers: 2,
 		uploader: { name: 'Sophia White', avatar: '' },
 		views: 6,
+		createdLinks: [],
 	},
 	{
 		id: '15',
@@ -153,6 +167,7 @@ export const dummyData: Document[] = [
 		viewers: 4,
 		uploader: { name: 'James Moore', avatar: '' },
 		views: 9,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 	{
 		id: '16',
@@ -163,6 +178,7 @@ export const dummyData: Document[] = [
 		viewers: 1,
 		uploader: { name: 'Mia Garcia', avatar: '' },
 		views: 10,
+		createdLinks: [],
 	},
 	{
 		id: '17',
@@ -173,6 +189,7 @@ export const dummyData: Document[] = [
 		viewers: 3,
 		uploader: { name: 'Lucas Robinson', avatar: '' },
 		views: 8,
+		createdLinks: [],
 	},
 	{
 		id: '18',
@@ -183,6 +200,7 @@ export const dummyData: Document[] = [
 		viewers: 5,
 		uploader: { name: 'Amelia Clark', avatar: '' },
 		views: 15,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 	{
 		id: '19',
@@ -193,6 +211,7 @@ export const dummyData: Document[] = [
 		viewers: 6,
 		uploader: { name: 'Henry Young', avatar: '' },
 		views: 4,
+		createdLinks: [],
 	},
 	{
 		id: '20',
@@ -203,6 +222,7 @@ export const dummyData: Document[] = [
 		viewers: 2,
 		uploader: { name: 'Harper Harris', avatar: '' },
 		views: 13,
+		createdLinks: [],
 	},
 	{
 		id: '21',
@@ -213,6 +233,7 @@ export const dummyData: Document[] = [
 		viewers: 4,
 		uploader: { name: 'Evelyn Lewis', avatar: '' },
 		views: 12,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 	{
 		id: '22',
@@ -223,6 +244,7 @@ export const dummyData: Document[] = [
 		viewers: 3,
 		uploader: { name: 'Mason Walker', avatar: '' },
 		views: 7,
+		createdLinks: [],
 	},
 	{
 		id: '23',
@@ -233,6 +255,7 @@ export const dummyData: Document[] = [
 		viewers: 5,
 		uploader: { name: 'Zack Martinez', avatar: '' },
 		views: 18,
+		createdLinks: [],
 	},
 	{
 		id: '24',
@@ -243,6 +266,7 @@ export const dummyData: Document[] = [
 		viewers: 2,
 		uploader: { name: 'William Allen', avatar: '' },
 		views: 6,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 	{
 		id: '25',
@@ -253,6 +277,7 @@ export const dummyData: Document[] = [
 		viewers: 1,
 		uploader: { name: 'Alice Brown', avatar: '' },
 		views: 3,
+		createdLinks: [],
 	},
 	{
 		id: '26',
@@ -263,6 +288,7 @@ export const dummyData: Document[] = [
 		viewers: 3,
 		uploader: { name: 'Sarah Lee', avatar: '' },
 		views: 14,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 	{
 		id: '27',
@@ -273,6 +299,7 @@ export const dummyData: Document[] = [
 		viewers: 5,
 		uploader: { name: 'Michael Chen', avatar: '' },
 		views: 18,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 	{
 		id: '28',
@@ -283,6 +310,7 @@ export const dummyData: Document[] = [
 		viewers: 4,
 		uploader: { name: 'Linda Thompson', avatar: '' },
 		views: 9,
+		createdLinks: [],
 	},
 	{
 		id: '29',
@@ -293,6 +321,7 @@ export const dummyData: Document[] = [
 		viewers: 7,
 		uploader: { name: 'David Wilson', avatar: '' },
 		views: 16,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 	{
 		id: '30',
@@ -303,6 +332,7 @@ export const dummyData: Document[] = [
 		viewers: 1,
 		uploader: { name: 'Mia Garcia', avatar: '' },
 		views: 10,
+		createdLinks: [],
 	},
 	{
 		id: '31',
@@ -313,6 +343,7 @@ export const dummyData: Document[] = [
 		viewers: 3,
 		uploader: { name: 'Lucas Robinson', avatar: '' },
 		views: 8,
+		createdLinks: [],
 	},
 	{
 		id: '32',
@@ -323,5 +354,6 @@ export const dummyData: Document[] = [
 		viewers: 5,
 		uploader: { name: 'Amelia Clark', avatar: '' },
 		views: 15,
+		createdLinks: [{ id: 1, createdLink: 'https://app.bluewavelabs.ca/settings/general' }],
 	},
 ];
