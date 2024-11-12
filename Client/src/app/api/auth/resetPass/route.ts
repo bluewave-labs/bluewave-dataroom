@@ -4,19 +4,14 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-
 import { hash } from 'bcryptjs';
 import { randomUUID } from 'crypto';
 import prisma from '@lib/prisma';
+import { BluewaveResetPasswordEmail } from '../../../../components/email-template';
 
-// Commented out for the simplified functionality
-// import { Resend } from 'resend';
-// import { render } from '@react-email/render';
-// import { BluewaveResetPasswordEmail } from '../../../../components/email-template';
-
-// const resend = new Resend(process.env.RESEND_API_KEY);
-// const DOMAIN = process.env.DOMAIN || 'localhost:3000';
-// const PROTOCOL = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+const resend = new Resend(process.env.RESEND_API_KEY);
+const DOMAIN = process.env.DOMAIN || 'localhost:3000';
+const PROTOCOL = process.env.NODE_ENV === 'production' ? 'https' : 'http';
 
 export async function POST(req: NextRequest) {
 	const { email, password } = await req.json();
@@ -54,36 +49,28 @@ export async function POST(req: NextRequest) {
 	}
 
 	// Otherwise, proceed with sending a reset email (commented out for simplicity)
-	/*
-    const generatedToken = randomUUID();
-    const token = await prisma.passwordResetToken.create({
-        data: {
-            token: generatedToken,
-            User: {
-                connect: { user_id: user.user_id },
-            },
-        },
-    });
+	const generatedToken = randomUUID();
+	const token = await prisma.passwordResetToken.create({
+		data: {
+			token: generatedToken,
+			User: {
+				connect: { user_id: user.user_id },
+			},
+		},
+	});
 
-    const resetPasswordUrl = `${PROTOCOL}://${DOMAIN}/resetPassForm/${token.token}`;
+	const resetPasswordUrl = `${PROTOCOL}://${DOMAIN}/auth/reset-password/${token.token}`;
 
-    const { data, error } = await resend.emails.send({
-        from: 'Acme <onboarding@resend.dev>',
-        to: [user.email],
-        subject: 'Password Reset Request',
-        react: BluewaveResetPasswordEmail({
-            username: user.name,
-            resetUrl: resetPasswordUrl,
-        }),
-    });
+	const { data, error } = await resend.emails.send({
+		from: 'Acme <onboarding@resend.dev>',
+		to: [user.email],
+		subject: 'Password Reset Request',
+		react: BluewaveResetPasswordEmail({
+			username: user.first_name,
+			resetUrl: resetPasswordUrl,
+		}),
+	});
 
-    console.log(`Password reset email sent to ${user.email}`);
-    return NextResponse.json({ message: 'Mail sent' }, { status: 201 });
-    */
-
-	// If no password was provided and email sending is disabled
-	return NextResponse.json(
-		{ message: 'Password reset instructions would be sent if enabled.' },
-		{ status: 200 }
-	);
+	console.log(`Password reset email sent to ${user.email}`);
+	return NextResponse.json({ message: 'Mail sent' }, { status: 201 });
 }

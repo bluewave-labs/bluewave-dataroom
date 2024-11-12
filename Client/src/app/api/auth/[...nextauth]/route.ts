@@ -1,8 +1,3 @@
-// This file will handle the login logic next-auth. By default next-auth does not support register functionality so we have created it in a separate folder called register/route.ts
-// Much of the code in this file was taken from this video tutorial online: https://www.youtube.com/watch?v=2kgqPvs0j_I
-// Other videos from the same channel are extremely helpful for someone learning prisma and next-auth
-// Also the [...nextauth] is a catch all route in nextJS. Learn more about it here: https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes
-
 // Import necessary modules
 import prisma from '@lib/prisma';
 import bcryptjs from 'bcryptjs';
@@ -39,8 +34,12 @@ export const authOptions: NextAuthOptions = {
 					where: { email: credentials.email },
 				});
 
+				// Check if the user exists and if their status is ARCHIVED
 				if (!user) {
 					throw new Error('No user found with the provided email');
+				}
+				if (user.status === 'UNVERIFIED') {
+					throw new Error('Please verify your email to sign in.');
 				}
 
 				// Validate password
@@ -56,7 +55,7 @@ export const authOptions: NextAuthOptions = {
 					id: user.id.toString(),
 					userId: user.user_id,
 					email: user.email,
-					name: user.name,
+					name: user.first_name,
 					role: user.role,
 				} as ExtendedUser;
 			},

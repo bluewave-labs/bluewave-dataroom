@@ -12,17 +12,16 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 
 	// Define the public routes
 	const publicRoutes = [
-		'/resetPass',
-		'/register',
 		'/auth/sign-up',
 		'/auth/forgot-password',
 		'/auth/reset-password',
 		'/auth/account-created',
 		'/auth/password-reset-confirm',
+		'/auth/check-email',
 	];
 
 	// Check if the current path starts with /resetPassForm, which is dynamic
-	const isResetPassFormRoute = pathname.startsWith('/resetPassForm');
+	const isResetPassFormRoute = pathname.startsWith('/auth/reset-password');
 
 	// Local state to handle loading state
 	const [isLoading, setIsLoading] = useState(true);

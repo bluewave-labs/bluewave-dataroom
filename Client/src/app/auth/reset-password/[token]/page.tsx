@@ -8,12 +8,17 @@ import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import LockIcon from '../../../../public/assets/icons/auth/LockIcon';
-import AuthFormWrapper from '../components/AuthFormWrapper';
-import AuthInput from '../components/AuthInput';
-import PasswordValidation from '../components/PasswordValidation';
+import LockIcon from '../../../../../public/assets/icons/auth/LockIcon';
+import AuthFormWrapper from '../../components/AuthFormWrapper';
+import AuthInput from '../../components/AuthInput';
+import PasswordValidation from '../../components/PasswordValidation';
+import { signIn } from 'next-auth/react';
 
-export default function SetNewPassword() {
+interface SetNewPassword {
+	token: string;
+}
+
+export default function SetNewPassword({ params }: { params: SetNewPassword }) {
 	const { formData, handleChange } = useFormData({
 		password: '',
 		confirmPassword: '',
@@ -24,6 +29,7 @@ export default function SetNewPassword() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const email = searchParams.get('email');
+	const token = params.token;
 
 	const { loading, error, handleSubmit, toast } = useAuthForm({
 		onSubmit: async () => {
@@ -43,7 +49,25 @@ export default function SetNewPassword() {
 			}
 
 			// Send request if there are no errors
-			await axios.post('/api/auth/resetPass', { email, password: formData.password });
+			await axios.post('/api/auth/resetPassForm', {
+				email,
+				password: formData.password,
+				token: token,
+			});
+
+			// Sign the user in after resetting password
+			const signInResult = await signIn('credentials', {
+				redirect: false,
+				email,
+				password: formData.password,
+			});
+
+			if (signInResult?.error) {
+				// Handle sign-in error (e.g., show a toast)
+				throw new Error('Sign-in failed. Please try again.');
+			}
+
+			// Redirect to a success page or dashboard after successful sign-in
 			router.push('/auth/password-reset-confirm');
 		},
 		isServerError: (err) => !!err.response,

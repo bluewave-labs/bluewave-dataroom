@@ -15,7 +15,7 @@ export default function PasswordResetConfirm() {
 		setLoading(true);
 		setTimeout(() => {
 			setLoading(false);
-			router.push('/auth/sign-in');
+			router.push('/documents');
 		}, 5000); // Mock delay for visual effect
 	};
 
@@ -43,7 +43,7 @@ export default function PasswordResetConfirm() {
 
 			<LoadingButton
 				loading={loading}
-				buttonText="Go to Sign In"
+				buttonText="Go To Dashboard"
 				loadingText="Loading..."
 				onClick={handleContinue}
 				fullWidth
