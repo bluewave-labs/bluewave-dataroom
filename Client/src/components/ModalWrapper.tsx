@@ -153,7 +153,6 @@ function InviteBox() {
 					initialValue="Select role"
 					variant="outlined"
 					isSelectFullWidth={true}
-					selectPadding="0.5rem 1rem"
 					options={[
 						{ value: 'Select role', label: 'Select role' },
 						{ value: 'Administrator', label: 'Administrator' },

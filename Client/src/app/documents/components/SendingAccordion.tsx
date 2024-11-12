@@ -24,11 +24,10 @@ const SendingAccordion = ({ formValues, handleCheckboxChange }: SendingAccordion
 					{ value: 'contact2', label: 'Jane Doe' },
 				]}
 				initialValue="search"
-				variant="standard"
-				sx={{
-					minWidth: 300,
-					'& .MuiSelect-select': { paddingY: 4, paddingX: 7 },
-				}}
+				variant="outlined"
+				minWidth={300}
+				px={7}
+				py={4}
 			/>
 		</Box>
 		<CustomCheckbox
