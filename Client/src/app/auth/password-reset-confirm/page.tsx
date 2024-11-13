@@ -1,23 +1,47 @@
 'use client';
 import LoadingButton from '@/components/LoadingButton';
-import { Box, Typography } from '@mui/material';
-import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+import { Box, Typography, Button } from '@mui/material';
+import { FormEvent, useState, useEffect } from 'react';
 import CheckIcon from '../../../../public/assets/icons/auth/CheckIcon';
 import AuthFormWrapper from '../components/AuthFormWrapper';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 export default function PasswordResetConfirm() {
 	const [loading, setLoading] = useState(false);
+	const [signedIn, setSignedIn] = useState(false);
+	const searchParams = useSearchParams();
 	const router = useRouter();
 
-	const handleContinue = async (event: FormEvent<HTMLButtonElement>) => {
-		event.preventDefault();
+	const email = searchParams.get('email');
+	const password = searchParams.get('password');
+
+	const handleSignIn = async () => {
 		setLoading(true);
-		setTimeout(() => {
-			setLoading(false);
-			router.push('/documents');
-		}, 5000); // Mock delay for visual effect
+
+		if (email && password) {
+			const signInResult = await signIn('credentials', {
+				redirect: false,
+				email,
+				password,
+			});
+
+			if (signInResult?.error) {
+				console.error('Sign-in failed:', signInResult.error);
+			} else {
+				setSignedIn(true);
+			}
+		}
+
+		setLoading(false);
 	};
+
+	// Automatically redirect to the dashboard after successful sign-in
+	useEffect(() => {
+		if (signedIn) {
+			router.push('/documents'); // Redirect to the dashboard
+		}
+	}, [signedIn, router]);
 
 	return (
 		<AuthFormWrapper>
@@ -43,9 +67,9 @@ export default function PasswordResetConfirm() {
 
 			<LoadingButton
 				loading={loading}
-				buttonText="Go To Dashboard"
-				loadingText="Loading..."
-				onClick={handleContinue}
+				buttonText="Sign In"
+				loadingText="Signing In..."
+				onClick={handleSignIn}
 				fullWidth
 			/>
 		</AuthFormWrapper>

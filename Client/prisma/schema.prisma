@@ -22,8 +22,8 @@ model ArchivedUser {
 model PasswordResetToken {
   id         Int       @id @default(autoincrement())
   token      String    @unique
-  created_at DateTime  @default(now())
-  reset_at   DateTime?
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  reset_at   DateTime? @db.Timestamptz(6)
   user_id    String
   User       User      @relation(fields: [user_id], references: [user_id])
 }
@@ -39,7 +39,8 @@ model User {
   role               UserRole             @default(ADMIN)
   status             Status
   verification_token String
-  token_expires_at   DateTime
+  token_expires_at   DateTime             @db.Timestamptz(6)
+  updated_at         DateTime             @updatedAt @db.Timestamptz(6)
   PasswordResetToken PasswordResetToken[]
 }
 
@@ -51,7 +52,5 @@ enum Status {
 
 enum UserRole {
   ADMIN
-  COACH
-  CLIENT
   USER
 }

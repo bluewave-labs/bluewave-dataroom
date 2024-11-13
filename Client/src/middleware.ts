@@ -8,6 +8,6 @@ export default withAuth({
 
 export const config = {
 	matcher: [
-		'/((?!register|auth/sign-up|auth/forgot-password|auth/reset-password/.*|auth/account-created|auth/password-reset-confirm|auth/check-email).*)',
+		'/((?!register|auth/sign-up|auth/forgot-password|auth/account-created|auth/password-reset-confirm|auth/check-email|auth/reset-password).*|auth/reset-password/.*)',
 	],
 };

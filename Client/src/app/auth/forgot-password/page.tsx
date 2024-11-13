@@ -24,10 +24,7 @@ export default function ForgotPassword() {
 		errorToast.hideToast();
 
 		try {
-			const response = await axios.post('/api/auth/resetPass', { email: formData.email });
-			if (response.status === 200) {
-				router.push(`/auth/reset-password?email=${encodeURIComponent(formData.email)}`);
-			}
+			await axios.post('/api/auth/resetPass', { email: formData.email });
 		} catch (error) {
 			console.error('Error verifying email:', error);
 			errorToast.showToast();
