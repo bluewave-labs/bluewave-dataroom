@@ -22,15 +22,16 @@ export default function ForgotPassword() {
 		event.preventDefault();
 		setLoading(true);
 		errorToast.hideToast();
+		router.push('/reset-password');
 
-		try {
-			await axios.post('/api/auth/resetPass', { email: formData.email });
-		} catch (error) {
-			console.error('Error verifying email:', error);
-			errorToast.showToast();
-		} finally {
-			setLoading(false);
-		}
+		//try {
+		//	await axios.post('/api/auth/resetPass', { email: formData.email });
+		//} catch (error) {
+		//	console.error('Error verifying email:', error);
+		//	errorToast.showToast();
+		//} finally {
+		//	setLoading(false);
+		//}
 	};
 
 	return (

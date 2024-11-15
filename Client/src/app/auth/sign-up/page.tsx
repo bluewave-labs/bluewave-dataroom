@@ -55,7 +55,7 @@ export default function SignUp() {
 				firstName: formData.firstName,
 				lastName: formData.lastName,
 			});
-			router.push('/auth/check-email');
+			router.push('/auth/account-created');
 		},
 		isServerError: (err) => !!err.response, // Show toast if error has a server response
 	});

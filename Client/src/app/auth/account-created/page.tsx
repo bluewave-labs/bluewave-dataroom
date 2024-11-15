@@ -14,30 +14,30 @@ export default function AccountCreated() {
 	const searchParams = useSearchParams();
 	const token = searchParams.get('token');
 
-	useEffect(() => {
-		// Fetch verification status from the API
-		const verifyEmail = async () => {
-			try {
-				const response = await fetch(`/api/auth/verify-email?token=${token}`);
-				const data = await response.json();
-
-				if (response.ok) {
-					setIsVerified(true);
-					setStatusMessage('🎉 Woohoo! Account Verified! 🎉');
-				} else {
-					setIsVerified(false);
-					setStatusMessage(data.message || 'Verification failed. The link may be expired.');
-				}
-			} catch (error) {
-				setIsVerified(false);
-				setStatusMessage('An error occurred. Please try again.');
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		if (token) verifyEmail();
-	}, [token]);
+	//useEffect(() => {
+	//	// Fetch verification status from the API
+	//	const verifyEmail = async () => {
+	//		try {
+	//			const response = await fetch(`/api/auth/verify-email?token=${token}`);
+	//			const data = await response.json();
+	//
+	//			if (response.ok) {
+	//				setIsVerified(true);
+	//				setStatusMessage('🎉 Woohoo! Account Verified! 🎉');
+	//			} else {
+	//				setIsVerified(false);
+	//				setStatusMessage(data.message || 'Verification failed. The link may be expired.');
+	//			}
+	//		} catch (error) {
+	//			setIsVerified(false);
+	//			setStatusMessage('An error occurred. Please try again.');
+	//		} finally {
+	//			setLoading(false);
+	//		}
+	//	};
+	//
+	//	if (token) verifyEmail();
+	//}, [token]);
 
 	const handleContinue = () => {
 		router.push('/auth/sign-in');
@@ -53,10 +53,15 @@ export default function AccountCreated() {
 				{statusMessage}
 			</Typography>
 
-			<Typography variant="subtitle2" textAlign="center">
+			{/*		<Typography variant="subtitle2" textAlign="center">
 				{isVerified
 					? "You did it! Your account is now live, and it's ready for action. Go ahead, click below, and let the magic begin! 🪄✨"
 					: 'It seems there was an issue with the verification. Please try again or contact support if the problem persists.'}
+			</Typography>
+      */}
+
+			<Typography variant="subtitle2" textAlign="center">
+				"Please request your account admin to verify your email"
 			</Typography>
 
 			<LoadingButton

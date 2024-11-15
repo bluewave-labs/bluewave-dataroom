@@ -45,20 +45,20 @@ export async function POST(req: NextRequest) {
 	const resetPasswordUrl = `${PROTOCOL}://${DOMAIN}/auth/reset-password?token=${generatedToken}&email=${encodeURIComponent(user.email)}`;
 
 	// Send the email
-	const { data, error } = await resend.emails.send({
-		from: 'Acme <onboarding@resend.dev>',
-		to: [user.email],
-		subject: 'Password Reset Request',
-		react: BluewaveResetPasswordEmail({
-			username: user.first_name,
-			resetUrl: resetPasswordUrl,
-		}),
-	});
-
-	if (error) {
-		console.error('Error sending email:', error);
-		return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
-	}
+	//const { data, error } = await resend.emails.send({
+	//	from: 'Acme <onboarding@resend.dev>',
+	//	to: [user.email],
+	//	subject: 'Password Reset Request',
+	//	react: BluewaveResetPasswordEmail({
+	//		username: user.first_name,
+	//		resetUrl: resetPasswordUrl,
+	//	}),
+	//});
+	//if (error) {
+	//	console.error('Error sending email:', error);
+	//	return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+	//}
+	//
 
 	console.log(`Password reset email sent to ${user.email}`);
 	return NextResponse.json({ message: 'Mail sent' }, { status: 201 });
