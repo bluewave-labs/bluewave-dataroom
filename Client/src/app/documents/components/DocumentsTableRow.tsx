@@ -44,7 +44,7 @@ const DocumentsTableRow = ({ document }: Props) => {
 
 	return (
 		<TableRow hover>
-			<TableCell sx={{ paddingRight: 0, textAlign: 'center' }}>
+			<TableCell sx={{ pr: 0, textAlign: 'center' }}>
 				<Box
 					component="img"
 					src={docTypeIcons[document.type]}
@@ -102,7 +102,7 @@ const DocumentsTableRow = ({ document }: Props) => {
 					}}
 				/>
 			</TableCell>
-			<TableCell sx={{ paddingLeft: '1.5rem' }}>
+			<TableCell sx={{ pl: '1.5rem' }}>
 				<IconButton onClick={handleMenuOpen}>
 					<SettingsIcon width={20} height={20} />
 				</IconButton>
