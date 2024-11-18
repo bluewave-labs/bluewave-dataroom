@@ -20,7 +20,7 @@ const DocumentsTableHeader = ({ orderBy, orderDirection, onSort }: Props) => (
 		</TableCell>
 		<TableCell
 			sx={{
-				paddingLeft: '1.5rem',
+				pl: '1.5rem',
 				width: '20%',
 			}}>
 			<TableSortLabel
@@ -34,7 +34,7 @@ const DocumentsTableHeader = ({ orderBy, orderDirection, onSort }: Props) => (
 		</TableCell>
 		<TableCell
 			sx={{
-				paddingLeft: '1.5rem',
+				pl: '1.5rem',
 				width: '15%',
 			}}>
 			ANALYTICS

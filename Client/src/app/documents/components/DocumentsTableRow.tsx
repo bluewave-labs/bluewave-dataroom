@@ -59,7 +59,7 @@ const DocumentsTableRow = ({ document }: Props) => {
 
 	return (
 		<TableRow hover>
-			<TableCell sx={{ paddingRight: 0, textAlign: 'center' }}>
+			<TableCell sx={{ pr: 0, textAlign: 'center' }}>
 				<Box
 					component="img"
 					src={docTypeIcons[document.type]}
@@ -117,7 +117,7 @@ const DocumentsTableRow = ({ document }: Props) => {
 					}}
 				/>
 			</TableCell>
-			<TableCell sx={{ paddingLeft: '1.1rem' }}>
+			<TableCell sx={{ pl: '1.5rem' }}>
 				<IconButton disabled={document.createdLinks?.length === 0} onClick={handleLinkCopy}>
 					{isLinkCopied ? (
 						<CheckIcon fontSize="small" />
