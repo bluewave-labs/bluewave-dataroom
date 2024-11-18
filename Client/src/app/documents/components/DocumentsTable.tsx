@@ -28,6 +28,7 @@ export interface Document {
 	viewers: number;
 	uploader: { name: string; avatar?: string };
 	views: number;
+	createdLinks?: { id: number; createdLink: string }[];
 }
 
 const DocumentsTable = () => {

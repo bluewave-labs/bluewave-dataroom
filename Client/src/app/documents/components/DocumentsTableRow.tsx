@@ -4,6 +4,8 @@ import { useState } from 'react';
 import SettingsIcon from '../../../../public/assets/icons/sidebar/SettingsIcon';
 import ActionMenu from './ActionMenu';
 import { Document } from './DocumentsTable';
+import LinkIcon from '../../../../public/assets/icons/documentPage/LinkIcon';
+import CheckIcon from '@mui/icons-material/Check';
 
 const docTypeIcons: Record<Document['type'], string> = {
 	PDF: '/assets/icons/documentPage/pdf-icon.svg',
@@ -23,6 +25,8 @@ interface Props {
 }
 
 const DocumentsTableRow = ({ document }: Props) => {
+	const [isLinkCopied, setIsLinkCopied] = useState(false);
+
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
@@ -32,6 +36,17 @@ const DocumentsTableRow = ({ document }: Props) => {
 
 	const handleMenuClose = () => {
 		setAnchorEl(null);
+	};
+
+	const linkToCopy = document.createdLinks?.[0]?.createdLink;
+
+	const handleLinkCopy = () => {
+		if (linkToCopy) {
+			navigator.clipboard.writeText(linkToCopy);
+			setTimeout(() => {
+				setIsLinkCopied(true);
+			}, 300);
+		}
 	};
 
 	const formatDate = (date: Date) => {
@@ -103,6 +118,15 @@ const DocumentsTableRow = ({ document }: Props) => {
 				/>
 			</TableCell>
 			<TableCell sx={{ pl: '1.5rem' }}>
+				<IconButton disabled={document.createdLinks?.length === 0} onClick={handleLinkCopy}>
+					{isLinkCopied ? (
+						<CheckIcon fontSize="small" />
+					) : (
+						<LinkIcon disabled={document.createdLinks?.length === 0} />
+					)}
+				</IconButton>
+			</TableCell>
+			<TableCell sx={{ paddingLeft: '1.5rem' }}>
 				<IconButton onClick={handleMenuOpen}>
 					<SettingsIcon width={20} height={20} />
 				</IconButton>

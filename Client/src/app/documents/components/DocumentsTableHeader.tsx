@@ -21,7 +21,7 @@ const DocumentsTableHeader = ({ orderBy, orderDirection, onSort }: Props) => (
 		<TableCell
 			sx={{
 				pl: '1.5rem',
-				width: '25%',
+				width: '20%',
 			}}>
 			<TableSortLabel
 				active={orderBy === 'uploader'}
@@ -39,7 +39,8 @@ const DocumentsTableHeader = ({ orderBy, orderDirection, onSort }: Props) => (
 			}}>
 			ANALYTICS
 		</TableCell>
-		<TableCell sx={{ width: '10%' }}>ACTION</TableCell>
+		<TableCell sx={{ width: '10%' }}>LINK</TableCell>
+		<TableCell sx={{ width: '5%' }}>ACTION</TableCell>
 	</TableRow>
 );
 
