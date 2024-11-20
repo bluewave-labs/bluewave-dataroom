@@ -535,7 +535,9 @@ const globalTheme = createTheme({
 				root: {
 					color: 'black',
 					textTransform: 'none',
-					padding: '0.25rem 1.25rem',
+					padding: '0.45rem 1.25rem',
+					boxShadow: '0px 1px 2px 0px #1018280D',
+					borderRadius: 4,
 					'& .Mui-selected': {
 						fontWeight: 'bold',
 					},
