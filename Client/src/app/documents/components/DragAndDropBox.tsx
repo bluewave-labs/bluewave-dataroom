@@ -2,6 +2,7 @@
 import ModalWrapper from '@/components/ModalWrapper';
 import { useModal } from '@/hooks/useModal';
 import { Box, Button } from '@mui/material';
+import UploadDocumentIcon from '../../../../public/assets/icons/documentPage/UploadDocumentIcon';
 
 interface DragAndDropBoxProps {
 	text: string;
@@ -40,12 +41,9 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 					cursor: 'pointer',
 					height: { height },
 				}}>
-				<Box
-					component="img"
-					src="/assets/icons/documentPage/document-upload-icon.svg"
-					alt="Document Icon"
-					sx={{ width: '8rem', height: '8rem', mb: '0.5rem' }}
-				/>
+				<Box mb="0.5rem">
+					<UploadDocumentIcon />
+				</Box>
 				<Button color="inherit">{text}</Button>
 				<input type="file" id="file-input" style={{ display: 'none' }} onChange={handleInput} />
 			</Box>
