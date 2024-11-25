@@ -100,7 +100,7 @@ export default function DocumentDetailsTable({ variant }: DocumentDetailsTablePr
 					))}
 					{variant === 'linkTable' && paginatedData?.length === 0 && (
 						<TableRow>
-							<TableCell colSpan={4} sx={{ width: '100%', textAlign: 'center' }}>
+							<TableCell colSpan={4} sx={{ width: '100%', textAlign: 'center', py: 7 }}>
 								<Button variant="contained" sx={{ px: 70 }}>
 									Create a link
 								</Button>
@@ -111,7 +111,7 @@ export default function DocumentDetailsTable({ variant }: DocumentDetailsTablePr
 						<TableRow>
 							<TableCell
 								colSpan={variant === 'visitorTable' ? 5 : 4}
-								sx={{ width: '100%', textAlign: 'center' }}>
+								sx={{ width: '100%', textAlign: 'center', py: 11 }}>
 								<Link
 									underline="hover"
 									sx={{ px: 4, color: 'text.secondary', cursor: 'pointer' }}

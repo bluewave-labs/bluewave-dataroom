@@ -73,7 +73,7 @@ const DocumentDetailsTableRow = ({ documentDetail, variant }: DocumentDetailsTab
 		<>
 			{variant === 'linkTable' && isLinkDetail(documentDetail) && (
 				<TableRow hover>
-					<TableCell sx={{ width: '45%', pl: 20 }}>
+					<TableCell sx={{ width: '45%', pl: 20, py: 11 }}>
 						{documentDetail.createdLink}
 						<IconButton sx={{ ml: 10 }} onClick={handleLinkCopy}>
 							{isLinkCopied ? <CheckIcon fontSize="small" /> : <CopyIcon />}
@@ -95,7 +95,9 @@ const DocumentDetailsTableRow = ({ documentDetail, variant }: DocumentDetailsTab
 
 			{variant === 'visitorTable' && isVisitorDetail(documentDetail) && (
 				<TableRow hover>
-					<TableCell sx={{ width: '25%', pl: 20 }}>{documentDetail.visitor}</TableCell>
+					<TableCell sx={{ width: '25%', pl: 20, py: 11 }}>
+						{documentDetail.visitor}
+					</TableCell>
 					<TableCell sx={{ width: '20%', textAlign: 'center' }}>
 						{documentDetail.downloads}
 					</TableCell>
