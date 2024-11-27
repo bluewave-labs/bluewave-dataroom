@@ -508,6 +508,7 @@ const globalTheme = createTheme({
 				root: {
 					overflow: 'visible',
 					boxShadow: 'none',
+					borderBottom: 1,
 				},
 			},
 		},
@@ -538,9 +539,7 @@ const globalTheme = createTheme({
 					padding: '0.45rem 1.25rem',
 					boxShadow: '0px 1px 2px 0px #1018280D',
 					borderRadius: 4,
-					'& .Mui-selected': {
-						fontWeight: 'bold',
-					},
+					fontWeight: 400,
 				},
 			},
 		},
@@ -548,6 +547,9 @@ const globalTheme = createTheme({
 			styleOverrides: {
 				root: {
 					backgroundColor: background.fill,
+					'& .Mui-selected': {
+						fontWeight: 'bold',
+					},
 				},
 			},
 		},
