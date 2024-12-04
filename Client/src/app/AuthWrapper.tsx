@@ -2,7 +2,6 @@ import { Box, CircularProgress } from '@mui/material';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
-import Background from '../../public/assets/Background';
 import SignIn from './auth/sign-in/page';
 import Sidebar from './layout/Sidebar';
 
@@ -64,10 +63,15 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 				sx={{
 					display: 'flex',
 					backgroundColor: '#fcfcfd',
-					height: '100vh',
+					minHeight: '100vh',
 				}}>
 				<Sidebar />
-				<Box width="100%" py={20} px={30}>
+				<Box
+					sx={{
+						width: '100%',
+						py: { sx: 4, sm: 10, md: 20 },
+						px: { sx: 8, sm: 16, md: 30 },
+					}}>
 					{children}
 				</Box>
 			</Box>
