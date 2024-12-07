@@ -21,6 +21,13 @@
 .DS_Store
 *.pem
 
+# Ignore all settings.json files
+**/settings.json
+
+# Except the one in .vscode/
+!.vscode/settings.json
+
+
 # debug
 npm-debug.log*
 yarn-debug.log*

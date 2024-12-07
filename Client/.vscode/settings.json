@@ -1,6 +1,9 @@
 {
+    // General Editor Settings
     "editor.formatOnSave": true,
+    // Prettier Settings
     "prettier.requireConfig": true,
+    // Default Formatters for Supported Languages
     "[typescript]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
@@ -8,6 +11,12 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[scss]": {
