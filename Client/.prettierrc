@@ -7,11 +7,27 @@
   "semi": true,
   "singleQuote": true,
   "tabWidth": 2,
-  "trailingComma": "es5",
   "useTabs": true,
-  "embeddedLanguageFormatting": "auto",
-  "proseWrap": "preserve",
+  "trailingComma": "all",
+  "jsxSingleQuote": true,
+  "singleAttributePerLine": true,
   "htmlWhitespaceSensitivity": "css",
-  "jsxSingleQuote": false,
-  "quoteProps": "as-needed"
+  "proseWrap": "preserve",
+  "quoteProps": "as-needed",
+  "embeddedLanguageFormatting": "auto",
+  "overrides": [
+    {
+      "files": "*.json",
+      "options": {
+        "printWidth": 80,
+        "tabWidth": 2
+      }
+    },
+    {
+      "files": "*.md",
+      "options": {
+        "proseWrap": "always"
+      }
+    }
+  ]
 }
