@@ -24,8 +24,8 @@ export default function Sidebar() {
 
 	return (
 		<Stack
-			justifyContent="space-between"
-			direction="column"
+			justifyContent='space-between'
+			direction='column'
 			sx={{
 				height: '100vh',
 				backgroundColor: 'background.fill',
@@ -35,19 +35,29 @@ export default function Sidebar() {
 				border: '1px solid',
 				borderColor: 'border.light',
 			}}>
-			<Box display={'flex'} flexDirection={'column'} gap={21} mx={5}>
-				<BlueWaveLogo width={191} height={24} />
+			<Box
+				display={'flex'}
+				flexDirection={'column'}
+				gap={21}
+				mx={5}>
+				<BlueWaveLogo
+					width={191}
+					height={24}
+				/>
 
 				<List>
 					{menu.map(({ text, icon, href }) => (
-						<ListItem key={text} disablePadding>
+						<ListItem
+							key={text}
+							disablePadding>
 							<Link
 								href={href}
 								style={{
 									textDecoration: 'none',
 									color: 'inherit',
 									width: '100%',
-								}}>
+								}}
+								prefetch={true}>
 								<ListItemButton
 									sx={{
 										px: 4,

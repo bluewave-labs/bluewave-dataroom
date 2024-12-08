@@ -1,7 +1,7 @@
+import { Document } from '@/utils/shared/models';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import { TableCell, TableRow, TableSortLabel } from '@mui/material';
-import { Document } from './DocumentsTable';
 
 interface Props {
 	orderBy: keyof Document | undefined;

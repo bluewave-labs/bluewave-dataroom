@@ -16,15 +16,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import ContactsTableRow from './ContactsTableRow';
-
-export interface Contact {
-	userId: string;
-	name: string;
-	email: string;
-	lastViewedLink: string;
-	lastActivity: Date;
-	visits: number;
-}
+import { Contact } from '@/utils/shared/models';
 
 const ContactsTable = () => {
 	const pageSize = 12;
@@ -35,10 +27,10 @@ const ContactsTable = () => {
 		dummyData,
 		undefined,
 		(a: Contact, b: Contact, orderDirection: 'asc' | 'desc' | undefined): number => {
-			const timeA = a.lastActivity.getTime();
-			const timeB = b.lastActivity.getTime();
+			const timeA = new Date(a.lastActivity).getTime();
+			const timeB = new Date(b.lastActivity).getTime();
 			return orderDirection === 'asc' ? timeA - timeB : timeB - timeA;
-		}
+		},
 	);
 
 	// Paginate the sorted data
@@ -49,7 +41,7 @@ const ContactsTable = () => {
 	return (
 		<>
 			<TableContainer component={Paper}>
-				<Table aria-label="Contacts Table">
+				<Table aria-label='Contacts Table'>
 					<TableHead>
 						<TableRow>
 							<TableCell sx={{ width: '30%' }}>NAME</TableCell>
@@ -71,7 +63,10 @@ const ContactsTable = () => {
 					</TableHead>
 					<TableBody>
 						{paginatedData.map((row) => (
-							<ContactsTableRow key={row.userId} contact={row} />
+							<ContactsTableRow
+								key={row.userId}
+								contact={row}
+							/>
 						))}
 					</TableBody>
 				</Table>

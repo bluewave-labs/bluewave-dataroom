@@ -1,4 +1,4 @@
-import { Contact } from '@/app/contacts/components/ContactsTable';
+import { Contact } from '@/utils/shared/models';
 
 export const dummyData: Contact[] = [
 	{
@@ -6,7 +6,7 @@ export const dummyData: Contact[] = [
 		name: 'Jack Murano',
 		email: 'jack.murano@gmail.com',
 		lastViewedLink: 'Link #1284',
-		lastActivity: new Date('July 1, 2024 8:10 PM'),
+		lastActivity: '2024-07-01T20:10:00Z',
 		visits: 5,
 	},
 	{
@@ -14,7 +14,7 @@ export const dummyData: Contact[] = [
 		name: 'Gorkem Cetin',
 		email: 'gorkem.cetin@bluewave.ca',
 		lastViewedLink: 'Link #1284',
-		lastActivity: new Date('July 5, 2024 4:30 AM'),
+		lastActivity: '2024-07-05T04:30:00Z',
 		visits: 3,
 	},
 	{
@@ -22,7 +22,7 @@ export const dummyData: Contact[] = [
 		name: 'Olivia Smith',
 		email: 'olivia.smith@hotmail.com',
 		lastViewedLink: 'Link #1207',
-		lastActivity: new Date('July 7, 2024 10:45 AM'),
+		lastActivity: '2024-07-07T10:45:00Z',
 		visits: 4,
 	},
 	{
@@ -30,7 +30,7 @@ export const dummyData: Contact[] = [
 		name: 'Ethan Brown',
 		email: 'ethan.brown@bluewave.ca',
 		lastViewedLink: 'Link #1184',
-		lastActivity: new Date('July 9, 2024 12:20 PM'),
+		lastActivity: '2024-07-09T12:20:00Z',
 		visits: 7,
 	},
 	{
@@ -38,7 +38,7 @@ export const dummyData: Contact[] = [
 		name: 'Sophia Johnson',
 		email: 'sophia.johnson@gmail.com',
 		lastViewedLink: 'Link #1357',
-		lastActivity: new Date('July 10, 2024 2:30 PM'),
+		lastActivity: '2024-07-10T14:30:00Z',
 		visits: 2,
 	},
 	{
@@ -46,7 +46,7 @@ export const dummyData: Contact[] = [
 		name: 'Liam Davis',
 		email: 'liam.davis@bluewave.ca',
 		lastViewedLink: 'Link #1234',
-		lastActivity: new Date('July 12, 2024 3:15 PM'),
+		lastActivity: '2024-07-12T15:15:00Z',
 		visits: 6,
 	},
 	{
@@ -54,7 +54,7 @@ export const dummyData: Contact[] = [
 		name: 'Isabella Martinez',
 		email: 'isabella.martinez@gmail.com',
 		lastViewedLink: 'Link #1276',
-		lastActivity: new Date('July 14, 2024 4:50 PM'),
+		lastActivity: '2024-07-14T16:50:00Z',
 		visits: 5,
 	},
 	{
@@ -62,7 +62,7 @@ export const dummyData: Contact[] = [
 		name: 'Mason Garcia',
 		email: 'mason.garcia@bluewave.ca',
 		lastViewedLink: 'Link #1320',
-		lastActivity: new Date('July 16, 2024 6:30 PM'),
+		lastActivity: '2024-07-16T18:30:00Z',
 		visits: 3,
 	},
 	{
@@ -70,7 +70,7 @@ export const dummyData: Contact[] = [
 		name: 'Ava Rodriguez',
 		email: 'ava.rodriguez@hotmail.com',
 		lastViewedLink: 'Link #1298',
-		lastActivity: new Date('July 18, 2024 8:00 PM'),
+		lastActivity: '2024-07-18T20:00:00Z',
 		visits: 7,
 	},
 	{
@@ -78,7 +78,7 @@ export const dummyData: Contact[] = [
 		name: 'Lucas Wilson',
 		email: 'lucas.wilson@gmail.com',
 		lastViewedLink: 'Link #1215',
-		lastActivity: new Date('July 20, 2024 9:45 AM'),
+		lastActivity: '2024-07-20T09:45:00Z',
 		visits: 4,
 	},
 	{
@@ -86,7 +86,7 @@ export const dummyData: Contact[] = [
 		name: 'Mia Moore',
 		email: 'mia.moore@bluewave.ca',
 		lastViewedLink: 'Link #1364',
-		lastActivity: new Date('July 22, 2024 11:30 AM'),
+		lastActivity: '2024-07-22T11:30:00Z',
 		visits: 2,
 	},
 	{
@@ -94,7 +94,7 @@ export const dummyData: Contact[] = [
 		name: 'James Taylor',
 		email: 'james.taylor@hotmail.com',
 		lastViewedLink: 'Link #1332',
-		lastActivity: new Date('July 4, 2024 1:15 PM'),
+		lastActivity: '2024-07-04T13:15:00Z',
 		visits: 5,
 	},
 	{
@@ -102,7 +102,7 @@ export const dummyData: Contact[] = [
 		name: 'Amelia Anderson',
 		email: 'amelia.anderson@gmail.com',
 		lastViewedLink: 'Link #1345',
-		lastActivity: new Date('July 3, 2024 3:00 PM'),
+		lastActivity: '2024-07-03T15:00:00Z',
 		visits: 4,
 	},
 	{
@@ -110,7 +110,7 @@ export const dummyData: Contact[] = [
 		name: 'Benjamin Thomas',
 		email: 'benjamin.thomas@bluewave.ca',
 		lastViewedLink: 'Link #1376',
-		lastActivity: new Date('June 28, 2024 4:45 PM'),
+		lastActivity: '2024-06-28T16:45:00Z',
 		visits: 3,
 	},
 	{
@@ -118,7 +118,7 @@ export const dummyData: Contact[] = [
 		name: 'Charlotte Lee',
 		email: 'charlotte.lee@hotmail.com',
 		lastViewedLink: 'Link #1256',
-		lastActivity: new Date('July 30, 2024 6:30 PM'),
+		lastActivity: '2024-07-30T18:30:00Z',
 		visits: 6,
 	},
 	{
@@ -126,7 +126,7 @@ export const dummyData: Contact[] = [
 		name: 'Henry White',
 		email: 'henry.white@gmail.com',
 		lastViewedLink: 'Link #1224',
-		lastActivity: new Date('August 1, 2024 8:15 PM'),
+		lastActivity: '2024-08-01T20:15:00Z',
 		visits: 7,
 	},
 	{
@@ -134,7 +134,7 @@ export const dummyData: Contact[] = [
 		name: 'Emily Harris',
 		email: 'emily.harris@bluewave.ca',
 		lastViewedLink: 'Link #1263',
-		lastActivity: new Date('August 3, 2024 10:00 AM'),
+		lastActivity: '2024-08-03T10:00:00Z',
 		visits: 5,
 	},
 	{
@@ -142,7 +142,7 @@ export const dummyData: Contact[] = [
 		name: 'Jackson Walker',
 		email: 'jackson.walker@gmail.com',
 		lastViewedLink: 'Link #1354',
-		lastActivity: new Date('August 5, 2024 11:45 AM'),
+		lastActivity: '2024-08-05T11:45:00Z',
 		visits: 4,
 	},
 	{
@@ -150,7 +150,7 @@ export const dummyData: Contact[] = [
 		name: 'Ella Scott',
 		email: 'ella.scott@hotmail.com',
 		lastViewedLink: 'Link #1388',
-		lastActivity: new Date('August 7, 2024 1:30 PM'),
+		lastActivity: '2024-08-07T13:30:00Z',
 		visits: 3,
 	},
 	{
@@ -158,7 +158,7 @@ export const dummyData: Contact[] = [
 		name: 'Alexander King',
 		email: 'alexander.king@bluewave.ca',
 		lastViewedLink: 'Link #1395',
-		lastActivity: new Date('August 9, 2024 3:15 PM'),
+		lastActivity: '2024-08-09T15:15:00Z',
 		visits: 6,
 	},
 	{
@@ -166,7 +166,7 @@ export const dummyData: Contact[] = [
 		name: 'Grace Green',
 		email: 'grace.green@gmail.com',
 		lastViewedLink: 'Link #1311',
-		lastActivity: new Date('August 11, 2024 5:00 PM'),
+		lastActivity: '2024-08-11T17:00:00Z',
 		visits: 2,
 	},
 	{
@@ -174,7 +174,7 @@ export const dummyData: Contact[] = [
 		name: 'Daniel Adams',
 		email: 'daniel.adams@bluewave.ca',
 		lastViewedLink: 'Link #1249',
-		lastActivity: new Date('August 13, 2024 6:45 PM'),
+		lastActivity: '2024-08-13T18:45:00Z',
 		visits: 7,
 	},
 	{
@@ -182,7 +182,7 @@ export const dummyData: Contact[] = [
 		name: 'Scarlett Hill',
 		email: 'scarlett.hill@gmail.com',
 		lastViewedLink: 'Link #1303',
-		lastActivity: new Date('August 15, 2024 8:30 PM'),
+		lastActivity: '2024-08-15T20:30:00Z',
 		visits: 4,
 	},
 	{
@@ -190,7 +190,7 @@ export const dummyData: Contact[] = [
 		name: 'Matthew Wright',
 		email: 'matthew.wright@hotmail.com',
 		lastViewedLink: 'Link #1391',
-		lastActivity: new Date('August 17, 2024 10:15 AM'),
+		lastActivity: '2024-08-17T10:15:00Z',
 		visits: 3,
 	},
 ];
