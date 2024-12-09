@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -10,8 +9,8 @@ import Typography from '@mui/material/Typography';
 
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import DropdownArrow from '../../../public/assets/icons/sidebar/sidebar-arrow-acc-icon.svg';
-import Avatar from '../../../public/assets/icons/sidebar/sidebar-avatar-icon.svg';
+import AvatarIcon from '../../../public/assets/icons/sidebar/AvatarIcon';
+import ArrowAccIcon from '../../../public/assets/icons/sidebar/ArrowAccIcon';
 
 import ProfileIcon from '../../../public/assets/icons/sidebar/ProfileIcon';
 import TeamIcon from '../../../public/assets/icons/sidebar/TeamIcon';
@@ -43,21 +42,19 @@ export default function DropdownMenu() {
 					color: 'text.primary',
 					fontSize: 14,
 				}}
-				startIcon={<Image src={Avatar} alt="Dropdown Arrow" width={24} height={24} />}
+				startIcon={<AvatarIcon />}
 				endIcon={
-					<Image
-						src={DropdownArrow}
-						alt="Dropdown Arrow"
-						width={20}
-						height={20}
-						style={{
-							marginLeft: 4,
+					<Box
+						sx={{
+							ml: 4,
+							maxHeight: 20,
 							transform: anchorEl
 								? 'rotate(-180deg) translateY(-2px)'
 								: 'rotate(0deg) translateY(0)',
 							transition: 'transform 0.4s ease-in-out',
-						}}
-					/>
+						}}>
+						<ArrowAccIcon />
+					</Box>
 				}>
 				Account Name
 			</Button>
