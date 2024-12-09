@@ -4,22 +4,16 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-
-import { hash } from 'bcryptjs';
 import { randomUUID } from 'crypto';
 import prisma from '@lib/prisma';
+import { BluewaveResetPasswordEmail } from '../../../auth/components/ForgotPasswordEmail';
 
-// Commented out for the simplified functionality
-// import { Resend } from 'resend';
-// import { render } from '@react-email/render';
-// import { BluewaveResetPasswordEmail } from '../../../../components/email-template';
-
-// const resend = new Resend(process.env.RESEND_API_KEY);
-// const DOMAIN = process.env.DOMAIN || 'localhost:3000';
-// const PROTOCOL = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+const resend = new Resend(process.env.RESEND_API_KEY);
+const DOMAIN = process.env.DOMAIN || 'localhost:3000';
+const PROTOCOL = process.env.NODE_ENV === 'production' ? 'https' : 'http';
 
 export async function POST(req: NextRequest) {
-	const { email, password } = await req.json();
+	const { email } = await req.json();
 
 	if (!email || typeof email !== 'string') {
 		console.error('Error: Missing or invalid email field');
@@ -36,54 +30,42 @@ export async function POST(req: NextRequest) {
 		return NextResponse.json({ message: 'Email is not registered' }, { status: 400 });
 	}
 
-	// If a password is provided, update the user's password directly
-	if (password) {
-		const hashedPassword = await hash(password, 10);
+	// Generate the token
+	const generatedToken = randomUUID();
+	const token = await prisma.passwordResetToken.create({
+		data: {
+			token: generatedToken,
+			User: {
+				connect: { user_id: user.user_id },
+			},
+		},
+	});
 
-		try {
-			await prisma.user.update({
-				where: { email },
-				data: { password: hashedPassword },
-			});
+	// Generate the reset password URL with email and token as query parameters
+	const resetPasswordUrl = `${PROTOCOL}://${DOMAIN}/auth/reset-password?token=${generatedToken}&email=${encodeURIComponent(user.email)}`;
 
-			return NextResponse.json({ message: 'Password updated successfully' }, { status: 200 });
-		} catch (error) {
-			console.error('Error updating password:', error);
-			return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
-		}
-	}
+	// Send the email
 
-	// Otherwise, proceed with sending a reset email (commented out for simplicity)
-	/*
-    const generatedToken = randomUUID();
-    const token = await prisma.passwordResetToken.create({
-        data: {
-            token: generatedToken,
-            User: {
-                connect: { user_id: user.user_id },
-            },
-        },
-    });
+	// const { data, error } = await resend.emails.send({
+	// 	from: 'Acme <onboarding@resend.dev>',
+	// 	to: [user.email],
+	// 	subject: 'Password Reset Request',
+	// 	react: BluewaveResetPasswordEmail({
+	// 		username: user.first_name,
+	// 		resetUrl: resetPasswordUrl,
+	// 	}),
+	// });
+	// if (error) {
+	// 	console.error('Error sending email:', error);
+	// 	return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+	// }
 
-    const resetPasswordUrl = `${PROTOCOL}://${DOMAIN}/resetPassForm/${token.token}`;
-
-    const { data, error } = await resend.emails.send({
-        from: 'Acme <onboarding@resend.dev>',
-        to: [user.email],
-        subject: 'Password Reset Request',
-        react: BluewaveResetPasswordEmail({
-            username: user.name,
-            resetUrl: resetPasswordUrl,
-        }),
-    });
-
-    console.log(`Password reset email sent to ${user.email}`);
-    return NextResponse.json({ message: 'Mail sent' }, { status: 201 });
-    */
-
-	// If no password was provided and email sending is disabled
+	console.log(`Password reset email sent to ${user.email} (Feature unavailable in Development)`);
 	return NextResponse.json(
-		{ message: 'Password reset instructions would be sent if enabled.' },
-		{ status: 200 }
+		{
+			message: 'Mail sent',
+			url: resetPasswordUrl,
+		},
+		{ status: 201 }
 	);
 }

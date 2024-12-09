@@ -12,17 +12,17 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 
 	// Define the public routes
 	const publicRoutes = [
-		'/resetPass',
-		'/register',
 		'/auth/sign-up',
 		'/auth/forgot-password',
 		'/auth/reset-password',
 		'/auth/account-created',
 		'/auth/password-reset-confirm',
+		'/auth/check-email',
 	];
 
-	// Check if the current path starts with /resetPassForm, which is dynamic
-	const isResetPassFormRoute = pathname.startsWith('/resetPassForm');
+	// Check if the current path starts with /auth/reset-password, which is dynamic
+	const isResetPassFormRoute =
+		pathname.startsWith('/auth/reset-password') && pathname.includes('reset-password');
 
 	// Local state to handle loading state
 	const [isLoading, setIsLoading] = useState(true);
@@ -45,17 +45,15 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 		);
 	}
 
+	// If the user is trying to access a restricted route and is not signed in, redirect to the sign-in page
+	if (!session && !publicRoutes.includes(pathname) && !isResetPassFormRoute) {
+		// Redirect the user to the sign-in page with a callback URL
+		return <SignIn />;
+	}
+
 	// Render authenticated layout only when session is authenticated
 	if (publicRoutes.includes(pathname) || isResetPassFormRoute) {
 		return <>{children}</>;
-	}
-
-	if (!session) {
-		return (
-			<>
-				<SignIn />
-			</>
-		);
 	}
 
 	return (
