@@ -37,6 +37,20 @@ model User {
   role               UserRole             @default(USER)
   Status             Status               @default(ACTIVE)
   PasswordResetToken PasswordResetToken[]
+  Document           Document[]
+}
+
+model Document {
+  id          Int      @id @default(autoincrement())
+  document_id String   @unique @default(cuid())
+  user_id     String
+  fileName    String
+  filePath    String
+  fileType    String
+  size        Int
+  createdAt   DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime @updatedAt @db.Timestamptz(6)
+  User        User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
 }
 
 enum Status {
