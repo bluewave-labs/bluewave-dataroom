@@ -6,7 +6,9 @@ interface Props {
 	initialValue: string;
 	onValueChange?: (newValue: string) => void;
 	isSelectFullWidth?: boolean;
-	selectPadding?: string;
+	px?: number;
+	py?: number;
+	minWidth?: number;
 	variant?: SelectProps['variant'];
 }
 
@@ -16,8 +18,9 @@ const Dropdown = ({
 	onValueChange,
 	variant,
 	isSelectFullWidth = false,
-	selectPadding = '0.8rem 1rem',
-	...props
+	minWidth = 195,
+	px = 8,
+	py = 4,
 }: Props) => {
 	const [value, setValue] = useState<string>(initialValue);
 
@@ -41,10 +44,9 @@ const Dropdown = ({
 				disableScrollLock: true,
 			}}
 			sx={{
-				minWidth: 195,
-				'& .MuiSelect-select': { p: selectPadding },
-			}}
-			{...props}>
+				minWidth: minWidth,
+				'& .MuiSelect-select': { px: px, py: py },
+			}}>
 			{options.map((option) => (
 				<MenuItem key={option.value} value={option.value}>
 					{option.label}

@@ -508,6 +508,7 @@ const globalTheme = createTheme({
 				root: {
 					overflow: 'visible',
 					boxShadow: 'none',
+					borderBottom: 1,
 				},
 			},
 		},
@@ -535,10 +536,10 @@ const globalTheme = createTheme({
 				root: {
 					color: 'black',
 					textTransform: 'none',
-					padding: '0.25rem 1.25rem',
-					'& .Mui-selected': {
-						fontWeight: 'bold',
-					},
+					padding: '0.45rem 1.25rem',
+					boxShadow: '0px 1px 2px 0px #1018280D',
+					borderRadius: 4,
+					fontWeight: 400,
 				},
 			},
 		},
@@ -546,6 +547,9 @@ const globalTheme = createTheme({
 			styleOverrides: {
 				root: {
 					backgroundColor: background.fill,
+					'& .Mui-selected': {
+						fontWeight: 'bold',
+					},
 				},
 			},
 		},
