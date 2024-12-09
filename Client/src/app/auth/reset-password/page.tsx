@@ -23,6 +23,7 @@ export default function SetNewPassword() {
 	const [showErrors, setShowErrors] = useState(false);
 	const router = useRouter();
 	const searchParams = useSearchParams();
+	const token = searchParams.get('token');
 	const email = searchParams.get('email');
 
 	const { loading, error, handleSubmit, toast } = useAuthForm({
@@ -43,9 +44,18 @@ export default function SetNewPassword() {
 			}
 
 			// Send request if there are no errors
-			await axios.post('/api/auth/resetPass', { email, password: formData.password });
-			router.push('/auth/password-reset-confirm');
+			await axios.post('/api/auth/resetPassForm', {
+				email,
+				password: formData.password,
+				token: token,
+			});
+
+			// Redirect to a success page after successful sign-in
+			router.push(
+				`/auth/password-reset-confirm?email=${email}&password=${encodeURIComponent(formData.password)}`
+			);
 		},
+
 		isServerError: (err) => !!err.response,
 	});
 

@@ -22,12 +22,22 @@ type DocumentType =
 export interface Document {
 	id: string;
 	type: DocumentType;
+	fileFormat: string;
 	name: string;
 	createdAt: Date;
 	links: number;
 	viewers: number;
 	uploader: { name: string; avatar?: string };
 	views: number;
+	createdLinks?: { id: number; createdLink: string; lastViewed: Date; linkViews: number }[];
+	visitors?: {
+		id: number;
+		visitor: string;
+		downloads: number;
+		lastViewed: Date;
+		duration: string;
+		completion: string;
+	}[];
 }
 
 const DocumentsTable = () => {

@@ -14,8 +14,11 @@ import ContactsIcon from '../../../public/assets/icons/sidebar/ContactsIcon';
 import DocumentsIcon from '../../../public/assets/icons/sidebar/DocumentsIcon';
 import SettingsIcon from '../../../public/assets/icons/sidebar/SettingsIcon';
 import DropdownMenu from './DropdownMenu';
+import { useState } from 'react';
 
 export default function Sidebar() {
+	const [selectedListItem, setSelectedListItem] = useState('');
+
 	const menu = [
 		{ text: 'Documents', icon: <DocumentsIcon />, href: '/documents' },
 		{ text: 'Contacts', icon: <ContactsIcon />, href: '/contacts' },
@@ -29,13 +32,19 @@ export default function Sidebar() {
 			sx={{
 				height: '100vh',
 				backgroundColor: 'background.fill',
-				pt: 16,
-				pb: 10,
-				px: 8,
-				border: '1px solid',
+				pt: { sx: 4, sm: 8, md: 16 },
+				pb: { sx: 2, sm: 4, md: 10 },
+				px: { sx: 2, sm: 4, md: 8 },
+				border: 1,
 				borderColor: 'border.light',
 			}}>
-			<Box display={'flex'} flexDirection={'column'} gap={21} mx={5}>
+			<Box
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					gap: { sx: 4, sm: 10, md: 21 },
+					mx: { sx: 2, sm: 2, md: 5 },
+				}}>
 				<BlueWaveLogo width={191} height={24} />
 
 				<List>
@@ -49,8 +58,15 @@ export default function Sidebar() {
 									width: '100%',
 								}}>
 								<ListItemButton
+									selected={selectedListItem === text}
+									onClick={() => setSelectedListItem(text)}
 									sx={{
 										px: 4,
+										borderLeft: 3,
+										borderLeftColor: 'transparent',
+										'&.Mui-selected': {
+											borderLeftColor: 'background.primary',
+										},
 									}}>
 									<ListItemIcon>{icon}</ListItemIcon>
 									<ListItemText primary={text} />
