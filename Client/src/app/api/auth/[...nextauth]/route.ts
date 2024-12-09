@@ -48,7 +48,7 @@ export const authOptions: NextAuthOptions = {
 					throw new Error('Invalid password');
 				}
 
-				console.log('Authenticated user:', user); // Debug log
+				// console.log('Authenticated user:', user); // Debug log
 
 				// Return user object to the JWT callback
 				return {
@@ -66,7 +66,7 @@ export const authOptions: NextAuthOptions = {
 	},
 	callbacks: {
 		async session({ session, token }) {
-			console.log('Session token:', token); // Debug log
+			// console.log('Session token:', token); // Debug log
 			// Explicitly set user properties in session
 			if (token) {
 				session.user = {
@@ -82,7 +82,7 @@ export const authOptions: NextAuthOptions = {
 		async jwt({ token, user }) {
 			// If the user object exists, merge it with the token
 			if (user) {
-				console.log('JWT user:', user); // Debug log
+				// console.log('JWT user:', user); // Debug log
 				token.id = user.id;
 				token.userId = user.userId;
 				token.role = user.role;

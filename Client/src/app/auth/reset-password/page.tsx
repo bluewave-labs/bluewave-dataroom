@@ -26,39 +26,39 @@ export default function SetNewPassword() {
 	const token = searchParams.get('token');
 	const email = searchParams.get('email');
 
-	//const { loading, error, handleSubmit, toast } = useAuthForm({
-	//	onSubmit: async () => {
-	//		// Set inline validation errors
-	//		const errors: Record<string, string> = {};
-	//
-	//		if (!formData.password) errors.password = 'Password is required';
-	//		if (!formData.confirmPassword) errors.confirmPassword = 'Confirm password is required';
-	//		if (formData.password && formData.password !== formData.confirmPassword) {
-	//			errors.confirmPassword = 'Passwords do not match';
-	//		}
-	//
-	//		setInlineErrors(errors);
-	//
-	//		if (Object.keys(errors).length > 0) {
-	//			throw new Error('Validation error');
-	//		}
-	//
-	//		// Send request if there are no errors
-	//		await axios.post('/api/auth/resetPassForm', {
-	//			email,
-	//			password: formData.password,
-	//			token: token,
-	//		});
-	//
-	//		// Redirect to a success page after successful sign-in
-	//		router.push(
-	//			`/auth/password-reset-confirm?email=${email}&password=${encodeURIComponent(formData.password)}`
-	//		);
-	//	},
-	//
-	//	isServerError: (err) => !!err.response,
-	//});
-	//
+	const { loading, error, handleSubmit, toast } = useAuthForm({
+		onSubmit: async () => {
+			// Set inline validation errors
+			const errors: Record<string, string> = {};
+
+			if (!formData.password) errors.password = 'Password is required';
+			if (!formData.confirmPassword) errors.confirmPassword = 'Confirm password is required';
+			if (formData.password && formData.password !== formData.confirmPassword) {
+				errors.confirmPassword = 'Passwords do not match';
+			}
+
+			setInlineErrors(errors);
+
+			if (Object.keys(errors).length > 0) {
+				throw new Error('Validation error');
+			}
+
+			// Send request if there are no errors
+			await axios.post('/api/auth/resetPassForm', {
+				email,
+				password: formData.password,
+				token: token,
+			});
+
+			// Redirect to a success page after successful sign-in
+			router.push(
+				`/auth/password-reset-confirm?email=${email}&password=${encodeURIComponent(formData.password)}`
+			);
+		},
+
+		isServerError: (err) => !!err.response,
+	});
+
 	const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const newPassword = event.target.value;
 		handleChange(event); // Update formData
@@ -71,7 +71,7 @@ export default function SetNewPassword() {
 	const onSubmitForm = (event: FormEvent) => {
 		event.preventDefault();
 		setShowErrors(true);
-		//handleSubmit(event);
+		handleSubmit(event);
 	};
 
 	const toastMessage = error || 'Failed to reset password. Please try again.';
@@ -133,16 +133,15 @@ export default function SetNewPassword() {
 					isLengthValid={isPasswordValid.length}
 					hasSpecialChar={isPasswordValid.specialChar}
 				/>
-				{/*			<LoadingButton
+				<LoadingButton
 					loading={loading}
 					buttonText="Reset password"
 					loadingText="Resetting Password..."
 				/>
-        */}
 			</Box>
 
 			<NavLink href="/auth/sign-in" linkText="← Back to sign in" prefetch={true} />
-			{/*<Toast message={toastMessage} open={toast.open} hideToast={toast.hideToast} variant="error" />*/}
+			<Toast message={toastMessage} open={toast.open} hideToast={toast.hideToast} variant="error" />
 		</AuthFormWrapper>
 	);
 }
