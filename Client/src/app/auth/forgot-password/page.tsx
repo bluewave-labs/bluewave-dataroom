@@ -21,13 +21,11 @@ export default function ForgotPassword() {
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		setLoading(true);
-		errorToast.hideToast();
 
 		try {
-			const response = await axios.post('/api/auth/verify-email', { email: formData.email });
-			if (response.status === 200) {
-				router.push(`/auth/reset-password?email=${encodeURIComponent(formData.email)}`);
-			}
+			const response = await axios.post('/api/auth/resetPass', { email: formData.email });
+
+			router.push(response.data.url);
 		} catch (error) {
 			console.error('Error verifying email:', error);
 			errorToast.showToast();

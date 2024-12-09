@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -20,6 +20,7 @@
     "@react-email/components": "^0.0.25",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
+    "date-fns": "^4.1.0",
     "next": "^14.2.13",
     "next-auth": "^4.24.8",
     "prisma": "^5.21.1",
