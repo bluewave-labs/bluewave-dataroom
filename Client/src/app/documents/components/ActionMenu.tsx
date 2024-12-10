@@ -33,10 +33,10 @@ const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) =>
 			const response = await fetch(`/api/documents/delete`, {
 				method: 'DELETE',
 				headers: {
-						'Content-Type': 'application/json',
+					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({ documentId }),
-		});
+			});
 
 			if (response.ok) {
 				//TODO: Add toast
