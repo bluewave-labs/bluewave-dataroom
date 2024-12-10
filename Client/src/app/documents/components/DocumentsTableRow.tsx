@@ -5,12 +5,16 @@ import { Avatar, Box, Chip, IconButton, TableCell, TableRow, Typography } from '
 import { useState } from 'react';
 import SettingsIcon from '../../../../public/assets/icons/sidebar/SettingsIcon';
 import ActionMenu from './ActionMenu';
+import LinkIcon from '../../../../public/assets/icons/documentPage/LinkIcon';
+import CheckIcon from '@mui/icons-material/Check';
 
 interface Props {
 	document: Document;
 }
 
 const DocumentsTableRow = ({ document }: Props) => {
+	const [isLinkCopied, setIsLinkCopied] = useState(false);
+
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
@@ -22,9 +26,20 @@ const DocumentsTableRow = ({ document }: Props) => {
 		setAnchorEl(null);
 	};
 
+	const linkToCopy = document.createdLinks?.[0]?.createdLink;
+
+	const handleLinkCopy = () => {
+		if (linkToCopy) {
+			navigator.clipboard.writeText(linkToCopy);
+			setTimeout(() => {
+				setIsLinkCopied(true);
+			}, 300);
+		}
+	};
+
 	return (
 		<TableRow hover>
-			<TableCell sx={{ paddingRight: 0, textAlign: 'center' }}>
+			<TableCell sx={{ pr: 0, textAlign: 'center' }}>
 				<Box
 					component='img'
 					src={FileTypeConfig[document.fileType] || FileTypeConfig['General']}
@@ -87,6 +102,17 @@ const DocumentsTableRow = ({ document }: Props) => {
 						width: '5.5rem',
 					}}
 				/>
+			</TableCell>
+			<TableCell sx={{ pl: '1.5rem' }}>
+				<IconButton
+					disabled={document.createdLinks?.length === 0}
+					onClick={handleLinkCopy}>
+					{isLinkCopied ? (
+						<CheckIcon fontSize='small' />
+					) : (
+						<LinkIcon disabled={document.createdLinks?.length === 0} />
+					)}
+				</IconButton>
 			</TableCell>
 			<TableCell sx={{ paddingLeft: '1.5rem' }}>
 				<IconButton onClick={handleMenuOpen}>

@@ -4,38 +4,43 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DIRECT_URL")
 }
 
 model ArchivedUser {
-  id           Int  @id @default(autoincrement())
-  user_id      String   @unique @default(cuid()) // auto generate unique user_id
-  name         String   @default("")
-  email        String   @unique @default("")
-  password     String
-  created_at   DateTime @default(now()) @db.Timestamptz(6)
-  role         UserRole @default(USER)
-  address      String?  @default("")
+  id         Int      @id @default(autoincrement())
+  user_id    String   @unique @default(cuid())
+  first_name String   @default("")
+  last_name  String   @default("")
+  email      String   @unique @default("")
+  password   String
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  role       UserRole @default(USER)
+  address    String?  @default("")
 }
 
 model PasswordResetToken {
   id         Int       @id @default(autoincrement())
   token      String    @unique
-  created_at DateTime  @default(now())
-  reset_at   DateTime?
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  reset_at   DateTime? @db.Timestamptz(6)
   user_id    String
   User       User      @relation(fields: [user_id], references: [user_id])
 }
 
 model User {
-  id                 Int               @id @default(autoincrement())
+  id                 Int                  @id @default(autoincrement())
   user_id            String               @unique
-  name               String               @default("")
+  first_name         String               @default("")
+  last_name          String               @default("")
   email              String               @unique @default("")
   password           String
   created_at         DateTime             @default(now()) @db.Timestamptz(6)
-  role               UserRole             @default(USER)
-  Status             Status               @default(ACTIVE)
+  role               UserRole             @default(ADMIN)
+  status             Status
+  verification_token String
+  token_expires_at   DateTime             @db.Timestamptz(6)
+  updated_at         DateTime             @updatedAt @db.Timestamptz(6)
   PasswordResetToken PasswordResetToken[]
   Document           Document[]
 }
@@ -56,13 +61,10 @@ model Document {
 enum Status {
   ACTIVE
   ARCHIVED
+  UNVERIFIED
 }
 
 enum UserRole {
   ADMIN
-  COACH
-  CLIENT
   USER
 }
-
-

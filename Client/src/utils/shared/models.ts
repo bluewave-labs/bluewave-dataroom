@@ -14,6 +14,15 @@ export interface Document {
 	links: number;
 	viewers: number;
 	views: number;
+	createdLinks?: { id: number; createdLink: string; lastViewed: Date; linkViews: number }[];
+	visitors?: {
+		id: number;
+		visitor: string;
+		downloads: number;
+		lastViewed: Date;
+		duration: string;
+		completion: string;
+	}[];
 }
 
 // User Interface

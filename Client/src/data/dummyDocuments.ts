@@ -16,6 +16,24 @@ export const dummyData: Document[] = [
 		links: 2,
 		viewers: 2,
 		views: 4,
+		createdLinks: [
+			{
+				id: 1,
+				createdLink: 'https://github.com/bluewave-labs/bluewave-dataroom',
+				lastViewed: new Date('2024-09-15T00:00:00Z'),
+				linkViews: 14,
+			},
+		],
+		visitors: [
+			{
+				id: 1,
+				visitor: 'gorkem@bwl.ca',
+				downloads: 0,
+				lastViewed: new Date('2024-07-15T04:30:00Z'),
+				duration: '3 minutes 4 seconds',
+				completion: '15%',
+			},
+		],
 	},
 	{
 		id: 2,
@@ -29,6 +47,8 @@ export const dummyData: Document[] = [
 		links: 0,
 		viewers: 4,
 		views: 9,
+		createdLinks: [],
+		visitors: [],
 	},
 	{
 		id: 3,
@@ -42,6 +62,17 @@ export const dummyData: Document[] = [
 		links: 2,
 		viewers: 0,
 		views: 11,
+		createdLinks: [],
+		visitors: [
+			{
+				id: 1,
+				visitor: 'Gorkem Cetin',
+				downloads: 0,
+				lastViewed: new Date('2024-07-15T06:02:00Z'),
+				duration: '3 minutes 4 seconds',
+				completion: '15%',
+			},
+		],
 	},
 	{
 		id: 4,
@@ -55,6 +86,15 @@ export const dummyData: Document[] = [
 		links: 3,
 		viewers: 5,
 		views: 15,
+		createdLinks: [
+			{
+				id: 1,
+				createdLink: 'https://github.com/bluewave-labs/bluewave-dataroom',
+				lastViewed: new Date('2024-07-15T00:00:00Z'),
+				linkViews: 14,
+			},
+		],
+		visitors: [],
 	},
 	{
 		id: 5,
@@ -68,6 +108,15 @@ export const dummyData: Document[] = [
 		links: 1,
 		viewers: 3,
 		views: 7,
+		createdLinks: [
+			{
+				id: 1,
+				createdLink: 'https://github.com/bluewave-labs/bluewave-dataroom',
+				lastViewed: new Date('2024-07-15T00:00:00Z'),
+				linkViews: 14,
+			},
+		],
+		visitors: [],
 	},
 	{
 		id: 6,
@@ -84,6 +133,17 @@ export const dummyData: Document[] = [
 		links: 2,
 		viewers: 3,
 		views: 14,
+		createdLinks: [],
+		visitors: [
+			{
+				id: 1,
+				visitor: 'Gorkem Cetin',
+				downloads: 0,
+				lastViewed: new Date('2024-07-15T06:02:00Z'),
+				duration: '3 minutes 4 seconds',
+				completion: '15%',
+			},
+		],
 	},
 	{
 		id: 7,
@@ -100,6 +160,8 @@ export const dummyData: Document[] = [
 		links: 3,
 		viewers: 5,
 		views: 18,
+		createdLinks: [],
+		visitors: [],
 	},
 	{
 		id: 8,
@@ -116,6 +178,8 @@ export const dummyData: Document[] = [
 		links: 1,
 		viewers: 4,
 		views: 9,
+		createdLinks: [],
+		visitors: [],
 	},
 	{
 		id: 9,
@@ -132,6 +196,8 @@ export const dummyData: Document[] = [
 		links: 2,
 		viewers: 7,
 		views: 16,
+		createdLinks: [],
+		visitors: [],
 	},
 	{
 		id: 10,
@@ -148,261 +214,7 @@ export const dummyData: Document[] = [
 		links: 4,
 		viewers: 3,
 		views: 11,
-	},
-	{
-		id: 11,
-		fileName: 'Year-End Financial Statements 2023',
-		filePath: '/uploads/year_end_financials.xlsx',
-		fileType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-		size: 1024000, // 1 MB
-		createdAt: '2024-07-22T09:00:00Z',
-		updatedAt: '2024-07-22T10:00:00Z',
-		uploader: {
-			name: 'Sophia White',
-			avatar: null,
-		},
-		links: 0,
-		viewers: 2,
-		views: 6,
-	},
-	{
-		id: 12,
-		fileName: 'Strategic Planning Presentation',
-		filePath: '/uploads/strategic_planning.pptx',
-		fileType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-		size: 921600, // 900 KB
-		createdAt: '2024-08-09T10:00:00Z',
-		updatedAt: '2024-08-09T11:00:00Z',
-		uploader: {
-			name: 'Zack Martinez',
-			avatar: null,
-		},
-		links: 4,
-		viewers: 5,
-		views: 18,
-	},
-	{
-		id: 13,
-		fileName: 'Product Launch Plan',
-		filePath: '/uploads/product_launch_plan.docx',
-		fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-		size: 256000, // 250 KB
-		createdAt: '2024-07-20T09:00:00Z',
-		updatedAt: '2024-07-20T10:00:00Z',
-		uploader: {
-			name: 'Oliver Martinez',
-			avatar: null,
-		},
-		links: 4,
-		viewers: 3,
-		views: 11,
-	},
-	{
-		id: 14,
-		fileName: 'Year-End Financial Statements 2023',
-		filePath: '/uploads/year_end_financials.xlsx',
-		fileType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-		size: 1024000, // 1 MB
-		createdAt: '2024-07-22T09:00:00Z',
-		updatedAt: '2024-07-22T10:00:00Z',
-		uploader: {
-			name: 'Sophia White',
-			avatar: null,
-		},
-		links: 0,
-		viewers: 2,
-		views: 6,
-	},
-	{
-		id: 15,
-		fileName: 'Project Kickoff Presentation',
-		filePath: '/uploads/project_kickoff.pptx',
-		fileType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-		size: 921600, // 900 KB
-		createdAt: '2024-07-24T10:00:00Z',
-		updatedAt: '2024-07-24T11:00:00Z',
-		uploader: {
-			name: 'James Moore',
-			avatar: null,
-		},
-		links: 1,
-		viewers: 4,
-		views: 9,
-	},
-	{
-		id: 16,
-		fileName: 'Market Research Report 2024',
-		filePath: '/uploads/market_research_report.pdf',
-		fileType: 'application/pdf',
-		size: 512000, // 500 KB
-		createdAt: '2024-07-26T11:00:00Z',
-		updatedAt: '2024-07-26T12:00:00Z',
-		uploader: {
-			name: 'Mia Garcia',
-			avatar: null,
-		},
-		links: 2,
-		viewers: 1,
-		views: 10,
-	},
-	{
-		id: 17,
-		fileName: 'Internal Audit Report 2024',
-		filePath: '/uploads/internal_audit_report.docx',
-		fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-		size: 307200, // 300 KB
-		createdAt: '2024-07-28T09:00:00Z',
-		updatedAt: '2024-07-28T10:00:00Z',
-		uploader: {
-			name: 'Lucas Robinson',
-			avatar: null,
-		},
-		links: 3,
-		viewers: 3,
-		views: 8,
-	},
-	{
-		id: 18,
-		fileName: 'Revenue Analysis Q2 2024',
-		filePath: '/uploads/revenue_analysis_q2.xlsx',
-		fileType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-		size: 614400, // 600 KB
-		createdAt: '2024-07-30T10:00:00Z',
-		updatedAt: '2024-07-30T11:00:00Z',
-		uploader: {
-			name: 'Amelia Clark',
-			avatar: null,
-		},
-		links: 4,
-		viewers: 5,
-		views: 15,
-	},
-	{
-		id: 19,
-		fileName: 'Executive Summary Presentation',
-		filePath: '/uploads/executive_summary.pptx',
-		fileType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-		size: 819200, // 800 KB
-		createdAt: '2024-08-01T13:00:00Z',
-		updatedAt: '2024-08-01T14:00:00Z',
-		uploader: {
-			name: 'Henry Young',
-			avatar: null,
-		},
-		links: 0,
-		viewers: 6,
-		views: 4,
-	},
-	{
-		id: 20,
-		fileName: 'Operational Efficiency Report',
-		filePath: '/uploads/operational_efficiency_report.pdf',
-		fileType: 'application/pdf',
-		size: 1024000, // 1 MB
-		createdAt: '2024-08-03T14:00:00Z',
-		updatedAt: '2024-08-03T15:00:00Z',
-		uploader: {
-			name: 'Harper Harris',
-			avatar: null,
-		},
-		links: 1,
-		viewers: 2,
-		views: 13,
-	},
-	{
-		id: 21,
-		fileName: 'Employee Onboarding Guide 2024',
-		filePath: '/uploads/employee_onboarding_guide.docx',
-		fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-		size: 307200, // 300 KB
-		createdAt: '2024-08-05T09:00:00Z',
-		updatedAt: '2024-08-05T10:00:00Z',
-		uploader: {
-			name: 'Evelyn Lewis',
-			avatar: null,
-		},
-		links: 2,
-		viewers: 4,
-		views: 12,
-	},
-	{
-		id: 22,
-		fileName: 'Cost-Benefit Analysis 2024',
-		filePath: '/uploads/cost_benefit_analysis.xlsx',
-		fileType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-		size: 614400, // 600 KB
-		createdAt: '2024-08-07T11:00:00Z',
-		updatedAt: '2024-08-07T12:00:00Z',
-		uploader: {
-			name: 'Mason Walker',
-			avatar: null,
-		},
-		links: 3,
-		viewers: 3,
-		views: 7,
-	},
-	{
-		id: 23,
-		fileName: 'Strategic Planning Presentation',
-		filePath: '/uploads/strategic_planning_presentation.pptx',
-		fileType: 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-		size: 921600, // 900 KB
-		createdAt: '2024-08-09T10:00:00Z',
-		updatedAt: '2024-08-09T11:00:00Z',
-		uploader: {
-			name: 'Zack Martinez',
-			avatar: null,
-		},
-		links: 4,
-		viewers: 5,
-		views: 18,
-	},
-	{
-		id: 24,
-		fileName: 'Compliance Report 2024',
-		filePath: '/uploads/compliance_report.pdf',
-		fileType: 'application/pdf',
-		size: 512000, // 500 KB
-		createdAt: '2024-08-11T09:00:00Z',
-		updatedAt: '2024-08-11T10:00:00Z',
-		uploader: {
-			name: 'William Allen',
-			avatar: null,
-		},
-		links: 0,
-		viewers: 2,
-		views: 6,
-	},
-	{
-		id: 25,
-		fileName: 'Financial Report 2023',
-		filePath: '/uploads/financial_report.zip',
-		fileType: 'application/zip',
-		size: 2048000, // 2 MB
-		createdAt: '2024-02-28T10:00:00Z',
-		updatedAt: '2024-02-28T11:00:00Z',
-		uploader: {
-			name: 'Alice Brown',
-			avatar: null,
-		},
-		links: 0,
-		viewers: 1,
-		views: 3,
-	},
-	{
-		id: 26,
-		fileName: 'Employee Handbook 2024',
-		filePath: '/uploads/employee_handbook.txt',
-		fileType: 'text/plain',
-		size: 102400, // 100 KB
-		createdAt: '2024-07-10T10:00:00Z',
-		updatedAt: '2024-07-10T11:00:00Z',
-		uploader: {
-			name: 'Sarah Lee',
-			avatar: null,
-		},
-		links: 2,
-		viewers: 3,
-		views: 14,
+		createdLinks: [],
+		visitors: [],
 	},
 ];
