@@ -1,16 +1,19 @@
-import ModalWrapper from '@/components/ModalWrapper';
-import { useModal } from '@/hooks/useModal';
-import { Menu, MenuItem, Typography } from '@mui/material';
 import { useState } from 'react';
+import Toast from '@/components/Toast';
+import { useModal } from '@/hooks/useModal';
+import ModalWrapper from '@/components/ModalWrapper';
+import { Menu, MenuItem, Typography } from '@mui/material';
+
 import CreateLink from './CreateLink';
 
 interface Props {
-	anchorEl: HTMLElement | null;
 	open: boolean;
+	documentId: number;
 	onClose: () => void;
+	anchorEl: HTMLElement | null;
 }
 
-const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
+const ActionMenu = ({ anchorEl, open, onClose, documentId }: Props) => {
 	const deleteModal = useModal();
 	const updateModal = useModal();
 
@@ -22,6 +25,32 @@ const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
 
 	const handleClose = (value: string) => {
 		setOpen(false);
+	};
+
+	const handleDocumentDelete = async (documentId: number) => {
+		try {
+
+			const response = await fetch(`/api/documents/delete`, {
+				method: 'DELETE',
+				headers: {
+						'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ documentId }),
+		});
+
+			if (response.ok) {
+				//TODO: Add toast
+				console.log('Document deleted successfully');
+			} else {
+				//TODO: Add toast
+				console.error('Failed to delete document');
+				throw new Error('Failed to delete document');
+			}
+		} catch (error) {
+			//TODO: Add toast
+			console.error('Error deleting document:', error);
+			throw new Error('Error deleting document');
+		}
 	};
 
 	return (
@@ -56,7 +85,7 @@ const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
 				open={deleteModal.isOpen}
 				toggleModal={deleteModal.closeModal}
 				onClose={function (): void {
-					throw new Error('Function not implemented.');
+					handleDocumentDelete(documentId);
 				}}
 			/>
 
