@@ -553,6 +553,18 @@ const globalTheme = createTheme({
 				},
 			},
 		},
+
+		MuiDrawer: {
+			styleOverrides: {
+				paper: {
+					boxSizing: 'border-box',
+					border: 'none',
+					borderRadius: 0,
+					boxShadow: 'none',
+					margin: 0,
+				},
+			},
+		},
 	},
 });
 

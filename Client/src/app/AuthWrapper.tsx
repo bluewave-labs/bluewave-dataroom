@@ -38,7 +38,11 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 	// Show a loading state while fetching the session
 	if (isLoading) {
 		return (
-			<Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+			<Box
+				display='flex'
+				justifyContent='center'
+				alignItems='center'
+				height='100vh'>
 				<CircularProgress size={80} />
 			</Box>
 		);
@@ -61,14 +65,14 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 				sx={{
 					display: 'flex',
 					backgroundColor: '#fcfcfd',
-					minHeight: '100vh',
+					height: '100vh',
 				}}>
 				<Sidebar />
 				<Box
 					sx={{
 						width: '100%',
 						py: { sx: 4, sm: 10, md: 20 },
-						px: { sx: 8, sm: 16, md: 30 },
+						px: { sx: 2, sm: 4, md: 30 },
 					}}>
 					{children}
 				</Box>
