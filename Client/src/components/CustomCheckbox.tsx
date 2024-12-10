@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel } from '@mui/material';
 import { ChangeEvent } from 'react';
-import Checked from '../../public/assets/icons/documentPage/Checked';
-import Unchecked from '../../public/assets/icons/documentPage/Unchecked';
+import UncheckedIcon from '../../public/assets/icons/documentPage/UncheckedIcon';
+import CheckedIcon from '../../public/assets/icons/documentPage/CheckedIcon';
 
 interface CustomCheckboxProps {
 	checked: boolean;
@@ -14,8 +14,8 @@ const CustomCheckbox = ({ checked, onChange, label, name }: CustomCheckboxProps)
 	<FormControlLabel
 		control={
 			<Checkbox
-				icon={<Unchecked />}
-				checkedIcon={<Checked />}
+				icon={<UncheckedIcon />}
+				checkedIcon={<CheckedIcon />}
 				checked={checked}
 				name={name}
 				onChange={onChange}
