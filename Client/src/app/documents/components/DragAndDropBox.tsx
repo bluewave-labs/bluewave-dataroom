@@ -31,7 +31,7 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 		try {
 			if (!session) {
 				console.error('User not authenticated');
-				errorToast.showToast();
+				// errorToast.showToast();
 				setUploading(false);
 				return;
 			}
@@ -42,15 +42,15 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 			const response = await axios.post('/api/documents/upload', formData);
 
 			if (response?.status === 200 && response.data?.document) {
-				successToast.showToast();
+				// successToast.showToast();
 			} else {
-				errorToast.showToast();
+				// errorToast.showToast();
 			}
 		} catch (error: any) {
 			const errorMessage =
 				error.response?.data?.error || error.message || 'Unexpected error occurred';
 			console.error('Error uploading file:', errorMessage, error);
-			errorToast.showToast();
+			// errorToast.showToast();
 		} finally {
 			setUploading(false);
 		}
@@ -75,16 +75,16 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 					height: { height },
 				}}>
 				<Box
-					component="img"
-					src="/assets/icons/documentPage/document-upload-icon.svg"
-					alt="Document Icon"
+					component='img'
+					src='/assets/icons/documentPage/document-upload-icon.svg'
+					alt='Document Icon'
 					sx={{ width: '8rem', height: '8rem', mb: '0.5rem' }}
 				/>
-				<Button color="inherit">{text}</Button>
+				<Button color='inherit'>{text}</Button>
 				<input
-					type="file"
-					id="file-input"
-					accept=".pdf"
+					type='file'
+					id='file-input'
+					accept='.pdf'
 					style={{ display: 'none' }}
 					onChange={handleFileSelect}
 				/>
@@ -101,7 +101,7 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 				maxFileSize="50"
 				fileFormats="PDF"
 			/> */}
-			<Toast
+			{/* <Toast
 				message="File uploaded successfully"
 				open={successToast.open}
 				hideToast={successToast.hideToast}
@@ -114,7 +114,7 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 				hideToast={errorToast.hideToast}
 				variant="error"
 				autoHide
-			/>
+			/> */}
 		</>
 	);
 };

@@ -1,9 +1,7 @@
-import { useState } from 'react';
+import { useToastContext } from '@/providers/toast/ToastProvider';
+import { ToastMessage } from '@/providers/toast/toastTypes';
 
 export const useToast = () => {
-	const [open, setOpen] = useState(false);
-	const showToast = () => setOpen(true);
-	const hideToast = () => setOpen(false);
-
-	return { showToast, hideToast, open };
+	const { showToast } = useToastContext();
+	return { showToast: (toast: Omit<ToastMessage, 'id'>) => showToast(toast) };
 };

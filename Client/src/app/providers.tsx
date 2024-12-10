@@ -5,7 +5,8 @@ import { CircularProgress, CssBaseline, ThemeProvider } from '@mui/material';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { SessionProvider } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
-import AuthWrapper from './AuthWrapper';
+import { ToastProvider } from '@/providers/toast/ToastProvider';
+import AuthWrapper from '@/providers/auth/AuthWrapper';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
 	const [isHydrated, setIsHydrated] = useState(false);
@@ -24,7 +25,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 			<AppRouterCacheProvider>
 				<ThemeProvider theme={globalTheme}>
 					<CssBaseline />
-					<AuthWrapper>{children}</AuthWrapper>
+					<ToastProvider>
+						<AuthWrapper>{children}</AuthWrapper>
+					</ToastProvider>
 				</ThemeProvider>
 			</AppRouterCacheProvider>
 		</SessionProvider>
