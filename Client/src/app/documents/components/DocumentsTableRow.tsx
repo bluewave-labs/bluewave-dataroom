@@ -123,6 +123,7 @@ const DocumentsTableRow = ({ document }: Props) => {
 				</IconButton>
 				<ActionMenu
 					anchorEl={anchorEl}
+					documentId={document.id}
 					open={open}
 					onClose={handleMenuClose}
 				/>
