@@ -1,10 +1,9 @@
+import SignIn from '@/app/auth/sign-in/page';
+import Sidebar from '@/app/layout/Sidebar';
 import { Box, CircularProgress } from '@mui/material';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
-import Background from '../../public/assets/Background';
-import SignIn from './auth/sign-in/page';
-import Sidebar from './layout/Sidebar';
 
 export default function AuthWrapper({ children }: { children: ReactNode }) {
 	const { data: session, status } = useSession();
@@ -12,17 +11,17 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 
 	// Define the public routes
 	const publicRoutes = [
-		'/resetPass',
-		'/register',
 		'/auth/sign-up',
 		'/auth/forgot-password',
 		'/auth/reset-password',
 		'/auth/account-created',
 		'/auth/password-reset-confirm',
+		'/auth/check-email',
 	];
 
-	// Check if the current path starts with /resetPassForm, which is dynamic
-	const isResetPassFormRoute = pathname.startsWith('/resetPassForm');
+	// Check if the current path starts with /auth/reset-password, which is dynamic
+	const isResetPassFormRoute =
+		pathname.startsWith('/auth/reset-password') && pathname.includes('reset-password');
 
 	// Local state to handle loading state
 	const [isLoading, setIsLoading] = useState(true);
@@ -39,23 +38,25 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 	// Show a loading state while fetching the session
 	if (isLoading) {
 		return (
-			<Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+			<Box
+				display='flex'
+				justifyContent='center'
+				alignItems='center'
+				height='100vh'>
 				<CircularProgress size={80} />
 			</Box>
 		);
 	}
 
+	// If the user is trying to access a restricted route and is not signed in, redirect to the sign-in page
+	if (!session && !publicRoutes.includes(pathname) && !isResetPassFormRoute) {
+		// Redirect the user to the sign-in page with a callback URL
+		return <SignIn />;
+	}
+
 	// Render authenticated layout only when session is authenticated
 	if (publicRoutes.includes(pathname) || isResetPassFormRoute) {
 		return <>{children}</>;
-	}
-
-	if (!session) {
-		return (
-			<>
-				<SignIn />
-			</>
-		);
 	}
 
 	return (
@@ -64,10 +65,15 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 				sx={{
 					display: 'flex',
 					backgroundColor: '#fcfcfd',
-					height: '100vh',
+					minHeight: '100vh',
 				}}>
 				<Sidebar />
-				<Box width="100%" py={20} px={30}>
+				<Box
+					sx={{
+						width: '100%',
+						py: { sx: 4, sm: 10, md: 20 },
+						px: { sx: 8, sm: 16, md: 30 },
+					}}>
 					{children}
 				</Box>
 			</Box>
