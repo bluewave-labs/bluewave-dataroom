@@ -1,4 +1,5 @@
 import { useToast } from '@/hooks/useToast';
+import router from 'next/router';
 import { FormEvent, useState } from 'react';
 
 interface UseAuthFormProps {
@@ -24,10 +25,17 @@ export const useAuthForm = ({ onSubmit, isServerError }: UseAuthFormProps) => {
 
 			// Only show toast if the error is confirmed to be a server error
 			if (isServerError && isServerError(err)) {
-				toast.showToast();
+				toast.showToast({
+					message: 'Contact your Admin',
+					variant: 'error',
+				});
 			}
 		} finally {
 			setLoading(false);
+			toast.showToast({
+				message: 'Contact your Admin for verification',
+				variant: 'info',
+			});
 		}
 	};
 

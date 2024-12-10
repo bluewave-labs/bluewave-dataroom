@@ -11,6 +11,7 @@ import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 import AuthFormWrapper from '../components/AuthFormWrapper';
 import AuthInput from '../components/AuthInput';
 import PasswordValidation from '../components/PasswordValidation';
+import NavLink from '@/components/NavLink';
 
 export default function SignUp() {
 	const { formData, handleChange } = useFormData({
@@ -55,6 +56,7 @@ export default function SignUp() {
 				firstName: formData.firstName,
 				lastName: formData.lastName,
 			});
+
 			router.push('/auth/account-created');
 		},
 		isServerError: (err) => !!err.response, // Show toast if error has a server response
@@ -78,25 +80,30 @@ export default function SignUp() {
 	return (
 		<AuthFormWrapper>
 			<Box mb={20}>
-				<BluewaveLogo width={248} height={64} />
+				<BluewaveLogo
+					width={248}
+					height={64}
+				/>
 			</Box>
 
-			<Typography variant="h2" mb={12}>
+			<Typography
+				variant='h2'
+				mb={12}>
 				Create an account
 			</Typography>
 
 			<Box
-				component="form"
+				component='form'
 				onSubmit={onSubmitForm}
 				noValidate
 				minWidth={400}
-				display="flex"
-				flexDirection="column"
+				display='flex'
+				flexDirection='column'
 				gap={8}>
 				<AuthInput
-					label="First name"
-					id="firstName"
-					placeholder="Enter your name"
+					label='First name'
+					id='firstName'
+					placeholder='Enter your name'
 					value={formData.firstName}
 					onChange={handleChange}
 					required
@@ -104,9 +111,9 @@ export default function SignUp() {
 					errorMessage={inlineErrors.firstName || ''}
 				/>
 				<AuthInput
-					label="Last name"
-					id="lastName"
-					placeholder="Enter your surname"
+					label='Last name'
+					id='lastName'
+					placeholder='Enter your surname'
 					value={formData.lastName}
 					onChange={handleChange}
 					required
@@ -114,10 +121,10 @@ export default function SignUp() {
 					errorMessage={inlineErrors.lastName || ''}
 				/>
 				<AuthInput
-					label="Email"
-					id="email"
-					type="email"
-					placeholder="your_email@bluewave.ca"
+					label='Email'
+					id='email'
+					type='email'
+					placeholder='your_email@bluewave.ca'
 					value={formData.email}
 					onChange={handleChange}
 					required
@@ -125,20 +132,20 @@ export default function SignUp() {
 					errorMessage={inlineErrors.email || ''}
 				/>
 				<AuthInput
-					label="Password"
-					id="password"
-					type="password"
-					placeholder="Create a password"
+					label='Password'
+					id='password'
+					type='password'
+					placeholder='Create a password'
 					value={formData.password}
 					onChange={handlePasswordChange}
 					required
 					showErrors={showErrors}
 				/>
 				<AuthInput
-					label="Confirm Password"
-					id="confirmPassword"
-					type="password"
-					placeholder="Confirm your password"
+					label='Confirm Password'
+					id='confirmPassword'
+					type='password'
+					placeholder='Confirm your password'
 					value={formData.confirmPassword}
 					onChange={handleChange}
 					required
@@ -152,12 +159,23 @@ export default function SignUp() {
 				/>
 				<LoadingButton
 					loading={loading}
-					buttonText="Get started"
-					loadingText="Creating Account ..."
+					buttonText='Get started'
+					loadingText='Creating Account ...'
 				/>
 			</Box>
-
-			<Toast message={error} open={toast.open} hideToast={toast.hideToast} variant="error" />
+			<Box
+				mt={25}
+				display='flex'
+				justifyContent='center'
+				flexDirection='column'
+				alignItems='center'
+				gap={8}>
+				<NavLink
+					href='/auth/sign-in'
+					linkText='← Back to sign in'
+					prefetch={true}
+				/>
+			</Box>
 		</AuthFormWrapper>
 	);
 }
