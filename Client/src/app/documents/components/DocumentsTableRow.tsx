@@ -1,23 +1,33 @@
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { Avatar, Box, Chip, IconButton, TableCell, TableRow, Typography } from '@mui/material';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import SettingsIcon from '../../../../public/assets/icons/sidebar/SettingsIcon';
 import ActionMenu from './ActionMenu';
 import { Document } from './DocumentsTable';
 import LinkIcon from '../../../../public/assets/icons/documentPage/LinkIcon';
 import CheckIcon from '@mui/icons-material/Check';
+import PDFIcon from '../../../../public/assets/icons/documentPage/PDFIcon';
+import DOCIcon from '../../../../public/assets/icons/documentPage/DOCIcon';
+import XLSXIcon from '../../../../public/assets/icons/documentPage/XLSXIcon';
+import PPTIcon from '../../../../public/assets/icons/documentPage/PPTIcon';
+import ZIPIcon from '../../../../public/assets/icons/documentPage/ZIPIcon';
+import TXTIcon from '../../../../public/assets/icons/documentPage/TXTIcon';
+import ImageIcon from '../../../../public/assets/icons/documentPage/ImageIcon';
+import AudioIcon from '../../../../public/assets/icons/documentPage/AudioIcon';
+import VideoIcon from '../../../../public/assets/icons/documentPage/VideoIcon';
+import GeneralIcon from '../../../../public/assets/icons/documentPage/GeneralIcon';
 
-const docTypeIcons: Record<Document['type'], string> = {
-	PDF: '/assets/icons/documentPage/pdf-icon.svg',
-	DOC: '/assets/icons/documentPage/word-icon.svg',
-	XLSX: '/assets/icons/documentPage/xlsx-icon.svg',
-	PPT: '/assets/icons/documentPage/ppt-icon.svg',
-	ZIP: '/assets/icons/documentPage/zip-icon.svg',
-	TXT: '/assets/icons/documentPage/txt-icon.svg',
-	Image: '/assets/icons/documentPage/image-icon.svg',
-	Audio: '/assets/icons/documentPage/audio-icon.svg',
-	Video: '/assets/icons/documentPage/video-icon.svg',
-	General: '/assets/icons/documentPage/general-icon.svg',
+const docTypeIcons: Record<Document['type'], ReactElement> = {
+	PDF: <PDFIcon />,
+	DOC: <DOCIcon />,
+	XLSX: <XLSXIcon />,
+	PPT: <PPTIcon />,
+	ZIP: <ZIPIcon />,
+	TXT: <TXTIcon />,
+	Image: <ImageIcon />,
+	Audio: <AudioIcon />,
+	Video: <VideoIcon />,
+	General: <GeneralIcon />,
 };
 
 interface Props {
@@ -59,14 +69,7 @@ const DocumentsTableRow = ({ document }: Props) => {
 
 	return (
 		<TableRow hover>
-			<TableCell sx={{ pr: 0, textAlign: 'center' }}>
-				<Box
-					component="img"
-					src={docTypeIcons[document.type]}
-					alt={`${document.type} icon`}
-					sx={{ width: 24, height: 24 }}
-				/>
-			</TableCell>
+			<TableCell sx={{ pr: 0, textAlign: 'center' }}>{docTypeIcons[document.type]}</TableCell>
 			<TableCell>
 				<Box display="flex" alignItems="center">
 					<Box>

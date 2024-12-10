@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -10,8 +9,8 @@ import Typography from '@mui/material/Typography';
 
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import DropdownArrow from '../../../public/assets/icons/sidebar/sidebar-arrow-acc-icon.svg';
-import Avatar from '../../../public/assets/icons/sidebar/sidebar-avatar-icon.svg';
+import AvatarIcon from '../../../public/assets/icons/sidebar/AvatarIcon';
+import ArrowAccIcon from '../../../public/assets/icons/sidebar/ArrowAccIcon';
 
 import ProfileIcon from '../../../public/assets/icons/sidebar/ProfileIcon';
 import TeamIcon from '../../../public/assets/icons/sidebar/TeamIcon';
@@ -38,26 +37,24 @@ export default function DropdownMenu() {
 			<Button
 				disableElevation
 				onClick={handleClick}
-				size="medium"
+				size='medium'
 				sx={{
 					color: 'text.primary',
 					fontSize: 14,
 				}}
-				startIcon={<Image src={Avatar} alt="Dropdown Arrow" width={24} height={24} />}
+				startIcon={<AvatarIcon />}
 				endIcon={
-					<Image
-						src={DropdownArrow}
-						alt="Dropdown Arrow"
-						width={20}
-						height={20}
-						style={{
-							marginLeft: 4,
+					<Box
+						sx={{
+							ml: 4,
+							maxHeight: 30,
 							transform: anchorEl
 								? 'rotate(-180deg) translateY(-2px)'
 								: 'rotate(0deg) translateY(0)',
 							transition: 'transform 0.4s ease-in-out',
-						}}
-					/>
+						}}>
+						<ArrowAccIcon />
+					</Box>
 				}>
 				Account Name
 			</Button>
@@ -85,10 +82,15 @@ export default function DropdownMenu() {
 					},
 				}}>
 				{menu.map(({ text, icon, href }) => (
-					<Link href={href} key={text} style={{ textDecoration: 'none', color: 'inherit' }}>
+					<Link
+						href={href}
+						key={text}
+						style={{ textDecoration: 'none', color: 'inherit' }}>
 						<MenuItem onClick={handleClose}>
 							{icon}
-							<Typography variant="body1" ml="0.75rem">
+							<Typography
+								variant='body1'
+								ml='0.75rem'>
 								{text === 'Log out' ? <span onClick={() => signOut()}>{text}</span> : text}
 							</Typography>
 						</MenuItem>
@@ -101,7 +103,9 @@ export default function DropdownMenu() {
 					}}>
 					<MenuItem onClick={handleClose}>
 						<LogOutIcon />
-						<Typography variant="body1" ml="0.75rem">
+						<Typography
+							variant='body1'
+							ml='0.75rem'>
 							<span>Log Out</span>
 						</Typography>
 					</MenuItem>

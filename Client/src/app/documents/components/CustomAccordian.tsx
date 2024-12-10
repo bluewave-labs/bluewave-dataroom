@@ -6,7 +6,7 @@ import {
 	Divider,
 	Typography,
 } from '@mui/material';
-import ArrowLeft from '../../../../public/assets/icons/documentPage/ArrowLeft';
+import ArrowLeftIcon from '../../../../public/assets/icons/documentPage/ArrowLeftIcon';
 
 interface CustomAccordionProps extends AccordionProps {
 	title: string;
@@ -27,7 +27,7 @@ const CustomAccordion = ({ title, children, ...props }: CustomAccordionProps) =>
 						transition: 'transform 0.3s ease',
 					},
 				}}
-				expandIcon={<ArrowLeft />}>
+				expandIcon={<ArrowLeftIcon />}>
 				<Typography variant="body1" color="text.brand" sx={{ py: 3, px: 4 }}>
 					{title}
 				</Typography>
