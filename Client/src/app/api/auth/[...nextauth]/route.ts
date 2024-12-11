@@ -48,8 +48,6 @@ export const authOptions: NextAuthOptions = {
 					throw new Error('Invalid password');
 				}
 
-				// console.log('Authenticated user:', user); // Debug log
-
 				// Return user object to the JWT callback
 				return {
 					id: user.id.toString(),

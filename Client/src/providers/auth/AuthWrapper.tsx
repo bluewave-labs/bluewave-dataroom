@@ -1,9 +1,9 @@
+import SignIn from '@/app/auth/sign-in/page';
+import Sidebar from '@/app/layout/Sidebar';
 import { Box, CircularProgress } from '@mui/material';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
-import SignIn from './auth/sign-in/page';
-import Sidebar from './layout/Sidebar';
 
 export default function AuthWrapper({ children }: { children: ReactNode }) {
 	const { data: session, status } = useSession();
@@ -38,7 +38,11 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 	// Show a loading state while fetching the session
 	if (isLoading) {
 		return (
-			<Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+			<Box
+				display='flex'
+				justifyContent='center'
+				alignItems='center'
+				height='100vh'>
 				<CircularProgress size={80} />
 			</Box>
 		);

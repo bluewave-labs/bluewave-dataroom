@@ -1,14 +1,7 @@
 'use client';
 import ModalWrapper from '@/components/ModalWrapper';
 import Toast from '@/components/Toast';
-import Toast from '@/components/Toast';
 import { useModal } from '@/hooks/useModal';
-import { useToast } from '@/hooks/useToast';
-import { uploadFile } from '@/services/storageService';
-import { Box, Button, Typography } from '@mui/material';
-import axios from 'axios';
-import { useSession } from 'next-auth/react';
-import { useState } from 'react';
 import { useToast } from '@/hooks/useToast';
 import { uploadFile } from '@/services/storageService';
 import { Box, Button, Typography } from '@mui/material';
@@ -23,10 +16,6 @@ interface DragAndDropBoxProps {
 
 const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 	const { isOpen, openModal, closeModal } = useModal();
-	const [uploading, setUploading] = useState(false);
-	const successToast = useToast();
-	const errorToast = useToast();
-	const { data: session } = useSession();
 	const [uploading, setUploading] = useState(false);
 	const successToast = useToast();
 	const errorToast = useToast();
@@ -70,9 +59,7 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 	return (
 		<>
 			{/* Box for drag-and-drop UI */}
-			{/* Box for drag-and-drop UI */}
 			<Box
-				onClick={() => document.getElementById('file-input')?.click()}
 				onClick={() => document.getElementById('file-input')?.click()}
 				sx={{
 					border: '2px dashed rgba(236, 236, 236)',
@@ -105,15 +92,11 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 
 			{/* Modal Wrapper */}
 			{/* <ModalWrapper
-
-			{/* Modal Wrapper */}
-			{/* <ModalWrapper
 				variant="upload"
 				title="Upload a new file"
 				confirmButtonText="Upload"
 				toggleModal={closeModal}
 				open={isOpen}
-				onClose={handleUpload}
 				onClose={handleUpload}
 				maxFileSize="50"
 				fileFormats="PDF"

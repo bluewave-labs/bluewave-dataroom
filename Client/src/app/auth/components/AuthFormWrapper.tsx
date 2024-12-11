@@ -5,9 +5,16 @@ import Background from '../../../../public/assets/Background';
 const AuthFormWrapper = ({ children }: { children: ReactNode }) => {
 	return (
 		<>
-			<Background backgroundPosition={-264} />
-			<Container component="main" sx={{ display: 'flex', justifyContent: 'center' }}>
-				<Box display="flex" flexDirection="column" alignItems="center" mt={8} gap={10}>
+			<Background backgroundPosition={0} />
+			<Container
+				component='main'
+				sx={{ display: 'flex', justifyContent: 'center' }}>
+				<Box
+					display='flex'
+					flexDirection='column'
+					alignItems='center'
+					mt={8}
+					gap={10}>
 					{children}
 				</Box>
 			</Container>
