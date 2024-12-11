@@ -2,9 +2,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Alert, Box, IconButton, Snackbar } from '@mui/material';
 import { ReactNode } from 'react';
 import NavLink from './NavLink';
+import { ToastVariant } from '@/providers/toast/toastTypes';
 
 interface BaseToastProps {
-	variant?: 'success' | 'error' | 'warning' | 'info';
+	variant?: ToastVariant;
 	autoHide?: boolean;
 }
 
@@ -36,7 +37,7 @@ export default function Toast({
 }: ToastProps & { open: boolean; hideToast: () => void }) {
 	const action = (
 		<IconButton onClick={hideToast}>
-			<CloseIcon fontSize="small" />
+			<CloseIcon fontSize='small' />
 		</IconButton>
 	);
 
@@ -48,10 +49,24 @@ export default function Toast({
 				autoHideDuration={autoHide ? 6000 : null}
 				onClose={hideToast}
 				action={action}>
-				<Alert onClose={hideToast} icon={false} variant="standard" severity={variant}>
+				<Alert
+					onClose={hideToast}
+					icon={false}
+					variant='standard'
+					severity={variant}>
 					{message ? (
-						<Box component="span" display="inline-flex" alignItems="center" gap={5}>
-							{message} {toastLink && <NavLink href={toastLink} linkText={toastLinkText} />}
+						<Box
+							component='span'
+							display='inline-flex'
+							alignItems='center'
+							gap={5}>
+							{message}{' '}
+							{toastLink && (
+								<NavLink
+									href={toastLink}
+									linkText={toastLinkText}
+								/>
+							)}
 						</Box>
 					) : (
 						children

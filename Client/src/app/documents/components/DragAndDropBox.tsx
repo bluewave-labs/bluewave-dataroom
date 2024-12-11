@@ -1,7 +1,14 @@
 'use client';
 import ModalWrapper from '@/components/ModalWrapper';
 import Toast from '@/components/Toast';
+import Toast from '@/components/Toast';
 import { useModal } from '@/hooks/useModal';
+import { useToast } from '@/hooks/useToast';
+import { uploadFile } from '@/services/storageService';
+import { Box, Button, Typography } from '@mui/material';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 import { useToast } from '@/hooks/useToast';
 import { uploadFile } from '@/services/storageService';
 import { Box, Button, Typography } from '@mui/material';
@@ -20,6 +27,10 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 	const successToast = useToast();
 	const errorToast = useToast();
 	const { data: session } = useSession();
+	const [uploading, setUploading] = useState(false);
+	const successToast = useToast();
+	const errorToast = useToast();
+	const { data: session } = useSession();
 
 	// Handle file selection
 	const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,7 +42,7 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 		try {
 			if (!session) {
 				console.error('User not authenticated');
-				errorToast.showToast();
+				// errorToast.showToast();
 				setUploading(false);
 				return;
 			}
@@ -42,15 +53,15 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 			const response = await axios.post('/api/documents/upload', formData);
 
 			if (response?.status === 200 && response.data?.document) {
-				successToast.showToast();
+				// successToast.showToast();
 			} else {
-				errorToast.showToast();
+				// errorToast.showToast();
 			}
 		} catch (error: any) {
 			const errorMessage =
 				error.response?.data?.error || error.message || 'Unexpected error occurred';
 			console.error('Error uploading file:', errorMessage, error);
-			errorToast.showToast();
+			// errorToast.showToast();
 		} finally {
 			setUploading(false);
 		}
@@ -59,7 +70,9 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 	return (
 		<>
 			{/* Box for drag-and-drop UI */}
+			{/* Box for drag-and-drop UI */}
 			<Box
+				onClick={() => document.getElementById('file-input')?.click()}
 				onClick={() => document.getElementById('file-input')?.click()}
 				sx={{
 					border: '2px dashed rgba(236, 236, 236)',
@@ -75,20 +88,23 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 					height: { height },
 				}}>
 				<Box
-					component="img"
-					src="/assets/icons/documentPage/document-upload-icon.svg"
-					alt="Document Icon"
+					component='img'
+					src='/assets/icons/documentPage/document-upload-icon.svg'
+					alt='Document Icon'
 					sx={{ width: '8rem', height: '8rem', mb: '0.5rem' }}
 				/>
-				<Button color="inherit">{text}</Button>
+				<Button color='inherit'>{text}</Button>
 				<input
-					type="file"
-					id="file-input"
-					accept=".pdf"
+					type='file'
+					id='file-input'
+					accept='.pdf'
 					style={{ display: 'none' }}
 					onChange={handleFileSelect}
 				/>
 			</Box>
+
+			{/* Modal Wrapper */}
+			{/* <ModalWrapper
 
 			{/* Modal Wrapper */}
 			{/* <ModalWrapper
@@ -98,10 +114,11 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 				toggleModal={closeModal}
 				open={isOpen}
 				onClose={handleUpload}
+				onClose={handleUpload}
 				maxFileSize="50"
 				fileFormats="PDF"
 			/> */}
-			<Toast
+			{/* <Toast
 				message="File uploaded successfully"
 				open={successToast.open}
 				hideToast={successToast.hideToast}
@@ -114,7 +131,7 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 				hideToast={errorToast.hideToast}
 				variant="error"
 				autoHide
-			/>
+			/> */}
 		</>
 	);
 };

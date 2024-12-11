@@ -18,41 +18,56 @@ export default function ProfileForm() {
 
 	const photoDeleteToast = useToast();
 	const photoUpdateToast = useToast();
-	const profileSaveToast = useToast();
-	const accountDeleteToast = useToast();
+
+	//New Toast Implementation only requires a single Statement
+	const { showToast } = useToast();
 
 	const handleSave = () => {
 		console.log('Profile Updated Successfully!');
-		profileSaveToast.showToast();
+		// profileSaveToast.showToast();
 	};
 
 	const handleDeleteAccount = () => {
 		console.log('Account Deleted!');
-		accountDeleteToast.showToast();
+		// accountDeleteToast.showToast();
 	};
 
 	const handleDeletePhoto = () => {
 		console.log('Photo Deleted!');
-		photoDeleteToast.showToast();
+		showToast({
+			message: 'Photo Deleted!',
+			variant: 'error',
+		});
 	};
+
 	const handlePicUpdate = () => {
 		console.log('Picture Updated Successfully!');
-		photoUpdateToast.showToast();
+		showToast({
+			message: 'Picture Updated Successfully!',
+			variant: 'success',
+		});
 	};
 
 	return (
 		<>
-			<Box component="form" noValidate autoComplete="off">
-				<Grid container rowSpacing={14} columnSpacing={{ xs: 1, sm: 2, md: 3 }} alignItems="center">
+			<Box
+				component='form'
+				noValidate
+				autoComplete='off'>
+				<Grid
+					container
+					rowSpacing={14}
+					columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+					alignItems='center'>
 					{/* First Name */}
 					<Grid size={6}>
-						<Typography variant="h3">First name</Typography>
+						<Typography variant='h3'>First name</Typography>
 					</Grid>
 					<Grid size={6}>
 						<TextField
-							size="small"
-							id="first-name"
-							variant="outlined"
+							size='small'
+							id='first-name'
+							variant='outlined'
 							fullWidth
 							sx={{ borderRadius: 4 }}
 							value={firstName}
@@ -62,13 +77,13 @@ export default function ProfileForm() {
 
 					{/* Last Name */}
 					<Grid size={6}>
-						<Typography variant="h3">Last name</Typography>
+						<Typography variant='h3'>Last name</Typography>
 					</Grid>
 					<Grid size={6}>
 						<TextField
-							size="small"
-							id="last-name"
-							variant="outlined"
+							size='small'
+							id='last-name'
+							variant='outlined'
 							fullWidth
 							value={lastName}
 							onChange={(e) => setLastName(e.target.value)}
@@ -77,31 +92,33 @@ export default function ProfileForm() {
 
 					{/* Email */}
 					<Grid size={6}>
-						<Typography variant="h3">Email</Typography>
-						<Typography variant="subtitle1">
+						<Typography variant='h3'>Email</Typography>
+						<Typography variant='subtitle1'>
 							This is your current email address — it cannot be changed.
 						</Typography>
 					</Grid>
 					<Grid size={6}>
 						<TextField
-							size="small"
-							id="email"
-							variant="outlined"
+							size='small'
+							id='email'
+							variant='outlined'
 							disabled
 							fullWidth
-							placeholder="mahid@acme.com"
+							placeholder='mahid@acme.com'
 						/>
 					</Grid>
 
 					{/* Photo */}
 					<Grid size={6}>
-						<Typography variant="h3">Your photo</Typography>
-						<Typography variant="subtitle1">
+						<Typography variant='h3'>Your photo</Typography>
+						<Typography variant='subtitle1'>
 							This photo will be displayed on your profile page.
 						</Typography>
 					</Grid>
 					<Grid size={6}>
-						<Box display="flex" alignItems="center">
+						<Box
+							display='flex'
+							alignItems='center'>
 							<Box
 								sx={{
 									position: 'relative',
@@ -114,13 +131,13 @@ export default function ProfileForm() {
 									},
 								}}>
 								<Avatar
-									alt="Profile Picture"
-									src="https://picsum.photos/200/200"
+									alt='Profile Picture'
+									src='https://picsum.photos/200/200'
 									sx={{ width: 64, height: 64, mr: 7 }}
 								/>
 
 								<Box
-									className="avatar-edit-icon"
+									className='avatar-edit-icon'
 									sx={{
 										position: 'absolute',
 										top: 0,
@@ -137,19 +154,19 @@ export default function ProfileForm() {
 										cursor: 'pointer',
 									}}
 									onClick={uploadModal.openModal}>
-									<EditIcon fontSize="medium" />
+									<EditIcon fontSize='medium' />
 								</Box>
 							</Box>
 							<Link
-								href="#"
-								underline="hover"
+								href='#'
+								underline='hover'
 								sx={{ px: 4, color: 'text.secondary' }}
 								onClick={deletePhotoModal.openModal}>
 								Delete
 							</Link>
 							<Link
-								href="#"
-								underline="hover"
+								href='#'
+								underline='hover'
 								sx={{ px: 4, color: 'text.brand' }}
 								onClick={uploadModal.openModal}>
 								Update
@@ -159,8 +176,15 @@ export default function ProfileForm() {
 				</Grid>
 
 				{/* Save Button */}
-				<Box display="flex" justifyContent="flex-end" mt={40}>
-					<Button variant="contained" size="medium" color="primary" onClick={handleSave}>
+				<Box
+					display='flex'
+					justifyContent='flex-end'
+					mt={40}>
+					<Button
+						variant='contained'
+						size='medium'
+						color='primary'
+						onClick={handleSave}>
 						Save
 					</Button>
 				</Box>
@@ -168,21 +192,29 @@ export default function ProfileForm() {
 				<Divider sx={{ mb: 7, mt: 14 }} />
 
 				{/* Delete Account Section */}
-				<Box display="flex" flexDirection="column" mb={4} rowGap={6}>
-					<Typography variant="h3" fontWeight="bold">
+				<Box
+					display='flex'
+					flexDirection='column'
+					mb={4}
+					rowGap={6}>
+					<Typography
+						variant='h3'
+						fontWeight='bold'>
 						Delete account
 					</Typography>
-					<Typography variant="subtitle1" sx={{ mb: 2 }}>
+					<Typography
+						variant='subtitle1'
+						sx={{ mb: 2 }}>
 						Note that deleting your account will remove all data from our system. This is permanent
 						and non-recoverable.
 					</Typography>
 
 					{/* Delete Account Button */}
-					<Box justifyContent="flex-start">
+					<Box justifyContent='flex-start'>
 						<Button
-							variant="contained"
-							size="medium"
-							color="error"
+							variant='contained'
+							size='medium'
+							color='error'
 							onClick={deleteAccountModal.openModal}>
 							Delete account
 						</Button>
@@ -192,10 +224,10 @@ export default function ProfileForm() {
 
 			{/* Delete Photo Modal */}
 			<ModalWrapper
-				variant="delete"
-				title="Really delete this Photo?"
-				description="When you delete this Photo, all the links associated with the Photo will also be removed. This action is non-reversible."
-				confirmButtonText="Delete Photo"
+				variant='delete'
+				title='Really delete this Photo?'
+				description='When you delete this Photo, all the links associated with the Photo will also be removed. This action is non-reversible.'
+				confirmButtonText='Delete Photo'
 				open={deletePhotoModal.isOpen}
 				onClose={handleDeletePhoto}
 				toggleModal={deletePhotoModal.closeModal}
@@ -203,27 +235,27 @@ export default function ProfileForm() {
 
 			{/* Upload Photo Modal */}
 			<ModalWrapper
-				variant="upload"
-				title="Upload profile image"
-				confirmButtonText="Update"
+				variant='upload'
+				title='Upload profile image'
+				confirmButtonText='Update'
 				open={uploadModal.isOpen}
 				onClose={handlePicUpdate}
-				maxFileSize="3"
-				fileFormats="JPG, PNG"
+				maxFileSize='3'
+				fileFormats='JPG, PNG'
 				toggleModal={uploadModal.closeModal}
 			/>
 			{/* Delete Account Modal */}
 			<ModalWrapper
-				variant="delete"
-				title="Really delete this account?"
-				description="If you delete your account, you will no longer be able to sign in, and all of your data will be deleted. Deleting your account is permanent and non-recoverable."
-				confirmButtonText="Delete account"
-				cancelButtonText="Cancel"
+				variant='delete'
+				title='Really delete this account?'
+				description='If you delete your account, you will no longer be able to sign in, and all of your data will be deleted. Deleting your account is permanent and non-recoverable.'
+				confirmButtonText='Delete account'
+				cancelButtonText='Cancel'
 				open={deleteAccountModal.isOpen}
 				onClose={handleDeleteAccount}
 				toggleModal={deleteAccountModal.closeModal}
 			/>
-			<Toast
+			{/* <Toast
 				message="Profile Updated Successfully!"
 				open={profileSaveToast.open}
 				hideToast={profileSaveToast.hideToast}
@@ -234,19 +266,22 @@ export default function ProfileForm() {
 				open={accountDeleteToast.open}
 				hideToast={accountDeleteToast.hideToast}
 				variant="error"
-			/>
-			<Toast
+			/> */}
+
+			{/* !!!Toast Components are no longer required!!!! */}
+
+			{/* <Toast
 				message="Photo Deleted!"
 				open={photoDeleteToast.open}
 				hideToast={photoDeleteToast.hideToast}
 				variant="error"
-			/>
-			<Toast
+			/> */}
+			{/* <Toast
 				message="Picture Updated Successfully!"
 				open={photoUpdateToast.open}
 				hideToast={photoUpdateToast.hideToast}
 				variant="success"
-			/>
+			/> */}
 		</>
 	);
 }
