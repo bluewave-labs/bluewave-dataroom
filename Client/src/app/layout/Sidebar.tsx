@@ -27,8 +27,8 @@ export default function Sidebar() {
 
 	return (
 		<Stack
-			justifyContent="space-between"
-			direction="column"
+			justifyContent='space-between'
+			direction='column'
 			sx={{
 				height: '100vh',
 				backgroundColor: 'background.fill',
@@ -45,18 +45,24 @@ export default function Sidebar() {
 					gap: { sx: 4, sm: 10, md: 21 },
 					mx: { sx: 2, sm: 2, md: 5 },
 				}}>
-				<BlueWaveLogo width={191} height={24} />
+				<BlueWaveLogo
+					width={191}
+					height={24}
+				/>
 
 				<List>
 					{menu.map(({ text, icon, href }) => (
-						<ListItem key={text} disablePadding>
+						<ListItem
+							key={text}
+							disablePadding>
 							<Link
 								href={href}
 								style={{
 									textDecoration: 'none',
 									color: 'inherit',
 									width: '100%',
-								}}>
+								}}
+								prefetch={true}>
 								<ListItemButton
 									selected={selectedListItem === text}
 									onClick={() => setSelectedListItem(text)}

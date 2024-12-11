@@ -38,7 +38,6 @@ const CreateLink = ({ onClose, open }: Props) => {
 
 	const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log('Form submitted:', formValues);
 		onClose('Form Submitted');
 	};
 
@@ -56,14 +55,18 @@ const CreateLink = ({ onClose, open }: Props) => {
 					display: 'flex',
 					justifyContent: 'center',
 				}}>
-				<Box width={560} px={12}>
-					<CustomAccordion title="Link Details" defaultExpanded>
+				<Box
+					width={560}
+					px={12}>
+					<CustomAccordion
+						title='Link Details'
+						defaultExpanded>
 						<LinkDetailsAccordion
 							formValues={formValues}
 							handleCheckboxChange={handleCheckboxChange}
 						/>
 					</CustomAccordion>
-					<CustomAccordion title="Sharing Options">
+					<CustomAccordion title='Sharing Options'>
 						<SharingOptionsAccordion
 							formValues={formValues}
 							handleCheckboxChange={handleCheckboxChange}
@@ -73,13 +76,18 @@ const CreateLink = ({ onClose, open }: Props) => {
 							handleExpirationChange={handleExpirationChange}
 						/>
 					</CustomAccordion>
-					<CustomAccordion title="Sending">
-						<SendingAccordion formValues={formValues} handleCheckboxChange={handleCheckboxChange} />
+					<CustomAccordion title='Sending'>
+						<SendingAccordion
+							formValues={formValues}
+							handleCheckboxChange={handleCheckboxChange}
+						/>
 					</CustomAccordion>
 				</Box>
 			</DialogContent>
 			<DialogActions>
-				<Button type="submit" variant="contained">
+				<Button
+					type='submit'
+					variant='contained'>
 					Generate
 				</Button>
 			</DialogActions>

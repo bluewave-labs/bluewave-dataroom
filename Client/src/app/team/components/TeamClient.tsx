@@ -5,7 +5,8 @@ import { useModal } from '@/hooks/useModal';
 import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
 import FilterToggle from './FilterToggle';
-import UserTable, { User } from './UserTable';
+import UserTable from './UserTable';
+import { User } from '@/utils/shared/models';
 
 export default function TeamClient() {
 	const inviteModal = useModal();
@@ -35,13 +36,22 @@ export default function TeamClient() {
 
 	return (
 		<>
-			<Box display="flex" justifyContent="space-between" alignItems="center">
-				<FilterToggle currentFilter={filterRole} onFilterChange={handleFilterChange} />
-				<Button variant="contained" color="primary" onClick={inviteModal.openModal}>
+			<Box
+				display='flex'
+				justifyContent='space-between'
+				alignItems='center'>
+				<FilterToggle
+					currentFilter={filterRole}
+					onFilterChange={handleFilterChange}
+				/>
+				<Button
+					variant='contained'
+					color='primary'
+					onClick={inviteModal.openModal}>
 					Invite team member
 				</Button>
 			</Box>
-			<Box marginTop="2rem">
+			<Box marginTop='2rem'>
 				<UserTable
 					users={users}
 					page={page}
@@ -53,10 +63,10 @@ export default function TeamClient() {
 			</Box>
 
 			<ModalWrapper
-				variant="invite"
-				title="Invite new team member"
-				description="When you add a new team member, they will get access to all monitors."
-				confirmButtonText="Send invite"
+				variant='invite'
+				title='Invite new team member'
+				description='When you add a new team member, they will get access to all monitors.'
+				confirmButtonText='Send invite'
 				toggleModal={inviteModal.closeModal}
 				open={inviteModal.isOpen}
 				onClose={function (): void {
