@@ -21,6 +21,7 @@
     "@supabase/supabase-js": "^2.46.2",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
+    "date-fns": "^4.1.0",
     "next": "^14.2.13",
     "next-auth": "^4.24.8",
     "prisma": "^5.21.1",
