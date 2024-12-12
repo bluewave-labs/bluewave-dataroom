@@ -6,34 +6,49 @@ import { Avatar, Box, Button, CircularProgress, Link, Typography } from '@mui/ma
 import ColorPickerBox from './ColorPickerBox';
 import Grid from '@mui/material/Grid2';
 import { useState } from 'react';
+import { useToast } from '@/hooks/useToast';
 
 export default function BrandingSetting() {
 	const deleteModal = useModal();
 	const uploadModal = useModal();
+	const { showToast } = useToast();
 
 	const [loading, setLoading] = useState(false);
 
 	const handleDelete = () => {
 		console.log('Logo Deleted');
+		showToast({
+			message: 'Logo Deleted!',
+			variant: 'error',
+		});
 	};
 
 	const handleSave = () => {
 		setLoading(true);
 
 		setTimeout(() => {
-			console.log('Update successful!');
+			console.log('Settings Updated Successfully!');
+			showToast({
+				message: 'Settings Updated Successfully!',
+				variant: 'success',
+			});
 			setLoading(false);
 		}, 2000);
 	};
+
 	const handleUpdate = () => {
-		console.log('Logo Update successful!');
+		console.log('Logo Updated Successfully!');
+		showToast({
+			message: 'Logo Updated Successfully!',
+			variant: 'success',
+		});
 	};
 
 	return (
 		<>
 			<Box>
 				<Box mb={16}>
-					<Typography variant="subtitle2">
+					<Typography variant='subtitle2'>
 						Customize how your brand appears to the public across DataRoom documents your visitors
 						see.
 					</Typography>
@@ -43,13 +58,15 @@ export default function BrandingSetting() {
 						container
 						rowSpacing={12}
 						columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-						alignItems="center">
+						alignItems='center'>
 						{/* Logo */}
 						<Grid size={5}>
-							<Typography variant="h4">Logo</Typography>
+							<Typography variant='h4'>Logo</Typography>
 						</Grid>
 						<Grid size={7}>
-							<Box display="flex" alignItems="center">
+							<Box
+								display='flex'
+								alignItems='center'>
 								{/* Edit Icon on hover */}
 								<Box
 									sx={{
@@ -77,7 +94,7 @@ export default function BrandingSetting() {
 									</Avatar>
 
 									<Box
-										className="avatar-edit-icon"
+										className='avatar-edit-icon'
 										sx={{
 											position: 'absolute',
 											top: 0,
@@ -94,21 +111,21 @@ export default function BrandingSetting() {
 											cursor: 'pointer',
 										}}
 										onClick={uploadModal.openModal}>
-										<EditIcon fontSize="large" />
+										<EditIcon fontSize='large' />
 									</Box>
 								</Box>
 
 								{/* Delete and Update Links */}
 								<Link
-									href="#"
-									underline="hover"
+									href='#'
+									underline='hover'
 									sx={{ px: 4, color: 'text.secondary' }}
 									onClick={deleteModal.openModal}>
 									Delete
 								</Link>
 								<Link
-									href="#"
-									underline="hover"
+									href='#'
+									underline='hover'
 									sx={{ px: 4, color: 'text.brand' }}
 									onClick={uploadModal.openModal}>
 									Update
@@ -118,7 +135,7 @@ export default function BrandingSetting() {
 
 						{/* Background color */}
 						<Grid size={5}>
-							<Typography variant="h4">Background color</Typography>
+							<Typography variant='h4'>Background color</Typography>
 						</Grid>
 						<Grid size={7}>
 							<ColorPickerBox />
@@ -126,17 +143,27 @@ export default function BrandingSetting() {
 
 						{/* Font color */}
 						<Grid size={5}>
-							<Typography variant="h4">Font color</Typography>
+							<Typography variant='h4'>Font color</Typography>
 						</Grid>
 						<Grid size={7}>
 							<ColorPickerBox />
 						</Grid>
-						<Box width="100%" display="flex" justifyContent="flex-end">
+						<Box
+							width='100%'
+							display='flex'
+							justifyContent='flex-end'>
 							<Button
-								variant="contained"
+								variant='contained'
 								onClick={handleSave}
 								disabled={loading}
-								endIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}>
+								endIcon={
+									loading ? (
+										<CircularProgress
+											size={20}
+											color='inherit'
+										/>
+									) : null
+								}>
 								{loading ? 'Saving...' : 'Save'}
 							</Button>
 						</Box>
@@ -145,23 +172,23 @@ export default function BrandingSetting() {
 			</Box>
 
 			<ModalWrapper
-				variant="delete"
-				title="Really delete this logo?"
-				description="When you delete this logo, all the links associated with the logo will also be removed. This action is non-reversible."
-				confirmButtonText="Delete logo"
+				variant='delete'
+				title='Really delete this logo?'
+				description='When you delete this logo, all the links associated with the logo will also be removed. This action is non-reversible.'
+				confirmButtonText='Delete logo'
 				open={deleteModal.isOpen}
 				onClose={handleDelete}
 				toggleModal={deleteModal.closeModal}
 			/>
 
 			<ModalWrapper
-				variant="upload"
-				title="Upload logo"
-				confirmButtonText="Update"
+				variant='upload'
+				title='Upload logo'
+				confirmButtonText='Update'
 				open={uploadModal.isOpen}
 				onClose={handleUpdate}
-				maxFileSize="3"
-				fileFormats="JPG, PNG"
+				maxFileSize='3'
+				fileFormats='JPG, PNG'
 				toggleModal={uploadModal.closeModal}
 			/>
 		</>
