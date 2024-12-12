@@ -1,4 +1,5 @@
 import prisma from '@lib/prisma';
+import { deleteFile } from '@/services/storageService';
 import { NextRequest, NextResponse } from 'next/server';
 import { authenticate } from '@lib/middleware/authenticate';
 
@@ -19,13 +20,24 @@ export async function DELETE(req: NextRequest): Promise<NextResponse> {
       return createErrorResponse('Document not found or access denied.', 404);
     }
 
-    await prisma.document.delete({
+    const deletedFile = await prisma.document.delete({
       where: { id: documentId },
     });
+
+    await deleteFileFromStorage(deletedFile.filePath);
 
     return NextResponse.json({ message: 'Document deleted successfully.' }, { status: 200 });
   } catch (error) {
     return createErrorResponse('Server error.', 500, error);
+  }
+}
+
+async function deleteFileFromStorage(filePath: string) {
+  try {
+    await deleteFile(filePath);
+    console.log('File deleted from storage successfully:', filePath);
+  } catch (error) {
+    console.error('Error deleting file from storage:', error);
   }
 }
 
