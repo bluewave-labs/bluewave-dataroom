@@ -10,9 +10,10 @@ import CheckIcon from '@mui/icons-material/Check';
 
 interface Props {
 	document: Document;
+	onDelete: (documentId: number) => void;
 }
 
-const DocumentsTableRow = ({ document }: Props) => {
+const DocumentsTableRow = ({ document, onDelete }: Props) => {
 	const [isLinkCopied, setIsLinkCopied] = useState(false);
 
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -122,9 +123,10 @@ const DocumentsTableRow = ({ document }: Props) => {
 					/>
 				</IconButton>
 				<ActionMenu
-					anchorEl={anchorEl}
-					documentId={document.id}
 					open={open}
+					anchorEl={anchorEl}
+					onDelete={onDelete}
+					documentId={document.id}
 					onClose={handleMenuClose}
 				/>
 			</TableCell>

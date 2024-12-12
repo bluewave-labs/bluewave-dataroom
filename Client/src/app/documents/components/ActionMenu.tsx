@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useToast } from '@/hooks/useToast';
 import { useModal } from '@/hooks/useModal';
 import ModalWrapper from '@/components/ModalWrapper';
 import { Menu, MenuItem, Typography } from '@mui/material';
@@ -11,12 +10,12 @@ interface Props {
 	documentId: number;
 	onClose: () => void;
 	anchorEl: HTMLElement | null;
+	onDelete: (documentId: number) => void;
 }
 
-const ActionMenu = ({ anchorEl, open, onClose, documentId }: Props) => {
+const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) => {
 	const deleteModal = useModal();
 	const updateModal = useModal();
-	const { showToast } = useToast();
 
 	const [openLink, setOpen] = useState(false);
 
@@ -26,35 +25,6 @@ const ActionMenu = ({ anchorEl, open, onClose, documentId }: Props) => {
 
 	const handleClose = (value: string) => {
 		setOpen(false);
-	};
-
-	const handleDocumentDelete = async (documentId: number) => {
-		try {
-			const response = await fetch(`/api/documents/delete`, {
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ documentId }),
-			});
-
-			if (response.ok) {
-				showToast({
-					message: 'Document deleted successfully',
-					variant: 'success',
-				});
-			} else {
-				showToast({
-					message: 'Error deleting document',
-					variant: 'error',
-				});
-			}
-		} catch (error) {
-			showToast({
-				message: 'Error deleting document',
-				variant: 'error',
-			});
-		}
 	};
 
 	return (
@@ -88,8 +58,8 @@ const ActionMenu = ({ anchorEl, open, onClose, documentId }: Props) => {
 				confirmButtonText="Delete file"
 				open={deleteModal.isOpen}
 				toggleModal={deleteModal.closeModal}
-				onClose={function (): void {
-					handleDocumentDelete(documentId);
+				onClose={() => {
+					onDelete(documentId);
 				}}
 			/>
 
