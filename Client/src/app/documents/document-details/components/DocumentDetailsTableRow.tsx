@@ -7,7 +7,6 @@ import { LinkDetail, VisitorDetail } from './DocumentDetailsTable';
 import { useState } from 'react';
 import { useModal } from '@/hooks/useModal';
 import { useToast } from '@/hooks/useToast';
-import Toast from '@/components/Toast';
 import ModalWrapper from '@/components/ModalWrapper';
 import { formatDate } from '@/utils/shared/utils';
 
@@ -20,12 +19,15 @@ const DocumentDetailsTableRow = ({ documentDetail, variant }: DocumentDetailsTab
 	const [isLinkCopied, setIsLinkCopied] = useState(false);
 
 	const deleteModal = useModal();
-	const linkDeleteToast = useToast();
+	const { showToast } = useToast();
 
 	//Delete the link
-	const handleDelete = () => {
-		console.log('Link Deleted Successfully!');
-		// linkDeleteToast.showToast();
+	const handleDeleteLink = () => {
+		console.log('Link Deleted!');
+		showToast({
+			message: 'Link Deleted!',
+			variant: 'error',
+		});
 	};
 
 	//Extend the Type Guard for Link Table
@@ -108,16 +110,9 @@ const DocumentDetailsTableRow = ({ documentDetail, variant }: DocumentDetailsTab
 				description='When you delete this link, all the links associated with the link will also be removed. This action is non-reversible.'
 				confirmButtonText='Delete link'
 				open={deleteModal.isOpen}
-				onClose={handleDelete}
+				onClose={handleDeleteLink}
 				toggleModal={deleteModal.closeModal}
 			/>
-
-			{/* <Toast
-				message='Link Deleted Successfully!'
-				open={linkDeleteToast.open}
-				hideToast={linkDeleteToast.hideToast}
-				variant='success'
-			/> */}
 		</>
 	);
 };
