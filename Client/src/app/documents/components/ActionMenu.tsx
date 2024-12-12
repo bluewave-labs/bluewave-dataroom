@@ -27,6 +27,7 @@ const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) =>
 		setOpen(false);
 	};
 
+<<<<<<< HEAD
 	const handleDocumentDelete = async (documentId: number) => {
 		try {
 
@@ -53,6 +54,8 @@ const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) =>
 		}
 	};
 
+=======
+>>>>>>> 7fcf743 (Restructure on handleDocumentDelete api call, moved to the parent comp)
 	return (
 		<>
 			<Menu
