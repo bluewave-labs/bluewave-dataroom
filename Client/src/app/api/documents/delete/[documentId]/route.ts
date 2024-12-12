@@ -39,13 +39,11 @@ export async function DELETE(req: NextRequest, { params }: { params: { documentI
 async function deleteFileFromStorage(filePath: string) {
   try {
     await deleteFile(filePath);
-    console.log('File deleted from storage successfully:', filePath);
   } catch (error) {
-    console.error('Error deleting file from storage:', error);
+    throw error;
   }
 }
 
 function createErrorResponse(message: string, status: number, details?: any) {
-  console.error(`[${new Date().toISOString()}] ${message}`, details);
   return NextResponse.json({ error: message, details }, { status });
 }
