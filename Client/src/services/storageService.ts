@@ -1,6 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-
 // storageService.ts
 import { SupabaseProvider } from '@/providers/storage/supabase/supabaseProvider';
 
@@ -44,36 +41,13 @@ export interface StorageProvider {
 }
 
 export class PlaceholderProvider implements StorageProvider {
-	readonly localStoragePath = process.env.LOCAL_STORAGE_PATH || './uploads';
-
 	async upload(fileBuffer: Buffer, metadata: FileMetadata): Promise<UploadResult> {
-    const userDirectory = path.join(this.localStoragePath, metadata.userId);
-    const filePath = path.join(userDirectory, metadata.fileName);
-
-    try {
-      if (!fs.existsSync(userDirectory)) {
-        fs.mkdirSync(userDirectory, { recursive: true });
-      }
-
-      fs.writeFileSync(filePath, new Uint8Array(fileBuffer));
-      console.warn('PlaceholderProvider: Upload called.');
-
-      return { filePath };
-    } catch (error) {
-      console.error('Error uploading file to local storage:', error);
-      throw error;
-    }
+		console.warn('PlaceholderProvider: Upload called.');
+		return { filePath: 'https://example.com/placeholder-url' }; // Placeholder URL
 	}
 
 	async delete(filePath: string): Promise<void> {
-		const fullPath = path.join(this.localStoragePath, filePath);
-		try {
-			fs.unlinkSync(fullPath);
-			console.warn('PlaceholderProvider: Delete called.');
-		} catch (error) {
-			console.error('Error deleting file from local storage:', error);
-			throw error;
-		}
+		console.warn('PlaceholderProvider: Delete called.');
 	}
 }
 
@@ -82,18 +56,16 @@ export class PlaceholderProvider implements StorageProvider {
  * @returns {StorageProvider} - An instance of the selected storage provider.
  */
 function selectStorageProvider(): StorageProvider {
-	const IS_LOCAL = process.env.IS_LOCAL === 'true';
+	const provider = process.env.STORAGE_PROVIDER;
 
-	if (IS_LOCAL) {
-		return new PlaceholderProvider();
-	} else {
-		const provider = process.env.STORAGE_PROVIDER;
-		switch (provider) {
-			case 'supabase':
-				return new SupabaseProvider();
-			default:
-				throw new Error(`Unsupported storage provider specified in STORAGE_PROVIDER: ${provider}`);
-		}
+	switch (provider) {
+		case 'supabase':
+			return new SupabaseProvider();
+		// case 'local':
+		//   // PlaceholderProvider can be replaced with an actual LocalProvider later
+		//   return new PlaceholderProvider();
+		default:
+			throw new Error(`Unsupported storage provider specified in STORAGE_PROVIDER: ${provider}`);
 	}
 }
 
