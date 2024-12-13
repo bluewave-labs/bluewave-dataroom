@@ -46,6 +46,7 @@ const DocumentsTable = () => {
 
 	const handleDocumentDelete = async (documentId: number) => {
 		try {
+			setLoading(true);
 			await axios.delete(`/api/documents/delete/${documentId}`);
 			showToast({
 				message: 'Document deleted successfully',
@@ -57,6 +58,8 @@ const DocumentsTable = () => {
 				message: 'Error deleting document',
 				variant: 'error',
 			});
+		} finally {
+			setLoading(false);
 		}
 	};
 
