@@ -27,6 +27,8 @@
 # Except the one in .vscode/
 !.vscode/settings.json
 
+# Ignore the entire migrations folder temporarily
+Client/prisma/migrations/
 
 # debug
 npm-debug.log*

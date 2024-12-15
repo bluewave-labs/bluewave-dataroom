@@ -52,7 +52,7 @@ export default function SetNewPassword() {
 
 			// Redirect to a success page after successful sign-in
 			router.push(
-				`/auth/password-reset-confirm?email=${email}&password=${encodeURIComponent(formData.password)}`
+				`/auth/password-reset-confirm?email=${email}&password=${encodeURIComponent(formData.password)}`,
 			);
 		},
 
@@ -81,36 +81,41 @@ export default function SetNewPassword() {
 			<Box
 				width={56}
 				height={56}
-				border="1px solid #EAECF0"
-				display="flex"
-				justifyContent="center"
-				boxShadow="0px 1px 2px 0px #1018280D"
-				alignItems="center"
-				borderRadius="12px">
+				border='1px solid #EAECF0'
+				display='flex'
+				justifyContent='center'
+				boxShadow='0px 1px 2px 0px #1018280D'
+				alignItems='center'
+				borderRadius='12px'>
 				<LockIcon />
 			</Box>
 
-			<Typography variant="h2" mb={4}>
+			<Typography
+				variant='h2'
+				mb={4}>
 				Set new password
 			</Typography>
 
-			<Typography variant="subtitle2" mb={4} textAlign="center">
+			<Typography
+				variant='subtitle2'
+				mb={4}
+				textAlign='center'>
 				Your new password must be different from previously used passwords.
 			</Typography>
 
 			<Box
-				component="form"
+				component='form'
 				onSubmit={onSubmitForm}
 				noValidate
 				minWidth={400}
-				display="flex"
-				flexDirection="column"
+				display='flex'
+				flexDirection='column'
 				gap={8}>
 				<AuthInput
-					label="Password"
-					id="password"
-					type="password"
-					placeholder="Create a password"
+					label='Password'
+					id='password'
+					type='password'
+					placeholder='Create a password'
 					value={formData.password}
 					onChange={handlePasswordChange}
 					required
@@ -118,10 +123,10 @@ export default function SetNewPassword() {
 					errorMessage={inlineErrors.password || ''}
 				/>
 				<AuthInput
-					label="Confirm Password"
-					id="confirmPassword"
-					type="password"
-					placeholder="Confirm your password"
+					label='Confirm Password'
+					id='confirmPassword'
+					type='password'
+					placeholder='Confirm your password'
 					value={formData.confirmPassword}
 					onChange={handleChange}
 					required
@@ -135,13 +140,17 @@ export default function SetNewPassword() {
 				/>
 				<LoadingButton
 					loading={loading}
-					buttonText="Reset password"
-					loadingText="Resetting Password..."
+					buttonText='Reset password'
+					loadingText='Resetting Password...'
 				/>
 			</Box>
 
-			<NavLink href="/auth/sign-in" linkText="← Back to sign in" prefetch={true} />
-			<Toast message={toastMessage} open={toast.open} hideToast={toast.hideToast} variant="error" />
+			<NavLink
+				href='/auth/sign-in'
+				linkText='← Back to sign in'
+				prefetch={true}
+			/>
+			{/* <Toast message={toastMessage} open={toast.open} hideToast={toast.hideToast} variant="error" /> */}
 		</AuthFormWrapper>
 	);
 }

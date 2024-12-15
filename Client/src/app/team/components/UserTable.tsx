@@ -14,14 +14,7 @@ import {
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Image from 'next/image';
-
-export interface User {
-	id: number;
-	name: string;
-	email: string;
-	role: 'Administrator' | 'Member';
-	createdAt: string;
-}
+import { User } from '@/utils/shared/models';
 
 interface Props {
 	users: User[];
@@ -35,7 +28,7 @@ interface Props {
 const UserTable = ({ users, page, setPage, pageSize, totalUsers }: Props) => (
 	<>
 		<TableContainer component={Paper}>
-			<Table aria-label="User Table">
+			<Table aria-label='User Table'>
 				<TableHead>
 					<TableRow>
 						<TableCell sx={{ width: '30%' }}>Name</TableCell>
@@ -48,14 +41,14 @@ const UserTable = ({ users, page, setPage, pageSize, totalUsers }: Props) => (
 					{users.map((user) => (
 						<TableRow key={user.id}>
 							<TableCell>
-								<Typography variant="body1">{user.name}</Typography>
-								<Typography variant="caption">Created {user.createdAt}</Typography>
+								<Typography variant='body1'>{user.name}</Typography>
+								<Typography variant='caption'>Created {user.createdAt}</Typography>
 							</TableCell>
 							<TableCell>{user.email}</TableCell>
 							<TableCell>
 								<Dropdown
 									initialValue={user.role}
-									variant="standard"
+									variant='standard'
 									options={[
 										{ value: 'Administrator', label: 'Administrator' },
 										{ value: 'Member', label: 'Member' },
@@ -67,7 +60,10 @@ const UserTable = ({ users, page, setPage, pageSize, totalUsers }: Props) => (
 							</TableCell>
 							<TableCell>
 								<IconButton>
-									<Image src={DeleteIcon} alt="Delete icon" />
+									<Image
+										src={DeleteIcon}
+										alt='Delete icon'
+									/>
 								</IconButton>
 							</TableCell>
 						</TableRow>
