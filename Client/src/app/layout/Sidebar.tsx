@@ -50,7 +50,10 @@ export default function Sidebar() {
 						gap: { sx: 4, sm: 10, md: 21 },
 						mx: { sx: 2, sm: 2, md: 5 },
 					}}>
-					<BlueWaveLogo width={191} height={24} />
+					<BlueWaveLogo
+						width={191}
+						height={24}
+					/>
 
 					<List>
 						{menu.map(({ text, icon, href }) => (

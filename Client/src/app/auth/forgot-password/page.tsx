@@ -28,7 +28,7 @@ export default function ForgotPassword() {
 			router.push(response.data.url);
 		} catch (error) {
 			console.error('Error verifying email:', error);
-			errorToast.showToast();
+			// errorToast.showToast();
 		} finally {
 			setLoading(false);
 		}
@@ -39,36 +39,42 @@ export default function ForgotPassword() {
 			<Box
 				width={56}
 				height={56}
-				border="1px solid #EAECF0"
-				display="flex"
-				justifyContent="center"
-				boxShadow="0px 1px 2px 0px #1018280D"
-				alignItems="center"
-				borderRadius="12px">
+				border='1px solid #EAECF0'
+				display='flex'
+				justifyContent='center'
+				boxShadow='0px 1px 2px 0px #1018280D'
+				alignItems='center'
+				borderRadius='12px'>
 				<KeyIcon />
 			</Box>
 
-			<Typography variant="h2" mb={4}>
+			<Typography
+				variant='h2'
+				mb={4}>
 				Forgot password?
 			</Typography>
 
-			<Typography variant="subtitle2" color="text.secondary" mb={4} textAlign="center">
+			<Typography
+				variant='subtitle2'
+				color='text.secondary'
+				mb={4}
+				textAlign='center'>
 				No worries, we’ll send you reset instructions.
 			</Typography>
 
 			<Box
-				component="form"
+				component='form'
 				onSubmit={handleSubmit}
 				noValidate
 				minWidth={400}
-				display="flex"
-				flexDirection="column"
+				display='flex'
+				flexDirection='column'
 				gap={5}>
 				<AuthInput
-					label="Email"
-					id="email"
-					type="email"
-					placeholder="Enter your email"
+					label='Email'
+					id='email'
+					type='email'
+					placeholder='Enter your email'
 					value={formData.email}
 					onChange={handleChange}
 					required
@@ -76,28 +82,32 @@ export default function ForgotPassword() {
 
 				<Box
 					mt={10}
-					display="flex"
-					justifyContent="center"
-					flexDirection="column"
-					alignItems="center"
+					display='flex'
+					justifyContent='center'
+					flexDirection='column'
+					alignItems='center'
 					gap={8}>
 					<LoadingButton
 						loading={loading}
-						buttonText="Reset password"
-						loadingText="Verifying Email..."
+						buttonText='Reset password'
+						loadingText='Verifying Email...'
 						fullWidth
 					/>
 
-					<NavLink href="/auth/sign-in" linkText="← Back to sign in" prefetch={true} />
+					<NavLink
+						href='/auth/sign-in'
+						linkText='← Back to sign in'
+						prefetch={true}
+					/>
 				</Box>
 			</Box>
 
-			<Toast
+			{/* <Toast
 				message="Email not found. Please try again or sign up."
 				open={errorToast.open}
 				hideToast={errorToast.hideToast}
 				variant="error"
-			/>
+			/> */}
 		</AuthFormWrapper>
 	);
 }

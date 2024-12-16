@@ -1,4 +1,4 @@
-import { User } from '@/app/team/components/UserTable';
+import { User } from '@/utils/shared/models';
 
 export const dummyTeams: User[] = [
 	{

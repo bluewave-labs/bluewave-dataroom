@@ -1,16 +1,19 @@
-import ModalWrapper from '@/components/ModalWrapper';
-import { useModal } from '@/hooks/useModal';
-import { Menu, MenuItem, Typography } from '@mui/material';
 import { useState } from 'react';
+import { useModal } from '@/hooks/useModal';
+import ModalWrapper from '@/components/ModalWrapper';
+import { Menu, MenuItem, Typography } from '@mui/material';
+
 import CreateLink from './CreateLink';
 
 interface Props {
-	anchorEl: HTMLElement | null;
 	open: boolean;
+	documentId: number;
 	onClose: () => void;
+	anchorEl: HTMLElement | null;
+	onDelete: (documentId: number) => void;
 }
 
-const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
+const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) => {
 	const deleteModal = useModal();
 	const updateModal = useModal();
 
@@ -55,8 +58,8 @@ const ActionMenu = ({ anchorEl, open, onClose }: Props) => {
 				confirmButtonText="Delete file"
 				open={deleteModal.isOpen}
 				toggleModal={deleteModal.closeModal}
-				onClose={function (): void {
-					throw new Error('Function not implemented.');
+				onClose={() => {
+					onDelete(documentId);
 				}}
 			/>
 

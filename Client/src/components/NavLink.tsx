@@ -17,8 +17,9 @@ const NavLink = ({
 }: NavLinkProps) => {
 	return (
 		<Typography
-			display="flex"
-			alignItems="center"
+			display='flex'
+			zIndex={1}
+			alignItems='center'
 			component={'span'}
 			{...props}>
 			<NextLink

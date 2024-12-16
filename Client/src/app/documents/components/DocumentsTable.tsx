@@ -1,64 +1,106 @@
 'use client';
 import Paginator from '@/components/Paginator';
-import { dummyData } from '@/data/dummyDocuments';
 import { useSort } from '@/hooks/useSort';
-import { Box, Paper, Table, TableBody, TableContainer, TableHead } from '@mui/material';
-import { useState } from 'react';
+import { useToast } from '@/hooks/useToast';
+import { Document } from '@/utils/shared/models';
+import {
+	Box,
+	CircularProgress,
+	Paper,
+	Table,
+	TableBody,
+	TableContainer,
+	TableHead,
+	Typography,
+} from '@mui/material';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import DocumentsTableHeader from './DocumentsTableHeader';
 import DocumentsTableRow from './DocumentsTableRow';
 
-type DocumentType =
-	| 'PDF'
-	| 'DOC'
-	| 'XLSX'
-	| 'PPT'
-	| 'ZIP'
-	| 'TXT'
-	| 'Image'
-	| 'Audio'
-	| 'Video'
-	| 'General';
-
-export interface Document {
-	id: string;
-	type: DocumentType;
-	fileFormat: string;
-	name: string;
-	createdAt: Date;
-	links: number;
-	viewers: number;
-	uploader: { name: string; avatar?: string };
-	views: number;
-	createdLinks?: { id: number; createdLink: string; lastViewed: Date; linkViews: number }[];
-	visitors?: {
-		id: number;
-		visitor: string;
-		downloads: number;
-		lastViewed: Date;
-		duration: string;
-		completion: string;
-	}[];
-}
-
 const DocumentsTable = () => {
+	const [documents, setDocuments] = useState<Document[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+	const { showToast } = useToast();
+
 	const [page, setPage] = useState(1);
 	const pageSize = 8;
 
-	const { sortedData, orderDirection, orderBy, handleSortRequest } = useSort<Document>(dummyData);
+	// Fetch data
+	useEffect(() => {
+		const fetchDocuments = async () => {
+			setLoading(true);
+			try {
+				const response = await axios.get('/api/documents/list');
+				setDocuments(response.data.documents || []);
+			} catch (err) {
+				setError('Failed to load documents. Please try again later.');
+			} finally {
+				setLoading(false);
+			}
+		};
 
+		fetchDocuments();
+	}, []);
+
+	const handleDocumentDelete = async (documentId: number) => {
+		try {
+			setLoading(true);
+			await axios.delete(`/api/documents/delete/${documentId}`);
+			showToast({
+				message: 'Document deleted successfully',
+				variant: 'success',
+			});
+			setDocuments((prevDocuments) => prevDocuments.filter(doc => doc.id !== documentId));
+		} catch (error) {
+			showToast({
+				message: 'Error deleting document',
+				variant: 'error',
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	const { sortedData, orderDirection, orderBy, handleSortRequest } = useSort<Document>(documents);
 	const totalPages = Math.ceil(sortedData.length / pageSize);
 
 	const paginatedData = sortedData.slice((page - 1) * pageSize, page * pageSize);
 
+	if (loading) {
+		return (
+			<Box
+				display='flex'
+				justifyContent='center'
+				alignItems='center'
+				minHeight='50vh'>
+				<CircularProgress />
+			</Box>
+		);
+	}
+
+	if (error) {
+		return (
+			<Box
+				display='flex'
+				justifyContent='center'
+				alignItems='center'
+				minHeight='50vh'>
+				<Typography color='error'>{error}</Typography>
+			</Box>
+		);
+	}
+
 	return (
 		<Box
-			display="flex"
-			flexDirection="column"
-			justifyContent="space-between"
-			minWidth="100%"
+			display='flex'
+			flexDirection='column'
+			justifyContent='space-between'
+			minWidth='100%'
 			flexGrow={1}>
 			<TableContainer component={Paper}>
-				<Table aria-label="documents table">
+				<Table aria-label='documents table'>
 					<TableHead>
 						<DocumentsTableHeader
 							orderBy={orderBy}
@@ -68,7 +110,11 @@ const DocumentsTable = () => {
 					</TableHead>
 					<TableBody>
 						{paginatedData.map((document) => (
-							<DocumentsTableRow key={document.id} document={document} />
+							<DocumentsTableRow
+								key={document.id}
+								document={document}
+								onDelete={handleDocumentDelete}
+							/>
 						))}
 					</TableBody>
 				</Table>
@@ -81,7 +127,7 @@ const DocumentsTable = () => {
 						totalPages={totalPages}
 						onPageChange={setPage}
 						pageSize={pageSize}
-						totalItems={dummyData.length}
+						totalItems={sortedData.length}
 					/>
 				</Box>
 			)}
