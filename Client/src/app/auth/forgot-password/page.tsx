@@ -1,7 +1,6 @@
 'use client';
 import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
-import Toast from '@/components/Toast';
 import { useFormData } from '@/hooks/useFormData';
 import { useToast } from '@/hooks/useToast';
 import { Box, Typography } from '@mui/material';
@@ -16,7 +15,15 @@ export default function ForgotPassword() {
 	const router = useRouter();
 	const { formData, handleChange } = useFormData({ email: 'your_email@bluewave.ca' });
 	const [loading, setLoading] = useState(false);
-	const errorToast = useToast();
+	const { showToast } = useToast();
+
+	const handleNotFoundError = () => {
+		console.log('Email not found. Please try again or sign up.');
+		showToast({
+			message: 'Email not found. Please try again or sign up.',
+			variant: 'error',
+		});
+	};
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -28,7 +35,7 @@ export default function ForgotPassword() {
 			router.push(response.data.url);
 		} catch (error) {
 			console.error('Error verifying email:', error);
-			// errorToast.showToast();
+			handleNotFoundError();
 		} finally {
 			setLoading(false);
 		}
@@ -101,13 +108,6 @@ export default function ForgotPassword() {
 					/>
 				</Box>
 			</Box>
-
-			{/* <Toast
-				message="Email not found. Please try again or sign up."
-				open={errorToast.open}
-				hideToast={errorToast.hideToast}
-				variant="error"
-			/> */}
 		</AuthFormWrapper>
 	);
 }

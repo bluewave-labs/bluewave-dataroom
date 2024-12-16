@@ -1,10 +1,10 @@
 'use client';
+
 import ModalWrapper from '@/components/ModalWrapper';
-import Toast from '@/components/Toast';
 import { useModal } from '@/hooks/useModal';
 import { useToast } from '@/hooks/useToast';
 import { uploadFile } from '@/services/storageService';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
@@ -15,11 +15,34 @@ interface DragAndDropBoxProps {
 }
 
 const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
-	const { isOpen, openModal, closeModal } = useModal();
 	const [uploading, setUploading] = useState(false);
-	const successToast = useToast();
-	const errorToast = useToast();
+	const { isOpen, openModal, closeModal } = useModal();
+	const { showToast } = useToast();
 	const { data: session } = useSession();
+
+	const handleUploadFile = () => {
+		console.log('File Uploaded Successfully!');
+		showToast({
+			message: 'File Uploaded Successfully!',
+			variant: 'success',
+		});
+	};
+
+	const handleFailedFileError = () => {
+		console.log('File Uploading Failed!');
+		showToast({
+			message: 'File Uploading Failed!',
+			variant: 'error',
+		});
+	};
+
+	const handleNotAuthenticatedError = () => {
+		console.log('User not authenticated!');
+		showToast({
+			message: 'User not authenticated!',
+			variant: 'error',
+		});
+	};
 
 	// Handle file selection
 	const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,8 +53,8 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 
 		try {
 			if (!session) {
-				console.error('User not authenticated');
-				// errorToast.showToast();
+				console.error('User not authenticated!');
+				handleNotAuthenticatedError();
 				setUploading(false);
 				return;
 			}
@@ -42,15 +65,15 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 			const response = await axios.post('/api/documents/upload', formData);
 
 			if (response?.status === 200 && response.data?.document) {
-				// successToast.showToast();
+				handleUploadFile();
 			} else {
-				// errorToast.showToast();
+				handleFailedFileError();
 			}
 		} catch (error: any) {
 			const errorMessage =
 				error.response?.data?.error || error.message || 'Unexpected error occurred';
 			console.error('Error uploading file:', errorMessage, error);
-			// errorToast.showToast();
+			handleFailedFileError();
 		} finally {
 			setUploading(false);
 		}
@@ -100,20 +123,6 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 				onClose={handleUpload}
 				maxFileSize="50"
 				fileFormats="PDF"
-			/> */}
-			{/* <Toast
-				message="File uploaded successfully"
-				open={successToast.open}
-				hideToast={successToast.hideToast}
-				variant="success"
-				autoHide
-			/>
-			<Toast
-				message="File upload failed"
-				open={errorToast.open}
-				hideToast={errorToast.hideToast}
-				variant="error"
-				autoHide
 			/> */}
 		</>
 	);
