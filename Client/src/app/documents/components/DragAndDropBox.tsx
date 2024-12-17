@@ -7,14 +7,16 @@ import { uploadFile } from '@/services/storageService';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
+import { Document } from '@/utils/shared/models';
 
 interface DragAndDropBoxProps {
 	text: string;
 	height?: number;
+	setDocuments: React.Dispatch<React.SetStateAction<Document[]>>;
 }
 
-const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
+const DragAndDropBox = ({ text, height = 250, setDocuments }: DragAndDropBoxProps) => {
 	const [uploading, setUploading] = useState(false);
 	const { isOpen, openModal, closeModal } = useModal();
 	const { showToast } = useToast();
@@ -55,6 +57,7 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 			if (!session) {
 				console.error('User not authenticated!');
 				handleNotAuthenticatedError();
+				console.error('User not authenticated');
 				setUploading(false);
 				return;
 			}
@@ -63,8 +66,8 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 			formData.append('file', file);
 
 			const response = await axios.post('/api/documents/upload', formData);
-
 			if (response?.status === 200 && response.data?.document) {
+				setDocuments((prevDocuments) => [...prevDocuments, response.data.document]);
 				handleUploadFile();
 			} else {
 				handleFailedFileError();
@@ -76,6 +79,10 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 			handleFailedFileError();
 		} finally {
 			setUploading(false);
+			const fileInput = document.getElementById('file-input') as HTMLInputElement;
+			if (fileInput) {
+				fileInput.value = '';
+			}
 		}
 	};
 

@@ -1,7 +1,6 @@
 'use client';
 import Paginator from '@/components/Paginator';
 import { useSort } from '@/hooks/useSort';
-import { useToast } from '@/hooks/useToast';
 import { Document } from '@/utils/shared/models';
 import {
 	Box,
@@ -14,54 +13,22 @@ import {
 	Typography,
 } from '@mui/material';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import DocumentsTableHeader from './DocumentsTableHeader';
 import DocumentsTableRow from './DocumentsTableRow';
 
-const DocumentsTable = () => {
-	const [documents, setDocuments] = useState<Document[]>([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
-	const { showToast } = useToast();
+interface DocumentsTableProps {
+	documents: Document[];
+	loading: boolean;
+	error: string | null;
+	handleDocumentDelete: (documentId: number) => void;
+}
+
+const DocumentsTable = (props: DocumentsTableProps) => {
+	const { documents, loading, error, handleDocumentDelete } = props;
 
 	const [page, setPage] = useState(1);
 	const pageSize = 8;
-
-	// Fetch data
-	useEffect(() => {
-		const fetchDocuments = async () => {
-			setLoading(true);
-			try {
-				const response = await axios.get('/api/documents/list');
-				setDocuments(response.data.documents || []);
-			} catch (err) {
-				setError('Failed to load documents. Please try again later.');
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		fetchDocuments();
-	}, []);
-
-	const handleDocumentDelete = async (documentId: number) => {
-		try {
-			setLoading(true);
-			await axios.delete(`/api/documents/delete/${documentId}`);
-			showToast({
-				message: 'Document deleted successfully',
-				variant: 'success',
-			});
-			setDocuments((prevDocuments) => prevDocuments.filter(doc => doc.id !== documentId));
-		} catch (error) {
-			showToast({
-				message: 'Error deleting document',
-				variant: 'error',
-			});
-		} finally {
-			setLoading(false);
-		}
-	};
 
 	const { sortedData, orderDirection, orderBy, handleSortRequest } = useSort<Document>(documents);
 	const totalPages = Math.ceil(sortedData.length / pageSize);
