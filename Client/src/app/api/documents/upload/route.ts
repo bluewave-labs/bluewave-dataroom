@@ -38,10 +38,31 @@ export async function POST(req: NextRequest) {
 				fileType: file.type,
 				size: file.size,
 			},
+			include: {
+				User: {
+					select: {
+						first_name: true,
+						last_name: true,
+					},
+				},
+			}
 		});
 
+		const updatedDocument = {
+			...document,
+			uploader: {
+				name: `${document.User.first_name} ${document.User.last_name}`,
+				avatar: null,
+			},
+			links: 0,
+			viewers: 0,
+			views: 0,
+		};
+
 		// Respond with success
-		return NextResponse.json({ message: 'File uploaded successfully.', document }, { status: 200 });
+		return NextResponse.json({
+			message: 'File uploaded successfully.', document: updatedDocument
+		}, { status: 200 });
 	} catch (error) {
 		return createErrorResponse('Server error.', 500, error);
 	}
