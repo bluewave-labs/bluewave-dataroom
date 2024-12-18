@@ -1,5 +1,4 @@
 import ModalWrapper from '@/components/ModalWrapper';
-import Toast from '@/components/Toast';
 import { useModal } from '@/hooks/useModal';
 import { useToast } from '@/hooks/useToast';
 import EditIcon from '@mui/icons-material/Edit';
@@ -16,20 +15,22 @@ export default function ProfileForm() {
 	const deletePhotoModal = useModal();
 	const uploadModal = useModal();
 
-	const photoDeleteToast = useToast();
-	const photoUpdateToast = useToast();
-
-	//New Toast Implementation only requires a single Statement
 	const { showToast } = useToast();
 
 	const handleSave = () => {
 		console.log('Profile Updated Successfully!');
-		// profileSaveToast.showToast();
+		showToast({
+			message: 'Profile Updated Successfully!',
+			variant: 'success',
+		});
 	};
 
 	const handleDeleteAccount = () => {
 		console.log('Account Deleted!');
-		// accountDeleteToast.showToast();
+		showToast({
+			message: 'Account Deleted!',
+			variant: 'error',
+		});
 	};
 
 	const handleDeletePhoto = () => {
@@ -40,7 +41,7 @@ export default function ProfileForm() {
 		});
 	};
 
-	const handlePicUpdate = () => {
+	const handleUpdatePhoto = () => {
 		console.log('Picture Updated Successfully!');
 		showToast({
 			message: 'Picture Updated Successfully!',
@@ -239,7 +240,7 @@ export default function ProfileForm() {
 				title='Upload profile image'
 				confirmButtonText='Update'
 				open={uploadModal.isOpen}
-				onClose={handlePicUpdate}
+				onClose={handleUpdatePhoto}
 				maxFileSize='3'
 				fileFormats='JPG, PNG'
 				toggleModal={uploadModal.closeModal}
@@ -255,33 +256,6 @@ export default function ProfileForm() {
 				onClose={handleDeleteAccount}
 				toggleModal={deleteAccountModal.closeModal}
 			/>
-			{/* <Toast
-				message="Profile Updated Successfully!"
-				open={profileSaveToast.open}
-				hideToast={profileSaveToast.hideToast}
-				variant="success"
-			/>
-			<Toast
-				message="Account Deleted!"
-				open={accountDeleteToast.open}
-				hideToast={accountDeleteToast.hideToast}
-				variant="error"
-			/> */}
-
-			{/* !!!Toast Components are no longer required!!!! */}
-
-			{/* <Toast
-				message="Photo Deleted!"
-				open={photoDeleteToast.open}
-				hideToast={photoDeleteToast.hideToast}
-				variant="error"
-			/> */}
-			{/* <Toast
-				message="Picture Updated Successfully!"
-				open={photoUpdateToast.open}
-				hideToast={photoUpdateToast.hideToast}
-				variant="success"
-			/> */}
 		</>
 	);
 }

@@ -1,6 +1,7 @@
 'use client';
 import Paginator from '@/components/Paginator';
 import { useSort } from '@/hooks/useSort';
+import { useToast } from '@/hooks/useToast';
 import { Document } from '@/utils/shared/models';
 import {
 	Box,
@@ -21,6 +22,7 @@ const DocumentsTable = () => {
 	const [documents, setDocuments] = useState<Document[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const { showToast } = useToast();
 
 	const [page, setPage] = useState(1);
 	const pageSize = 8;
@@ -41,6 +43,25 @@ const DocumentsTable = () => {
 
 		fetchDocuments();
 	}, []);
+
+	const handleDocumentDelete = async (documentId: number) => {
+		try {
+			setLoading(true);
+			await axios.delete(`/api/documents/delete/${documentId}`);
+			showToast({
+				message: 'Document deleted successfully',
+				variant: 'success',
+			});
+			setDocuments((prevDocuments) => prevDocuments.filter(doc => doc.id !== documentId));
+		} catch (error) {
+			showToast({
+				message: 'Error deleting document',
+				variant: 'error',
+			});
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	const { sortedData, orderDirection, orderBy, handleSortRequest } = useSort<Document>(documents);
 	const totalPages = Math.ceil(sortedData.length / pageSize);
@@ -92,6 +113,7 @@ const DocumentsTable = () => {
 							<DocumentsTableRow
 								key={document.id}
 								document={document}
+								onDelete={handleDocumentDelete}
 							/>
 						))}
 					</TableBody>

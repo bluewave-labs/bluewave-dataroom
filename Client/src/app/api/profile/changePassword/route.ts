@@ -14,7 +14,7 @@ export async function POST(req: NextResponse) {
 			return NextResponse.json({ error: 'User not found' }, { status: 404 });
 		}
 
-		const isPasswordValid = bcryptjs.compare(currentPassword, user.password);
+		const isPasswordValid = await bcryptjs.compare(currentPassword, user.password);
 		if (!isPasswordValid) {
 			return NextResponse.json({ error: 'Current password is incorrect' }, { status: 401 });
 		}
