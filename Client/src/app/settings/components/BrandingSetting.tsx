@@ -187,7 +187,7 @@ export default function BrandingSetting() {
 				confirmButtonText='Update'
 				open={uploadModal.isOpen}
 				onClose={handleUpdate}
-				maxFileSize='3'
+				maxFileSize='3 MB'
 				fileFormats='JPG, PNG'
 				toggleModal={uploadModal.closeModal}
 			/>

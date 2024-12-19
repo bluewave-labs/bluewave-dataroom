@@ -241,7 +241,7 @@ export default function ProfileForm() {
 				confirmButtonText='Update'
 				open={uploadModal.isOpen}
 				onClose={handleUpdatePhoto}
-				maxFileSize='3'
+				maxFileSize='3 MB'
 				fileFormats='JPG, PNG'
 				toggleModal={uploadModal.closeModal}
 			/>
