@@ -3,11 +3,7 @@
 import ModalWrapper from '@/components/ModalWrapper';
 import { useModal } from '@/hooks/useModal';
 import { useToast } from '@/hooks/useToast';
-import { uploadFile } from '@/services/storageService';
 import { Box, Button } from '@mui/material';
-import axios from 'axios';
-import { useSession } from 'next-auth/react';
-import { useState } from 'react';
 
 interface DragAndDropBoxProps {
 	text: string;
@@ -15,10 +11,8 @@ interface DragAndDropBoxProps {
 }
 
 const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
-	const [uploading, setUploading] = useState(false);
 	const { isOpen, openModal, closeModal } = useModal();
 	const { showToast } = useToast();
-	const { data: session } = useSession();
 
 	const handleUploadFile = () => {
 		console.log('File Uploaded Successfully!');
@@ -28,62 +22,11 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 		});
 	};
 
-	const handleFailedFileError = () => {
-		console.log('File Uploading Failed!');
-		showToast({
-			message: 'File Uploading Failed!',
-			variant: 'error',
-		});
-	};
-
-	const handleNotAuthenticatedError = () => {
-		console.log('User not authenticated!');
-		showToast({
-			message: 'User not authenticated!',
-			variant: 'error',
-		});
-	};
-
-	// Handle file selection
-	const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0];
-		if (!file) return;
-
-		setUploading(true);
-
-		try {
-			if (!session) {
-				console.error('User not authenticated!');
-				handleNotAuthenticatedError();
-				setUploading(false);
-				return;
-			}
-
-			const formData = new FormData();
-			formData.append('file', file);
-
-			const response = await axios.post('/api/documents/upload', formData);
-
-			if (response?.status === 200 && response.data?.document) {
-				handleUploadFile();
-			} else {
-				handleFailedFileError();
-			}
-		} catch (error: any) {
-			const errorMessage =
-				error.response?.data?.error || error.message || 'Unexpected error occurred';
-			console.error('Error uploading file:', errorMessage, error);
-			handleFailedFileError();
-		} finally {
-			setUploading(false);
-		}
-	};
-
 	return (
 		<>
 			{/* Box for drag-and-drop UI */}
 			<Box
-				onClick={() => document.getElementById('file-input')?.click()}
+				onClick={openModal}
 				sx={{
 					border: '2px dashed rgba(236, 236, 236)',
 					borderRadius: 2,
@@ -104,26 +47,19 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 					sx={{ width: '8rem', height: '8rem', mb: '0.5rem' }}
 				/>
 				<Button color='inherit'>{text}</Button>
-				<input
-					type='file'
-					id='file-input'
-					accept='.pdf'
-					style={{ display: 'none' }}
-					onChange={handleFileSelect}
-				/>
 			</Box>
 
 			{/* Modal Wrapper */}
-			{/* <ModalWrapper
-				variant="upload"
-				title="Upload a new file"
-				confirmButtonText="Upload"
+			<ModalWrapper
+				variant='upload'
+				dialogContentVariant='body2'
+				title='Upload file(s)'
+				description='Select up to 5 files to upload'
+				confirmButtonText='Upload'
 				toggleModal={closeModal}
 				open={isOpen}
-				onClose={handleUpload}
-				maxFileSize="50"
-				fileFormats="PDF"
-			/> */}
+				onClose={handleUploadFile}
+			/>
 		</>
 	);
 };
