@@ -72,19 +72,35 @@ enum UserRole {
 }
 
 model Link {
-  id               Int       @id @default(autoincrement())
-  linkId           String    @unique @default(cuid())
-  documentId       String
-  userId           String
-  friendlyName     String?   @unique
-  linkUrl          String    @unique
-  isPublic         Boolean   @default(false)
-  password         String?
-  expirationTime   DateTime?
-  updatedAt        DateTime  @updatedAt @db.Timestamptz(6)
-  createdAt        DateTime  @default(now()) @db.Timestamptz(6)
+  id                Int       @id @default(autoincrement())
+  linkId            String    @unique
+  documentId        String
+  userId            String
+  friendlyName      String?   @unique
+  linkUrl           String    @unique
+  isPublic          Boolean   @default(false)
+  password          String?
+  expirationTime    DateTime?
+  hasSharingOptions Boolean   @default(false)
+  updatedAt         DateTime  @updatedAt @db.Timestamptz(6)
+  createdAt         DateTime  @default(now()) @db.Timestamptz(6)
 
   // Relations
   Document Document @relation(fields: [documentId], references: [document_id], onDelete: Cascade)
   User     User     @relation(fields: [userId], references: [user_id], onDelete: Cascade)
+
+  LinkRecipients LinkRecipients[]
+}
+
+model LinkRecipients {
+  id         Int      @id @default(autoincrement())
+  linkId     String
+  first_name String
+  last_name  String
+  email      String
+  createdAt  DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime @updatedAt @db.Timestamptz(6)
+
+  // Relations
+  Link Link @relation(fields: [linkId], references: [linkId], onDelete: Cascade)
 }
