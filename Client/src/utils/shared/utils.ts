@@ -25,13 +25,3 @@ export const formatDate = (
 
 	return datePart;
 };
-
-export const mapRequestData  = (source: Record<string, any>, fields: string[]): Record<string, any> => {
-	return fields.reduce((acc: Record<string, any>, field) => {
-		if (field in source) {
-			acc[field] = source[field];
-		}
-
-		return acc;
-	}, {});
-}

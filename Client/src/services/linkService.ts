@@ -53,7 +53,15 @@ export default class LinkService {
     });
 
     if (!link || !link.Document) {
-      throw new Error('Link not found');
+      throw [404, "Link not found"];
+    }
+
+    if (!link.isPublic) {
+      throw [403, "Link is not public"];
+    }
+
+    if (link.expirationTime && new Date(link.expirationTime) < new Date()) {
+      throw [410, "Link has expired"];
     }
 
     const supabaseProvider = new SupabaseProvider();

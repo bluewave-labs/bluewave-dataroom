@@ -76,17 +76,15 @@ model Link {
   linkId           String    @unique @default(cuid())
   documentId       String
   userId           String
-  fileName         String?
-  customName       String?   @unique
+  friendlyName     String?   @unique
   linkUrl          String    @unique
   isPublic         Boolean   @default(false)
   emailRequired    Boolean   @default(false)
   passwordRequired Boolean   @default(false)
-  linkPassword     String?
+  password         String?
   expirationTime   DateTime?
   updatedAt        DateTime  @updatedAt @db.Timestamptz(6)
   createdAt        DateTime  @default(now()) @db.Timestamptz(6)
-  createdBy        String
 
   // Relations
   Document Document @relation(fields: [documentId], references: [document_id], onDelete: Cascade)

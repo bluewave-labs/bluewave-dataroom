@@ -24,7 +24,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const userId = await authenticate(req);
-    const { documentId, fileName, customName, isPublic, emailRequired, passwordRequired, linkPassword, linkUrl, expirationTime } = await req.json();
+    const { documentId, friendlyName, isPublic, emailRequired, passwordRequired, password, linkUrl, expirationTime } = await req.json();
 
     if (!documentId) {
       return createErrorResponse('Document ID is required.', 400);
@@ -34,15 +34,13 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       data: {
         userId,
         documentId,
-        fileName: fileName || "",
-        customName: customName || "",
+        friendlyName: friendlyName || "",
         linkUrl,
-        isPublic: isPublic || true,
+        isPublic: isPublic,
         emailRequired: emailRequired || false,
         passwordRequired: passwordRequired || false,
-        linkPassword: linkPassword || null,
+        password: password || null,
         expirationTime: expirationTime || null,
-        createdBy: userId,
       },
     });
 
@@ -56,6 +54,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 }
 
 function createErrorResponse(message: string, status: number, details?: any) {
-  console.error(`[${new Date().toISOString()}] ${message}`, details);
-  return NextResponse.json({ error: message, details }, { status });
+  if (Array.isArray(details) && details.length === 2) {
+    const [errorCode, errorMessage] = details;
+    console.error(`[${new Date().toISOString()}] ${errorMessage}`, details);
+    return NextResponse.json({ error: errorMessage, details }, { status: errorCode });
+  } else {
+    console.error(`[${new Date().toISOString()}] ${message}`, details);
+    return NextResponse.json({ error: message, details }, { status });
+  }
 }
