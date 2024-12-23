@@ -4,14 +4,24 @@ import { SupabaseProvider } from '@/providers/storage/supabase/supabaseProvider'
 
 export default class LinkService {
 
-  static generateLinkUrl(host: string): string {
+  static generateLinkDetails(): { linkUrl: string, linkId: string; } {
     const uniqueId = uuidv4();
+    const HOST = process.env.HOST || 'http://localhost:3000';
 
-    return `${host}/${uniqueId}`;
+    return {
+      linkId: uniqueId,
+      linkUrl: `${HOST}/${uniqueId}`
+    };
   }
 
   static async deleteLink(linkId: string): Promise<void> {
     return;
+  }
+
+  static async getLink(linkId: string) {
+    return prisma.link.findUnique({
+      where: { linkId },
+    });
   }
 
   static async getFileFromLink(linkId: string): Promise<string> {
