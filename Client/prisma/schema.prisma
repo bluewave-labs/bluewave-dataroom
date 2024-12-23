@@ -79,8 +79,6 @@ model Link {
   friendlyName     String?   @unique
   linkUrl          String    @unique
   isPublic         Boolean   @default(false)
-  emailRequired    Boolean   @default(false)
-  passwordRequired Boolean   @default(false)
   password         String?
   expirationTime   DateTime?
   updatedAt        DateTime  @updatedAt @db.Timestamptz(6)

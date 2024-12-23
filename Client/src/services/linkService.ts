@@ -2,34 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import prisma from '@lib/prisma';
 import { SupabaseProvider } from '@/providers/storage/supabase/supabaseProvider';
 
-
-export type LinkMetaDataType = {
-  linkId: string;
-  linkName: string;
-  isPublic: boolean;
-  emailRequired: boolean;
-  passwordRequired: boolean;
-  linkPassword?: string;
-  canExpire: boolean;
-  expirationDateTimestamp?: number;
-  createdBy: String;
-  userId: string;
-  documentId: string;
-};
-
 export default class LinkService {
-
-  static fieldsToPick = ['userId',
-    'documentId',
-    'fileName',
-    'customName',
-    'linkUrl',
-    'isPublic',
-    'emailRequired',
-    'passwordRequired',
-    'linkPassword',
-    'expirationTime',
-    'createdBy'];
 
   static generateLinkUrl(host: string): string {
     const uniqueId = uuidv4();

@@ -33,13 +33,11 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const newLink = await prisma.link.create({
       data: {
         userId,
-        documentId,
-        friendlyName: friendlyName || "",
         linkUrl,
+        documentId,
         isPublic: isPublic,
-        emailRequired: emailRequired || false,
-        passwordRequired: passwordRequired || false,
         password: password || null,
+        friendlyName: friendlyName || "",
         expirationTime: expirationTime || null,
       },
     });
