@@ -5,9 +5,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
-    const { linkId, first_name, last_name, email, password } = await req.json();
+    const { linkId, firstName, lastName, email, password } = await req.json();
 
-    if (!linkId || !first_name || !last_name || !email || !password) {
+    if (!linkId || !firstName || !lastName || !email || !password) {
       return createErrorResponse('Link ID, firstName, lastName, email and password are required.', 400);
     }
 
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return createErrorResponse('Invalid password.', 403);
     }
 
-    await logLinkRecipient(linkId, first_name, last_name, email);
+    await logLinkRecipient(linkId, firstName, lastName, email);
 
     const signedUrl = await LinkService.getFileFromLink(linkId);
     return NextResponse.json({ message: 'Link URL generated', data: { signedUrl } }, { status: 200 });
