@@ -50,4 +50,23 @@ export class SupabaseProvider implements StorageProvider {
 			throw new Error('File deletion failed.');
 		}
 	}
+
+	/**
+	 * Generates a signed URL for a file in the Supabase storage bucket.
+	 * @param bucket - The name of the bucket containing the file.
+	 * @param filePath - The path of the file within the bucket.
+	 * @param expiresIn - The number of seconds until the signed URL expires (default: 3 days).
+	 * @returns - A promise resolving to the signed URL.
+	 */
+	async generateSignedUrl(bucket: string, filePath: string, expiresIn: number = 259200): Promise<string> {
+		const { data, error } = await this.supabase.storage
+			.from(bucket)
+			.createSignedUrl(filePath, expiresIn);
+
+		if (error) {
+			throw new Error(`Error generating signed URL: ${error.message}`);
+		}
+
+		return data.signedUrl;
+	}
 }
