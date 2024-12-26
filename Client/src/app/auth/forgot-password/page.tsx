@@ -1,46 +1,69 @@
 'use client';
-import LoadingButton from '@/components/LoadingButton';
-import NavLink from '@/components/NavLink';
-import { useFormData } from '@/hooks/useFormData';
-import { useToast } from '@/hooks/useToast';
+
+import React, { FormEvent } from 'react';
 import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+
 import KeyIcon from '../../../../public/assets/icons/auth/KeyIcon';
 import AuthFormWrapper from '../components/AuthFormWrapper';
 import AuthInput from '../components/AuthInput';
+import LoadingButton from '@/components/LoadingButton';
+import NavLink from '@/components/NavLink';
+
+import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+import { useAuthForm } from '@/hooks/useAuthForm';
+import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
+import { useToast } from '@/hooks/useToast';
 
 export default function ForgotPassword() {
 	const router = useRouter();
-	const { formData, handleChange } = useFormData({ email: 'your_email@bluewave.ca' });
-	const [loading, setLoading] = useState(false);
 	const { showToast } = useToast();
 
-	const handleNotFoundError = () => {
-		console.log('Email not found. Please try again or sign up.');
-		showToast({
-			message: 'Email not found. Please try again or sign up.',
-			variant: 'error',
-		});
-	};
+	// 1) Local form with `useValidatedFormData`
+	const { values, handleChange, handleBlur, getError, validateAll } = useValidatedFormData({
+		initialValues: {
+			email: '',
+		},
+		validationRules: {
+			email: [
+				requiredFieldRule('Email is required'),
+				validEmailRule, // If you want to ensure valid email format
+			],
+		},
+	});
 
-	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		setLoading(true);
+	// 2) Final submission logic with `useAuthForm`
+	const { loading, handleSubmit } = useAuthForm({
+		onSubmit: async () => {
+			// Validate local fields
+			const hasError = validateAll();
+			if (hasError) {
+				throw new Error('Please correct the highlighted fields.');
+			}
 
-		try {
-			const response = await axios.post('/api/auth/resetPass', { email: formData.email });
+			// Attempt server call
+			const response = await axios.post('/api/auth/resetPass', {
+				email: values.email,
+			});
 
+			// If success, server might respond with a redirect URL or message
 			router.push(response.data.url);
-		} catch (error) {
-			console.error('Error verifying email:', error);
-			handleNotFoundError();
-		} finally {
-			setLoading(false);
-		}
-	};
+		},
+		// Show a different toast if the server says "Email not found"
+		// No default success toast needed here, so we can leave successMessage blank
+		successMessage: '',
+		onError: (message) => {
+			if (message.includes('Email not found')) {
+				showToast({
+					message: 'Email not found. Please try again or sign up.',
+					variant: 'error',
+				});
+			}
+		},
+	});
 
+	// 3) Render
 	return (
 		<AuthFormWrapper>
 			<Box
@@ -82,9 +105,10 @@ export default function ForgotPassword() {
 					id='email'
 					type='email'
 					placeholder='Enter your email'
-					value={formData.email}
+					value={values.email}
 					onChange={handleChange}
-					required
+					onBlur={handleBlur}
+					errorMessage={getError('email')}
 				/>
 
 				<Box
@@ -104,7 +128,7 @@ export default function ForgotPassword() {
 					<NavLink
 						href='/auth/sign-in'
 						linkText='← Back to sign in'
-						prefetch={true}
+						prefetch
 					/>
 				</Box>
 			</Box>
