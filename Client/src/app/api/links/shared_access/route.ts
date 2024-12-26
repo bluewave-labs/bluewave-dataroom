@@ -25,7 +25,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return createErrorResponse('Invalid password.', 403);
     }
 
-    await logLinkRecipient(linkId, firstName, lastName, email);
+    await logLinkVisitor(linkId, firstName, lastName, email);
 
     const signedUrl = await LinkService.getFileFromLink(linkId);
     return NextResponse.json({ message: 'Link URL generated', data: { signedUrl } }, { status: 200 });
@@ -49,8 +49,8 @@ async function validatePassword(providedPassword: string, storedPassword: string
   return bcryptjs.compare(providedPassword, storedPassword);
 }
 
-async function logLinkRecipient(linkId: string, first_name: string, last_name: string, email: string) {
-  return prisma.linkRecipients.create({
+async function logLinkVisitor(linkId: string, first_name: string, last_name: string, email: string) {
+  return prisma.linkVisitors.create({
     data: {
       linkId,
       first_name,
