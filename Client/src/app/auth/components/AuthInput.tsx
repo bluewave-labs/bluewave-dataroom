@@ -1,79 +1,64 @@
-import { TextField, Typography, Box } from '@mui/material';
-import { ChangeEvent, useEffect, useState } from 'react';
-
-interface ValidationRule {
-	rule: (value: string) => boolean;
-	message: string;
-}
+// Client/src/app/auth/components/AuthInput.tsx
+import React, { ChangeEvent, FocusEvent, FC } from 'react';
+import { Box, TextField, Typography } from '@mui/material';
 
 interface AuthInputProps {
-	label: string;
+	label?: string;
 	id: string;
+	name?: string; // sometimes we keep it same as id
 	type?: string;
 	placeholder?: string;
-	value?: string;
+	value: any; // can be string | boolean if checkbox
 	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+	onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 	required?: boolean;
 	autoComplete?: string;
 	autoFocus?: boolean;
-	showErrors?: boolean;
-	errorMessage?: string;
-	validationRules?: ValidationRule[];
+	errorMessage?: string; // <-- pass the inline error from parent
 }
 
-const AuthInput = ({
+const AuthInput: FC<AuthInputProps> = ({
 	label,
 	id,
+	name,
 	type = 'text',
 	placeholder,
 	value,
 	onChange,
+	onBlur,
 	required = false,
 	autoComplete = 'off',
 	autoFocus = false,
-	showErrors = false,
 	errorMessage = '',
-	validationRules = [],
-}: AuthInputProps) => {
-	const [fieldError, setFieldError] = useState('');
-
-	useEffect(() => {
-		if (showErrors && validationRules.length > 0) {
-			const firstError = validationRules.find((rule) => !rule.rule(value || ''));
-			setFieldError(firstError ? firstError.message : '');
-		} else {
-			setFieldError('');
-		}
-	}, [value, showErrors, validationRules]);
+}) => {
+	const displayError = Boolean(errorMessage);
 
 	return (
-		<Box
-		// minHeight={'5.5rem'}
-		>
-			<Typography color="text.primary" fontSize={15} fontWeight={500} mt={2} mb={1}>
-				{label}
-			</Typography>
+		<Box>
+			{label && (
+				<Typography
+					variant='body1'
+					fontWeight={500}
+					mb={1}>
+					{label}
+				</Typography>
+			)}
 			<TextField
 				id={id}
+				name={name || id} // ensure onChange uses the right field
 				type={type}
 				placeholder={placeholder}
-				autoComplete={autoComplete}
-				size="small"
-				fullWidth
-				required={required}
-				autoFocus={autoFocus}
-				variant="outlined"
 				value={value}
 				onChange={onChange}
-				error={Boolean(showErrors && (fieldError || errorMessage))}
-				helperText={showErrors ? fieldError || errorMessage : ''}
-				slotProps={{
-					formHelperText: {
-						sx: {
-							mt: 1,
-						},
-					},
-				}}
+				onBlur={onBlur}
+				required={required}
+				autoComplete={autoComplete}
+				autoFocus={autoFocus}
+				error={displayError}
+				helperText={displayError ? errorMessage : ''}
+				fullWidth
+				variant='outlined'
+				size='small'
 			/>
 		</Box>
 	);
