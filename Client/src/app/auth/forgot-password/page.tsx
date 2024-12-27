@@ -1,57 +1,47 @@
 'use client';
 
-import React, { FormEvent } from 'react';
 import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
+import LoadingButton from '@/components/LoadingButton';
+import NavLink from '@/components/NavLink';
 import KeyIcon from '../../../../public/assets/icons/auth/KeyIcon';
 import AuthFormWrapper from '../components/AuthFormWrapper';
 import AuthInput from '../components/AuthInput';
-import LoadingButton from '@/components/LoadingButton';
-import NavLink from '@/components/NavLink';
 
-import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { useAuthForm } from '@/hooks/useAuthForm';
-import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
 import { useToast } from '@/hooks/useToast';
+import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
 
 export default function ForgotPassword() {
 	const router = useRouter();
 	const { showToast } = useToast();
 
-	// 1) Local form with `useValidatedFormData`
 	const { values, handleChange, handleBlur, getError, validateAll } = useValidatedFormData({
 		initialValues: {
 			email: '',
 		},
 		validationRules: {
-			email: [
-				requiredFieldRule('Email is required'),
-				validEmailRule, // If you want to ensure valid email format
-			],
+			email: [requiredFieldRule('Email is required'), validEmailRule],
 		},
 	});
 
-	// 2) Final submission logic with `useAuthForm`
 	const { loading, handleSubmit } = useAuthForm({
 		onSubmit: async () => {
-			// Validate local fields
 			const hasError = validateAll();
 			if (hasError) {
 				throw new Error('Please correct the highlighted fields.');
 			}
 
-			// Attempt server call
 			const response = await axios.post('/api/auth/resetPass', {
 				email: values.email,
 			});
 
-			// If success, server might respond with a redirect URL or message
 			router.push(response.data.url);
 		},
-		// Show a different toast if the server says "Email not found"
-		// No default success toast needed here, so we can leave successMessage blank
+
 		successMessage: '',
 		onError: (message) => {
 			if (message.includes('Email not found')) {
@@ -63,7 +53,6 @@ export default function ForgotPassword() {
 		},
 	});
 
-	// 3) Render
 	return (
 		<AuthFormWrapper>
 			<Box

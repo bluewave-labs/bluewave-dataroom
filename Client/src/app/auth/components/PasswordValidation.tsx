@@ -1,8 +1,7 @@
-// Client/src/app/auth/components/PasswordValidation.tsx
-import React, { FC } from 'react';
-import { Box, Typography } from '@mui/material';
-import CheckIcon from '../../../../public/assets/icons/auth/CheckIcon';
 import { getPasswordChecks } from '@/utils/shared/validators';
+import { Box, Typography } from '@mui/material';
+import { FC } from 'react';
+import CheckIcon from '../../../../public/assets/icons/auth/CheckIcon';
 
 interface PasswordValidationProps {
 	passwordValue: string;

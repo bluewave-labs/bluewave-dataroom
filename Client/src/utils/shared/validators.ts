@@ -1,5 +1,3 @@
-// Client/src/utils/shared/validators.ts
-
 export interface ValidationRule {
 	rule: (value: string) => boolean;
 	message: string;

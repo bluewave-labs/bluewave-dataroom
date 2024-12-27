@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { signIn } from 'next-auth/react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
+import LoadingButton from '@/components/LoadingButton';
 import CheckIcon from '../../../../public/assets/icons/auth/CheckIcon';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import LoadingButton from '@/components/LoadingButton';
 
 export default function PasswordResetConfirm() {
 	const [loading, setLoading] = useState(false);

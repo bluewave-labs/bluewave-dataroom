@@ -1,20 +1,19 @@
-// Client/src/app/auth/components/AuthInput.tsx
-import React, { ChangeEvent, FocusEvent, FC } from 'react';
 import { Box, TextField, Typography } from '@mui/material';
+import { ChangeEvent, FC, FocusEvent } from 'react';
 
 interface AuthInputProps {
 	label?: string;
 	id: string;
-	name?: string; // sometimes we keep it same as id
+	name?: string;
 	type?: string;
 	placeholder?: string;
-	value: any; // can be string | boolean if checkbox
+	value: any;
 	onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 	onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 	required?: boolean;
 	autoComplete?: string;
 	autoFocus?: boolean;
-	errorMessage?: string; // <-- pass the inline error from parent
+	errorMessage?: string;
 }
 
 const AuthInput: FC<AuthInputProps> = ({
@@ -45,7 +44,7 @@ const AuthInput: FC<AuthInputProps> = ({
 			)}
 			<TextField
 				id={id}
-				name={name || id} // ensure onChange uses the right field
+				name={name || id}
 				type={type}
 				placeholder={placeholder}
 				value={value}
