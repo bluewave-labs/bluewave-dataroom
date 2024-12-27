@@ -1,6 +1,5 @@
-// Client/src/hooks/useAuthForm.ts
-import { FormEvent, useState } from 'react';
 import { useToast } from '@/hooks/useToast';
+import { FormEvent, useState } from 'react';
 
 interface UseAuthFormProps {
 	onSubmit: () => Promise<void>;
@@ -14,7 +13,7 @@ export const useAuthForm = ({
 	onSubmit,
 	onSuccess,
 	onError,
-	successMessage = 'Operation successful.',
+	successMessage,
 	errorMessage,
 }: UseAuthFormProps) => {
 	const [loading, setLoading] = useState(false);

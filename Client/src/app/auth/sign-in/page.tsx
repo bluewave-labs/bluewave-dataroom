@@ -1,26 +1,23 @@
-// Client/src/app/auth/sign-in/page.tsx
 'use client';
 
-import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
-import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
-import AuthFormWrapper from '../components/AuthFormWrapper';
-import AuthInput from '../components/AuthInput';
 import CustomCheckbox from '@/components/CustomCheckbox';
 import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
+import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
+import AuthFormWrapper from '../components/AuthFormWrapper';
+import AuthInput from '../components/AuthInput';
 
-import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { useAuthForm } from '@/hooks/useAuthForm';
+import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { requiredFieldRule } from '@/utils/shared/validators';
 
 export default function SignIn() {
 	const router = useRouter();
 
-	// 1) Initialize form + validation rules
 	const { values, handleChange, handleBlur, getError, validateAll } = useValidatedFormData({
 		initialValues: {
 			email: '',
@@ -30,19 +27,15 @@ export default function SignIn() {
 		validationRules: {
 			email: [requiredFieldRule('Email is required.')],
 			password: [requiredFieldRule('Password is required.')],
-			// 'remember' has no rules
 		},
 	});
 
-	// 2) Hook for final submission (server)
 	const { loading, handleSubmit } = useAuthForm({
 		onSubmit: async () => {
-			// Validate all fields first
 			const hasError = validateAll();
 			if (hasError) {
 				throw new Error('Please correct the highlighted fields.');
 			}
-			// Attempt signIn
 			const result = await signIn('credentials', {
 				redirect: false,
 				email: values.email,
@@ -87,7 +80,7 @@ export default function SignIn() {
 					value={values.email}
 					onChange={handleChange}
 					onBlur={handleBlur}
-					errorMessage={getError('email')} // inline error if touched or showAll
+					errorMessage={getError('email')}
 				/>
 
 				<AuthInput

@@ -1,5 +1,3 @@
-//Client\src\app\auth\components\AuthFormWrapper.tsx
-
 import { Box, Container } from '@mui/material';
 import { ReactNode } from 'react';
 import Background from '../../../../public/assets/Background';

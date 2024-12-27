@@ -1,6 +1,5 @@
-// Client/src/hooks/useValidatedFormData.ts
-import { useState, ChangeEvent, FocusEvent } from 'react';
 import { ValidationRule } from '@/utils/shared/validators';
+import { ChangeEvent, FocusEvent, useState } from 'react';
 
 /** Shape for the config you pass into useValidatedFormData */
 interface UseValidatedFormDataProps<T extends object> {
