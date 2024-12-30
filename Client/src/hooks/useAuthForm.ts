@@ -27,10 +27,12 @@ export const useAuthForm = ({
 
 		try {
 			await onSubmit();
-			toast.showToast({
-				message: successMessage,
-				variant: 'success',
-			});
+			if (successMessage) {
+				toast.showToast({
+					message: successMessage,
+					variant: 'success',
+				});
+			}
 			onSuccess?.();
 		} catch (err: any) {
 			const message =
