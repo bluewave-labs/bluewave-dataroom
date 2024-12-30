@@ -13,6 +13,7 @@ export async function GET(req: NextRequest) {
 				id: true,
 				fileName: true,
 				filePath: true,
+				document_id: true,
 				fileType: true,
 				size: true,
 				createdAt: true,

@@ -38,7 +38,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const userId = await authenticate(req);
-    const { documentId, friendlyName, isPublic, password, expirationTime, hasSharingOptions } = await req.json();
+    const { documentId, friendlyName, isPublic, password, expirationTime } = await req.json();
 
     if (!documentId) {
       return createErrorResponse('Document ID is required.', 400);
@@ -58,11 +58,11 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         linkId,
         linkUrl,
         documentId,
-        isPublic: isPublic,
+        isPublic,
         password: hashedPassword,
-        friendlyName: friendlyName || "",
+        friendlyName: friendlyName || linkUrl,
         expirationTime: expirationTime || null,
-        hasSharingOptions: hasSharingOptions || false,
+        hasSharingOptions: !!password
       },
     });
 

@@ -10,7 +10,7 @@ import CheckIcon from '@mui/icons-material/Check';
 
 interface Props {
 	document: Document;
-	onDelete: (documentId: number) => void;
+	onDelete: (documentId: string) => void;
 }
 
 const DocumentsTableRow = ({ document, onDelete }: Props) => {
@@ -126,7 +126,7 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 					open={open}
 					anchorEl={anchorEl}
 					onDelete={onDelete}
-					documentId={document.id}
+					documentId={document.document_id}
 					onClose={handleMenuClose}
 				/>
 			</TableCell>

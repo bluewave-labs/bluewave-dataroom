@@ -7,10 +7,10 @@ import CreateLink from './CreateLink';
 
 interface Props {
 	open: boolean;
-	documentId: number;
+	documentId: string;
 	onClose: () => void;
 	anchorEl: HTMLElement | null;
-	onDelete: (documentId: number) => void;
+	onDelete: (documentId: string) => void;
 }
 
 const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) => {
@@ -49,7 +49,7 @@ const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) =>
 				</MenuItem>
 			</Menu>
 
-			<CreateLink open={openLink} onClose={handleClose} />
+			<CreateLink open={openLink} onClose={handleClose} documentId={documentId} />
 
 			<ModalWrapper
 				variant="delete"

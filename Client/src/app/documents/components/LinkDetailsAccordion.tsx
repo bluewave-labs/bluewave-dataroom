@@ -5,12 +5,12 @@ import CopyIcon from '../../../../public/assets/icons/documentPage/CopyIcon';
 
 interface Props {
 	formValues: any;
-	handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const LinkDetailsAccordion = ({ formValues, handleCheckboxChange }: Props) => (
+const LinkDetailsAccordion = ({ formValues, handleInputChange }: Props) => (
 	<Box py={4}>
-		<Typography variant="body1">Link URL</Typography>
+		{/* <Typography variant="body1">Link URL</Typography>
 		<Typography variant="body2" sx={{ mb: 5 }}>
 			This is an automatically generated link address.
 		</Typography>
@@ -24,21 +24,22 @@ const LinkDetailsAccordion = ({ formValues, handleCheckboxChange }: Props) => (
 			<IconButton size="large">
 				<CopyIcon />
 			</IconButton>
-		</Box>
+		</Box> */}
 		<Box marginY={13}>
 			<Typography>Friendly Link Name</Typography>
 			<CustomTextField
 				minWidth={460}
-				value=""
-				onChange={() => {}}
+				value={formValues.friendlyName}
+				onChange={handleInputChange}
+				name="friendlyName"
 				placeholder="Enter a friendly name for the link"
 			/>
 		</Box>
 		<Typography variant="body1">Status</Typography>
 		<CustomCheckbox
-			checked={formValues.allowPreviewDownload}
-			onChange={handleCheckboxChange}
-			name="allowPreviewDownload"
+			checked={formValues.isPublic}
+			onChange={handleInputChange}
+			name="isPublic"
 			label="Allow anyone with this link to preview and download"
 		/>
 	</Box>

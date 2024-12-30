@@ -7,14 +7,14 @@ export async function DELETE(req: NextRequest, { params }: { params: { documentI
 
   try {
     const userId = await authenticate(req);
-    const documentId = +params.documentId;
+    const documentId = params.documentId;
 
     if (!documentId) {
       return createErrorResponse('Document ID is required.', 400);
     }
 
     const document = await prisma.document.findUnique({
-      where: { id: documentId },
+      where: { document_id: documentId },
     });
 
     if (!document || document.user_id !== userId) {
@@ -22,7 +22,7 @@ export async function DELETE(req: NextRequest, { params }: { params: { documentI
     }
 
     const deletedFile = await prisma.document.delete({
-      where: { id: documentId },
+      where: { document_id: documentId },
     });
 
     await deleteFileFromStorage(deletedFile.filePath);
