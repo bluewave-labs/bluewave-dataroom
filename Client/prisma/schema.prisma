@@ -89,10 +89,10 @@ model Link {
   Document Document @relation(fields: [documentId], references: [document_id], onDelete: Cascade)
   User     User     @relation(fields: [userId], references: [user_id], onDelete: Cascade)
 
-  LinkVisitors LinkVisitors[]
+  LinkRecipients LinkRecipients[]
 }
 
-model LinkVisitors {
+model LinkRecipients {
   id         Int      @id @default(autoincrement())
   linkId     String
   first_name String
