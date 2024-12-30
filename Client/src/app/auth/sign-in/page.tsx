@@ -18,6 +18,7 @@ import { requiredFieldRule } from '@/utils/shared/validators';
 export default function SignIn() {
 	const router = useRouter();
 
+	// 1) Manage form data
 	const { values, handleChange, handleBlur, getError, validateAll } = useValidatedFormData({
 		initialValues: {
 			email: '',
@@ -30,20 +31,28 @@ export default function SignIn() {
 		},
 	});
 
+	// 2) Hook for final form submission
 	const { loading, handleSubmit } = useAuthForm({
 		onSubmit: async () => {
+			// Validate local fields
 			const hasError = validateAll();
 			if (hasError) {
 				throw new Error('Please correct the highlighted fields.');
 			}
+
+			// 3) Attempt NextAuth credentials signIn
 			const result = await signIn('credentials', {
 				redirect: false,
 				email: values.email,
 				password: values.password,
+				remember: values.remember.toString(),
 			});
+
 			if (result?.error) {
 				throw new Error(result.error);
 			}
+
+			// 4) On success, redirect
 			router.push('/documents');
 		},
 		successMessage: 'Successfully signed in! Redirecting...',
