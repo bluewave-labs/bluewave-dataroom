@@ -34,6 +34,8 @@ export const authOptions: NextAuthOptions = {
 					where: { email: credentials.email },
 				});
 
+				console.log('User:', user); // Debug log
+
 				// Check if the user exists and if their status is ARCHIVED
 				if (!user) {
 					throw new Error('No user found with the provided email');

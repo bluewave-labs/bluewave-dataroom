@@ -43,6 +43,7 @@ model User {
   updated_at         DateTime             @updatedAt @db.Timestamptz(6)
   PasswordResetToken PasswordResetToken[]
   Document           Document[]
+  Link               Link[]
 }
 
 model Document {
@@ -56,6 +57,7 @@ model Document {
   createdAt   DateTime @default(now()) @db.Timestamptz(6)
   updatedAt   DateTime @updatedAt @db.Timestamptz(6)
   User        User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  Link        Link[]
 }
 
 enum Status {
@@ -67,4 +69,38 @@ enum Status {
 enum UserRole {
   ADMIN
   USER
+}
+
+model Link {
+  id                Int       @id @default(autoincrement())
+  linkId            String    @unique
+  documentId        String
+  userId            String
+  friendlyName      String?   @unique
+  linkUrl           String    @unique
+  isPublic          Boolean   @default(false)
+  password          String? // used for SharingOptions
+  expirationTime    DateTime?
+  hasSharingOptions Boolean   @default(false)
+  updatedAt         DateTime  @updatedAt @db.Timestamptz(6)
+  createdAt         DateTime  @default(now()) @db.Timestamptz(6)
+
+  // Relations
+  Document Document @relation(fields: [documentId], references: [document_id], onDelete: Cascade)
+  User     User     @relation(fields: [userId], references: [user_id], onDelete: Cascade)
+
+  LinkVisitors LinkVisitors[]
+}
+
+model LinkVisitors {
+  id         Int      @id @default(autoincrement())
+  linkId     String
+  first_name String
+  last_name  String
+  email      String
+  createdAt  DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime @updatedAt @db.Timestamptz(6)
+
+  // Relations
+  Link Link @relation(fields: [linkId], references: [linkId], onDelete: Cascade)
 }
