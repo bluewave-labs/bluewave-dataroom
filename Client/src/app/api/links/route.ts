@@ -6,8 +6,6 @@ import bcryptjs from 'bcryptjs';
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
-    const userId = await authenticate(req);
-
     const searchParams = req.nextUrl.searchParams;
     const linkIdFromParams = searchParams.get('linkId');
 
@@ -60,8 +58,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         documentId,
         isPublic,
         password: hashedPassword,
-        friendlyName: friendlyName || linkUrl,
-        expirationTime: expirationTime || null,
+        friendlyName: friendlyName || linkUrl, //TODO:
+        expirationTime: new Date(expirationTime) || null,
         hasSharingOptions: !!password
       },
     });

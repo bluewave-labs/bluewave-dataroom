@@ -25,7 +25,7 @@ const LinkDetailsAccordion = ({ formValues, handleInputChange }: Props) => (
 				<CopyIcon />
 			</IconButton>
 		</Box> */}
-		<Box marginY={13}>
+		{/* <Box marginY={13}>
 			<Typography>Friendly Link Name</Typography>
 			<CustomTextField
 				minWidth={460}
@@ -34,7 +34,7 @@ const LinkDetailsAccordion = ({ formValues, handleInputChange }: Props) => (
 				name="friendlyName"
 				placeholder="Enter a friendly name for the link"
 			/>
-		</Box>
+		</Box> */}
 		<Typography variant="body1">Status</Typography>
 		<CustomCheckbox
 			checked={formValues.isPublic}

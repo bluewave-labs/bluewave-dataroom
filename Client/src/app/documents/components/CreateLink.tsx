@@ -1,11 +1,12 @@
 import axios from 'axios';
+import React from 'react';
 import { useToast } from '@/hooks/useToast';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+
 import CustomAccordion from './CustomAccordion';
 import SendingAccordion from './SendingAccordion';
-import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import LinkDetailsAccordion from './LinkDetailsAccordion';
 import SharingOptionsAccordion from './SharingOptionsAccordion';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 
 interface Props {
 	onClose: (action: string) => void;
@@ -14,12 +15,13 @@ interface Props {
 }
 
 const CreateLink = ({ onClose, open, documentId }: Props) => {
-	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 	const { showToast } = useToast();
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
-	const [expirationType, setExpirationType] = useState('days');
-	const [formValues, setFormValues] = useState({
+	const [loading, setLoading] = React.useState(true);
+	const [shareableLink, setShareableLink] = React.useState('');
+	const [error, setError] = React.useState<string | null>(null);
+	const [expirationType, setExpirationType] = React.useState('days');
+	const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
+	const initialFormValues = {
 		password: '',
 		isPublic: false,
 		otherEmails: '',
@@ -29,10 +31,10 @@ const CreateLink = ({ onClose, open, documentId }: Props) => {
 		expirationEnabled: false,
 		requireUserDetails: false,
 		requireUserDetailsOption: 1
-	});
-	const [shareableLink, setShareableLink] = useState('');
+	};
+	const [formValues, setFormValues] = React.useState(initialFormValues);
 
-	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value, type, checked } = event.target;
 
 		let expirationTime = formValues.expirationTime;
@@ -49,15 +51,13 @@ const CreateLink = ({ onClose, open, documentId }: Props) => {
 			expirationTime = date.toISOString();
 		}
 
-		console.log('name', name, value);
-
 		setFormValues((prev) => ({
 			...prev,
 			[name]: type === 'checkbox' ? checked : value,
 		}));
 	};
 
-	useEffect(() => {
+	React.useEffect(() => {
 		if (formValues.expirationTime) {
 			const expirationDate = new Date(formValues.expirationTime);
 			const now = new Date();
@@ -72,31 +72,53 @@ const CreateLink = ({ onClose, open, documentId }: Props) => {
 		}
 	}, [formValues.expirationTime]);
 
-	const handleExpirationChange = (event: ChangeEvent<HTMLInputElement>) => {
+	const handleExpirationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setExpirationType(event.target.value);
 	};
 
-	const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+	const getRequestPayload = () => {
+		const payload: { [key: string]: any; } = {
+			documentId,
+		};
+
+		if (!formValues.isPublic) {
+			if (formValues.requireUserDetails) {
+				payload.requireUserDetailsOption = formValues.requireUserDetailsOption;
+			}
+
+			if (formValues.requirePassword) {
+				payload.password = formValues.password;
+			}
+
+			if (formValues.expirationEnabled) {
+				payload.expirationTime = formValues.expirationTime;
+			}
+		}
+
+		return payload;
+	};
+
+	const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		if (!document) return;
 
 		try {
 			setLoading(true);
-			const response = await axios.post('/api/links', {
-				documentId,
-				friendlyName: formValues.friendlyName,
-				isPublic: formValues.isPublic,
-				password: formValues.password,
-				expirationTime: formValues.expirationTime,
-			});
+			let reqBody = getRequestPayload();
+			const response = await axios.post('/api/links', reqBody);
 			setShareableLink(response.data.link.linkUrl);
-			console.log('response', response.data);
+			setFormValues(initialFormValues); // Reset form values
 			showToast({
 				message: 'Shareable link created successfully',
 				variant: 'success',
 			});
+
 		} catch (error) {
 			setError('Failed to create shareable link. Please try again later.');
+			showToast({
+				message: 'Failed to create shareable link. Please try again later.',
+				variant: 'error',
+			});
 		} finally {
 			setLoading(false);
 		}
