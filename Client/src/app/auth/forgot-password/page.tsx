@@ -8,7 +8,7 @@ import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
 import KeyIcon from '../../../../public/assets/icons/auth/KeyIcon';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import AuthInput from '../components/AuthInput';
+import FormInput from '../../../components/FormInput';
 
 import { useAuthForm } from '@/hooks/useAuthForm';
 import { useToast } from '@/hooks/useToast';
@@ -89,7 +89,7 @@ export default function ForgotPassword() {
 				display='flex'
 				flexDirection='column'
 				gap={5}>
-				<AuthInput
+				<FormInput
 					label='Email'
 					id='email'
 					type='email'

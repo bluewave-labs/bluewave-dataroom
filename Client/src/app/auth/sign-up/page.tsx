@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 
 import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import AuthInput from '../components/AuthInput';
+import FormInput from '../../../components/FormInput';
 import PasswordValidation from '../components/PasswordValidation';
 import NavLink from '@/components/NavLink';
 import LoadingButton from '@/components/LoadingButton';
@@ -130,7 +130,7 @@ export default function SignUp() {
 				display='flex'
 				flexDirection='column'
 				gap={8}>
-				<AuthInput
+				<FormInput
 					label='First name'
 					id='firstName'
 					placeholder='Enter your first name'
@@ -140,7 +140,7 @@ export default function SignUp() {
 					errorMessage={getError('firstName')}
 				/>
 
-				<AuthInput
+				<FormInput
 					label='Last name'
 					id='lastName'
 					placeholder='Enter your last name'
@@ -150,7 +150,7 @@ export default function SignUp() {
 					errorMessage={getError('lastName')}
 				/>
 
-				<AuthInput
+				<FormInput
 					label='Email'
 					id='email'
 					type='email'
@@ -161,7 +161,7 @@ export default function SignUp() {
 					errorMessage={getError('email')}
 				/>
 
-				<AuthInput
+				<FormInput
 					label='Password'
 					id='password'
 					type='password'
@@ -172,7 +172,7 @@ export default function SignUp() {
 					errorMessage={getError('password')}
 				/>
 
-				<AuthInput
+				<FormInput
 					label='Confirm Password'
 					id='confirmPassword'
 					type='password'

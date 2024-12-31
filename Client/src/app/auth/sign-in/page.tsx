@@ -9,7 +9,7 @@ import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
 import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import AuthInput from '../components/AuthInput';
+import FormInput from '../../../components/FormInput';
 
 import { useAuthForm } from '@/hooks/useAuthForm';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
@@ -72,7 +72,7 @@ export default function SignIn() {
 				display='flex'
 				flexDirection='column'
 				gap={5}>
-				<AuthInput
+				<FormInput
 					label='Email'
 					id='email'
 					type='email'
@@ -83,7 +83,7 @@ export default function SignIn() {
 					errorMessage={getError('email')}
 				/>
 
-				<AuthInput
+				<FormInput
 					label='Password'
 					id='password'
 					type='password'
