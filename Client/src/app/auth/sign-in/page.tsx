@@ -40,6 +40,7 @@ export default function SignIn() {
 				redirect: false,
 				email: values.email,
 				password: values.password,
+				remember: values.remember.toString(),
 			});
 			if (result?.error) {
 				throw new Error(result.error);

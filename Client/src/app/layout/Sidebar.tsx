@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 
 import { Box, Drawer, Stack } from '@mui/material';
 import List from '@mui/material/List';
@@ -14,7 +15,6 @@ import ContactsIcon from '../../../public/assets/icons/sidebar/ContactsIcon';
 import DocumentsIcon from '../../../public/assets/icons/sidebar/DocumentsIcon';
 import SettingsIcon from '../../../public/assets/icons/sidebar/SettingsIcon';
 import DropdownMenu from './DropdownMenu';
-import { useState } from 'react';
 
 export default function Sidebar() {
 	const [selectedListItem, setSelectedListItem] = useState('');

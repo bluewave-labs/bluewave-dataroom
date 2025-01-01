@@ -15,6 +15,11 @@ import { useToast } from '@/hooks/useToast';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
 
+import { useAuthForm } from '@/hooks/useAuthForm';
+import { useToast } from '@/hooks/useToast';
+import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
+
 export default function ForgotPassword() {
 	const router = useRouter();
 	const { showToast } = useToast();

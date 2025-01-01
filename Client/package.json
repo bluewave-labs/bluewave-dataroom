@@ -2,6 +2,9 @@
   "name": "blw-dataroom",
   "version": "0.1.0",
   "private": true,
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -33,13 +36,14 @@
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
-    "@types/node": "20.16.5",
+    "@types/node": "^20.16.5",
     "@types/react": "^18.3.8",
     "@types/react-color": "^3.0.12",
     "@types/react-dom": "^18",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.5",
     "prettier": "^3.3.3",
-    "typescript": "5.6.2"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
   }
 }

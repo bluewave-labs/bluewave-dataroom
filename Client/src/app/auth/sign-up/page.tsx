@@ -1,31 +1,24 @@
 // Client/src/app/auth/sign-up/page.tsx
 'use client';
 
-import React from 'react';
 import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
+import LoadingButton from '@/components/LoadingButton';
+import NavLink from '@/components/NavLink';
 import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 import AuthFormWrapper from '../components/AuthFormWrapper';
 import FormInput from '../../../components/FormInput';
 import PasswordValidation from '../components/PasswordValidation';
-import NavLink from '@/components/NavLink';
-import LoadingButton from '@/components/LoadingButton';
 
-import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { useAuthForm } from '@/hooks/useAuthForm';
-import {
-	requiredFieldRule,
-	validEmailRule, // optional if you want strict email checks
-	minLengthRule,
-	// hasSpecialCharRule, // if you want a direct rule for the password itself
-} from '@/utils/shared/validators';
+import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+import { minLengthRule, requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
 
 export default function SignUp() {
 	const router = useRouter();
 
-	// 1) Manage form data & inline validation with useValidatedFormData
 	const { values, handleChange, handleBlur, getError, validateAll } = useValidatedFormData({
 		initialValues: {
 			firstName: '',
@@ -37,38 +30,23 @@ export default function SignUp() {
 		validationRules: {
 			firstName: [requiredFieldRule('First name is required')],
 			lastName: [requiredFieldRule('Last name is required')],
-			email: [
-				requiredFieldRule('Email is required'),
-				validEmailRule, // If you want email format validation
-			],
-			password: [
-				requiredFieldRule('Password is required'),
-				minLengthRule(8, 'Password must be at least 8 characters'),
-				// If you want to enforce a special char as well:
-				// hasSpecialCharRule,
-			],
-			confirmPassword: [
-				requiredFieldRule('Please confirm your password'),
-				// For real-time mismatch, you'd need a custom rule referencing values.password
-			],
+			email: [requiredFieldRule('Email is required'), validEmailRule],
+			password: [requiredFieldRule('Password is required'), minLengthRule(8)],
+			confirmPassword: [requiredFieldRule('Please confirm your password')],
 		},
 	});
 
-	// 2) handleSubmit from useAuthForm: final submission + server call
 	const { loading, handleSubmit, toast } = useAuthForm({
 		onSubmit: async () => {
-			// Validate all fields first
+			// 1) Basic client checks
 			const hasError = validateAll();
-			if (hasError) {
-				throw new Error('Please correct the highlighted fields.');
-			}
+			if (hasError) throw new Error('Please correct the highlighted fields.');
 
-			// Check if passwords match
 			if (values.password !== values.confirmPassword) {
 				throw new Error('Passwords do not match.');
 			}
 
-			// Send data to server
+			// 2) Attempt server call
 			const res = await axios.post('/api/auth/register', {
 				firstName: values.firstName,
 				lastName: values.lastName,
@@ -76,35 +54,34 @@ export default function SignUp() {
 				password: values.password,
 			});
 
-			// 3) If creation or partial success
 			if (res.data.success) {
-				// If email sending failed but user created:
+				// Partial success?
 				if (res.data.emailFail) {
-					// We can throw a custom message or treat it as success
-					// For example, treat it as a success but show a custom toast in onError below
-					throw new Error('Account created, Email sending is disabled in development.');
+					toast.showToast({
+						message:
+							res.data.message ||
+							'Account created, Email sending is disabled in development. Contact admin.',
+						variant: 'warning',
+					});
+					// We have userId => poll by userId
+					return router.push(`/auth/account-created?userId=${res.data.userId}`);
+				}
+
+				// Full success => poll by token or userId
+				if (res.data.token) {
+					// If the server returned a token, let's poll by token:
+					router.push(`/auth/account-created?token=${res.data.token}`);
 				} else {
-					// All good
-					router.push('/auth/account-created');
-					return;
+					// Or if no token was returned, fallback to userId or a success message
+					toast.showToast({ message: res.data.message, variant: 'success' });
+					// Possibly poll by userId if you want
+					// router.push(`/auth/account-created?userId=someUserId`);
 				}
 			} else {
-				// If not success, throw to trigger toast
 				throw new Error(res.data.message || 'Unknown server error');
 			}
 		},
-
-		successMessage: '',
-		onError: (errMsg) => {
-			if (errMsg.includes('Account created, Email sending is disabled in development.')) {
-				toast.showToast({ message: 'Account Created!', variant: 'success' });
-				// Optionally another toast
-				toast.showToast({
-					message: 'Please contact your Admin for verification.',
-					variant: 'warning',
-				});
-			}
-		},
+		successMessage: '', // We'll rely on custom logic above
 	});
 
 	return (
@@ -167,7 +144,7 @@ export default function SignUp() {
 					type='password'
 					placeholder='Create a password'
 					value={values.password}
-					onChange={handleChange} // no custom function needed
+					onChange={handleChange}
 					onBlur={handleBlur}
 					errorMessage={getError('password')}
 				/>
@@ -183,10 +160,7 @@ export default function SignUp() {
 					errorMessage={getError('confirmPassword')}
 				/>
 
-				{/* 
-          Use PasswordValidation for real-time strength feedback.
-          We just pass values.password, and it calculates length/special char.
-        */}
+				{/* Real-time password strength feedback */}
 				<PasswordValidation passwordValue={values.password} />
 
 				<LoadingButton
