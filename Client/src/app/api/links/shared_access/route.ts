@@ -7,9 +7,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const { linkId, firstName, lastName, email, password } = await req.json();
 
-    if (!linkId || !firstName || !lastName || !email || !password) {
-      return createErrorResponse('Link ID, firstName, lastName, email and password are required.', 400);
-    }
+    // if (!linkId || !firstName || !lastName || !email || !password) {
+    //   return createErrorResponse('Link ID, firstName, lastName, email and password are required.', 400);
+    // }
 
     const link = await LinkService.getLink(linkId);
     if (!link) {

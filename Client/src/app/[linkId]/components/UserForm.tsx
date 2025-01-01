@@ -8,10 +8,13 @@ import CustomTextField from '@/components/CustomTextField';
 import { Alert, Divider, Box, Button, TextField, Typography, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText } from '@mui/material';
 
 interface UserFormProps {
+  linkId: string;
   passwordRequired: boolean;
   requireUserDetailsOption: number;
+  onSignedUrlFetched: (url: string) => void;
 }
 
+//TODO: Enhance code, lift state and input handlers to parent component.
 export default function UserForm(props: UserFormProps) {
   const [password, setPassword] = React.useState('');
   const [formDetails, setFormDetails] = React.useState({
@@ -20,7 +23,6 @@ export default function UserForm(props: UserFormProps) {
     email: '',
     password: '',
   });
-  const [signedUrl, setSignedUrl] = React.useState('');
 
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState('');
@@ -39,25 +41,23 @@ export default function UserForm(props: UserFormProps) {
     setError('');
     setSuccess('');
 
-    if (!formDetails.firstName || !formDetails.lastName || !formDetails.email) {
+    //TODO: handle form validation in better approach.
+    if (!formDetails.firstName || !formDetails.lastName) {
       return setError('Please fill in all fields.');
     }
 
-    try {
-      // Make the POST request
-      const response = await axios.post('/api/links/shared_access', {
-        firstName: formDetails.firstName,
-        lastName: formDetails.lastName,
-        email: formDetails.email,
-        password: formDetails.password,
-      });
+    if (props.passwordRequired && !formDetails.password) {
+      return setError('Please fill in the password field.');
+    }
 
-      // Handle success
-      if (response.status === 200) {
-        setError('');
-        setSuccess('');
-        setSignedUrl(response.data.signedUrl);
-      }
+    if (props.requireUserDetailsOption === 2 && !formDetails.email) {
+      return setError('Please fill in the email field.');
+    }
+
+    try {
+      const response = await axios.post('/api/links/shared_access', {...formDetails, linkId: props.linkId});
+
+      props.onSignedUrlFetched(response.data.data.signedUrl);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
@@ -152,15 +152,6 @@ export default function UserForm(props: UserFormProps) {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* {submittedData && (
-      <Box mt={4}>
-        <Typography variant="h6">Submitted Data</Typography>
-        <Typography>First Name: {submittedData.firstName}</Typography>
-        <Typography>Last Name: {submittedData.lastName}</Typography>
-        <Typography>Email: {submittedData.email}</Typography>
-        <Typography>Password: {submittedData.password}</Typography>
-      </Box>
-    )} */}
     </>
   );
 }
