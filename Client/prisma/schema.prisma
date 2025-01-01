@@ -72,18 +72,19 @@ enum UserRole {
 }
 
 model Link {
-  id                Int       @id @default(autoincrement())
-  linkId            String    @unique
-  documentId        String
-  userId            String
-  friendlyName      String?   @unique
-  linkUrl           String    @unique
-  isPublic          Boolean   @default(false)
-  password          String? // used for SharingOptions
-  expirationTime    DateTime?
-  hasSharingOptions Boolean   @default(false)
-  updatedAt         DateTime  @updatedAt @db.Timestamptz(6)
-  createdAt         DateTime  @default(now()) @db.Timestamptz(6)
+  id                       Int       @id @default(autoincrement())
+  linkId                   String    @unique
+  documentId               String
+  userId                   String
+  friendlyName             String?   @unique
+  linkUrl                  String    @unique
+  isPublic                 Boolean   @default(false)
+  password                 String? // used for SharingOptions
+  expirationTime           DateTime?
+  hasSharingOptions        Boolean   @default(false)
+  updatedAt                DateTime  @updatedAt @db.Timestamptz(6)
+  createdAt                DateTime  @default(now()) @db.Timestamptz(6)
+  requireUserDetailsOption Int       @default(1)
 
   // Relations
   Document Document @relation(fields: [documentId], references: [document_id], onDelete: Cascade)
