@@ -11,7 +11,7 @@ import AuthFormWrapper from '../components/AuthFormWrapper';
 import FormInput from '../../../components/FormInput';
 import PasswordValidation from '../components/PasswordValidation';
 
-import { useAuthForm } from '@/hooks/useAuthForm';
+import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { minLengthRule, requiredFieldRule } from '@/utils/shared/validators';
 
@@ -36,7 +36,7 @@ export default function ResetPassword() {
 		},
 	});
 
-	const { loading, handleSubmit } = useAuthForm({
+	const { loading, handleSubmit } = useFormSubmission({
 		onSubmit: async () => {
 			const hasError = validateAll();
 			if (hasError) {

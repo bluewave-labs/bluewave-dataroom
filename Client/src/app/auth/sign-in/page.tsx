@@ -11,7 +11,7 @@ import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 import AuthFormWrapper from '../components/AuthFormWrapper';
 import FormInput from '../../../components/FormInput';
 
-import { useAuthForm } from '@/hooks/useAuthForm';
+import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { requiredFieldRule } from '@/utils/shared/validators';
 
@@ -30,7 +30,7 @@ export default function SignIn() {
 		},
 	});
 
-	const { loading, handleSubmit } = useAuthForm({
+	const { loading, handleSubmit } = useFormSubmission({
 		onSubmit: async () => {
 			const hasError = validateAll();
 			if (hasError) {

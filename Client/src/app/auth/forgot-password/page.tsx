@@ -10,12 +10,7 @@ import KeyIcon from '../../../../public/assets/icons/auth/KeyIcon';
 import AuthFormWrapper from '../components/AuthFormWrapper';
 import FormInput from '../../../components/FormInput';
 
-import { useAuthForm } from '@/hooks/useAuthForm';
-import { useToast } from '@/hooks/useToast';
-import { useValidatedFormData } from '@/hooks/useValidatedFormData';
-import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
-
-import { useAuthForm } from '@/hooks/useAuthForm';
+import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { useToast } from '@/hooks/useToast';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
@@ -33,7 +28,7 @@ export default function ForgotPassword() {
 		},
 	});
 
-	const { loading, handleSubmit } = useAuthForm({
+	const { loading, handleSubmit } = useFormSubmission({
 		onSubmit: async () => {
 			const hasError = validateAll();
 			if (hasError) {
