@@ -38,16 +38,23 @@ export default function DropdownMenu() {
 			<Button
 				disableElevation
 				onClick={handleClick}
-				size="medium"
+				size='medium'
 				sx={{
 					color: 'text.primary',
 					fontSize: 14,
 				}}
-				startIcon={<Image src={Avatar} alt="Dropdown Arrow" width={24} height={24} />}
+				startIcon={
+					<Image
+						src={Avatar}
+						alt='Dropdown Arrow'
+						width={24}
+						height={24}
+					/>
+				}
 				endIcon={
 					<Image
 						src={DropdownArrow}
-						alt="Dropdown Arrow"
+						alt='Dropdown Arrow'
 						width={20}
 						height={20}
 						style={{
@@ -85,10 +92,15 @@ export default function DropdownMenu() {
 					},
 				}}>
 				{menu.map(({ text, icon, href }) => (
-					<Link href={href} key={text} style={{ textDecoration: 'none', color: 'inherit' }}>
+					<Link
+						href={href}
+						key={text}
+						style={{ textDecoration: 'none', color: 'inherit' }}>
 						<MenuItem onClick={handleClose}>
 							{icon}
-							<Typography variant="body1" ml="0.75rem">
+							<Typography
+								variant='body1'
+								ml='0.75rem'>
 								{text === 'Log out' ? <span onClick={() => signOut()}>{text}</span> : text}
 							</Typography>
 						</MenuItem>
@@ -101,7 +113,9 @@ export default function DropdownMenu() {
 					}}>
 					<MenuItem onClick={handleClose}>
 						<LogOutIcon />
-						<Typography variant="body1" ml="0.75rem">
+						<Typography
+							variant='body1'
+							ml='0.75rem'>
 							<span>Log Out</span>
 						</Typography>
 					</MenuItem>

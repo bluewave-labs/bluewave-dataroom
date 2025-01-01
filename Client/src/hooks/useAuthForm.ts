@@ -1,13 +1,21 @@
 import { useToast } from '@/hooks/useToast';
-import router from 'next/router';
 import { FormEvent, useState } from 'react';
 
 interface UseAuthFormProps {
 	onSubmit: () => Promise<void>;
-	isServerError?: (error: any) => boolean;
+	onSuccess?: () => void;
+	onError?: (error: string) => void;
+	successMessage?: string;
+	errorMessage?: string;
 }
 
-export const useAuthForm = ({ onSubmit, isServerError }: UseAuthFormProps) => {
+export const useAuthForm = ({
+	onSubmit,
+	onSuccess,
+	onError,
+	successMessage,
+	errorMessage,
+}: UseAuthFormProps) => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState('');
 	const toast = useToast();
@@ -19,25 +27,34 @@ export const useAuthForm = ({ onSubmit, isServerError }: UseAuthFormProps) => {
 
 		try {
 			await onSubmit();
-		} catch (err: any) {
-			const serverError = err.response?.data?.message || 'An unexpected error occurred.';
-			setError(serverError);
-
-			// Only show toast if the error is confirmed to be a server error
-			if (isServerError && isServerError(err)) {
+			if (successMessage) {
 				toast.showToast({
-					message: 'Contact your Admin',
-					variant: 'error',
+					message: successMessage,
+					variant: 'success',
 				});
 			}
+			onSuccess?.();
+		} catch (err: any) {
+			const message =
+				err?.response?.data?.message || err?.message || 'An unexpected error occurred.';
+			setError(message);
+
+			// If an errorMessage is provided, show that instead
+			toast.showToast({
+				message: `Error: ${errorMessage || message}`,
+				variant: 'error',
+			});
+
+			onError?.(message);
 		} finally {
 			setLoading(false);
-			toast.showToast({
-				message: 'Contact your Admin for verification',
-				variant: 'info',
-			});
 		}
 	};
 
-	return { loading, error, handleSubmit, toast };
+	return {
+		loading,
+		error,
+		handleSubmit,
+		toast,
+	};
 };

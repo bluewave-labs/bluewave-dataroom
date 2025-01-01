@@ -1,85 +1,55 @@
-// This file will define the login for updating the password, after the user is confirmed to be valid
-// The file uses dynamic routes to accept a token created during earlier
-// Learn more about dynamic routes here: https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes
-
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import { hash } from 'bcryptjs';
-
-// Import prisma
 import prisma from '@lib/prisma';
+import { hash } from 'bcryptjs';
 
 export async function POST(req: NextRequest) {
 	try {
 		const { token, password } = await req.json();
 
-		// Validate token and password
-		if (
-			!token ||
-			typeof token !== 'string' ||
-			!password ||
-			typeof password !== 'string'
-		) {
-			console.error('Error: Token or password are either missing or not valid');
+		if (!token || !password) {
 			return NextResponse.json(
-				{ message: 'Token or password are either missing or not valid' },
-				{ status: 400 }
+				{ message: 'Token and new password are required.' },
+				{ status: 400 },
 			);
 		}
 
-		// Find the password reset token
-		const passToken = await prisma.passwordResetToken.findUnique({
+		// 1) Check if the token is valid, not used, and not older than X hours
+		//    We'll assume a 4-hour validity for example:
+		const fourHoursAgo = new Date(Date.now() - 4 * 60 * 60 * 1000);
+
+		// The token table might track created_at, reset_at, etc.
+		const passToken = await prisma.passwordResetToken.findFirst({
 			where: {
-				token: token,
-				created_at: { gt: new Date(Date.now() - 1000 * 60 * 60 * 4) }, // Token valid for 4 hours
-				reset_at: null,
+				token,
+				reset_at: null, // not used yet
+				created_at: { gte: fourHoursAgo }, // created within last 4h
 			},
 		});
 
-		// If token is not found or expired
 		if (!passToken) {
-			return NextResponse.json(
-				{ message: 'Token not valid. Please try again' },
-				{ status: 400 }
-			);
+			return NextResponse.json({ message: 'Token not valid or expired.' }, { status: 400 });
 		}
 
-		// Encrypt the new password
+		// 2) Encrypt the new password
 		const encrypted = await hash(password, 10);
 
-		// Update user's password
+		// 3) Update the user's password + mark token as used
+		//    We'll do a transaction for atomicity.
 		const updateUser = prisma.user.update({
-			where: {
-				user_id: passToken.user_id,
-			},
-			data: {
-				password: encrypted,
-			},
+			where: { user_id: passToken.user_id },
+			data: { password: encrypted },
 		});
 
-		// Update the password reset token to mark it as used
 		const updateToken = prisma.passwordResetToken.update({
-			where: {
-				id: passToken.id,
-			},
-			data: {
-				reset_at: new Date(),
-			},
+			where: { id: passToken.id },
+			data: { reset_at: new Date() },
 		});
 
-		// Commit the transaction
-		await prisma.$transaction([updateToken, updateUser]);
+		await prisma.$transaction([updateUser, updateToken]);
 
-		// Send success response
-		return NextResponse.json(
-			{ message: 'Password updated successfully' },
-			{ status: 200 }
-		);
+		return NextResponse.json({ message: 'Password updated successfully.' }, { status: 200 });
 	} catch (error) {
 		console.error('Error updating password:', error);
-		return NextResponse.json(
-			{ message: 'Internal server error' },
-			{ status: 500 }
-		);
+		return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
 	}
 }
