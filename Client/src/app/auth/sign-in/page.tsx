@@ -9,16 +9,15 @@ import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
 import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import AuthInput from '../components/AuthInput';
+import FormInput from '../../../components/FormInput';
 
-import { useAuthForm } from '@/hooks/useAuthForm';
+import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { requiredFieldRule } from '@/utils/shared/validators';
 
 export default function SignIn() {
 	const router = useRouter();
 
-	// 1) Manage form data
 	const { values, handleChange, handleBlur, getError, validateAll } = useValidatedFormData({
 		initialValues: {
 			email: '',
@@ -31,28 +30,21 @@ export default function SignIn() {
 		},
 	});
 
-	// 2) Hook for final form submission
-	const { loading, handleSubmit } = useAuthForm({
+	const { loading, handleSubmit } = useFormSubmission({
 		onSubmit: async () => {
-			// Validate local fields
 			const hasError = validateAll();
 			if (hasError) {
 				throw new Error('Please correct the highlighted fields.');
 			}
-
-			// 3) Attempt NextAuth credentials signIn
 			const result = await signIn('credentials', {
 				redirect: false,
 				email: values.email,
 				password: values.password,
 				remember: values.remember.toString(),
 			});
-
 			if (result?.error) {
 				throw new Error(result.error);
 			}
-
-			// 4) On success, redirect
 			router.push('/documents');
 		},
 		successMessage: 'Successfully signed in! Redirecting...',
@@ -81,7 +73,7 @@ export default function SignIn() {
 				display='flex'
 				flexDirection='column'
 				gap={5}>
-				<AuthInput
+				<FormInput
 					label='Email'
 					id='email'
 					type='email'
@@ -92,7 +84,7 @@ export default function SignIn() {
 					errorMessage={getError('email')}
 				/>
 
-				<AuthInput
+				<FormInput
 					label='Password'
 					id='password'
 					type='password'

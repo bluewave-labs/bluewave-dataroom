@@ -8,10 +8,10 @@ import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
 import LockIcon from '../../../../public/assets/icons/auth/LockIcon';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import AuthInput from '../components/AuthInput';
+import FormInput from '../../../components/FormInput';
 import PasswordValidation from '../components/PasswordValidation';
 
-import { useAuthForm } from '@/hooks/useAuthForm';
+import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { minLengthRule, requiredFieldRule } from '@/utils/shared/validators';
 
@@ -36,7 +36,7 @@ export default function ResetPassword() {
 		},
 	});
 
-	const { loading, handleSubmit } = useAuthForm({
+	const { loading, handleSubmit } = useFormSubmission({
 		onSubmit: async () => {
 			const hasError = validateAll();
 			if (hasError) {
@@ -96,7 +96,7 @@ export default function ResetPassword() {
 				display='flex'
 				flexDirection='column'
 				gap={8}>
-				<AuthInput
+				<FormInput
 					label='Password'
 					id='password'
 					type='password'
@@ -107,7 +107,7 @@ export default function ResetPassword() {
 					errorMessage={getError('password')}
 				/>
 
-				<AuthInput
+				<FormInput
 					label='Confirm Password'
 					id='confirmPassword'
 					type='password'

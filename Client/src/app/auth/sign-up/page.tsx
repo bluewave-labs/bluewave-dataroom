@@ -1,3 +1,4 @@
+// Client/src/app/auth/sign-up/page.tsx
 'use client';
 
 import { Box, Typography } from '@mui/material';
@@ -8,10 +9,10 @@ import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
 import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import AuthInput from '../components/AuthInput';
+import FormInput from '../../../components/FormInput';
 import PasswordValidation from '../components/PasswordValidation';
 
-import { useAuthForm } from '@/hooks/useAuthForm';
+import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { minLengthRule, requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
 
@@ -35,7 +36,7 @@ export default function SignUp() {
 		},
 	});
 
-	const { loading, handleSubmit, toast } = useAuthForm({
+	const { loading, handleSubmit, toast } = useFormSubmission({
 		onSubmit: async () => {
 			// 1) Basic client checks
 			const hasError = validateAll();
@@ -54,7 +55,7 @@ export default function SignUp() {
 			});
 
 			if (res.data.success) {
-				// Partial success?
+				// Partial success
 				if (res.data.emailFail) {
 					toast.showToast({
 						message:
@@ -62,19 +63,13 @@ export default function SignUp() {
 							'Account created, Email sending is disabled in development. Contact admin.',
 						variant: 'warning',
 					});
-					// We have userId => poll by userId
 					return router.push(`/auth/account-created?userId=${res.data.userId}`);
 				}
 
-				// Full success => poll by token or userId
 				if (res.data.token) {
-					// If the server returned a token, let's poll by token:
 					router.push(`/auth/account-created?token=${res.data.token}`);
 				} else {
-					// Or if no token was returned, fallback to userId or a success message
 					toast.showToast({ message: res.data.message, variant: 'success' });
-					// Possibly poll by userId if you want
-					// router.push(`/auth/account-created?userId=someUserId`);
 				}
 			} else {
 				throw new Error(res.data.message || 'Unknown server error');
@@ -106,7 +101,7 @@ export default function SignUp() {
 				display='flex'
 				flexDirection='column'
 				gap={8}>
-				<AuthInput
+				<FormInput
 					label='First name'
 					id='firstName'
 					placeholder='Enter your first name'
@@ -116,7 +111,7 @@ export default function SignUp() {
 					errorMessage={getError('firstName')}
 				/>
 
-				<AuthInput
+				<FormInput
 					label='Last name'
 					id='lastName'
 					placeholder='Enter your last name'
@@ -126,7 +121,7 @@ export default function SignUp() {
 					errorMessage={getError('lastName')}
 				/>
 
-				<AuthInput
+				<FormInput
 					label='Email'
 					id='email'
 					type='email'
@@ -137,7 +132,7 @@ export default function SignUp() {
 					errorMessage={getError('email')}
 				/>
 
-				<AuthInput
+				<FormInput
 					label='Password'
 					id='password'
 					type='password'
@@ -148,7 +143,7 @@ export default function SignUp() {
 					errorMessage={getError('password')}
 				/>
 
-				<AuthInput
+				<FormInput
 					label='Confirm Password'
 					id='confirmPassword'
 					type='password'
