@@ -1,4 +1,3 @@
-// Client/src/app/auth/sign-up/page.tsx
 'use client';
 
 import { Box, Typography } from '@mui/material';
@@ -9,41 +8,69 @@ import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
 import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import FormInput from '../../../components/FormInput';
-import PasswordValidation from '../components/PasswordValidation';
+import FormInput from '@/components/FormInput';
+import PasswordValidation from '@/components/PasswordValidation';
 
 import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
-import { minLengthRule, requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
+import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
 
 export default function SignUp() {
 	const router = useRouter();
 
-	const { values, handleChange, handleBlur, getError, validateAll } = useValidatedFormData({
-		initialValues: {
-			firstName: '',
-			lastName: '',
-			email: '',
-			password: '',
-			confirmPassword: '',
+	const { values, touched, handleChange, handleBlur, getError, validateAll } = useValidatedFormData(
+		{
+			initialValues: {
+				firstName: '',
+				lastName: '',
+				email: '',
+				password: '',
+				confirmPassword: '',
+			},
+			validationRules: {
+				firstName: [requiredFieldRule('First name is required')],
+				lastName: [requiredFieldRule('Last name is required')],
+				email: [requiredFieldRule('Email is required'), validEmailRule],
+				password: [requiredFieldRule('Password is required')],
+				confirmPassword: [requiredFieldRule('Please confirm your password')],
+			},
 		},
-		validationRules: {
-			firstName: [requiredFieldRule('First name is required')],
-			lastName: [requiredFieldRule('Last name is required')],
-			email: [requiredFieldRule('Email is required'), validEmailRule],
-			password: [requiredFieldRule('Password is required'), minLengthRule(8)],
-			confirmPassword: [requiredFieldRule('Please confirm your password')],
-		},
-	});
+	);
 
 	const { loading, handleSubmit, toast } = useFormSubmission({
 		onSubmit: async () => {
 			// 1) Basic client checks
 			const hasError = validateAll();
-			if (hasError) throw new Error('Please correct the highlighted fields.');
+			if (hasError) {
+				toast.showToast({
+					message: 'Please correct the highlighted fields.',
+					variant: 'warning',
+				});
+			}
+
+			if (
+				values.password.length < 8 ||
+				!/[A-Z]/.test(values.password) ||
+				!/[!@#$%^&*(),.?":{}|<>]/.test(values.password)
+			) {
+				if (values.password) {
+					toast.showToast({
+						message:
+							'Password must contain at least 8 characters, one uppercase letter and one symbol.',
+						variant: 'warning',
+					});
+				}
+				return;
+			}
 
 			if (values.password !== values.confirmPassword) {
-				throw new Error('Passwords do not match.');
+				if (values.confirmPassword) {
+					toast.showToast({
+						message: 'Password and confirmation password do not match.',
+						variant: 'warning',
+					});
+				}
+				return;
 			}
 
 			// 2) Attempt server call
@@ -155,7 +182,10 @@ export default function SignUp() {
 				/>
 
 				{/* Real-time password strength feedback */}
-				<PasswordValidation passwordValue={values.password} />
+				<PasswordValidation
+					passwordValue={values.password}
+					isBlur={touched.password}
+				/>
 
 				<LoadingButton
 					loading={loading}
