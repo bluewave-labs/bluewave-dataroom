@@ -1,83 +1,137 @@
-import { Alert, Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useState } from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
+import PasswordValidation from '@/components/PasswordValidation';
+import LoadingButton from '@/components/LoadingButton';
+import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+import { requiredFieldRule } from '@/utils/shared/validators';
+import FormInput from '@/components/FormInput';
+import { useFormSubmission } from '@/hooks/useFormSubmission';
 
 export default function PasswordForm() {
+	const [isSubmitted, setIsSubmitted] = useState(false);
 	const { data: session } = useSession();
-	const [currentPassword, setCurrentPassword] = useState('');
-	const [newPassword, setNewPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
-	const [error, setError] = useState('');
-	const [success, setSuccess] = useState('');
 
-	const handleSave = async () => {
-		// Clear previous messages
-		setError('');
-		setSuccess('');
+	const { values, setValues, touched, handleChange, handleBlur, getError, validateAll } =
+		useValidatedFormData({
+			initialValues: {
+				currentPassword: '',
+				newPassword: '',
+				confirmPassword: '',
+			},
+			validationRules: {
+				currentPassword: [requiredFieldRule('Current password is required')],
+				newPassword: [requiredFieldRule('New password is required')],
+				confirmPassword: [requiredFieldRule('Please confirm your password')],
+			},
+		});
 
-		// Basic validation
-		if (
-			newPassword.length < 8 ||
-			!/[A-Z]/.test(newPassword) ||
-			!/\d/.test(newPassword) ||
-			!/[!@#$%^&*]/.test(newPassword)
-		) {
-			setError(
-				'New password must contain at least 8 characters and must have at least one uppercase letter, one number, and one symbol.',
-			);
-			return;
-		}
-
-		if (newPassword !== confirmPassword) {
-			setError('New password and confirmation password do not match.');
-			return;
-		}
-
-		try {
-			// Make the POST request
-			const response = await axios.post('/api/profile/changePassword', {
-				email: session?.user.email,
-				currentPassword: currentPassword,
-				newPassword: newPassword,
-			});
-
-			// Handle success
-			if (response.status === 200) {
-				setError('');
-				setSuccess('Password updated successfully!');
-				setCurrentPassword('');
-				setNewPassword('');
-				setConfirmPassword('');
+	// Submit data
+	const { loading, handleSubmit, toast } = useFormSubmission({
+		onSubmit: async () => {
+			// Basic client checks
+			const hasError = validateAll();
+			if (hasError) {
+				toast.showToast({
+					message: 'Please correct the highlighted fields.',
+					variant: 'warning',
+				});
 			}
-		} catch (error: unknown) {
-			// Narrowing down the type of `error`
-			if (axios.isAxiosError(error)) {
-				// Axios-specific error handling
-				if (error.response) {
-					// Server responded with an error
-					setError(`Error: ${error.response.data.error}`);
-				} else if (error.request) {
-					// No response received
-					setError('Error: No response from server. Please try again later.');
-				} else {
-					// Other Axios error
-					setError(`Error: ${error.message}`);
+
+			if (
+				values.newPassword.length < 8 ||
+				!/[A-Z]/.test(values.newPassword) ||
+				!/[!@#$%^&*(),.?":{}|<>]/.test(values.newPassword)
+			) {
+				if (values.newPassword) {
+					toast.showToast({
+						message:
+							'New password must contain at least 8 characters, one uppercase letter and one symbol.',
+						variant: 'warning',
+					});
 				}
-			} else if (error instanceof Error) {
-				// Generic error handling
-				setError(`Error: ${error.message}`);
-			} else {
-				// Fallback for unknown error types
-				setError('An unexpected error occurred.');
+				return;
 			}
-		}
-	};
+
+			if (values.newPassword !== values.confirmPassword) {
+				if (values.confirmPassword) {
+					toast.showToast({
+						message: 'New password and confirmation password do not match.',
+						variant: 'warning',
+					});
+				}
+				return;
+			}
+
+			try {
+				// Make the POST request
+				const response = await axios.post('/api/profile/changePassword', {
+					email: session?.user.email,
+					currentPassword: values.currentPassword,
+					newPassword: values.newPassword,
+				});
+
+				// Handle success
+				if (response.status === 200) {
+					toast.showToast({
+						message: 'Password updated successfully!',
+						variant: 'success',
+					});
+					setIsSubmitted(true);
+					setValues((prevValues) => ({
+						...prevValues,
+						currentPassword: '',
+						newPassword: '',
+						confirmPassword: '',
+					}));
+				}
+			} catch (error: unknown) {
+				// Narrowing down the type of `error`
+				if (axios.isAxiosError(error)) {
+					// Axios-specific error handling
+					if (error.response) {
+						// Server responded with an error
+						toast.showToast({
+							message: `Error: ${error.response.data.error}!`,
+							variant: 'error',
+						});
+					} else if (error.request) {
+						// No response received
+						toast.showToast({
+							message: 'Error: No response from server! Please try again later.',
+							variant: 'error',
+						});
+					} else {
+						// Other Axios error
+						toast.showToast({
+							message: `Error: ${error.message}!`,
+							variant: 'error',
+						});
+					}
+				} else if (error instanceof Error) {
+					// Generic error handling
+					toast.showToast({
+						message: `Error: ${error.message}!`,
+						variant: 'error',
+					});
+				} else {
+					// Fallback for unknown error types
+					toast.showToast({
+						message: 'An unexpected error occurred!',
+						variant: 'error',
+					});
+				}
+			}
+		},
+		successMessage: '',
+	});
 
 	return (
 		<Box
 			component='form'
+			onSubmit={handleSubmit}
 			noValidate
 			autoComplete='off'>
 			<Grid
@@ -90,14 +144,16 @@ export default function PasswordForm() {
 					<Typography variant='h3'>Current Password</Typography>
 				</Grid>
 				<Grid size={7}>
-					<TextField
-						size='small'
-						id='current-password'
-						variant='outlined'
-						fullWidth
+					<FormInput
+						id='currentPassword'
+						name='currentPassword'
 						type='password'
-						value={currentPassword}
-						onChange={(e) => setCurrentPassword(e.target.value)}
+						value={values.currentPassword}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						errorMessage={!isSubmitted ? getError('currentPassword') : undefined}
+						fullWidth={true}
+						size='small'
 					/>
 				</Grid>
 
@@ -106,14 +162,16 @@ export default function PasswordForm() {
 					<Typography variant='h3'>New Password</Typography>
 				</Grid>
 				<Grid size={7}>
-					<TextField
-						size='small'
-						id='new-password'
-						variant='outlined'
-						fullWidth
+					<FormInput
+						id='newPassword'
+						name='newPassword'
 						type='password'
-						value={newPassword}
-						onChange={(e) => setNewPassword(e.target.value)}
+						value={values.newPassword}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						errorMessage={!isSubmitted ? getError('newPassword') : undefined}
+						fullWidth={true}
+						size='small'
 					/>
 				</Grid>
 
@@ -122,37 +180,38 @@ export default function PasswordForm() {
 					<Typography variant='h3'>Confirm Password</Typography>
 				</Grid>
 				<Grid size={7}>
-					<TextField
-						size='small'
-						id='confirm-password'
-						variant='outlined'
-						fullWidth
+					<FormInput
+						id='confirmPassword'
+						name='confirmPassword'
 						type='password'
-						value={confirmPassword}
-						onChange={(e) => setConfirmPassword(e.target.value)}
+						value={values.confirmPassword}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						errorMessage={!isSubmitted ? getError('confirmPassword') : undefined}
+						fullWidth={true}
+						size='small'
 					/>
 				</Grid>
 
-				{/* Error and Success Messages */}
+				{/* Real-time password strength feedback */}
 				<Grid
 					size={7}
 					offset={'auto'}>
-					<Box sx={{ height: 100 }}>
-						{error && <Alert severity='warning'>{error}</Alert>}
-						{success && <Alert severity='success'>{success}</Alert>}
-					</Box>
+					<PasswordValidation
+						passwordValue={values.newPassword}
+						isBlur={touched.newPassword}
+					/>
 				</Grid>
 			</Grid>
 
 			{/* Save Button */}
-			<Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 30 }}>
-				<Button
-					variant='contained'
-					size='medium'
-					color='primary'
-					onClick={handleSave}>
-					Save
-				</Button>
+			<Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 40 }}>
+				<LoadingButton
+					loading={loading}
+					buttonText='Save'
+					loadingText='Saving...'
+					fullWidth={false}
+				/>
 			</Box>
 		</Box>
 	);

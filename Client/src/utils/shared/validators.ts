@@ -48,6 +48,7 @@ export const hasSpecialCharRule: ValidationRule = {
 export function getPasswordChecks(password: string) {
 	return {
 		isLengthValid: password.length >= 8,
-		hasSpecialChar: /[^A-Za-z0-9]/.test(password),
+		hasUppercaseLetter: /[A-Z]/.test(password),
+		hasSymbol: /[!@#$%^&*(),.?":{}|<>]/.test(password),
 	};
 }

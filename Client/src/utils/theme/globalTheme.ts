@@ -142,20 +142,6 @@ const globalTheme = createTheme({
 			},
 		},
 
-		MuiAlert: {
-			styleOverrides: {
-				root: {
-					'&.MuiAlert-standardWarning': {
-						fontSize: '1rem',
-						color: '#DC6803',
-						border: `2px solid ${alert.warning}`,
-						'& .MuiAlert-icon': {
-							fontSize: '1.5rem',
-						},
-					},
-				},
-			},
-		},
 		MuiButton: {
 			styleOverrides: {
 				root: {
