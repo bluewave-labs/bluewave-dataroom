@@ -2,7 +2,6 @@
 
 import React from 'react';
 import axios from 'axios';
-import Grid from '@mui/material/Grid2';
 import CustomTextField from '@/components/CustomTextField';
 
 import { Alert, Divider, Box, Button, TextField, Typography, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText } from '@mui/material';
@@ -10,13 +9,12 @@ import { Alert, Divider, Box, Button, TextField, Typography, Dialog, DialogActio
 interface UserFormProps {
   linkId: string;
   passwordRequired: boolean;
-  requireUserDetailsOption: number;
+  userDetailsOption: number;
   onSignedUrlFetched: (url: string) => void;
 }
 
 //TODO: Enhance code, lift state and input handlers to parent component.
 export default function UserForm(props: UserFormProps) {
-  const [password, setPassword] = React.useState('');
   const [formDetails, setFormDetails] = React.useState({
     firstName: '',
     lastName: '',
@@ -50,7 +48,7 @@ export default function UserForm(props: UserFormProps) {
       return setError('Please fill in the password field.');
     }
 
-    if (props.requireUserDetailsOption === 2 && !formDetails.email) {
+    if (props.userDetailsOption === 2 && !formDetails.email) {
       return setError('Please fill in the email field.');
     }
 
@@ -118,7 +116,7 @@ export default function UserForm(props: UserFormProps) {
               onChange={handleInputChange}
               minWidth={200}
             />
-            {props.requireUserDetailsOption === 2 && (
+            {props.userDetailsOption === 2 && (
               <>
                 <Typography variant="body1" mr={4}>Email</Typography>
                 <CustomTextField

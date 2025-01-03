@@ -16,10 +16,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return createErrorResponse('Link not found.', 404);
     }
 
-    if (!link.hasSharingOptions) {
-      return createErrorResponse('This link does not require sharing options.', 400);
-    }
-
     const isPasswordValid = await validatePassword(password, link.password as string);
     if (!isPasswordValid) {
       return createErrorResponse('Invalid password.', 403);

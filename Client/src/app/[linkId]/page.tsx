@@ -1,7 +1,16 @@
 import { Container } from '@mui/material';
 import FileAccessPage from './components/FileAccessPage';
 
-export default ({ params }) => {
+interface Params {
+  linkId: string;
+}
+
+interface Props {
+  params: Params;
+}
+
+
+export default ({ params: { linkId } }: Props) => {
 
   return (
     <Container
@@ -11,7 +20,7 @@ export default ({ params }) => {
         minHeight: '80vh',
         pr: '23rem',
       }}>
-      <FileAccessPage linkId={params.linkId} />
+      <FileAccessPage linkId={linkId} />
     </Container>
   );
 };

@@ -2,8 +2,8 @@
 
 import React from 'react';
 import axios from 'axios';
-import { Container } from '@mui/material';
 import { useToast } from '@/hooks/useToast';
+import { Container, Box, CircularProgress } from '@mui/material';
 
 import UserForm from './UserForm';
 import FilePage from './FilePage';
@@ -15,7 +15,8 @@ interface Params {
 export default function FileAccessPage({ linkId }: Params) {
   const [linkData, setLinkData] = React.useState<{ [key: string]: any; }>({});
   const [error, setError] = React.useState('');
-  const {showToast} = useToast();
+  const [loading, setLoading] = React.useState(true);
+  const { showToast } = useToast();
   const [signedUrl, setSignedUrl] = React.useState('');
 
   const handleSignedUrlFetched = (url: string) => {
@@ -24,37 +25,61 @@ export default function FileAccessPage({ linkId }: Params) {
 
   React.useEffect(() => {
     const fetchLinkDetails = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(`/api/links?linkId=${linkId}`);
-        setLinkData(response.data.data.link);
-        // get the signedUrl and display it.
+        if (response.data.data.signedUrl) {
+          setSignedUrl(response.data.data.signedUrl);
+        } else {
+          setLinkData(response.data.data);
+        }
       } catch (error) {
+
+        console.log('error', error);
         const err = error as any;
-        const message = err?.response?.data?.message || err?.response?.data?.error || 'An error occurred while fetching link details.'
+        const message = err?.response?.data?.message || err?.response?.data?.error || 'An error occurred while fetching link details.';
         setError(message);
         showToast({
           message,
           variant: 'error',
         });
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchLinkDetails();
   }, [linkId]);
 
-  if (linkData.password || linkData.requireUserDetailsOption) {
-    return <UserForm
-      linkId={linkId}
-      onSignedUrlFetched={handleSignedUrlFetched}
-      passwordRequired={!!linkData.password}
-      requireUserDetailsOption={linkData.requireUserDetailsOption}
-    />;
+
+  if (loading) {
+    return (
+      <Box
+        display='flex'
+        justifyContent='center'
+        alignItems='center'
+        minHeight='50vh'>
+        <CircularProgress />
+      </Box>
+    );
   }
 
-  // Publicly shared link
+  if (signedUrl) {
+    return (
+      <Container>
+        <FilePage signedUrl={signedUrl} />
+      </Container>
+    );
+  }
+
   return (
     <Container>
-      <FilePage signedUrl={linkData.signedUrl} />
+      <UserForm
+        linkId={linkId}
+        onSignedUrlFetched={handleSignedUrlFetched}
+        passwordRequired={linkData.isPasswordProtected}
+        userDetailsOption={linkData.requiredUserDetailsOption}
+      />
     </Container>
   );
 }

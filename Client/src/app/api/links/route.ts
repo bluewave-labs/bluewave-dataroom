@@ -22,11 +22,16 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       return NextResponse.json({ message: 'Link is expired' }, { status: 410 });
     }
 
-    if (!link.hasSharingOptions && link.isPublic) {
+    if (link.isPublic) {
       const signedUrl = await LinkService.getFileFromLink(linkIdFromParams);
       return NextResponse.json({ message: 'Link URL generated', data: { signedUrl } }, { status: 200 });
     } else {
-      return NextResponse.json({ message: 'Link has sharing options enabled', data: { link } }, { status: 200 });
+      return NextResponse.json({
+        message: 'Link is not public', data: {
+          isPasswordProtected: !!link.password,
+          requiredUserDetailsOption: link.requiredUserDetailsOption
+        }
+      }, { status: 200 });
     }
   } catch (error) {
     return createErrorResponse('Server error.', 500, error);
@@ -36,7 +41,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const userId = await authenticate(req);
-    const { documentId, friendlyName, isPublic, password, expirationTime } = await req.json();
+    const { documentId, friendlyName, isPublic, password, expirationTime, requiredUserDetailsOption } = await req.json();
 
     if (!documentId) {
       return createErrorResponse('Document ID is required.', 400);
@@ -60,7 +65,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         password: hashedPassword,
         friendlyName: friendlyName || linkUrl, //TODO:
         expirationTime: new Date(expirationTime) || null,
-        hasSharingOptions: !!password
+        requiredUserDetailsOption
       },
     });
 
