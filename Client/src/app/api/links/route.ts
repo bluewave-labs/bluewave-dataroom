@@ -23,8 +23,18 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     }
 
     if (link.isPublic) {
-      const signedUrl = await LinkService.getFileFromLink(linkIdFromParams);
-      return NextResponse.json({ message: 'Link URL generated', data: { signedUrl } }, { status: 200 });
+      if (!link.requiredUserDetailsOption && !link.password) {
+        const signedUrl = await LinkService.getFileFromLink(linkIdFromParams);
+
+        return NextResponse.json({ message: 'Link is public', data: { signedUrl } }, { status: 200 });
+      } else {
+        return NextResponse.json({
+          message: 'Access to link requires additional information', data: {
+            isPasswordProtected: !!link.password,
+            requiredUserDetailsOption: link.requiredUserDetailsOption
+          }
+        }, { status: 200 });
+      }
     } else {
       return NextResponse.json({
         message: 'Link is not public', data: {
@@ -64,7 +74,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         isPublic,
         password: hashedPassword,
         friendlyName: friendlyName || linkUrl, //TODO:
-        expirationTime: new Date(expirationTime) || null,
+        expirationTime: expirationTime ? new Date(expirationTime) : null,
         requiredUserDetailsOption
       },
     });

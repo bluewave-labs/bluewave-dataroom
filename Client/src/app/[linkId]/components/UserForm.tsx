@@ -53,7 +53,7 @@ export default function UserForm(props: UserFormProps) {
     }
 
     try {
-      const response = await axios.post('/api/links/shared_access', {...formDetails, linkId: props.linkId});
+      const response = await axios.post('/api/links/shared_access', { ...formDetails, linkId: props.linkId });
 
       props.onSignedUrlFetched(response.data.data.signedUrl);
     } catch (error: unknown) {
@@ -127,16 +127,19 @@ export default function UserForm(props: UserFormProps) {
                   minWidth={200}
                 /></>
             )}
-            <Typography variant="body1" mr={4}>Password</Typography>
-
-            <CustomTextField
-              placeholder='Enter Password'
-              name="password"
-              value={formDetails.password}
-              onChange={handleInputChange}
-              type="password"
-              minWidth={200}
-            />
+            {props.passwordRequired && (
+              <>
+                <Typography variant="body1" mr={4}>Password</Typography>
+                <CustomTextField
+                  placeholder='Enter Password'
+                  name="password"
+                  value={formDetails.password}
+                  onChange={handleInputChange}
+                  type="password"
+                  minWidth={200}
+                />
+              </>
+            )}
           </Box>
           <Divider />
         </DialogContent>

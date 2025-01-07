@@ -31,14 +31,14 @@ const SharingOptionsAccordion = ({
 		<Box display="flex" alignItems="center" justifyContent="space-between" mt={2} mb={4} ml={13}>
 			<Select
 				size='small'
-				name='requireUserDetailsOption'
+				name='requiredUserDetailsOption'
 				sx={{ minWidth: 250 }}
 				disabled={!formValues.requireUserDetails}
-				value={formValues.requireUserDetailsOption}
+				value={formValues.requiredUserDetailsOption}
 				onChange={(event) => {
 					handleInputChange({
 						target: {
-							name: 'requireUserDetailsOption',
+							name: 'requiredUserDetailsOption',
 							value: event.target.value,
 						},
 					} as any);

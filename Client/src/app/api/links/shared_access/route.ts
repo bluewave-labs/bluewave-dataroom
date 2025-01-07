@@ -7,18 +7,17 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const { linkId, firstName, lastName, email, password } = await req.json();
 
-    // if (!linkId || !firstName || !lastName || !email || !password) {
-    //   return createErrorResponse('Link ID, firstName, lastName, email and password are required.', 400);
-    // }
-
     const link = await LinkService.getLink(linkId);
     if (!link) {
       return createErrorResponse('Link not found.', 404);
     }
 
-    const isPasswordValid = await validatePassword(password, link.password as string);
-    if (!isPasswordValid) {
-      return createErrorResponse('Invalid password.', 403);
+    if (link.password) {
+      const isPasswordValid = await validatePassword(password, link.password as string);
+
+      if (!isPasswordValid) {
+        return createErrorResponse('Invalid password.', 403);
+      }
     }
 
     await logLinkVisitor(linkId, firstName, lastName, email);

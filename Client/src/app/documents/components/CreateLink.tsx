@@ -30,7 +30,7 @@ const CreateLink = ({ onClose, open, documentId }: Props) => {
 		requirePassword: false,
 		expirationEnabled: false,
 		requireUserDetails: false,
-		requireUserDetailsOption: 1
+		requiredUserDetailsOption: 1
 	};
 	const [formValues, setFormValues] = React.useState(initialFormValues);
 
@@ -79,20 +79,19 @@ const CreateLink = ({ onClose, open, documentId }: Props) => {
 	const getRequestPayload = () => {
 		const payload: { [key: string]: any; } = {
 			documentId,
+			isPublic: formValues.isPublic,
 		};
 
-		if (!formValues.isPublic) {
-			if (formValues.requireUserDetails) {
-				payload.requireUserDetailsOption = formValues.requireUserDetailsOption;
-			}
+		if (formValues.requireUserDetails) {
+			payload.requiredUserDetailsOption = formValues.requiredUserDetailsOption;
+		}
 
-			if (formValues.requirePassword) {
-				payload.password = formValues.password;
-			}
+		if (formValues.requirePassword) {
+			payload.password = formValues.password;
+		}
 
-			if (formValues.expirationEnabled) {
-				payload.expirationTime = formValues.expirationTime;
-			}
+		if (formValues.expirationEnabled) {
+			payload.expirationTime = formValues.expirationTime;
 		}
 
 		return payload;

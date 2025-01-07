@@ -3,10 +3,10 @@
 import React from 'react';
 import axios from 'axios';
 import { useToast } from '@/hooks/useToast';
-import { Container, Box, CircularProgress } from '@mui/material';
+import { Container, Box, CircularProgress, Typography } from '@mui/material';
 
+import FilePage from './File';
 import UserForm from './UserForm';
-import FilePage from './FilePage';
 
 interface Params {
   linkId: string;
@@ -34,15 +34,13 @@ export default function FileAccessPage({ linkId }: Params) {
           setLinkData(response.data.data);
         }
       } catch (error) {
-
-        console.log('error', error);
         const err = error as any;
         const message = err?.response?.data?.message || err?.response?.data?.error || 'An error occurred while fetching link details.';
         setError(message);
-        showToast({
-          message,
-          variant: 'error',
-        });
+        // showToast({
+        //   message,
+        //   variant: 'error',
+        // });
       } finally {
         setLoading(false);
       }
@@ -61,6 +59,16 @@ export default function FileAccessPage({ linkId }: Params) {
         minHeight='50vh'>
         <CircularProgress />
       </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Container>
+        <Typography variant="h1" color="error" sx={{ mt: 40 }}>
+          {error}
+        </Typography>
+      </Container>
     );
   }
 
