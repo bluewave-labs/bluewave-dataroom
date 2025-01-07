@@ -151,10 +151,11 @@ const CreateLink = ({ onClose, open, documentId }: Props) => {
 				sx={{
 					display: 'flex',
 					justifyContent: 'center',
+					padding: '32px 0',
 				}}>
 				<Box
-					width={560}
-					px={12}>
+					width={580}
+					>
 					<CustomAccordion
 						title='Link Details'
 						defaultExpanded>
@@ -180,8 +181,9 @@ const CreateLink = ({ onClose, open, documentId }: Props) => {
 						/>
 					</CustomAccordion> */}
 				</Box>
+
 			</DialogContent>
-			<DialogActions>
+			<DialogActions sx={{ padding: '32px' }}>
 				<Button
 					type='submit'
 					variant='contained'>

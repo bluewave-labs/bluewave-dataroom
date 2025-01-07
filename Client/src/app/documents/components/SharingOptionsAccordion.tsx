@@ -53,7 +53,7 @@ const SharingOptionsAccordion = ({
 			name="requirePassword"
 			label="Require a password to view and download the document"
 		/>
-		<Box display="flex" alignItems="center" justifyContent="space-between" mt={2} mb={4} ml={13}>
+		<Box display="flex" alignItems="center" justifyContent="flex-start" mt={2} mb={4} ml={13}>
 			<CustomTextField
 				minWidth={420}
 				value={formValues.password}
@@ -69,7 +69,9 @@ const SharingOptionsAccordion = ({
 				type={isPasswordVisible ? 'text' : 'password'}
 				disabled={!formValues.requirePassword}
 			/>
-			<IconButton size="large" onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
+			<IconButton size="large" sx={{
+				ml: 4,
+			}} onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
 				{isPasswordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
 			</IconButton>
 		</Box>
@@ -109,7 +111,7 @@ const SharingOptionsAccordion = ({
 					days
 				</Typography>
 			</Box> */}
-			<Box display="flex" alignItems="center" gap={2}>
+			<Box display="flex" alignItems="center" gap={2} ml={7.5}>
 				{/* <Radio value="date" /> */}
 				<Typography variant="body1" mr={4}>Expiration time</Typography>
 				<CustomTextField
