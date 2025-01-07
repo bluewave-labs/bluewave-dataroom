@@ -81,17 +81,20 @@ export default function UserForm(props: UserFormProps) {
         PaperProps={{
           component: 'form',
           onSubmit: handleFormSubmit,
-          sx: { minWidth: 550, minHeight: 450 },
+          sx: { minWidth: 500, minHeight: 450, padding: '32px' },
         }}
       >
-        <DialogTitle variant='h1'>Enter Your Details</DialogTitle>
-        <DialogContent>
+        <DialogTitle sx={{
+          padding: '0 0 20px 0'
+        }} variant='h1'>Enter Your Details</DialogTitle>
+        <DialogContent sx={{
+          padding: 0
+        }}>
 
           <Box sx={{
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            padding: '20px',
           }}>
             {error && <Alert sx={{
               mb: 10,
@@ -141,10 +144,9 @@ export default function UserForm(props: UserFormProps) {
               </>
             )}
           </Box>
-          <Divider />
         </DialogContent>
 
-        <DialogActions>
+        <DialogActions sx={{ padding: 0 }}>
           <Button
             type='submit'
             variant='contained'

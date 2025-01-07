@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import * as pdfjsLib from 'pdfjs-dist';
 import 'pdfjs-dist/web/pdf_viewer.css';
+import { Box } from '@mui/material';
 
 // Set the worker source copy the worker file from node_modules/pdfjs-dist/build/pdf.worker.min.js to public/pdf.worker.min.mjs
 pdfjsLib.GlobalWorkerOptions.workerSrc = `/pdf.worker.min.mjs`;
@@ -30,7 +31,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl }) => {
     if (pdf) {
       const renderPage = async () => {
         const page = await pdf.getPage(currentPage);
-        const viewport = page.getViewport({ scale: 1.5 });
+        const viewport = page.getViewport({ scale: 1 });
         const canvas = canvasRef.current;
 
         if (canvas) {
@@ -66,9 +67,14 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl }) => {
   };
 
   return (
-    <div>
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      backgroundColor: 'antiquewhite',
+    }}>
       <canvas ref={canvasRef} />
-      <div style={{ margin: '10px', justifyContent: 'center', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', margin: '20px', justifyContent: 'center', alignItems: 'center' }}>
         <button onClick={handlePrevPage} disabled={currentPage === 1}>
           Previous
         </button>
@@ -78,8 +84,8 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl }) => {
         <button onClick={handleNextPage} disabled={currentPage === totalPages}>
           Next
         </button>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

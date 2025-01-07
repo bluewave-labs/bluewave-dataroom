@@ -9,10 +9,7 @@ interface FilePageProps {
 
 const FilePage: React.FC<FilePageProps> = ({ signedUrl }) => {
   return (
-    <div>
-      <h1>PDF Viewer</h1>
-      <PdfViewer pdfUrl={signedUrl} />
-    </div>
+    <PdfViewer pdfUrl={signedUrl} />
   );
 };
 
