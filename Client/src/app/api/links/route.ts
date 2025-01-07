@@ -31,7 +31,8 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         return NextResponse.json({
           message: 'Access to link requires additional information', data: {
             isPasswordProtected: !!link.password,
-            requiredUserDetailsOption: link.requiredUserDetailsOption
+            requiredUserDetailsOption: link.requiredUserDetailsOption,
+            isPublic: link.isPublic
           }
         }, { status: 200 });
       }
@@ -39,7 +40,8 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       return NextResponse.json({
         message: 'Link is not public', data: {
           isPasswordProtected: !!link.password,
-          requiredUserDetailsOption: link.requiredUserDetailsOption
+          requiredUserDetailsOption: link.requiredUserDetailsOption,
+          isPublic: link.isPublic
         }
       }, { status: 200 });
     }
