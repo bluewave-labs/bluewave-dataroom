@@ -468,6 +468,9 @@ const globalTheme = createTheme({
 					textTransform: 'none',
 				},
 			},
+			defaultProps: {
+				disableRipple: true, // Disable ripple effect for all tab buttons
+			},
 		},
 
 		MuiTableCell: {
@@ -548,6 +551,16 @@ const globalTheme = createTheme({
 					borderRadius: 0,
 					boxShadow: 'none',
 					margin: 0,
+				},
+			},
+		},
+
+		MuiTextField: {
+			styleOverrides: {
+				root: {
+					'& .MuiFormHelperText-root': {
+						marginLeft: 0,
+					},
 				},
 			},
 		},

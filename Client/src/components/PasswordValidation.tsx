@@ -1,7 +1,7 @@
 import { getPasswordChecks } from '@/utils/shared/validators';
 import { Box, Typography } from '@mui/material';
 import { FC } from 'react';
-import CheckIcon from '../../public/assets/icons/auth/CheckIcon';
+import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface PasswordValidationProps {
@@ -23,10 +23,10 @@ const PasswordValidation: FC<PasswordValidationProps> = ({ passwordValue, isBlur
 				display='flex'
 				alignItems='center'
 				gap={5}>
-				{!isLengthValid && isBlur ? (
+				{passwordValue && !isLengthValid && isBlur ? (
 					<CloseIcon color='error' />
 				) : (
-					<CheckIcon color={passwordValue && isLengthValid ? 'success' : undefined} />
+					<CheckIcon color={isLengthValid ? 'success' : 'disabled'} />
 				)}
 				<Typography variant='body2'>Must be at least 8 characters</Typography>
 			</Box>
@@ -36,10 +36,10 @@ const PasswordValidation: FC<PasswordValidationProps> = ({ passwordValue, isBlur
 				display='flex'
 				alignItems='center'
 				gap={5}>
-				{!hasUppercaseLetter && isBlur ? (
+				{passwordValue && !hasUppercaseLetter && isBlur ? (
 					<CloseIcon color='error' />
 				) : (
-					<CheckIcon color={passwordValue && hasUppercaseLetter ? 'success' : undefined} />
+					<CheckIcon color={hasUppercaseLetter ? 'success' : 'disabled'} />
 				)}
 				<Typography variant='body2'>Must contain at least one uppercase letter.</Typography>
 			</Box>
@@ -49,10 +49,10 @@ const PasswordValidation: FC<PasswordValidationProps> = ({ passwordValue, isBlur
 				display='flex'
 				alignItems='center'
 				gap={5}>
-				{!hasSymbol && isBlur ? (
+				{passwordValue && !hasSymbol && isBlur ? (
 					<CloseIcon color='error' />
 				) : (
-					<CheckIcon color={passwordValue && hasSymbol ? 'success' : undefined} />
+					<CheckIcon color={hasSymbol ? 'success' : 'disabled'} />
 				)}
 				<Typography variant='body2'>Must Include at least one symbol.</Typography>
 			</Box>

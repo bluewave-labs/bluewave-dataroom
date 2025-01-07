@@ -141,55 +141,46 @@ export default function PasswordForm() {
 				alignItems='center'>
 				{/* Current Password */}
 				<Grid size={5}>
-					<Typography variant='h3'>Current Password</Typography>
+					<Typography variant='h3'>Current password</Typography>
 				</Grid>
 				<Grid size={7}>
 					<FormInput
 						id='currentPassword'
-						name='currentPassword'
 						type='password'
 						value={values.currentPassword}
 						onChange={handleChange}
 						onBlur={handleBlur}
 						errorMessage={!isSubmitted ? getError('currentPassword') : undefined}
-						fullWidth={true}
-						size='small'
 					/>
 				</Grid>
 
 				{/* New Password */}
 				<Grid size={5}>
-					<Typography variant='h3'>New Password</Typography>
+					<Typography variant='h3'>New password</Typography>
 				</Grid>
 				<Grid size={7}>
 					<FormInput
 						id='newPassword'
-						name='newPassword'
 						type='password'
 						value={values.newPassword}
 						onChange={handleChange}
 						onBlur={handleBlur}
 						errorMessage={!isSubmitted ? getError('newPassword') : undefined}
-						fullWidth={true}
-						size='small'
 					/>
 				</Grid>
 
 				{/* Confirm Password */}
 				<Grid size={5}>
-					<Typography variant='h3'>Confirm Password</Typography>
+					<Typography variant='h3'>Confirm password</Typography>
 				</Grid>
 				<Grid size={7}>
 					<FormInput
 						id='confirmPassword'
-						name='confirmPassword'
 						type='password'
 						value={values.confirmPassword}
 						onChange={handleChange}
 						onBlur={handleBlur}
 						errorMessage={!isSubmitted ? getError('confirmPassword') : undefined}
-						fullWidth={true}
-						size='small'
 					/>
 				</Grid>
 

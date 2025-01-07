@@ -185,12 +185,9 @@ export default function ProfileForm() {
 					<Grid size={6}>
 						<FormInput
 							id='firstName'
-							name='firstName'
 							value={values.firstName}
 							onChange={handleChange}
 							errorMessage={getError('firstName')}
-							fullWidth={true}
-							size='small'
 						/>
 					</Grid>
 
@@ -201,12 +198,9 @@ export default function ProfileForm() {
 					<Grid size={6}>
 						<FormInput
 							id='lastName'
-							name='lastName'
 							value={values.lastName}
 							onChange={handleChange}
 							errorMessage={getError('lastName')}
-							fullWidth={true}
-							size='small'
 						/>
 					</Grid>
 
@@ -220,12 +214,9 @@ export default function ProfileForm() {
 					<Grid size={6}>
 						<FormInput
 							id='email'
-							name='email'
 							type='email'
 							value={values.email}
 							onChange={handleChange}
-							fullWidth={true}
-							size='small'
 							disabled={true}
 						/>
 					</Grid>
