@@ -12,12 +12,22 @@ import { Box, TextField, Typography, TextFieldProps } from '@mui/material';
 interface FormInputProps extends Omit<TextFieldProps, 'error' | 'helperText'> {
 	//  An optional label rendered above the TextField.
 	label?: string;
+	id: string;
+	size?: 'small' | 'medium';
+	fullWidth?: boolean;
 	// An inline error message displayed below the TextField if validation fails.
 	// If this prop is provided, the TextField will display in an error state.
 	errorMessage?: string;
 }
 
-const FormInput: FC<FormInputProps> = ({ label, errorMessage = '', ...textFieldProps }) => {
+const FormInput: FC<FormInputProps> = ({
+	label,
+	size = 'small',
+	id,
+	errorMessage = '',
+	fullWidth = true,
+	...textFieldProps
+}) => {
 	// Determine if there is an error
 	const displayError = Boolean(errorMessage);
 
@@ -40,6 +50,10 @@ const FormInput: FC<FormInputProps> = ({ label, errorMessage = '', ...textFieldP
        */}
 			<TextField
 				{...textFieldProps}
+				size={size}
+				id={id}
+				name={id}
+				fullWidth={fullWidth}
 				error={displayError}
 				helperText={displayError ? errorMessage : ''}
 			/>
