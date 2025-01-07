@@ -33,9 +33,9 @@ export default function Sidebar() {
 		<Drawer
 			variant='permanent'
 			sx={{
-				width: '15rem',
+				width: '16rem',
 				'& .MuiDrawer-paper': {
-					width: '15rem',
+					width: '16rem',
 					boxSizing: 'border-box',
 				},
 			}}>
@@ -46,7 +46,7 @@ export default function Sidebar() {
 					backgroundColor: 'background.fill',
 					pt: { xs: 4, sm: 8, md: 16 },
 					pb: { xs: 2, sm: 4, md: 10 },
-					px: { xs: 2, sm: 4, md: 6 },
+					px: { xs: 2, sm: 4, md: 10 },
 					borderRight: 1,
 					borderColor: 'border.light',
 				}}>
