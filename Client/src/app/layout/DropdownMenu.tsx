@@ -25,9 +25,8 @@ export default function DropdownMenu() {
 		setAnchorEl(null);
 	};
 
-	// Extract first/last name from the session
-	const firstName = session?.user?.firstName || ''; // or parse from session?.user?.name
-	const lastName = session?.user?.lastName || ''; // or parse from session?.user?.name
+	const firstName = session?.user?.firstName || '';
+	const lastName = session?.user?.lastName || '';
 	const fullName = `${firstName} ${lastName}`.trim() || 'No Name';
 
 	console.log('🚀 ~ DropdownMenu ~ fullName:', fullName);

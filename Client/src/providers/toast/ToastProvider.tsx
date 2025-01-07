@@ -35,7 +35,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
 		<ToastContext.Provider value={{ showToast }}>
 			{children}
 			{/* Render active toasts */}
-			{toasts.map(({ id, message, variant, autoHide }) => (
+			{toasts.map(({ id, message, variant, autoHide }, index) => (
 				<Toast
 					key={id}
 					message={message}
@@ -43,6 +43,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
 					open={true}
 					hideToast={() => removeToast(id)}
 					autoHide={autoHide}
+					index={index}
 				/>
 			))}
 		</ToastContext.Provider>
