@@ -1,42 +1,41 @@
-// Import necessary modules
 import prisma from '@lib/prisma';
 import bcryptjs from 'bcryptjs';
 import NextAuth, { type NextAuthOptions, User as NextAuthUser } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-// Define an extended user interface
 interface ExtendedUser extends NextAuthUser {
 	id: string;
 	userId: string;
 	role: string;
 	name: string;
+	remember?: boolean;
 }
 
-// NextAuth options
+/**
+ * NextAuth configuration for credential-based sign-in.
+ */
 export const authOptions: NextAuthOptions = {
 	session: {
 		strategy: 'jwt',
+		maxAge: 24 * 60 * 60, // 1 day
 	},
 	providers: [
 		CredentialsProvider({
 			name: 'Sign in',
 			credentials: {
-				email: { label: 'Email', type: 'email', placeholder: 'hello@example.com' },
+				email: { label: 'Email', type: 'email' },
 				password: { label: 'Password', type: 'password' },
+				remember: { label: 'Remember', type: 'checkbox' },
 			},
 			async authorize(credentials) {
 				if (!credentials?.email || !credentials.password) {
 					throw new Error('Email and password are required');
 				}
 
-				// Find user in database
+				// 1) Find user in DB
 				const user = await prisma.user.findUnique({
 					where: { email: credentials.email },
 				});
-
-				console.log('User:', user); // Debug log
-
-				// Check if the user exists and if their status is ARCHIVED
 				if (!user) {
 					throw new Error('No user found with the provided email');
 				}
@@ -44,19 +43,21 @@ export const authOptions: NextAuthOptions = {
 					throw new Error('Please verify your email to sign in.');
 				}
 
-				// Validate password
+				// 2) Validate password
 				const isPasswordValid = await bcryptjs.compare(credentials.password, user.password);
 				if (!isPasswordValid) {
 					throw new Error('Invalid password');
 				}
 
-				// Return user object to the JWT callback
+				// 3) Return user object; also carry "remember" as boolean
 				return {
 					id: user.id.toString(),
 					userId: user.user_id,
 					email: user.email,
-					name: user.first_name,
+					firstName: user.first_name,
+					lastName: user.last_name,
 					role: user.role,
+					remember: credentials.remember === 'true',
 				} as ExtendedUser;
 			},
 		}),
@@ -65,30 +66,34 @@ export const authOptions: NextAuthOptions = {
 		signIn: '/auth/sign-in',
 	},
 	callbacks: {
+		async jwt({ token, user }) {
+			if (user) {
+				token.id = user.id;
+				token.userId = user.userId;
+				token.role = user.role;
+				token.firstName = user.firstName;
+				token.lastName = user.lastName;
+
+				token.remember = (user as ExtendedUser).remember || false;
+			}
+			return token;
+		},
 		async session({ session, token }) {
-			// console.log('Session token:', token); // Debug log
-			// Explicitly set user properties in session
+			// If token exists, attach user info to session
 			if (token) {
 				session.user = {
 					id: token.id as string,
 					userId: token.userId as string,
 					role: token.role as string,
-					name: token.name as string,
+					firstName: token.firstName as string,
+					lastName: token.lastName as string,
 					email: token.email as string,
 				};
 			}
 			return session;
 		},
-		async jwt({ token, user }) {
-			// If the user object exists, merge it with the token
-			if (user) {
-				// console.log('JWT user:', user); // Debug log
-				token.id = user.id;
-				token.userId = user.userId;
-				token.role = user.role;
-				token.name = user.name;
-			}
-			return token;
+		async signIn({ user, credentials }) {
+			return true;
 		},
 		async redirect({ url, baseUrl }) {
 			return url.startsWith(baseUrl) ? url : baseUrl;
@@ -97,4 +102,5 @@ export const authOptions: NextAuthOptions = {
 };
 
 const handler = NextAuth(authOptions);
+
 export { handler as GET, handler as POST };

@@ -1,7 +1,3 @@
-// This file will define the reset password functionality.
-// Much of the code here was taken from this video tutorial: https://www.youtube.com/watch?v=vu78olWoV0I
-// Other videos from the same channel are extremely helpful for someone learning prisma and next-auth
-
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { randomUUID } from 'crypto';
@@ -13,59 +9,78 @@ const DOMAIN = process.env.DOMAIN || 'localhost:3000';
 const PROTOCOL = process.env.NODE_ENV === 'production' ? 'https' : 'http';
 
 export async function POST(req: NextRequest) {
-	const { email } = await req.json();
+	try {
+		const { email } = await req.json();
 
-	if (!email || typeof email !== 'string') {
-		console.error('Error: Missing or invalid email field');
-		return NextResponse.json({ message: 'Missing required fields' }, { status: 400 });
-	}
+		if (!email || typeof email !== 'string') {
+			return NextResponse.json({ message: 'Email is required.' }, { status: 400 });
+		}
 
-	// Check if the user exists in the database
-	const user = await prisma.user.findUnique({
-		where: { email },
-	});
+		// 1) Check if user exists
+		const user = await prisma.user.findUnique({
+			where: { email },
+		});
+		if (!user) {
+			return NextResponse.json({ message: 'Email is not registered' }, { status: 400 });
+		}
 
-	if (!user) {
-		console.error(`Error: No user found with email ${email}`);
-		return NextResponse.json({ message: 'Email is not registered' }, { status: 400 });
-	}
-
-	// Generate the token
-	const generatedToken = randomUUID();
-	const token = await prisma.passwordResetToken.create({
-		data: {
-			token: generatedToken,
-			User: {
-				connect: { user_id: user.user_id },
+		// 2) Generate token and store in DB
+		const generatedToken = randomUUID();
+		await prisma.passwordResetToken.create({
+			data: {
+				token: generatedToken,
+				User: { connect: { user_id: user.user_id } },
 			},
-		},
-	});
+		});
 
-	// Generate the reset password URL with email and token as query parameters
-	const resetPasswordUrl = `${PROTOCOL}://${DOMAIN}/auth/reset-password?token=${generatedToken}&email=${encodeURIComponent(user.email)}`;
+		// 3) Build the reset URL
+		const resetPasswordUrl = `${PROTOCOL}://${DOMAIN}/auth/reset-password?token=${generatedToken}&email=${encodeURIComponent(
+			user.email,
+		)}`;
 
-	// Send the email
+		// 4) In production, send an email. In dev, skip or console.log
+		if (process.env.SEND_EMAILS === 'true') {
+			const { error } = await resend.emails.send({
+				from: 'Acme <onboarding@resend.dev>',
+				to: [user.email],
+				subject: 'Password Reset Request',
+				react: BluewaveResetPasswordEmail({
+					username: user.first_name,
+					resetUrl: resetPasswordUrl,
+				}),
+			});
 
-	// const { data, error } = await resend.emails.send({
-	// 	from: 'Acme <onboarding@resend.dev>',
-	// 	to: [user.email],
-	// 	subject: 'Password Reset Request',
-	// 	react: BluewaveResetPasswordEmail({
-	// 		username: user.first_name,
-	// 		resetUrl: resetPasswordUrl,
-	// 	}),
-	// });
-	// if (error) {
-	// 	console.error('Error sending email:', error);
-	// 	return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
-	// }
+			if (error) {
+				console.error('Error sending email:', error);
+				return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+			}
 
-	console.log(`Password reset email sent to ${user.email} (Feature unavailable in Development)`);
-	return NextResponse.json(
-		{
-			message: 'Mail sent',
-			url: resetPasswordUrl,
-		},
-		{ status: 201 }
-	);
+			console.log(`Password reset email sent to ${user.email}`);
+		} else {
+			// In dev, skip actual email sending
+			console.log(`Password reset email would be sent to ${user.email}, but emailing is disabled.`);
+		}
+
+		if (process.env.NODE_ENV === 'development' || process.env.SEND_EMAILS !== 'true') {
+			// Return or log the reset URL for dev
+			return NextResponse.json(
+				{
+					message: 'Mail sent (or link returned in development)',
+					url: resetPasswordUrl,
+				},
+				{ status: 201 },
+			);
+		} else {
+			// Production: do NOT expose the URL, just say “email sent”
+			return NextResponse.json(
+				{
+					message: 'Mail sent. Please check your inbox.',
+				},
+				{ status: 201 },
+			);
+		}
+	} catch (err) {
+		console.error('Error in resetPass route:', err);
+		return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+	}
 }

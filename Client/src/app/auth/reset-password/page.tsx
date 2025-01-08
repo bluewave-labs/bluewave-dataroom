@@ -1,80 +1,65 @@
 'use client';
-import LoadingButton from '@/components/LoadingButton';
-import NavLink from '@/components/NavLink';
-import Toast from '@/components/Toast';
-import { useAuthForm } from '@/hooks/useAuthForm';
-import { useFormData } from '@/hooks/useFormData';
+
 import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ChangeEvent, FormEvent, useState } from 'react';
+
+import LoadingButton from '@/components/LoadingButton';
+import NavLink from '@/components/NavLink';
 import LockIcon from '../../../../public/assets/icons/auth/LockIcon';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import AuthInput from '../components/AuthInput';
+import FormInput from '../../../components/FormInput';
 import PasswordValidation from '../components/PasswordValidation';
 
-export default function SetNewPassword() {
-	const { formData, handleChange } = useFormData({
-		password: '',
-		confirmPassword: '',
-	});
-	const [isPasswordValid, setIsPasswordValid] = useState({ length: false, specialChar: false });
-	const [inlineErrors, setInlineErrors] = useState<Record<string, string>>({});
-	const [showErrors, setShowErrors] = useState(false);
+import { useFormSubmission } from '@/hooks/useFormSubmission';
+import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+import { minLengthRule, requiredFieldRule } from '@/utils/shared/validators';
+
+export default function ResetPassword() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
+
 	const token = searchParams.get('token');
 	const email = searchParams.get('email');
 
-	const { loading, error, handleSubmit, toast } = useAuthForm({
-		onSubmit: async () => {
-			// Set inline validation errors
-			const errors: Record<string, string> = {};
-
-			if (!formData.password) errors.password = 'Password is required';
-			if (!formData.confirmPassword) errors.confirmPassword = 'Confirm password is required';
-			if (formData.password && formData.password !== formData.confirmPassword) {
-				errors.confirmPassword = 'Passwords do not match';
-			}
-
-			setInlineErrors(errors);
-
-			if (Object.keys(errors).length > 0) {
-				throw new Error('Validation error');
-			}
-
-			// Send request if there are no errors
-			await axios.post('/api/auth/resetPassForm', {
-				email,
-				password: formData.password,
-				token: token,
-			});
-
-			// Redirect to a success page after successful sign-in
-			router.push(
-				`/auth/password-reset-confirm?email=${email}&password=${encodeURIComponent(formData.password)}`,
-			);
+	const { values, handleChange, handleBlur, getError, validateAll } = useValidatedFormData({
+		initialValues: {
+			password: '',
+			confirmPassword: '',
 		},
-
-		isServerError: (err) => !!err.response,
+		validationRules: {
+			password: [
+				requiredFieldRule('Password is required'),
+				minLengthRule(8, 'Password must be at least 8 characters'),
+			],
+			confirmPassword: [requiredFieldRule('Confirm password is required')],
+		},
 	});
 
-	const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const newPassword = event.target.value;
-		handleChange(event); // Update formData
-		setIsPasswordValid({
-			length: newPassword.length >= 8,
-			specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(newPassword),
-		});
-	};
+	const { loading, handleSubmit } = useFormSubmission({
+		onSubmit: async () => {
+			const hasError = validateAll();
+			if (hasError) {
+				throw new Error('Please correct the highlighted fields.');
+			}
+			if (values.password !== values.confirmPassword) {
+				throw new Error('Passwords do not match.');
+			}
 
-	const onSubmitForm = (event: FormEvent) => {
-		event.preventDefault();
-		setShowErrors(true);
-		handleSubmit(event);
-	};
+			await axios.post('/api/auth/resetPassForm', {
+				email,
+				password: values.password,
+				token,
+			});
 
-	const toastMessage = error || 'Failed to reset password. Please try again.';
+			router.push(
+				`/auth/password-reset-confirm?email=${email}&password=${encodeURIComponent(
+					values.password,
+				)}`,
+			);
+		},
+		successMessage: '',
+	});
 
 	return (
 		<AuthFormWrapper>
@@ -105,39 +90,36 @@ export default function SetNewPassword() {
 
 			<Box
 				component='form'
-				onSubmit={onSubmitForm}
+				onSubmit={handleSubmit}
 				noValidate
 				minWidth={400}
 				display='flex'
 				flexDirection='column'
 				gap={8}>
-				<AuthInput
+				<FormInput
 					label='Password'
 					id='password'
 					type='password'
 					placeholder='Create a password'
-					value={formData.password}
-					onChange={handlePasswordChange}
-					required
-					showErrors={showErrors}
-					errorMessage={inlineErrors.password || ''}
+					value={values.password}
+					onChange={handleChange}
+					onBlur={handleBlur}
+					errorMessage={getError('password')}
 				/>
-				<AuthInput
+
+				<FormInput
 					label='Confirm Password'
 					id='confirmPassword'
 					type='password'
 					placeholder='Confirm your password'
-					value={formData.confirmPassword}
+					value={values.confirmPassword}
 					onChange={handleChange}
-					required
-					showErrors={showErrors}
-					errorMessage={inlineErrors.confirmPassword || ''}
+					onBlur={handleBlur}
+					errorMessage={getError('confirmPassword')}
 				/>
 
-				<PasswordValidation
-					isLengthValid={isPasswordValid.length}
-					hasSpecialChar={isPasswordValid.specialChar}
-				/>
+				<PasswordValidation passwordValue={values.password} />
+
 				<LoadingButton
 					loading={loading}
 					buttonText='Reset password'
@@ -148,9 +130,8 @@ export default function SetNewPassword() {
 			<NavLink
 				href='/auth/sign-in'
 				linkText='← Back to sign in'
-				prefetch={true}
+				prefetch
 			/>
-			{/* <Toast message={toastMessage} open={toast.open} hideToast={toast.hideToast} variant="error" /> */}
 		</AuthFormWrapper>
 	);
 }
