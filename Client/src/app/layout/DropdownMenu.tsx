@@ -35,19 +35,21 @@ export default function DropdownMenu() {
 	];
 
 	return (
-		<Box>
+		<Box
+			display='flex'
+			mx='auto'
+			alignItems='center'>
 			<Button
 				onClick={handleClick}
-				size='medium'
+				size='small'
 				sx={{
-					color: 'text.primary',
-					fontSize: 16,
+					typography: 'h2',
 					textTransform: 'capitalize',
 				}}
 				startIcon={
 					<Avatar
 						src={'' /* Add avatarUrl */}
-						sx={{ bgcolor: '#F2F4F7', color: '#667085' }}>
+						sx={{ bgcolor: '#F2F4F7', color: 'text.brand' }}>
 						{`${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase()}
 					</Avatar>
 				}
