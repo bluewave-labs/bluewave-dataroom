@@ -66,6 +66,7 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 					display: 'flex',
 					backgroundColor: '#fcfcfd',
 					height: '100vh',
+					width: '100vw',
 				}}>
 				<Sidebar />
 				<Box

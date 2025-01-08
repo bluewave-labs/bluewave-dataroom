@@ -29,7 +29,6 @@ export default function DropdownMenu() {
 	const lastName = session?.user?.lastName || '';
 	const fullName = `${firstName} ${lastName}`.trim() || 'No Name';
 
-	console.log('🚀 ~ DropdownMenu ~ fullName:', fullName);
 	const menuItems = [
 		{ text: 'Profile', icon: <ProfileIcon />, href: '/profile' },
 		{ text: 'Team', icon: <TeamIcon />, href: '/team' },
@@ -48,7 +47,7 @@ export default function DropdownMenu() {
 				startIcon={
 					<Avatar
 						src={'' /* Add avatarUrl */}
-						sx={{ bgcolor: 'background.primary' }}>
+						sx={{ bgcolor: '#F2F4F7', color: '#667085' }}>
 						{`${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase()}
 					</Avatar>
 				}
