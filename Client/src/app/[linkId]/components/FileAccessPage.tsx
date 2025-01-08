@@ -7,10 +7,26 @@ import { Container, Box, CircularProgress, Typography } from '@mui/material';
 
 import FilePage from './File';
 import UserForm from './UserForm';
+import LinkMessage from './LinkMessage';
 
 interface Params {
   linkId: string;
 }
+
+const messages = {
+  'link-expired': {
+    message: 'Link Expired',
+    description: 'The link you used is no longer active. If you believe this is an error, please contact the document owner.'
+  },
+  'link-not-found': {
+    message: 'Link Not Found',
+    description: 'The link you used is not found. If you believe this is an error, please contact the document owner.'
+  },
+  'link-not-public': {
+    message: 'Link is not publicly shared',
+    description: 'The link you used is not publicly shared. If you believe this is an error, please contact the document owner.'
+  }
+};
 
 export default function FileAccessPage({ linkId }: Params) {
   const [linkData, setLinkData] = React.useState<{ [key: string]: any; }>({});
@@ -37,10 +53,6 @@ export default function FileAccessPage({ linkId }: Params) {
         const err = error as any;
         const message = err?.response?.data?.message || err?.response?.data?.error || 'An error occurred while fetching link details.';
         setError(message);
-        // showToast({
-        //   message,
-        //   variant: 'error',
-        // });
       } finally {
         setLoading(false);
       }
@@ -66,7 +78,7 @@ export default function FileAccessPage({ linkId }: Params) {
     return (
       <Container>
         <Typography variant="h1" color="error" sx={{ mt: 40 }}>
-          {error}
+          <LinkMessage message={error} />
         </Typography>
       </Container>
     );
@@ -74,9 +86,7 @@ export default function FileAccessPage({ linkId }: Params) {
 
   if (signedUrl) {
     return (
-      <Container>
-        <FilePage signedUrl={signedUrl} />
-      </Container>
+      <FilePage signedUrl={signedUrl} />
     );
   }
 

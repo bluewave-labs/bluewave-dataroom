@@ -9,18 +9,9 @@ interface Props {
   params: Params;
 }
 
-
 export default ({ params: { linkId } }: Props) => {
 
   return (
-    <Container
-      sx={{
-        width: '100%',
-        margin: '0 auto',
-        minHeight: '80vh',
-        pr: '23rem',
-      }}>
-      <FileAccessPage linkId={linkId} />
-    </Container>
+    <FileAccessPage linkId={linkId} />
   );
 };

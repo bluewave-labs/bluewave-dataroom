@@ -10,16 +10,16 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const linkIdFromParams = searchParams.get('linkId');
 
     if (!linkIdFromParams) {
-      return createErrorResponse('link Id is required.', 400);
+      return createErrorResponse('Link Id is required.', 400);
     }
 
     const link = await LinkService.getLink(linkIdFromParams);
     if (!link) {
-      return createErrorResponse('Link not found.', 404);
+      return NextResponse.json({ message: 'Link is expired' });
     }
 
     if (link.expirationTime && new Date(link.expirationTime) <= new Date()) {
-      return NextResponse.json({ message: 'Link is expired' }, { status: 410 });
+      return NextResponse.json({ message: 'Link is expired' });
     }
 
     if (link.isPublic) {
