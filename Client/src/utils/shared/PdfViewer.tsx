@@ -15,6 +15,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [isRendering, setIsRendering] = useState(false);
 
   useEffect(() => {
     const loadPdf = async () => {
@@ -30,8 +31,11 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl }) => {
   useEffect(() => {
     if (pdf) {
       const renderPage = async () => {
+        if (isRendering) return;
+
+        setIsRendering(true);
         const page = await pdf.getPage(currentPage);
-        const viewport = page.getViewport({ scale: 1 });
+        const viewport = page.getViewport({ scale: 1, rotation: 0 });
         const canvas = canvasRef.current;
 
         if (canvas) {
@@ -45,7 +49,12 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl }) => {
               viewport,
             };
 
-            await page.render(renderContext).promise;
+            try {
+              await page.render(renderContext).promise;
+            } catch (error) {
+            } finally {
+              setIsRendering(false);
+            }
           }
         }
       };
@@ -71,7 +80,6 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ pdfUrl }) => {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      backgroundColor: 'antiquewhite',
     }}>
       <canvas ref={canvasRef} />
       <Box sx={{ display: 'flex', margin: '20px', justifyContent: 'center', alignItems: 'center' }}>
