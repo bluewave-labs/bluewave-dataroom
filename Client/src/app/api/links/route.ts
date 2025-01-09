@@ -15,11 +15,11 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     const link = await LinkService.getLink(linkIdFromParams);
     if (!link) {
-      return NextResponse.json({ message: 'Link is expired' });
+      return createErrorResponse('Link not found.', 404);
     }
 
     if (link.expirationTime && new Date(link.expirationTime) <= new Date()) {
-      return NextResponse.json({ message: 'Link is expired' });
+      return createErrorResponse('Link is expired.', 400);
     }
 
     if (link.isPublic) {
