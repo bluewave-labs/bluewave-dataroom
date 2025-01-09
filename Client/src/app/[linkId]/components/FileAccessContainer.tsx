@@ -2,41 +2,23 @@
 
 import React from 'react';
 import axios from 'axios';
-import { useToast } from '@/hooks/useToast';
-import { Container, Box, CircularProgress, Typography } from '@mui/material';
+import { Container, Box, CircularProgress } from '@mui/material';
 
-import FileAccess from './FileAccess';
-import FileAccessModal from './FileAccessModal';
+import FileAccess from './FileDisplay';
+import FileAccessFormModal from './FileAccessFormModal';
 import FileAccessMessage from './FileAccessMessage';
 
 interface Params {
   linkId: string;
 }
 
-const messages = {
-  'link-expired': {
-    message: 'Link Expired',
-    description: 'The link you used is no longer active. If you believe this is an error, please contact the document owner.'
-  },
-  'link-not-found': {
-    message: 'Link Not Found',
-    description: 'The link you used is not found. If you believe this is an error, please contact the document owner.'
-  },
-  'link-not-public': {
-    message: 'Link is not publicly shared',
-    description: 'The link you used is not publicly shared. If you believe this is an error, please contact the document owner.'
-  }
-};
-
 export default function FileAccessPage({ linkId }: Params) {
   const [linkData, setLinkData] = React.useState<{ [key: string]: any; }>({});
-  const [error, setError] = React.useState('');
+  const [message, setMessage] = React.useState('');
   const [loading, setLoading] = React.useState(true);
-  const { showToast } = useToast();
-  const [signedUrl, setSignedUrl] = React.useState('');
 
-  const handleSignedUrlFetched = (url: string) => {
-    setSignedUrl(url);
+  const handleFileAccessFormModalSubmit = (data: React.SetStateAction<{ [key: string]: any; }>) => {
+    setLinkData(data);
   };
 
   React.useEffect(() => {
@@ -44,15 +26,13 @@ export default function FileAccessPage({ linkId }: Params) {
       setLoading(true);
       try {
         const response = await axios.get(`/api/links?linkId=${linkId}`);
-        if (response.data.data.signedUrl) {
-          setLinkData(response.data.data);
+        if (!response.data.data) {
+          setMessage(response.data.message);
         } else {
           setLinkData(response.data.data);
         }
       } catch (error) {
-        const err = error as any;
-        const message = err?.response?.data?.message || err?.response?.data?.error || 'An error occurred while fetching link details.';
-        setError(message);
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -73,9 +53,9 @@ export default function FileAccessPage({ linkId }: Params) {
     );
   }
 
-  if (error) {
+  if (message) {
     return (
-      <FileAccessMessage message={error} />
+      <FileAccessMessage message={message} />
     );
   }
 
@@ -91,10 +71,10 @@ export default function FileAccessPage({ linkId }: Params) {
 
   return (
     <Container>
-      <FileAccessModal
+      <FileAccessFormModal
         linkId={linkId}
-        onSignedUrlFetched={handleSignedUrlFetched}
         passwordRequired={linkData.isPasswordProtected}
+        onFileAccessModalSubmit={handleFileAccessFormModalSubmit}
         userDetailsOption={linkData.requiredUserDetailsOption}
       />
     </Container>

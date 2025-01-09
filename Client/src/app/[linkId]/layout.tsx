@@ -1,6 +1,6 @@
+import React from 'react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import React from 'react';
 import { Typography, Box, Link } from '@mui/material';
 
 import BlueWaveLogo from '../../../public/assets/BluewaveLogo';
@@ -36,10 +36,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
 					<Box sx={{
 						display: 'flex',
 						alignItems: 'center',
+						gap: 1
 					}}>
-						<Typography sx={{ color: '#555', mb: 1 }}>
+						<Typography>
 							Need help?
-						</Typography> &nbsp;
+						</Typography>
 						<Link href="" underline="hover">
 							Contact Support
 						</Link>

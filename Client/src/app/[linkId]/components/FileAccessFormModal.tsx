@@ -3,6 +3,7 @@
 import React from 'react';
 import axios from 'axios';
 
+import { useToast } from '@/hooks/useToast';
 import { styled } from '@mui/material/styles';
 import FormInput from '../../../components/FormInput';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -10,7 +11,7 @@ import { useFormSubmission } from '@/hooks/useFormSubmission';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
-import { Divider, Box, Button, Typography, Dialog, DialogActions, DialogTitle, DialogContent, IconButton } from '@mui/material';
+import { Divider, Box, Button, Typography, Dialog, DialogActions, DialogContent, IconButton } from '@mui/material';
 
 import FileDownloadIcon from '../../../../public/assets/icons/link/FileDownloadIcon';
 
@@ -31,39 +32,71 @@ const RowBox = styled(Box)({
   },
 });
 
-interface UserFormProps {
+function getFormConfig(passwordRequired: boolean, userDetailsOption: number) {
+  const formConfig: {
+    initialValues: { [key: string]: string; };
+    validationRules: { [key: string]: any[]; };
+  } = {
+    initialValues: {},
+    validationRules: {}
+  };
+
+  if (passwordRequired) {
+    formConfig.initialValues.password = '';
+    formConfig.validationRules.password = [requiredFieldRule('*This field is required')];
+  }
+
+  if (userDetailsOption === 1) {
+    formConfig.initialValues.name = '';
+    formConfig.validationRules.name = [requiredFieldRule('*This field is required')];
+  }
+
+  if (userDetailsOption === 2) {
+    formConfig.initialValues.name = '';
+    formConfig.initialValues.email = '';
+    formConfig.validationRules.name = [requiredFieldRule('*This field is required')];
+    formConfig.validationRules.email = [requiredFieldRule('*This field is required/Please enter a valid Email',), validEmailRule];
+  }
+
+  return formConfig;
+}
+
+interface FileAccessModalProps {
   linkId: string;
   passwordRequired: boolean;
   userDetailsOption: number;
-  onSignedUrlFetched: (url: string) => void;
+  onFileAccessModalSubmit: (data: React.SetStateAction<{ [key: string]: any; }>) => void;
 }
 
-const FileAccessModal = (props: UserFormProps) => {
+const FileAccessModal = (props: FileAccessModalProps) => {
+  const { } = props;
+  const { showToast } = useToast();
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
-  const { values, handleChange, handleBlur, getError, validateAll } = useValidatedFormData({
-    initialValues: {
-      name: '',
-      email: '',
-      password: ''
-    },
-    validationRules: {
-      name: [requiredFieldRule('*This field is required')],
-      email: [requiredFieldRule('*This field is required/Please enter a valid Email',), validEmailRule],
-      password: [requiredFieldRule('*This field is required')],
-    }
-  });
+  const { values, handleChange, handleBlur, getError, validateAll, setShowAllErrors } = useValidatedFormData(getFormConfig(props.passwordRequired, props.userDetailsOption));
 
   const { loading, handleSubmit } = useFormSubmission({
     onSubmit: async () => {
-
       const hasError = validateAll();
+
       if (hasError) {
         throw new Error('Please correct the highlighted fields.');
       }
 
-      const response = await axios.post('/api/links/shared_access', { ...values, linkId: props.linkId });
-
-      props.onSignedUrlFetched(response.data.data.signedUrl);
+      if (values.password || values.name || values.email) {
+        try {
+          const response = await axios.post('/api/links/shared_access', { ...values, linkId: props.linkId });
+          if (response.data.data) {
+            props.onFileAccessModalSubmit(response.data.data);
+          } else {
+            showToast({
+              variant: 'error',
+              message: response.data.message
+            })
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
     }
   });
 
@@ -116,10 +149,11 @@ const FileAccessModal = (props: UserFormProps) => {
                 Name
               </Typography>
               <FormInput
-                id="Name"
+                id="name"
                 value={values.name}
                 onChange={handleChange}
                 placeholder='e.g: John Doe'
+                onBlur={handleBlur}
                 errorMessage={getError('name')}
               />
               <Box></Box>
@@ -134,36 +168,40 @@ const FileAccessModal = (props: UserFormProps) => {
                   type='email'
                   value={values.email}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   errorMessage={getError('email')}
                   placeholder='your_email@bluewave.com'
                 />
                 <Box></Box>
               </RowBox>
             )}
-            <Divider />
             {props.passwordRequired && (
-              <RowBox>
-                <Typography variant='body1' mt={10}>
-                  Password
-                </Typography>
-                <FormInput
-                  placeholder=''
-                  id="password"
-                  label='Please enter the password shared with you'
-                  value={values.password}
-                  onChange={handleChange}
-                  errorMessage={getError('password')}
-                  type={isPasswordVisible ? 'text' : 'password'}
-                />
-                <Box>
-                  <IconButton size="large" sx={{
-                    ml: 5,
-                    mt: 10
-                  }} onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
-                    {isPasswordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                  </IconButton>
-                </Box>
-              </RowBox>
+              <>
+                <Divider />
+                <RowBox>
+                  <Typography variant='body1' mt={10}>
+                    Password
+                  </Typography>
+                  <FormInput
+                    placeholder=''
+                    id="password"
+                    label='Please enter the password shared with you'
+                    value={values.password}
+                    onChange={handleChange}
+                    errorMessage={getError('password')}
+                    onBlur={handleBlur}
+                    type={isPasswordVisible ? 'text' : 'password'}
+                  />
+                  <Box >
+                    <IconButton size="large" sx={{
+                      ml: 5,
+                      mt: 10
+                    }} onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
+                      {isPasswordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                    </IconButton>
+                  </Box>
+                </RowBox>
+              </>
             )}
           </Box>
         </DialogContent>

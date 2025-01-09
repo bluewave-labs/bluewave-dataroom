@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
-    const { linkId, firstName, lastName, email, password } = await req.json();
+    const { linkId, name, email, password } = await req.json();
 
     const link = await LinkService.getLink(linkId);
     if (!link) {
@@ -16,14 +16,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       const isPasswordValid = await validatePassword(password, link.password as string);
 
       if (!isPasswordValid) {
-        return createErrorResponse('Invalid password.', 403);
+        return NextResponse.json({ message: 'Password did not match' }, { status: 200 });
       }
     }
 
-    await logLinkVisitor(linkId, firstName, lastName, email);
+    await logLinkVisitor(linkId, name, email);
 
-    const {fileName, signedUrl} = await LinkService.getFileFromLink(linkId);
-    return NextResponse.json({ message: 'Link URL generated', data: { signedUrl, fileName } }, { status: 200 });
+    const { fileName, signedUrl, size } = await LinkService.getFileFromLink(linkId);
+    return NextResponse.json({ message: 'Link URL generated', data: { signedUrl, fileName, size } }, { status: 200 });
   } catch (error) {
     return createErrorResponse('Server error.', 500, error);
   }
@@ -44,13 +44,12 @@ async function validatePassword(providedPassword: string, storedPassword: string
   return bcryptjs.compare(providedPassword, storedPassword);
 }
 
-async function logLinkVisitor(linkId: string, first_name: string, last_name: string, email: string) {
+async function logLinkVisitor(linkId: string, name: string = "", email: string = "") {
   return prisma.linkVisitors.create({
     data: {
       linkId,
-      first_name,
-      last_name,
-      email,
+      name,
+      email
     },
   });
 }

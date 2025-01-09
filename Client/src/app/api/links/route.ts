@@ -10,16 +10,16 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     const linkIdFromParams = searchParams.get('linkId');
 
     if (!linkIdFromParams) {
-      return createErrorResponse('Link Id is required.', 400);
+      return NextResponse.json({ message: 'Link id is required' }, { status: 200 });
     }
 
     const link = await LinkService.getLink(linkIdFromParams);
     if (!link) {
-      return createErrorResponse('Link not found.', 404);
+      return NextResponse.json({ message: 'Link not found' }, { status: 200 });
     }
 
     if (link.expirationTime && new Date(link.expirationTime) <= new Date()) {
-      return createErrorResponse('Link is expired.', 400);
+      return NextResponse.json({ message: 'Link is expired' }, { status: 200 });
     }
 
     if (link.isPublic) {
@@ -37,13 +37,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
         }, { status: 200 });
       }
     } else {
-      return NextResponse.json({
-        message: 'Link is not public', data: {
-          isPasswordProtected: !!link.password,
-          requiredUserDetailsOption: link.requiredUserDetailsOption,
-          isPublic: link.isPublic
-        }
-      }, { status: 200 });
+      return NextResponse.json({ message: 'Link is not public' }, { status: 200 });
     }
   } catch (error) {
     return createErrorResponse('Server error.', 500, error);

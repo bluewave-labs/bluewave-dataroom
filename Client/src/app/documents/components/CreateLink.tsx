@@ -133,7 +133,7 @@ const CreateLink = ({ onClose, open, documentId }: Props) => {
 				</Typography>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={() => setShareableLink('')}>Close</Button>
+				<Button variant='contained' onClick={() => setShareableLink('')}>Close</Button>
 			</DialogActions>
 		</Dialog>;
 	}
