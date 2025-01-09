@@ -31,7 +31,7 @@ const LinkMessage: React.FC<LinkMessageProps> = (props) => {
           gap: 2
         }}>
           <Typography variant="h1" color='text.error'>
-            Link Expired
+           {props.message}
           </Typography>
           <LinkIcon />
         </Box>

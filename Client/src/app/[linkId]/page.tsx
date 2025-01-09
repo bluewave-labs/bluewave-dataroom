@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import FileAccessPage from './components/FileAccessPage';
+import FileAccessContainer from './components/FileAccessContainer';
 
 interface Params {
   linkId: string;
@@ -10,8 +10,5 @@ interface Props {
 }
 
 export default ({ params: { linkId } }: Props) => {
-
-  return (
-    <FileAccessPage linkId={linkId} />
-  );
+  return <FileAccessContainer linkId={linkId} />;
 };

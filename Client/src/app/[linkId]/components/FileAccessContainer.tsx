@@ -61,7 +61,6 @@ export default function FileAccessPage({ linkId }: Params) {
     fetchLinkDetails();
   }, [linkId]);
 
-
   if (loading) {
     return (
       <Box
@@ -76,11 +75,7 @@ export default function FileAccessPage({ linkId }: Params) {
 
   if (error) {
     return (
-      <Container>
-        <Typography variant="h1" color="error" sx={{ mt: 40 }}>
-          <FileAccessMessage message={error} />
-        </Typography>
-      </Container>
+      <FileAccessMessage message={error} />
     );
   }
 

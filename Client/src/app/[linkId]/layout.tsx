@@ -28,17 +28,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
 					padding: 20,
 					height: '100vh',
 				}}>
-					<Box>
-						<BlueWaveLogo
-							width={191}
-							height={24}
-						/>
-					</Box>
-					<Box>
-						{children}
-					</Box>
+					<BlueWaveLogo
+						width={191}
+						height={24}
+					/>
+					{children}
 					<Box sx={{
-						display:'flex',
+						display: 'flex',
 						alignItems: 'center',
 					}}>
 						<Typography sx={{ color: '#555', mb: 1 }}>
