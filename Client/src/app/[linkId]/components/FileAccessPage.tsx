@@ -5,9 +5,9 @@ import axios from 'axios';
 import { useToast } from '@/hooks/useToast';
 import { Container, Box, CircularProgress, Typography } from '@mui/material';
 
-import FilePage from './File';
-import UserForm from './UserForm';
-import LinkMessage from './LinkMessage';
+import FileAccess from './FileAccess';
+import FileAccessModal from './FileAccessModal';
+import FileAccessMessage from './FileAccessMessage';
 
 interface Params {
   linkId: string;
@@ -45,7 +45,7 @@ export default function FileAccessPage({ linkId }: Params) {
       try {
         const response = await axios.get(`/api/links?linkId=${linkId}`);
         if (response.data.data.signedUrl) {
-          setSignedUrl(response.data.data.signedUrl);
+          setLinkData(response.data.data);
         } else {
           setLinkData(response.data.data);
         }
@@ -78,21 +78,25 @@ export default function FileAccessPage({ linkId }: Params) {
     return (
       <Container>
         <Typography variant="h1" color="error" sx={{ mt: 40 }}>
-          <LinkMessage message={error} />
+          <FileAccessMessage message={error} />
         </Typography>
       </Container>
     );
   }
 
-  if (signedUrl) {
+  if (linkData.signedUrl) {
     return (
-      <FilePage signedUrl={signedUrl} />
+      <FileAccess
+        size={linkData.size}
+        fileName={linkData.fileName}
+        signedUrl={linkData.signedUrl}
+      />
     );
   }
 
   return (
     <Container>
-      <UserForm
+      <FileAccessModal
         linkId={linkId}
         onSignedUrlFetched={handleSignedUrlFetched}
         passwordRequired={linkData.isPasswordProtected}

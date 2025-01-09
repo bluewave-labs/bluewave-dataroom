@@ -43,8 +43,8 @@ const SharingOptionsAccordion = ({
 						},
 					} as any);
 				}}>
-				<MenuItem value={1}>Name, surname</MenuItem>
-				<MenuItem value={2}>Name, surname, and email</MenuItem>
+				<MenuItem value={1}>Name</MenuItem>
+				<MenuItem value={2}>Name and email</MenuItem>
 			</Select>
 		</Box>
 		<CustomCheckbox

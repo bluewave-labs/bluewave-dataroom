@@ -22,8 +22,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     await logLinkVisitor(linkId, firstName, lastName, email);
 
-    const signedUrl = await LinkService.getFileFromLink(linkId);
-    return NextResponse.json({ message: 'Link URL generated', data: { signedUrl } }, { status: 200 });
+    const {fileName, signedUrl} = await LinkService.getFileFromLink(linkId);
+    return NextResponse.json({ message: 'Link URL generated', data: { signedUrl, fileName } }, { status: 200 });
   } catch (error) {
     return createErrorResponse('Server error.', 500, error);
   }

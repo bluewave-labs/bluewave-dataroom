@@ -24,9 +24,9 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     if (link.isPublic) {
       if (!link.requiredUserDetailsOption && !link.password) {
-        const signedUrl = await LinkService.getFileFromLink(linkIdFromParams);
+        const { signedUrl, fileName, size } = await LinkService.getFileFromLink(linkIdFromParams);
 
-        return NextResponse.json({ message: 'Link is public', data: { signedUrl } }, { status: 200 });
+        return NextResponse.json({ message: 'Link is public', data: { signedUrl, fileName, size } }, { status: 200 });
       } else {
         return NextResponse.json({
           message: 'Access to link requires additional information', data: {

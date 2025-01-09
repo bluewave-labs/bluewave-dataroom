@@ -24,7 +24,7 @@ export default class LinkService {
     });
   }
 
-  static async getFileFromLink(linkId: string): Promise<string> {
+  static async getFileFromLink(linkId: string): Promise<{ signedUrl: string, fileName: string, size: number }> {
     const bucketName = 'documents';
     let link = await prisma.link.findUnique({
       where: {
@@ -46,6 +46,6 @@ export default class LinkService {
     const supabaseProvider = new SupabaseProvider();
     const signedUrl = await supabaseProvider.generateSignedUrl(bucketName, link.Document.filePath);
 
-    return signedUrl;
+    return { signedUrl, fileName: link.Document.fileName, size: link.Document.size };
   }
 }

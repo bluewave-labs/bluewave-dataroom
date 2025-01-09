@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, Link, SvgIcon } from '@mui/material';
 import Image from 'next/image';
-import LinkIcon from '../../../../public/assets/icons/documentPage/LinkIcon';
+import LinkIcon from '../../../../public/assets/icons/link/LinkIcon';
 
 interface LinkMessageProps {
   message: string;
@@ -23,10 +23,19 @@ const LinkMessage: React.FC<LinkMessageProps> = (props) => {
         position: 'absolute',
         top: '50%',
       }}>
-        <Typography variant="h6" sx={{ color: '#FF4747', fontWeight: 600, fontSize: 24, mb: 1 }}>
-          Link Expired
-        </Typography>
-        <Typography sx={{ color: '#000000', fontWeight: 400, fontSize: 13, mb: 2 }}>
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          mb: 2,
+          gap: 2
+        }}>
+          <Typography variant="h1" color='text.error'>
+            Link Expired
+          </Typography>
+          <LinkIcon />
+        </Box>
+        <Typography>
           The link you used is no longer active. If you believe this is an error, please contact the
           document owner.
         </Typography>
