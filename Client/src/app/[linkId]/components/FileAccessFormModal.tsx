@@ -69,10 +69,10 @@ interface FileAccessModalProps {
 }
 
 const FileAccessModal = (props: FileAccessModalProps) => {
-  const { } = props;
+  const { passwordRequired, userDetailsOption } = props;
   const { showToast } = useToast();
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
-  const { values, handleChange, handleBlur, getError, validateAll, setShowAllErrors } = useValidatedFormData(getFormConfig(props.passwordRequired, props.userDetailsOption));
+  const { values, handleChange, handleBlur, getError, validateAll, setShowAllErrors } = useValidatedFormData(getFormConfig(passwordRequired, userDetailsOption));
 
   const { loading, handleSubmit } = useFormSubmission({
     onSubmit: async () => {
@@ -91,7 +91,7 @@ const FileAccessModal = (props: FileAccessModalProps) => {
             showToast({
               variant: 'error',
               message: response.data.message
-            })
+            });
           }
         } catch (error) {
           console.error(error);
@@ -144,21 +144,23 @@ const FileAccessModal = (props: FileAccessModalProps) => {
             width: '100%',
             gap: 10
           }}>
-            <RowBox>
-              <Typography variant='body1'>
-                Name
-              </Typography>
-              <FormInput
-                id="name"
-                value={values.name}
-                onChange={handleChange}
-                placeholder='e.g: John Doe'
-                onBlur={handleBlur}
-                errorMessage={getError('name')}
-              />
-              <Box></Box>
-            </RowBox>
-            {props.userDetailsOption === 2 && (
+            {[1, 2].includes(userDetailsOption) && (
+              <RowBox>
+                <Typography variant='body1'>
+                  Name
+                </Typography>
+                <FormInput
+                  id='name'
+                  value={values.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errorMessage={getError('name')}
+                  placeholder='Your Name'
+                />
+                <Box></Box>
+              </RowBox>
+            )}
+            {userDetailsOption === 2 && (
               <RowBox>
                 <Typography variant='body1'>
                   Email
@@ -175,9 +177,9 @@ const FileAccessModal = (props: FileAccessModalProps) => {
                 <Box></Box>
               </RowBox>
             )}
-            {props.passwordRequired && (
+            {(userDetailsOption === 2 && passwordRequired) && <Divider />}
+            {passwordRequired && (
               <>
-                <Divider />
                 <RowBox>
                   <Typography variant='body1' mt={10}>
                     Password

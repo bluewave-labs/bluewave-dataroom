@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Typography, Link, SvgIcon } from '@mui/material';
-import Image from 'next/image';
+import { Box, Typography } from '@mui/material';
+
 import LinkIcon from '../../../../public/assets/icons/link/LinkIcon';
 
 interface LinkMessageProps {

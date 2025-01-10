@@ -29,8 +29,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
 					height: '100vh',
 				}}>
 					<BlueWaveLogo
-						width={191}
-						height={24}
+						width={400}
+						height={40}
 					/>
 					{children}
 					<Box sx={{
