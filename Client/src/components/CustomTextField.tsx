@@ -6,7 +6,6 @@ interface CustomTextFieldProps {
 	placeholder: string;
 	type?: string;
 	minWidth?: number;
-	[key: string]: any;
 }
 const CustomTextField = ({
 	value,
@@ -14,7 +13,6 @@ const CustomTextField = ({
 	placeholder,
 	type = 'text',
 	minWidth = 400,
-	...rest
 }: CustomTextFieldProps) => (
 	<TextField
 		size="small"
@@ -24,7 +22,6 @@ const CustomTextField = ({
 		variant="outlined"
 		placeholder={placeholder}
 		sx={{ minWidth, my: 4 }}
-		{...rest}
 	/>
 );
 
