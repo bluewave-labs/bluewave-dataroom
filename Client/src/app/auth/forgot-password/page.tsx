@@ -1,45 +1,57 @@
 'use client';
-import LoadingButton from '@/components/LoadingButton';
-import NavLink from '@/components/NavLink';
-import { useFormData } from '@/hooks/useFormData';
-import { useToast } from '@/hooks/useToast';
+
 import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { FormEvent, useState } from 'react';
+
+import LoadingButton from '@/components/LoadingButton';
+import NavLink from '@/components/NavLink';
 import KeyIcon from '../../../../public/assets/icons/auth/KeyIcon';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import AuthInput from '../components/AuthInput';
+import FormInput from '../../../components/FormInput';
+
+import { useFormSubmission } from '@/hooks/useFormSubmission';
+import { useToast } from '@/hooks/useToast';
+import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
 
 export default function ForgotPassword() {
 	const router = useRouter();
-	const { formData, handleChange } = useFormData({ email: 'your_email@bluewave.ca' });
-	const [loading, setLoading] = useState(false);
 	const { showToast } = useToast();
 
-	const handleNotFoundError = () => {
-		console.log('Email not found. Please try again or sign up.');
-		showToast({
-			message: 'Email not found. Please try again or sign up.',
-			variant: 'error',
-		});
-	};
+	const { values, handleChange, handleBlur, getError, validateAll } = useValidatedFormData({
+		initialValues: {
+			email: '',
+		},
+		validationRules: {
+			email: [requiredFieldRule('Email is required'), validEmailRule],
+		},
+	});
 
-	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		setLoading(true);
+	const { loading, handleSubmit } = useFormSubmission({
+		onSubmit: async () => {
+			const hasError = validateAll();
+			if (hasError) {
+				throw new Error('Please correct the highlighted fields.');
+			}
 
-		try {
-			const response = await axios.post('/api/auth/resetPass', { email: formData.email });
+			const response = await axios.post('/api/auth/resetPass', {
+				email: values.email,
+			});
 
 			router.push(response.data.url);
-		} catch (error) {
-			console.error('Error verifying email:', error);
-			handleNotFoundError();
-		} finally {
-			setLoading(false);
-		}
-	};
+		},
+
+		successMessage: '',
+		onError: (message) => {
+			if (message.includes('Email not found')) {
+				showToast({
+					message: 'Email not found. Please try again or sign up.',
+					variant: 'error',
+				});
+			}
+		},
+	});
 
 	return (
 		<AuthFormWrapper>
@@ -77,14 +89,15 @@ export default function ForgotPassword() {
 				display='flex'
 				flexDirection='column'
 				gap={5}>
-				<AuthInput
+				<FormInput
 					label='Email'
 					id='email'
 					type='email'
 					placeholder='Enter your email'
-					value={formData.email}
+					value={values.email}
 					onChange={handleChange}
-					required
+					onBlur={handleBlur}
+					errorMessage={getError('email')}
 				/>
 
 				<Box
@@ -104,7 +117,7 @@ export default function ForgotPassword() {
 					<NavLink
 						href='/auth/sign-in'
 						linkText='← Back to sign in'
-						prefetch={true}
+						prefetch
 					/>
 				</Box>
 			</Box>
