@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-import LinkIcon from '../../../../public/assets/icons/link/LinkIcon';
+import LinkIcon from '../../../../../public/assets/icons/link/LinkIcon';
 
 interface LinkMessageProps {
   message: string;

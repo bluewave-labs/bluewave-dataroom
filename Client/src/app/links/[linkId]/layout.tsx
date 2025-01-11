@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Typography, Box, Link } from '@mui/material';
 
-import BlueWaveLogo from '../../../public/assets/BluewaveLogo';
+import BlueWaveLogo from '../../../../public/assets/BluewaveLogo';
 
 const inter = Inter({ subsets: ['latin'] });
 

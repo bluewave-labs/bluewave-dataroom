@@ -10,7 +10,7 @@ export default class LinkService {
 
     return {
       linkId: uniqueId,
-      linkUrl: `${HOST}/${uniqueId}`
+      linkUrl: `${HOST}/links/${uniqueId}`
     };
   }
 

@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { useToast } from '@/hooks/useToast';
 import { styled } from '@mui/material/styles';
-import FormInput from '../../../components/FormInput';
+import FormInput from '../../../../components/FormInput';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useFormSubmission } from '@/hooks/useFormSubmission';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -13,7 +13,7 @@ import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
 import { Divider, Box, Button, Typography, Dialog, DialogActions, DialogContent, IconButton } from '@mui/material';
 
-import FileDownloadIcon from '../../../../public/assets/icons/link/FileDownloadIcon';
+import FileDownloadIcon from '../../../../../public/assets/icons/link/FileDownloadIcon';
 
 const RowBox = styled(Box)({
   display: 'flex',
