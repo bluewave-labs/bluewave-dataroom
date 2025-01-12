@@ -3,7 +3,7 @@ import React from 'react';
 import { useToast } from '@/hooks/useToast';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
 
-import CustomAccordion from './CustomAccordion';
+import CustomAccordion from './CustomAccordian';
 import SendingAccordion from './SendingAccordion';
 import LinkDetailsAccordion from './LinkDetailsAccordion';
 import SharingOptionsAccordion from './SharingOptionsAccordion';

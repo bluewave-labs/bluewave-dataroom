@@ -44,7 +44,7 @@ const DocumentsTable = () => {
 		fetchDocuments();
 	}, []);
 
-	const handleDocumentDelete = async (documentId: string) => {
+	const handleDocumentDelete = async (documentId: number) => {
 		try {
 			setLoading(true);
 			await axios.delete(`/api/documents/delete/${documentId}`);
@@ -52,7 +52,7 @@ const DocumentsTable = () => {
 				message: 'Document deleted successfully',
 				variant: 'success',
 			});
-			setDocuments((prevDocuments) => prevDocuments.filter(doc => doc.document_id !== documentId));
+			setDocuments((prevDocuments) => prevDocuments.filter(doc => doc.id !== documentId));
 		} catch (error) {
 			showToast({
 				message: 'Error deleting document',
