@@ -13,7 +13,11 @@ import PasswordValidation from '@/components/PasswordValidation';
 
 import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
-import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
+import {
+	passwordValidationRule,
+	requiredFieldRule,
+	validEmailRule,
+} from '@/utils/shared/validators';
 
 export default function SignUp() {
 	const router = useRouter();
@@ -31,7 +35,10 @@ export default function SignUp() {
 				firstName: [requiredFieldRule('First name is required')],
 				lastName: [requiredFieldRule('Last name is required')],
 				email: [requiredFieldRule('Email is required'), validEmailRule],
-				password: [requiredFieldRule('Password is required')],
+				password: [
+					requiredFieldRule('Password is required'),
+					passwordValidationRule(8, true, true),
+				],
 				confirmPassword: [requiredFieldRule('Please confirm your password')],
 			},
 		},
@@ -42,25 +49,7 @@ export default function SignUp() {
 			// 1) Basic client checks
 			const hasError = validateAll();
 			if (hasError) {
-				toast.showToast({
-					message: 'Please correct the highlighted fields.',
-					variant: 'warning',
-				});
-			}
-
-			if (
-				values.password.length < 8 ||
-				!/[A-Z]/.test(values.password) ||
-				!/[!@#$%^&*(),.?":{}|<>]/.test(values.password)
-			) {
-				if (values.password) {
-					toast.showToast({
-						message:
-							'Password must contain at least 8 characters, one uppercase letter and one symbol.',
-						variant: 'warning',
-					});
-				}
-				return;
+				throw new Error('Please correct the highlighted fields.');
 			}
 
 			if (values.password !== values.confirmPassword) {
@@ -99,10 +88,12 @@ export default function SignUp() {
 					toast.showToast({ message: res.data.message, variant: 'success' });
 				}
 			} else {
-				throw new Error(res.data.message || 'Unknown server error');
+				toast.showToast({
+					message: res.data.message || 'Unknown server error',
+					variant: 'error',
+				});
 			}
 		},
-		successMessage: '', // We'll rely on custom logic above
 	});
 
 	return (
@@ -171,7 +162,7 @@ export default function SignUp() {
 				/>
 
 				<FormInput
-					label='Confirm Password'
+					label='Confirm password'
 					id='confirmPassword'
 					type='password'
 					placeholder='Confirm your password'

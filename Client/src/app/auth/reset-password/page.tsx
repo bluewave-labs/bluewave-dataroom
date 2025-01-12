@@ -13,7 +13,7 @@ import PasswordValidation from '@/components/PasswordValidation';
 
 import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
-import { requiredFieldRule } from '@/utils/shared/validators';
+import { passwordValidationRule, requiredFieldRule } from '@/utils/shared/validators';
 
 export default function ResetPassword() {
 	const router = useRouter();
@@ -29,7 +29,10 @@ export default function ResetPassword() {
 				confirmPassword: '',
 			},
 			validationRules: {
-				password: [requiredFieldRule('Password is required')],
+				password: [
+					requiredFieldRule('Password is required'),
+					passwordValidationRule(8, true, true),
+				],
 				confirmPassword: [requiredFieldRule('Confirm password is required')],
 			},
 		},
@@ -40,25 +43,7 @@ export default function ResetPassword() {
 			// Basic client checks
 			const hasError = validateAll();
 			if (hasError) {
-				toast.showToast({
-					message: 'Please correct the highlighted fields.',
-					variant: 'warning',
-				});
-			}
-
-			if (
-				values.password.length < 8 ||
-				!/[A-Z]/.test(values.password) ||
-				!/[!@#$%^&*(),.?":{}|<>]/.test(values.password)
-			) {
-				if (values.password) {
-					toast.showToast({
-						message:
-							'Password must contain at least 8 characters, one uppercase letter and one symbol.',
-						variant: 'warning',
-					});
-				}
-				return;
+				throw new Error('Please correct the highlighted fields.');
 			}
 
 			if (values.password !== values.confirmPassword) {
@@ -83,7 +68,6 @@ export default function ResetPassword() {
 				)}`,
 			);
 		},
-		successMessage: '',
 	});
 
 	return (
@@ -133,7 +117,7 @@ export default function ResetPassword() {
 				/>
 
 				<FormInput
-					label='Confirm Password'
+					label='Confirm password'
 					id='confirmPassword'
 					type='password'
 					placeholder='Confirm your password'

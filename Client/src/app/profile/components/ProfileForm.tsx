@@ -8,7 +8,7 @@ import { useToast } from '@/hooks/useToast';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
 import { requiredFieldRule } from '@/utils/shared/validators';
 import EditIcon from '@mui/icons-material/Edit';
-import { Avatar, Box, Button, Divider, Link, Typography } from '@mui/material';
+import { Avatar, Box, Button, Divider, Link, Typography, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
@@ -62,10 +62,7 @@ export default function ProfileForm() {
 			// Basic client checks
 			const hasError = validateAll();
 			if (hasError) {
-				toast.showToast({
-					message: 'Please correct the highlighted fields.',
-					variant: 'warning',
-				});
+				throw new Error('Please correct the highlighted fields.');
 			}
 
 			if (values.firstName && values.lastName) {
@@ -123,7 +120,6 @@ export default function ProfileForm() {
 				}
 			}
 		},
-		successMessage: '',
 	});
 
 	const handleDeleteAccount = () => {
@@ -323,16 +319,21 @@ export default function ProfileForm() {
 					</Typography>
 
 					{/* Delete Account Button */}
-					<Box justifyContent='flex-start'>
-						<Button
-							variant='contained'
-							size='medium'
-							color='error'
-							onClick={deleteAccountModal.openModal}
-							disabled={loading || fetchLoading ? true : false}>
-							Delete account
-						</Button>
-					</Box>
+
+					<Tooltip
+						title='Account deletion is disabled in Development'
+						placement='bottom-start'>
+						<Box width='9rem'>
+							<Button
+								variant='contained'
+								size='medium'
+								color='error'
+								onClick={deleteAccountModal.openModal}
+								disabled={true}>
+								Delete account
+							</Button>
+						</Box>
+					</Tooltip>
 				</Box>
 			</Box>
 

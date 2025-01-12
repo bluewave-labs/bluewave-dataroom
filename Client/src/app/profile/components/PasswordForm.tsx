@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import PasswordValidation from '@/components/PasswordValidation';
 import LoadingButton from '@/components/LoadingButton';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
-import { requiredFieldRule } from '@/utils/shared/validators';
+import { passwordValidationRule, requiredFieldRule } from '@/utils/shared/validators';
 import FormInput from '@/components/FormInput';
 import { useFormSubmission } from '@/hooks/useFormSubmission';
 
@@ -23,7 +23,10 @@ export default function PasswordForm() {
 			},
 			validationRules: {
 				currentPassword: [requiredFieldRule('Current password is required')],
-				newPassword: [requiredFieldRule('New password is required')],
+				newPassword: [
+					requiredFieldRule('New password is required'),
+					passwordValidationRule(8, true, true),
+				],
 				confirmPassword: [requiredFieldRule('Please confirm your password')],
 			},
 		});
@@ -34,25 +37,7 @@ export default function PasswordForm() {
 			// Basic client checks
 			const hasError = validateAll();
 			if (hasError) {
-				toast.showToast({
-					message: 'Please correct the highlighted fields.',
-					variant: 'warning',
-				});
-			}
-
-			if (
-				values.newPassword.length < 8 ||
-				!/[A-Z]/.test(values.newPassword) ||
-				!/[!@#$%^&*(),.?":{}|<>]/.test(values.newPassword)
-			) {
-				if (values.newPassword) {
-					toast.showToast({
-						message:
-							'New password must contain at least 8 characters, one uppercase letter and one symbol.',
-						variant: 'warning',
-					});
-				}
-				return;
+				throw new Error('Please correct the highlighted fields.');
 			}
 
 			if (values.newPassword !== values.confirmPassword) {
@@ -125,7 +110,6 @@ export default function PasswordForm() {
 				}
 			}
 		},
-		successMessage: '',
 	});
 
 	return (

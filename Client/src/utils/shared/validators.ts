@@ -1,6 +1,8 @@
+type MessageType = string | ((value: string) => string);
+
 export interface ValidationRule {
 	rule: (value: string) => boolean;
-	message: string;
+	message: MessageType;
 }
 
 /**
@@ -20,26 +22,38 @@ export const validEmailRule: ValidationRule = {
 	message: 'Please enter a valid email address.',
 };
 
-/**
- * Example for min length (e.g., passwords).
- */
-export function minLengthRule(
+/** Check for min length, at least one uppercase letter and one symbol (e.g., for password).*/
+export function passwordValidationRule(
 	length: number,
-	message = `Must be at least ${length} characters long.`,
+	checkUppercase = false,
+	checkSymbol = false,
+	lengthMessage = `Must be at least ${length} characters long.`,
+	uppercaseMessage = 'Must contain at least one uppercase letter.',
+	symbolMessage = 'Must Include at least one symbol.',
 ): ValidationRule {
 	return {
-		rule: (val) => val.length >= length,
-		message,
+		rule: (val) => {
+			const isLengthValid = val.length >= length;
+			const hasUppercaseLetter = !checkUppercase || /[A-Z]/.test(val);
+			const hasSymbol = !checkSymbol || /[!@#$%^&*(),.?":{}|<>]/.test(val);
+			return isLengthValid && hasUppercaseLetter && hasSymbol;
+		},
+		message: (val) => {
+			if (val.length < length) return lengthMessage;
+			if (checkUppercase && !/[A-Z]/.test(val)) return uppercaseMessage;
+			if (checkSymbol && !/[!@#$%^&*(),.?":{}|<>]/.test(val)) return symbolMessage;
+			return '';
+		},
 	};
 }
 
-/**
- * Check for at least one special character (e.g., for password).
- */
-export const hasSpecialCharRule: ValidationRule = {
-	rule: (val) => /[^A-Za-z0-9]/.test(val),
-	message: 'Must contain at least one special character.',
-};
+// /** Check the equality of the password and confirm password.*/
+// export function confirmPasswordRule(password: string): ValidationRule {
+// 	return {
+// 		rule: (confirmPassword) => confirmPassword === password,
+// 		message: 'Password and confirmation password do not match.',
+// 	};
+// }
 
 /**
  * For displaying "strength" feedback in PasswordValidation.tsx.
