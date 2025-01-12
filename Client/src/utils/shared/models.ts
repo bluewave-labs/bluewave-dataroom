@@ -5,7 +5,6 @@ export interface Document {
 	filePath: string;
 	fileType: FileType;
 	size: number;
-	document_id: string;
 	createdAt: string;
 	updatedAt: string;
 	uploader: {
