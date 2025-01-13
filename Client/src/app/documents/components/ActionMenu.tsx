@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { useModal } from '@/hooks/useModal';
-import ModalWrapper from '@/components/ModalWrapper';
+
 import { Menu, MenuItem, Typography } from '@mui/material';
 
+import ModalWrapper from '@/components/ModalWrapper';
 import CreateLink from './CreateLink';
+
+import { useModal } from '@/hooks/useModal';
 
 interface Props {
 	open: boolean;
-	documentId: number;
+	documentId: string;
 	onClose: () => void;
 	anchorEl: HTMLElement | null;
-	onDelete: (documentId: number) => void;
+	onDelete: (documentId: string) => void;
 }
 
 const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) => {
@@ -45,17 +47,21 @@ const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) =>
 				<MenuItem onClick={updateModal.openModal}>Update document</MenuItem>
 				<MenuItem onClick={onClose}>View analytics</MenuItem>
 				<MenuItem onClick={deleteModal.openModal}>
-					<Typography color="error">Delete</Typography>
+					<Typography color='error'>Delete</Typography>
 				</MenuItem>
 			</Menu>
 
-			<CreateLink open={openLink} onClose={handleClose} />
+			<CreateLink
+				open={openLink}
+				onClose={handleClose}
+				documentId={documentId}
+			/>
 
 			<ModalWrapper
-				variant="delete"
-				title="Really delete this file?"
-				description="When you delete this file, all the links associated with the file will also be removed. This action is non-reversible."
-				confirmButtonText="Delete file"
+				variant='delete'
+				title='Really delete this file?'
+				description='When you delete this file, all the links associated with the file will also be removed. This action is non-reversible.'
+				confirmButtonText='Delete file'
 				open={deleteModal.isOpen}
 				toggleModal={deleteModal.closeModal}
 				onClose={() => {
@@ -64,10 +70,10 @@ const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) =>
 			/>
 
 			<ModalWrapper
-				variant="upload"
-				title="Update with a new document"
-				description="When you update with a new document, the current link won’t change."
-				confirmButtonText="Update"
+				variant='upload'
+				title='Update with a new document'
+				description='When you update with a new document, the current link won’t change.'
+				confirmButtonText='Update'
 				open={updateModal.isOpen}
 				toggleModal={updateModal.closeModal}
 				onClose={function (): void {
