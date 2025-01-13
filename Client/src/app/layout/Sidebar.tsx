@@ -33,9 +33,9 @@ export default function Sidebar() {
 		<Drawer
 			variant='permanent'
 			sx={{
-				width: '16rem',
+				width: { sm: '14rem', md: '16rem', lg: '18rem' },
 				'& .MuiDrawer-paper': {
-					width: '16rem',
+					width: { sm: '14rem', md: '16rem', lg: '18rem' },
 					boxSizing: 'border-box',
 				},
 			}}>
@@ -51,7 +51,10 @@ export default function Sidebar() {
 					borderColor: 'border.light',
 				}}>
 				{/* Top Section */}
-				<Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+				<Box
+					display='flex'
+					flexDirection='column'
+					gap={4}>
 					<Box sx={{ mx: 'auto', mt: 2 }}>
 						<BlueWaveLogo
 							width={191}
@@ -61,7 +64,7 @@ export default function Sidebar() {
 
 					<List>
 						{menuItems.map(({ text, icon, href }) => {
-							const isActive = pathname === href;
+							const isActive = pathname === href || pathname.startsWith(`${href}/`);
 							return (
 								<ListItem
 									key={text}

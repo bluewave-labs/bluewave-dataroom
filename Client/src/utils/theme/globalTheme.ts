@@ -9,6 +9,7 @@ const text = {
 	tertiary: '#FFFFFF',
 	notes: '#A1AFC6',
 	brand: '#1570EF',
+	error: '#FF4747',
 };
 
 const background = {
@@ -54,42 +55,45 @@ const modalShadow =
 	'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px';
 
 const globalTheme = createTheme({
-	// spacing: (factor: number) => `${0.125 * factor}rem`,
-	spacing: 2,
+	spacing: (factor: number) => `${0.125 * factor}rem`,
+	// spacing: 2,
 	typography: {
 		fontFamily: fontFamilyDefault,
 		fontSize: 13,
-		h1: { fontSize: 20, color: text.brand, fontWeight: 600 },
-		h2: { fontSize: 16, color: text.primary, fontWeight: 600 },
-		h3: { fontSize: 17, color: text.primary, fontWeight: 600 },
-		h4: { fontSize: 13, color: text.primary, fontWeight: 600 },
-		h5: { fontSize: 11, color: text.primary, fontWeight: 600 },
-		h6: { fontSize: 10, color: text.primary, fontWeight: 600 }, //Unused Currently
-		body1: { fontSize: 13, color: text.secondary, fontWeight: 400 },
-		body2: { fontSize: 11, color: text.notes, fontWeight: 400 },
-		subtitle1: { fontSize: 13, color: text.notes, fontWeight: 400 },
-		subtitle2: { fontSize: 13, color: text.secondary, fontWeight: 400 },
-		caption: {
-			fontSize: 11,
-			fontWeight: 400,
-			color: text.notes,
-			lineHeight: '20px',
-			textAlign: 'left',
-		},
-		// h1: { fontSize: '1rem', color: text.brand, fontWeight: 600 },
-		// h2: { fontSize: '0.8rem', color: text.primary, fontWeight: 600 },
-		// h3: { fontSize: '0.7rem', color: text.primary, fontWeight: 600 },
-		// body1: { fontSize: '0.85rem', color: text.secondary, fontWeight: 400 },
-		// body2: { fontSize: '0.8rem', color: text.notes, fontWeight: 400 },
-		// subtitle1: { fontSize: '0.8rem', color: text.notes, fontWeight: 400 },
-		// subtitle2: { fontSize: '0.8rem', color: text.secondary, fontWeight: 400 },
+		// h1: { fontSize: 20, color: text.brand, fontWeight: 600 },
+		// h2: { fontSize: 16, color: text.primary, fontWeight: 600 },
+		// h3: { fontSize: 17, color: text.primary, fontWeight: 600 },
+		// h4: { fontSize: 13, color: text.primary, fontWeight: 600 },
+		// h5: { fontSize: 11, color: text.primary, fontWeight: 600 },
+		// h6: { fontSize: 10, color: text.primary, fontWeight: 600 }, //Unused Currently
+		// body1: { fontSize: 13, color: text.secondary, fontWeight: 400 },
+		// body2: { fontSize: 11, color: text.notes, fontWeight: 400 },
+		// subtitle1: { fontSize: 13, color: text.notes, fontWeight: 400 },
+		// subtitle2: { fontSize: 13, color: text.secondary, fontWeight: 400 },
 		// caption: {
-		// 	fontSize: '0.7rem',
+		// 	fontSize: 11,
 		// 	fontWeight: 400,
 		// 	color: text.notes,
 		// 	lineHeight: '20px',
 		// 	textAlign: 'left',
 		// },
+		h1: { fontSize: '1.25rem', color: text.brand, fontWeight: 600 },
+		h2: { fontSize: '1rem', color: text.primary, fontWeight: 600 },
+		h3: { fontSize: '1.06rem', color: text.primary, fontWeight: 600 },
+		h4: { fontSize: '0.8rem', color: text.primary, fontWeight: 600 },
+		h5: { fontSize: '0.7rem', color: text.primary, fontWeight: 600 },
+		h6: { fontSize: '0.65rem', color: text.primary, fontWeight: 600 }, //Unused Currently
+		body1: { fontSize: '0.8rem', color: text.secondary, fontWeight: 400 },
+		body2: { fontSize: '0.7rem', color: text.notes, fontWeight: 400 },
+		subtitle1: { fontSize: '0.8rem', color: text.notes, fontWeight: 400 },
+		subtitle2: { fontSize: '0.8rem', color: text.secondary, fontWeight: 400 },
+		caption: {
+			fontSize: '0.7rem',
+			fontWeight: 400,
+			color: text.notes,
+			lineHeight: '20px',
+			textAlign: 'left',
+		},
 	},
 	customShadows: {
 		menu: modalShadow,
