@@ -9,6 +9,7 @@ const text = {
 	tertiary: '#FFFFFF',
 	notes: '#A1AFC6',
 	brand: '#1570EF',
+	error: '#FF4747',
 };
 
 const background = {

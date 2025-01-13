@@ -101,58 +101,63 @@ export default function SignUp() {
 				display='flex'
 				flexDirection='column'
 				gap={8}>
-				<FormInput
-					label='First name'
-					id='firstName'
-					placeholder='Enter your first name'
-					value={values.firstName}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					errorMessage={getError('firstName')}
-				/>
+				<Box
+					display='flex'
+					gap={2}
+					flexDirection='column'>
+					<FormInput
+						label='First name'
+						id='firstName'
+						placeholder='Enter your first name'
+						value={values.firstName}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						errorMessage={getError('firstName')}
+					/>
 
-				<FormInput
-					label='Last name'
-					id='lastName'
-					placeholder='Enter your last name'
-					value={values.lastName}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					errorMessage={getError('lastName')}
-				/>
+					<FormInput
+						label='Last name'
+						id='lastName'
+						placeholder='Enter your last name'
+						value={values.lastName}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						errorMessage={getError('lastName')}
+					/>
 
-				<FormInput
-					label='Email'
-					id='email'
-					type='email'
-					placeholder='your_email@bluewave.ca'
-					value={values.email}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					errorMessage={getError('email')}
-				/>
+					<FormInput
+						label='Email'
+						id='email'
+						type='email'
+						placeholder='your_email@bluewave.ca'
+						value={values.email}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						errorMessage={getError('email')}
+					/>
 
-				<FormInput
-					label='Password'
-					id='password'
-					type='password'
-					placeholder='Create a password'
-					value={values.password}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					errorMessage={getError('password')}
-				/>
+					<FormInput
+						label='Password'
+						id='password'
+						type='password'
+						placeholder='Create a password'
+						value={values.password}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						errorMessage={getError('password')}
+					/>
 
-				<FormInput
-					label='Confirm Password'
-					id='confirmPassword'
-					type='password'
-					placeholder='Confirm your password'
-					value={values.confirmPassword}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					errorMessage={getError('confirmPassword')}
-				/>
+					<FormInput
+						label='Confirm Password'
+						id='confirmPassword'
+						type='password'
+						placeholder='Confirm your password'
+						value={values.confirmPassword}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						errorMessage={getError('confirmPassword')}
+					/>
+				</Box>
 
 				{/* Real-time password strength feedback */}
 				<PasswordValidation passwordValue={values.password} />
