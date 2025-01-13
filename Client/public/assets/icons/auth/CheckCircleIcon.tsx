@@ -1,16 +1,16 @@
-type IconColor = 'error' | 'success' | 'default' | 'outline';
+type IconColor = 'error' | 'success' | 'disabled' | 'outline';
 
 const colorMap: Record<IconColor, string> = {
 	error: '#F04438',
 	success: '#067647',
-	default: '#D0D5DD',
+	disabled: '#D0D5DD',
 	outline: '#344054',
 };
 
 const CheckCircleIcon = ({
 	width = 24,
 	height = 24,
-	color = 'default',
+	color = 'disabled',
 	...props
 }: {
 	width?: number;
