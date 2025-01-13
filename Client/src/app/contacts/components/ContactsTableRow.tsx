@@ -1,5 +1,5 @@
 import { Contact } from '@/utils/shared/models';
-import { formatDate } from '@/utils/shared/utils';
+import { formatDateTime } from '@/utils/shared/utils';
 import { TableCell, TableRow, Typography } from '@mui/material';
 
 interface Props {
@@ -14,7 +14,7 @@ const ContactsTableRow = ({ contact }: Props) => (
 			<Typography variant='caption'>{contact.email}</Typography>
 		</TableCell>
 		<TableCell>{contact.lastViewedLink}</TableCell>
-		<TableCell>{formatDate(contact.lastActivity, { includeTime: true })}</TableCell>
+		<TableCell>{formatDateTime(contact.lastActivity, { includeTime: true })}</TableCell>
 		<TableCell>{contact.visits}</TableCell>
 	</TableRow>
 );
