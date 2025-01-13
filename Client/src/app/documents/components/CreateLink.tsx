@@ -1,6 +1,6 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { ChangeEvent, FormEvent, useState } from 'react';
-import CustomAccordion from './CustomAccordian';
+import CustomAccordion from './CustomAccordion';
 import LinkDetailsAccordion from './LinkDetailsAccordion';
 import SendingAccordion from './SendingAccordion';
 import SharingOptionsAccordion from './SharingOptionsAccordion';
