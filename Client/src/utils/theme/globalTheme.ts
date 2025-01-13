@@ -142,20 +142,6 @@ const globalTheme = createTheme({
 			},
 		},
 
-		MuiAlert: {
-			styleOverrides: {
-				root: {
-					'&.MuiAlert-standardWarning': {
-						fontSize: '1rem',
-						color: '#DC6803',
-						border: `2px solid ${alert.warning}`,
-						'& .MuiAlert-icon': {
-							fontSize: '1.5rem',
-						},
-					},
-				},
-			},
-		},
 		MuiButton: {
 			styleOverrides: {
 				root: {
@@ -482,6 +468,9 @@ const globalTheme = createTheme({
 					textTransform: 'none',
 				},
 			},
+			defaultProps: {
+				disableRipple: true, // Disable ripple effect for all tab buttons
+			},
 		},
 
 		MuiTableCell: {
@@ -562,6 +551,16 @@ const globalTheme = createTheme({
 					borderRadius: 0,
 					boxShadow: 'none',
 					margin: 0,
+				},
+			},
+		},
+
+		MuiTextField: {
+			styleOverrides: {
+				root: {
+					'& .MuiFormHelperText-root': {
+						marginLeft: 0,
+					},
 				},
 			},
 		},
