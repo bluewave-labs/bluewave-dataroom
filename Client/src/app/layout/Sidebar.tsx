@@ -64,7 +64,7 @@ export default function Sidebar() {
 
 					<List>
 						{menuItems.map(({ text, icon, href }) => {
-							const isActive = pathname === href;
+							const isActive = pathname === href || pathname.startsWith(`${href}/`);
 							return (
 								<ListItem
 									key={text}

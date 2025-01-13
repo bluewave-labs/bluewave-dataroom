@@ -49,7 +49,7 @@ export default function DropdownMenu() {
 				startIcon={
 					<Avatar
 						src={'' /* Add avatarUrl */}
-						sx={{ bgcolor: '#F2F4F7', color: 'text.brand' }}>
+						sx={{ bgcolor: '#F2F4F7', color: 'text.brand', mr: 5 }}>
 						{`${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase()}
 					</Avatar>
 				}
@@ -59,6 +59,7 @@ export default function DropdownMenu() {
 						src={DropdownArrow.src}
 						alt='Dropdown Arrow'
 						sx={{
+							mt: 1,
 							width: 20,
 							height: 20,
 							transform: open ? 'rotate(-180deg) translateY(-2px)' : 'rotate(0deg) translateY(0)',
