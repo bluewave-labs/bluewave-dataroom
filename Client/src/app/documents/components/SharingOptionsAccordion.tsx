@@ -2,11 +2,11 @@ import CustomCheckbox from '@/components/CustomCheckbox';
 import CustomTextField from '@/components/CustomTextField';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { Box, IconButton, Radio, RadioGroup, Typography } from '@mui/material';
+import { Box, IconButton, Radio, RadioGroup, Select, Typography, MenuItem, Menu } from '@mui/material';
 
 interface SharingOptionsAccordionProps {
 	formValues: any;
-	handleCheckboxChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	isPasswordVisible: boolean;
 	setIsPasswordVisible: (visible: boolean) => void;
 	expirationType: string;
@@ -15,7 +15,7 @@ interface SharingOptionsAccordionProps {
 
 const SharingOptionsAccordion = ({
 	formValues,
-	handleCheckboxChange,
+	handleInputChange,
 	isPasswordVisible,
 	setIsPasswordVisible,
 	expirationType,
@@ -23,17 +23,42 @@ const SharingOptionsAccordion = ({
 }: SharingOptionsAccordionProps) => (
 	<Box py={4}>
 		<CustomCheckbox
+			checked={formValues.requireUserDetails}
+			onChange={handleInputChange}
+			name="requireUserDetails"
+			label="Ask for the following to view and download the document"
+		/>
+		<Box display="flex" alignItems="center" justifyContent="space-between" mt={2} mb={4} ml={13}>
+			<Select
+				size='small'
+				name='requiredUserDetailsOption'
+				sx={{ minWidth: 250 }}
+				disabled={!formValues.requireUserDetails}
+				value={formValues.requiredUserDetailsOption}
+				onChange={(event) => {
+					handleInputChange({
+						target: {
+							name: 'requiredUserDetailsOption',
+							value: event.target.value,
+						},
+					} as any);
+				}}>
+				<MenuItem value={1}>Name</MenuItem>
+				<MenuItem value={2}>Name and email</MenuItem>
+			</Select>
+		</Box>
+		<CustomCheckbox
 			checked={formValues.requirePassword}
-			onChange={handleCheckboxChange}
+			onChange={handleInputChange}
 			name="requirePassword"
 			label="Require a password to view and download the document"
 		/>
-		<Box display="flex" alignItems="center" justifyContent="space-between" mt={2} mb={4} ml={13}>
+		<Box display="flex" alignItems="center" justifyContent="flex-start" mt={2} mb={4} ml={13}>
 			<CustomTextField
 				minWidth={420}
 				value={formValues.password}
 				onChange={(e) =>
-					handleCheckboxChange({
+					handleInputChange({
 						target: {
 							name: 'password',
 							value: e.target.value,
@@ -42,14 +67,17 @@ const SharingOptionsAccordion = ({
 				}
 				placeholder="Enter password"
 				type={isPasswordVisible ? 'text' : 'password'}
+				disabled={!formValues.requirePassword}
 			/>
-			<IconButton size="large" onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
+			<IconButton size="large" sx={{
+				ml: 4,
+			}} onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
 				{isPasswordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
 			</IconButton>
 		</Box>
 		<CustomCheckbox
 			checked={formValues.expirationEnabled}
-			onChange={handleCheckboxChange}
+			onChange={handleInputChange}
 			name="expirationEnabled"
 			label="Expiration"
 		/>
@@ -62,12 +90,12 @@ const SharingOptionsAccordion = ({
 			value={expirationType}
 			onChange={handleExpirationChange}
 			sx={{ display: 'flex', gap: 12, ml: 7.5 }}>
-			<Box display="flex" alignItems="center" gap={2}>
+			{/* <Box display="flex" alignItems="center" gap={2}>
 				<Radio value="days" />
 				<CustomTextField
 					value={formValues.expirationDays}
 					onChange={(e) =>
-						handleCheckboxChange({
+						handleInputChange({
 							target: {
 								name: 'expirationDays',
 								value: e.target.value,
@@ -77,19 +105,22 @@ const SharingOptionsAccordion = ({
 					placeholder=""
 					type="number"
 					minWidth={200}
+					disabled={!formValues.expirationEnabled}
 				/>
 				<Typography variant="body1" ml={1}>
 					days
 				</Typography>
-			</Box>
-			<Box display="flex" alignItems="center" gap={2}>
-				<Radio value="date" />
+			</Box> */}
+			<Box display="flex" alignItems="center" gap={2} ml={7.5}>
+				{/* <Radio value="date" /> */}
+				<Typography variant="body1" mr={4}>Expiration time</Typography>
 				<CustomTextField
-					value={formValues.expirationDate}
+					value={formValues.expirationTime}
+					// name='expirationTime'
 					onChange={(e) =>
-						handleCheckboxChange({
+						handleInputChange({
 							target: {
-								name: 'expirationDate',
+								name: 'expirationTime',
 								value: e.target.value,
 							},
 						} as any)
@@ -97,6 +128,7 @@ const SharingOptionsAccordion = ({
 					placeholder=""
 					type="date"
 					minWidth={200}
+					disabled={!formValues.expirationEnabled}
 				/>
 			</Box>
 		</RadioGroup>
