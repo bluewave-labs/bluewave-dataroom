@@ -125,7 +125,7 @@ export default function PasswordForm() {
 				alignItems='center'>
 				{/* Current Password */}
 				<Grid size={5}>
-					<Typography variant='h3'>Current password</Typography>
+					<Typography variant='h4'>Current password</Typography>
 				</Grid>
 				<Grid size={7}>
 					<FormInput
@@ -140,7 +140,7 @@ export default function PasswordForm() {
 
 				{/* New Password */}
 				<Grid size={5}>
-					<Typography variant='h3'>New password</Typography>
+					<Typography variant='h4'>New password</Typography>
 				</Grid>
 				<Grid size={7}>
 					<FormInput
@@ -155,7 +155,7 @@ export default function PasswordForm() {
 
 				{/* Confirm Password */}
 				<Grid size={5}>
-					<Typography variant='h3'>Confirm password</Typography>
+					<Typography variant='h4'>Confirm password</Typography>
 				</Grid>
 				<Grid size={7}>
 					<FormInput
@@ -180,7 +180,10 @@ export default function PasswordForm() {
 			</Grid>
 
 			{/* Save Button */}
-			<Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 40 }}>
+			<Box
+				display='flex'
+				justifyContent='flex-end'
+				mt={40}>
 				<LoadingButton
 					loading={loading}
 					buttonText='Save'

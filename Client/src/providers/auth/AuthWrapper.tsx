@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
 
-export default function AuthWrapper({ children }: { children: ReactNode; }) {
+export default function AuthWrapper({ children }: { children: ReactNode }) {
 	const { data: session, status } = useSession();
 	const pathname = usePathname(); // Get the current route path
 
@@ -23,7 +23,8 @@ export default function AuthWrapper({ children }: { children: ReactNode; }) {
 	const isResetPassFormRoute =
 		pathname.startsWith('/auth/reset-password') && pathname.includes('reset-password');
 
-	const isLinksUuidRoute = pathname.startsWith('/links/') && /^[a-f0-9-]{36}$/.test(pathname.split('/links/')[1]);
+	const isLinksUuidRoute =
+		pathname.startsWith('/links/') && /^[a-f0-9-]{36}$/.test(pathname.split('/links/')[1]);
 	// Local state to handle loading state
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -67,19 +68,15 @@ export default function AuthWrapper({ children }: { children: ReactNode; }) {
 	return (
 		<>
 			<Box
-				sx={{
-					display: 'flex',
-					backgroundColor: '#fcfcfd',
-					height: '100vh',
-					width: '100vw',
-				}}>
+				display='flex'
+				bgcolor='background.content'
+				height='100vh'
+				width='100vw'>
 				<Sidebar />
 				<Box
-					sx={{
-						width: '100%',
-						py: { sx: 4, sm: 10, md: 20 },
-						px: { sx: 2, sm: 4, md: 30 },
-					}}>
+					width='100%'
+					py={{ sx: 4, sm: 10, md: 20 }}
+					px={{ sx: 4, sm: 8, md: 30 }}>
 					{children}
 				</Box>
 			</Box>

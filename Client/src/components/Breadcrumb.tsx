@@ -15,11 +15,36 @@ const Breadcrumb = () => {
 	const pathname = usePathname();
 
 	const iconMap: { [key: string]: React.ReactNode } = {
-		documents: <DocumentsIcon width={20} height={20} />,
-		contacts: <ContactsIcon width={20} height={20} />,
-		settings: <SettingsIcon width={20} height={20} />,
-		profile: <ProfileIcon width={20} height={20} />,
-		team: <TeamIcon width={20} height={20} />,
+		documents: (
+			<DocumentsIcon
+				width={20}
+				height={20}
+			/>
+		),
+		contacts: (
+			<ContactsIcon
+				width={20}
+				height={20}
+			/>
+		),
+		settings: (
+			<SettingsIcon
+				width={20}
+				height={20}
+			/>
+		),
+		profile: (
+			<ProfileIcon
+				width={20}
+				height={20}
+			/>
+		),
+		team: (
+			<TeamIcon
+				width={20}
+				height={20}
+			/>
+		),
 	};
 
 	const pathnames = pathname.split('/').filter((x) => x);
@@ -28,17 +53,22 @@ const Breadcrumb = () => {
 	const renderBreadcrumb = (label: string, href: string, isLast: boolean) => {
 		const icon = iconMap[label.toLowerCase()];
 		return (
-			<Box key={href} display="flex" alignItems="center">
+			<Box
+				key={href}
+				display='flex'
+				alignItems='center'>
 				{icon}
 				{isLast ? (
-					<Typography variant="body1" color="text.notes" sx={{ ml: 3 }}>
+					<Typography
+						variant='subtitle1'
+						ml={3}>
 						{label.charAt(0).toUpperCase() + label.slice(1)}
 					</Typography>
 				) : (
 					<NavLink
 						href={href}
-						color="text.primary"
-						variant="body1"
+						color='text.primary'
+						variant='body1'
 						sx={{ ml: 3 }}
 						linkText={label.charAt(0).toUpperCase() + label.slice(1)}
 					/>
@@ -57,12 +87,23 @@ const Breadcrumb = () => {
 
 	return (
 		<Breadcrumbs
-			aria-label="breadcrumb"
-			separator={<NavigateNextIcon fontSize="small" />}
-			sx={{ marginBottom: '1rem' }}>
-			<Box display="flex" alignItems="center">
-				<HomeIcon width={20} height={20} />
-				<NavLink href="/" color="text.primary" variant="body1" sx={{ ml: 3 }} linkText="Home" />
+			aria-label='breadcrumb'
+			separator={<NavigateNextIcon fontSize='small' />}
+			sx={{ mb: '1rem' }}>
+			<Box
+				display='flex'
+				alignItems='center'>
+				<HomeIcon
+					width={20}
+					height={20}
+				/>
+				<NavLink
+					href='/'
+					color='text.primary'
+					variant='body1'
+					ml={3}
+					linkText='Home'
+				/>
 			</Box>
 			{breadcrumbs}
 		</Breadcrumbs>
