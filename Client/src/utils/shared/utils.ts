@@ -83,37 +83,52 @@ export function formatFileSize(
  * @param throwOnError Whether to throw an Error on invalid input (true by default).
  * @returns The numeric size in bytes (NaN or 0 if you choose not to throw on error).
  */
-export function parseFileSize(sizeString: string, throwOnError = true): number {
-	// Expand the regex to allow variations like "B" => "BYTES"
-	const regex = /([\d.]+)\s*(Bytes|B|KB|MB|GB|TB|PB)/i;
-	const match = sizeString.match(regex);
-	if (!match) {
-		if (throwOnError) throw new Error(`Invalid file size format: ${sizeString}`);
+export const parseFileSize = (sizeInput: string | number, throwOnError = true): number => {
+	// If the input is a number, treat it as bytes directly
+	if (typeof sizeInput === 'number') {
+		return sizeInput; // Return the number directly as bytes
+	}
+
+	// Ensure the input is a string
+	if (typeof sizeInput !== 'string') {
+		if (throwOnError) throw new Error(`Expected a string or number, but got ${typeof sizeInput}`);
 		return NaN;
 	}
 
-	const value = parseFloat(match[1]);
-	let unit = match[2].toUpperCase();
-	if (unit === 'B') unit = 'BYTES';
+	// Expand the regex to allow variations like "B" => "BYTES"
+	const regex = /([\d.]+)\s*(Bytes|B|KB|MB|GB|TB|PB)/i;
+	const fileSizeString = `${sizeInput} B`;
+	const match = fileSizeString.match(regex);
 
-	switch (unit) {
-		case 'BYTES':
-			return value;
-		case 'KB':
-			return value * 1024;
-		case 'MB':
-			return value * 1024 * 1024;
-		case 'GB':
-			return value * 1024 * 1024 * 1024;
-		case 'TB':
-			return value * 1024 * 1024 * 1024 * 1024;
-		case 'PB':
-			return value * 1024 * 1024 * 1024 * 1024 * 1024;
-		default:
-			if (throwOnError) throw new Error(`Unknown unit: ${unit}`);
-			return NaN;
+	if (!match) {
+		if (throwOnError) throw new Error(`Invalid file size format: ${fileSizeString}`);
+		return NaN;
 	}
-}
+
+	const [, size, unit] = match;
+	const sizeInBytes = parseFloat(size) * getUnitMultiplier(unit);
+	return sizeInBytes;
+};
+
+const getUnitMultiplier = (unit: string): number => {
+	switch (unit.toUpperCase()) {
+		case 'B':
+		case 'BYTES':
+			return 1;
+		case 'KB':
+			return 1024;
+		case 'MB':
+			return 1024 ** 2;
+		case 'GB':
+			return 1024 ** 3;
+		case 'TB':
+			return 1024 ** 4;
+		case 'PB':
+			return 1024 ** 5;
+		default:
+			throw new Error(`Unknown unit: ${unit}`);
+	}
+};
 
 // ----------------------------------------------------------------------------
 // DATE/TIME UTILITIES
@@ -142,7 +157,7 @@ export interface FormatDateTimeOptions {
  * @param options Optional formatting config, e.g. { includeTime: true, locale: 'en-GB', timeZone: 'UTC' }
  * @returns A formatted date/time string, locale-aware.
  */
-export function formatDateTime(
+export function formatDate(
 	date: string | Date,
 	{ includeTime, locale = 'en-US', timeZone }: FormatDateTimeOptions = {},
 ): string {
