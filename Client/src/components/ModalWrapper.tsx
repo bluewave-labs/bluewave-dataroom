@@ -96,6 +96,7 @@ export default function ModalWrapper({
 	//Convert a human-readable size string (e.g., "20 KB") to its size in bytes.
 	const fileSizeInBytes = fileInfo.size ? parseFileSize(fileInfo.size) : 0;
 	const maxFileSizeInBytes = parseFileSize(maxFileSize);
+	const oneMBInBytes = 1048576;
 
 	const handleConfirm = () => {
 		toggleModal(), onClose();
@@ -106,10 +107,6 @@ export default function ModalWrapper({
 		if (variant === 'upload') {
 			setFileInfo({ name: '', size: '', type: '' });
 		}
-	};
-
-	const handleFileInfo = (info: { name: string; size: string; type: string }) => {
-		setFileInfo(info);
 	};
 
 	return (
@@ -143,7 +140,6 @@ export default function ModalWrapper({
 					maxFileSize={maxFileSize}
 					fileFormats={fileFormats}
 					fileInfo={fileInfo}
-					handleFileInfo={handleFileInfo}
 					progress={progress}
 					handleProgress={setProgress}
 				/>
@@ -156,7 +152,7 @@ export default function ModalWrapper({
 					{cancelButtonText}
 				</Button>
 				<Button
-					disabled={variant === 'upload' && !fileInfo.name}
+					disabled={variant === 'upload' && (fileSizeInBytes > oneMBInBytes || !fileInfo.name)}
 					variant='contained'
 					color={color}
 					onClick={handleConfirm}>

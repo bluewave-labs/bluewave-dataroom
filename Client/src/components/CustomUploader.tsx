@@ -1,6 +1,8 @@
 // src/components/CustomUploader.tsx
 import { useFileInfoStore } from '@/store/useFileInfoStore';
 import { Button, TextField, Box } from '@mui/material';
+import { useToast } from '@/hooks/useToast';
+import { a11yDark } from '@react-email/components';
 interface CustomUploaderProps {
 	variant: 'inProgress' | 'completed' | 'failed';
 	maxFileSize?: string;
@@ -11,6 +13,7 @@ interface CustomUploaderProps {
 
 export default function CustomUploader({ fileFormats }: CustomUploaderProps) {
 	const { fileInfo, setFileInfo, file, setFile } = useFileInfoStore();
+	const { showToast } = useToast();
 
 	// Handle file selection and store it in Zustand
 	const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +34,12 @@ export default function CustomUploader({ fileFormats }: CustomUploaderProps) {
 				// Store file info and the actual file object in Zustand store
 				setFileInfo(fileInfo);
 				setFile(selectedFile);
+				if (selectedFile.size > 1 * 1024 * 1024) {
+					showToast({
+						message: 'Cannot upload file larger than 1 MB',
+						variant: 'error',
+					});
+				}
 			}
 		}
 	};
