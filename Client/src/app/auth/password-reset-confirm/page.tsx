@@ -1,12 +1,14 @@
 'use client';
 
-import { Box, Typography } from '@mui/material';
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { Box, Typography } from '@mui/material';
+
+import CheckCircleIcon from '../../../../public/assets/icons/auth/CheckCircleIcon';
+
 import LoadingButton from '@/components/LoadingButton';
-import CheckIcon from '../../../../public/assets/icons/auth/CheckIcon';
 import AuthFormWrapper from '../components/AuthFormWrapper';
 
 export default function PasswordResetConfirm() {
@@ -58,7 +60,7 @@ export default function PasswordResetConfirm() {
 				boxShadow='0px 1px 2px 0px #1018280D'
 				alignItems='center'
 				borderRadius='12px'>
-				<CheckIcon
+				<CheckCircleIcon
 					color='outline'
 					width={28}
 					height={28}

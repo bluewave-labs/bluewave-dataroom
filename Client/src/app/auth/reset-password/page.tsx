@@ -8,12 +8,12 @@ import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
 import LockIcon from '../../../../public/assets/icons/auth/LockIcon';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import FormInput from '../../../components/FormInput';
-import PasswordValidation from '../components/PasswordValidation';
+import FormInput from '@/components/FormInput';
+import PasswordValidation from '@/components/PasswordValidation';
 
 import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
-import { minLengthRule, requiredFieldRule } from '@/utils/shared/validators';
+import { passwordValidationRule, requiredFieldRule } from '@/utils/shared/validators';
 
 export default function ResetPassword() {
 	const router = useRouter();
@@ -22,28 +22,38 @@ export default function ResetPassword() {
 	const token = searchParams.get('token');
 	const email = searchParams.get('email');
 
-	const { values, handleChange, handleBlur, getError, validateAll } = useValidatedFormData({
-		initialValues: {
-			password: '',
-			confirmPassword: '',
+	const { values, touched, handleChange, handleBlur, getError, validateAll } = useValidatedFormData(
+		{
+			initialValues: {
+				password: '',
+				confirmPassword: '',
+			},
+			validationRules: {
+				password: [
+					requiredFieldRule('Password is required'),
+					passwordValidationRule(8, true, true),
+				],
+				confirmPassword: [requiredFieldRule('Confirm password is required')],
+			},
 		},
-		validationRules: {
-			password: [
-				requiredFieldRule('Password is required'),
-				minLengthRule(8, 'Password must be at least 8 characters'),
-			],
-			confirmPassword: [requiredFieldRule('Confirm password is required')],
-		},
-	});
+	);
 
-	const { loading, handleSubmit } = useFormSubmission({
+	const { loading, handleSubmit, toast } = useFormSubmission({
 		onSubmit: async () => {
+			// Basic client checks
 			const hasError = validateAll();
 			if (hasError) {
 				throw new Error('Please correct the highlighted fields.');
 			}
+
 			if (values.password !== values.confirmPassword) {
-				throw new Error('Passwords do not match.');
+				if (values.confirmPassword) {
+					toast.showToast({
+						message: 'Password and confirmation password do not match.',
+						variant: 'warning',
+					});
+				}
+				return;
 			}
 
 			await axios.post('/api/auth/resetPassForm', {
@@ -58,7 +68,6 @@ export default function ResetPassword() {
 				)}`,
 			);
 		},
-		successMessage: '',
 	});
 
 	return (
@@ -108,7 +117,7 @@ export default function ResetPassword() {
 				/>
 
 				<FormInput
-					label='Confirm Password'
+					label='Confirm password'
 					id='confirmPassword'
 					type='password'
 					placeholder='Confirm your password'
@@ -118,7 +127,10 @@ export default function ResetPassword() {
 					errorMessage={getError('confirmPassword')}
 				/>
 
-				<PasswordValidation passwordValue={values.password} />
+				<PasswordValidation
+					passwordValue={values.password}
+					isBlur={touched.password}
+				/>
 
 				<LoadingButton
 					loading={loading}

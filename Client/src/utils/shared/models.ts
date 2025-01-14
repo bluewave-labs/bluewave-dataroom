@@ -1,49 +1,6 @@
-// Document Interface
-export interface Document {
-	id: number;
-	fileName: string;
-	filePath: string;
-	fileType: FileType;
-	size: number;
-	createdAt: string;
-	updatedAt: string;
-	uploader: {
-		name: string;
-		avatar: string | null;
-	};
-	links: number;
-	viewers: number;
-	views: number;
-	createdLinks?: { id: number; createdLink: string; lastViewed: Date; linkViews: number }[];
-	visitors?: {
-		id: number;
-		visitor: string;
-		downloads: number;
-		lastViewed: Date;
-		duration: string;
-		completion: string;
-	}[];
-}
+// Client/src/utils/shared/models.ts
 
-// User Interface
-export interface User {
-	id: number;
-	name: string;
-	email: string;
-	role: 'Administrator' | 'Member';
-	createdAt: string;
-}
-
-// Contact Interface
-export interface Contact {
-	userId: string;
-	name: string;
-	email: string;
-	lastViewedLink: string;
-	lastActivity: string;
-	visits: number;
-}
-
+// =========== ENUMS & CONFIGS ===========
 export const FileTypeConfig = {
 	'application/pdf': '/assets/icons/documentPage/pdf-icon.svg',
 	'application/msword': '/assets/icons/documentPage/word-icon.svg',
@@ -67,5 +24,75 @@ export const FileTypeConfig = {
 	General: '/assets/icons/documentPage/general-icon.svg',
 } as const;
 
-// Derive FileType from the keys of FileTypeConfig
 export type FileType = keyof typeof FileTypeConfig;
+
+// =========== DOCUMENT TYPE ===========
+
+export interface DocumentType {
+	document_id: string; // The unique DB identifier (cuid)
+	fileName: string;
+	filePath: string;
+	fileType: FileType;
+	size: number;
+	createdAt: string; // ISO string
+	updatedAt: string; // ISO string
+	uploader: {
+		name: string;
+		avatar: string | null;
+	};
+	links: number; // The count of Link[]
+	viewers: number; // The sum of all LinkVisitors for all links
+	views: number; // Potential total doc views (0 if not tracked)
+	createdLinks?: LinkDetail[]; // If you want to store link details
+}
+
+// =========== USER TYPE ===========
+export interface User {
+	user_id: number;
+	name: string;
+	email: string;
+	role: 'Administrator' | 'Member';
+	createdAt: string;
+	// ... etc
+}
+
+// =========== CONTACT TYPE ===========
+export interface Contact {
+	userId: string;
+	name: string;
+	email: string;
+	lastViewedLink: string;
+	lastActivity: string;
+	visits?: number;
+}
+
+// =========== LINK DETAIL ===========
+
+export interface LinkDetail {
+	linkId: string; // unique string
+	document_id: string; // The document_id from DB
+	createdLink: string; // The linkUrl from DB
+	lastViewed: Date; // The link's updatedAt
+	linkViews: number; // If you track actual link views, you can use a real value
+}
+
+// =========== VISITOR DETAIL ===========
+
+export interface VisitorDetail {
+	id: number;
+	visitor: string; // Combined first + last name
+	email?: string; // If LinkVisitors has an email field
+	document_id: string; // The document_id from DB
+	lastViewed: Date;
+	downloads: number;
+	duration: string;
+	completion: string;
+}
+
+// ====== Chart Type ======
+export interface BarDataItem {
+	month: string;
+	Views: number;
+	Downloads: number;
+	date: Date;
+}

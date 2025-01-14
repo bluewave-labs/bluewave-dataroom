@@ -1,29 +1,126 @@
+import PageLoader from '../loading';
+import FormInput from '@/components/FormInput';
+import LoadingButton from '@/components/LoadingButton';
 import ModalWrapper from '@/components/ModalWrapper';
+import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { useModal } from '@/hooks/useModal';
 import { useToast } from '@/hooks/useToast';
+import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+import { requiredFieldRule } from '@/utils/shared/validators';
 import EditIcon from '@mui/icons-material/Edit';
-import { Avatar, Box, Button, Divider, Link, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Divider, Link, Typography, Tooltip } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { useState } from 'react';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 
 export default function ProfileForm() {
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
-	const [photo, setPhoto] = useState('');
+	const [fetchLoading, setFetchLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 
 	const deleteAccountModal = useModal();
 	const deletePhotoModal = useModal();
 	const uploadModal = useModal();
 
 	const { showToast } = useToast();
+	const { data: session } = useSession();
 
-	const handleSave = () => {
-		console.log('Profile Updated Successfully!');
-		showToast({
-			message: 'Profile Updated Successfully!',
-			variant: 'success',
-		});
-	};
+	const { values, setValues, handleChange, getError, validateAll } = useValidatedFormData({
+		initialValues: {
+			firstName: '',
+			lastName: '',
+			email: '',
+			// image: '',
+		},
+		validationRules: {
+			firstName: [requiredFieldRule('First name is required')],
+			lastName: [requiredFieldRule('Last name is required')],
+		},
+	});
+
+	// Fetch data
+	useEffect(() => {
+		const fetchProfileData = async () => {
+			setFetchLoading(true);
+			try {
+				const response = await axios.get('/api/profile');
+				setValues(response.data);
+			} catch (error) {
+				console.error('Error loading profile data:', error);
+				setError('Failed to load profile data! Please try again later.');
+			} finally {
+				setFetchLoading(false);
+			}
+		};
+
+		fetchProfileData();
+	}, []);
+
+	// Submit data
+	const { loading, handleSubmit, toast } = useFormSubmission({
+		onSubmit: async () => {
+			// Basic client checks
+			const hasError = validateAll();
+			if (hasError) {
+				throw new Error('Please correct the highlighted fields.');
+			}
+
+			if (values.firstName && values.lastName) {
+				try {
+					// Make the POST request
+					const response = await axios.post('/api/profile/changeName', {
+						email: session?.user.email,
+						firstName: values.firstName,
+						lastName: values.lastName,
+						// image: values.image,
+					});
+					// Handle success
+					if (response.status === 200) {
+						toast.showToast({
+							message: 'Profile Updated Successfully!',
+							variant: 'success',
+						});
+					}
+				} catch (error: unknown) {
+					// Narrowing down the type of `error`
+					if (axios.isAxiosError(error)) {
+						// Axios-specific error handling
+						if (error.response) {
+							// Server responded with an error
+							toast.showToast({
+								message: `Error: ${error.response.data.error}!`,
+								variant: 'error',
+							});
+						} else if (error.request) {
+							// No response received
+							toast.showToast({
+								message: 'Error: No response from server! Please try again later.',
+								variant: 'error',
+							});
+						} else {
+							// Other Axios error
+							toast.showToast({
+								message: `Error: ${error.message}!`,
+								variant: 'error',
+							});
+						}
+					} else if (error instanceof Error) {
+						// Generic error handling
+						toast.showToast({
+							message: `Error: ${error.message}!`,
+							variant: 'error',
+						});
+					} else {
+						// Fallback for unknown error types
+						toast.showToast({
+							message: 'An unexpected error occurred!',
+							variant: 'error',
+						});
+					}
+				}
+			}
+		},
+	});
 
 	const handleDeleteAccount = () => {
 		console.log('Account Deleted!');
@@ -49,10 +146,27 @@ export default function ProfileForm() {
 		});
 	};
 
+	if (fetchLoading) {
+		return <PageLoader />;
+	}
+
+	if (error) {
+		return (
+			<Box
+				display='flex'
+				justifyContent='center'
+				alignItems='center'
+				minHeight='50vh'>
+				<Typography color='error'>{error}</Typography>
+			</Box>
+		);
+	}
+
 	return (
 		<>
 			<Box
 				component='form'
+				onSubmit={handleSubmit}
 				noValidate
 				autoComplete='off'>
 				<Grid
@@ -65,14 +179,11 @@ export default function ProfileForm() {
 						<Typography variant='h3'>First name</Typography>
 					</Grid>
 					<Grid size={6}>
-						<TextField
-							size='small'
-							id='first-name'
-							variant='outlined'
-							fullWidth
-							sx={{ borderRadius: 4 }}
-							value={firstName}
-							onChange={(e) => setFirstName(e.target.value)}
+						<FormInput
+							id='firstName'
+							value={values.firstName}
+							onChange={handleChange}
+							errorMessage={getError('firstName')}
 						/>
 					</Grid>
 
@@ -81,13 +192,11 @@ export default function ProfileForm() {
 						<Typography variant='h3'>Last name</Typography>
 					</Grid>
 					<Grid size={6}>
-						<TextField
-							size='small'
-							id='last-name'
-							variant='outlined'
-							fullWidth
-							value={lastName}
-							onChange={(e) => setLastName(e.target.value)}
+						<FormInput
+							id='lastName'
+							value={values.lastName}
+							onChange={handleChange}
+							errorMessage={getError('lastName')}
 						/>
 					</Grid>
 
@@ -99,13 +208,12 @@ export default function ProfileForm() {
 						</Typography>
 					</Grid>
 					<Grid size={6}>
-						<TextField
-							size='small'
+						<FormInput
 							id='email'
-							variant='outlined'
-							disabled
-							fullWidth
-							placeholder='mahid@acme.com'
+							type='email'
+							value={values.email}
+							onChange={handleChange}
+							disabled={true}
 						/>
 					</Grid>
 
@@ -134,6 +242,7 @@ export default function ProfileForm() {
 								<Avatar
 									alt='Profile Picture'
 									src='https://picsum.photos/200/200'
+									// src={values.image}
 									sx={{ width: 64, height: 64, mr: 7 }}
 								/>
 
@@ -181,13 +290,12 @@ export default function ProfileForm() {
 					display='flex'
 					justifyContent='flex-end'
 					mt={40}>
-					<Button
-						variant='contained'
-						size='medium'
-						color='primary'
-						onClick={handleSave}>
-						Save
-					</Button>
+					<LoadingButton
+						loading={loading}
+						buttonText='Save'
+						loadingText='Saving...'
+						fullWidth={false}
+					/>
 				</Box>
 
 				<Divider sx={{ mb: 7, mt: 14 }} />
@@ -211,15 +319,21 @@ export default function ProfileForm() {
 					</Typography>
 
 					{/* Delete Account Button */}
-					<Box justifyContent='flex-start'>
-						<Button
-							variant='contained'
-							size='medium'
-							color='error'
-							onClick={deleteAccountModal.openModal}>
-							Delete account
-						</Button>
-					</Box>
+
+					<Tooltip
+						title='Account deletion is disabled in Development'
+						placement='bottom-start'>
+						<Box width='9rem'>
+							<Button
+								variant='contained'
+								size='medium'
+								color='error'
+								onClick={deleteAccountModal.openModal}
+								disabled={true}>
+								Delete account
+							</Button>
+						</Box>
+					</Tooltip>
 				</Box>
 			</Box>
 

@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
 
-export default function AuthWrapper({ children }: { children: ReactNode }) {
+export default function AuthWrapper({ children }: { children: ReactNode; }) {
 	const { data: session, status } = useSession();
 	const pathname = usePathname(); // Get the current route path
 
@@ -23,6 +23,7 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 	const isResetPassFormRoute =
 		pathname.startsWith('/auth/reset-password') && pathname.includes('reset-password');
 
+	const isLinksUuidRoute = pathname.startsWith('/links/') && /^[a-f0-9-]{36}$/.test(pathname.split('/links/')[1]);
 	// Local state to handle loading state
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -46,6 +47,10 @@ export default function AuthWrapper({ children }: { children: ReactNode }) {
 				<CircularProgress size={80} />
 			</Box>
 		);
+	}
+
+	if (isLinksUuidRoute) {
+		return <>{children}</>;
 	}
 
 	// If the user is trying to access a restricted route and is not signed in, redirect to the sign-in page

@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import { FC, useState } from 'react';
+
 import {
 	Box,
 	Button,
@@ -6,19 +9,20 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
+	IconButton,
 	TextField,
 	Typography,
-	IconButton,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import Image from 'next/image';
-import { FC, useState } from 'react';
-import DeleteIcon from '../../public/assets/icons/teamPage/trash-icon.svg';
-import Dropdown from './Dropdown';
-import CustomUploader from './CustomUploader';
+
 import CustomCircularProgress from './CustomCircularProgress';
+import DocumentUploader from './CustomUploader';
+import Dropdown from './Dropdown';
+
+import DeleteIcon from '../../public/assets/icons/teamPage/trash-icon.svg';
+
 import { FileTypeConfig } from '@/utils/shared/models';
-import useFileInfo from '@/hooks/useFileInfo';
+import { parseFileSize } from '@/utils/shared/utils';
 
 interface ModalVariant {
 	color: 'primary' | 'error';
@@ -92,7 +96,6 @@ export default function ModalWrapper({
 	});
 
 	const { color, ContentComponent } = modalVariants[variant];
-	const { parseFileSize } = useFileInfo();
 
 	//Convert a human-readable size string (e.g., "20 KB") to its size in bytes.
 	const fileSizeInBytes = fileInfo.size ? parseFileSize(fileInfo.size) : 0;
@@ -200,10 +203,10 @@ function UploadBox({
 	return (
 		<Box mt={12}>
 			<Box mb={3}>
-				<CustomUploader
-					fileFormats={fileFormats}
+				<DocumentUploader
+					allowedFormats={fileFormats}
 					fileInfo={fileInfo}
-					handleFileInfo={handleFileInfo}
+					onFileInfoChange={handleFileInfo}
 				/>
 			</Box>
 			<Box mb={11}>

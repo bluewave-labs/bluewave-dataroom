@@ -38,8 +38,8 @@ const UserTable = ({ users, page, setPage, pageSize, totalUsers }: Props) => (
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{users.map((user) => (
-						<TableRow key={user.id}>
+					{users.map((user, index) => (
+						<TableRow key={index}>
 							<TableCell>
 								<Typography variant='body1'>{user.name}</Typography>
 								<Typography variant='caption'>Created {user.createdAt}</Typography>
@@ -54,7 +54,7 @@ const UserTable = ({ users, page, setPage, pageSize, totalUsers }: Props) => (
 										{ value: 'Member', label: 'Member' },
 									]}
 									onValueChange={(newRole) => {
-										console.log(`Role changed to ${newRole} for user ${user.id}`);
+										console.log(`Role changed to ${newRole} for user ${user.name}`);
 									}}
 								/>
 							</TableCell>

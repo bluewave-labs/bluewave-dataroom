@@ -69,9 +69,12 @@ export function useValidatedFormData<T extends object>({
 		const fieldValue = values[fieldName];
 		const rules = validationRules[fieldName] || [];
 		for (const { rule, message } of rules) {
-			// Convert to string just in case
 			if (!rule(String(fieldValue))) {
-				return message;
+				// Handle both string and function types for message
+				if (typeof message === 'function') {
+					return message(String(fieldValue)); // Call the function with the value
+				}
+				return message; // Return the string directly
 			}
 		}
 		return '';
