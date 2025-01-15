@@ -78,7 +78,7 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 							<span style={{ fontSize: 13 }}>•</span>
 							<span>{document.links} links</span>
 							<span style={{ fontSize: 13 }}>•</span>
-							<span>{document.viewers} viewers</span>
+							<span>Version 1</span>
 						</Typography>
 					</Box>
 				</Box>
@@ -108,7 +108,7 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 			<TableCell>
 				<Chip
 					icon={<BarChartIcon />}
-					label={`${document.views} views`}
+					label={`${document.viewers} views`}
 					size='small'
 					color='secondary'
 					sx={{
