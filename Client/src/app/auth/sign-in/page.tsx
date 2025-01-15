@@ -73,27 +73,32 @@ export default function SignIn() {
 				display='flex'
 				flexDirection='column'
 				gap={5}>
-				<FormInput
-					label='Email'
-					id='email'
-					type='email'
-					placeholder='your_email@bluewave.ca'
-					value={values.email}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					errorMessage={getError('email')}
-				/>
+				<Box
+					display='flex'
+					gap={5}
+					flexDirection='column'>
+					<FormInput
+						label='Email'
+						id='email'
+						type='email'
+						placeholder='your_email@bluewave.ca'
+						value={values.email}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						errorMessage={getError('email')}
+					/>
 
-				<FormInput
-					label='Password'
-					id='password'
-					type='password'
-					placeholder='••••••••••••••'
-					value={values.password}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					errorMessage={getError('password')}
-				/>
+					<FormInput
+						label='Password'
+						id='password'
+						type='password'
+						placeholder='••••••••••••••'
+						value={values.password}
+						onChange={handleChange}
+						onBlur={handleBlur}
+						errorMessage={getError('password')}
+					/>
+				</Box>
 
 				<Box
 					display='flex'

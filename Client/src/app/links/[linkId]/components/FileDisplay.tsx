@@ -1,8 +1,11 @@
 import React from 'react';
-import { useToast } from '@/hooks/useToast';
+
 import { styled } from '@mui/material/styles';
-import { formatBytes } from '@/utils/shared/utils';
 import { Typography, Box, Button } from '@mui/material';
+
+import { useToast } from '@/hooks/useToast';
+
+import { formatFileSize } from '@/utils/shared/utils';
 
 const ActionButton = styled(Button)({
 	width: '250px',
@@ -64,7 +67,7 @@ const FileDisplay: React.FC<FilePageProps> = ({ signedUrl, fileName, size }) => 
 				<Typography
 					variant='subtitle2'
 					color='primary'>
-					{fileName} ({formatBytes(size)})
+					{fileName} ({formatFileSize(size)})
 				</Typography>
 			</Box>
 			<Box
