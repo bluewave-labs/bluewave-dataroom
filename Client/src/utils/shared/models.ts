@@ -89,6 +89,20 @@ export interface VisitorDetail {
 	completion: string;
 }
 
+// =========== LINK TYPE ===========
+
+export interface LinkFormValues {
+	password: string;
+	isPublic: boolean;
+	otherEmails: string;
+	friendlyName: string;
+	expirationTime: string;
+	requirePassword: boolean;
+	expirationEnabled: boolean;
+	requireUserDetails: boolean;
+	requiredUserDetailsOption: number;
+}
+
 // ====== Chart Type ======
 export interface BarDataItem {
 	month: string;
