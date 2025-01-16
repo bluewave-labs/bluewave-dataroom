@@ -1,12 +1,14 @@
 import axios from 'axios';
 import React from 'react';
 import { useToast } from '@/hooks/useToast';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, IconButton } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
 import CustomAccordion from './CustomAccordian';
 import SendingAccordion from './SendingAccordion';
 import LinkDetailsAccordion from './LinkDetailsAccordion';
 import SharingOptionsAccordion from './SharingOptionsAccordion';
+import CopyIcon from '../../../../public/assets/icons/documentPage/CopyIcon';
 
 interface Props {
 	onClose: (action: string) => void;
@@ -15,6 +17,7 @@ interface Props {
 }
 
 const CreateLink = ({ onClose, open, documentId }: Props) => {
+	const [isLinkCopied, setIsLinkCopied] = React.useState(false);
 	const { showToast } = useToast();
 	const [loading, setLoading] = React.useState(true);
 	const [shareableLink, setShareableLink] = React.useState('');
@@ -124,17 +127,42 @@ const CreateLink = ({ onClose, open, documentId }: Props) => {
 		onClose('Form Submitted');
 	};
 
+	const handleLinkCopy = (linkToCopy: string) => {
+		if (linkToCopy) {
+			navigator.clipboard.writeText(linkToCopy);
+			setTimeout(() => {
+				setIsLinkCopied(true);
+			}, 300);
+		}
+	};
+
 	if (shareableLink) {
-		return <Dialog open={!!shareableLink} onClose={() => setShareableLink('')}>
-			<DialogTitle fontSize={20}>Shareable Link</DialogTitle>
-			<DialogContent>
-				<Typography color="text.secondary" fontSize={15} fontWeight={500} >
-					{shareableLink}
-				</Typography>
+		return <Dialog
+			open={!!shareableLink}
+			onClose={() => setShareableLink('')}
+			PaperProps={{ sx: { minWidth: 500, minHeight: 100, padding: 10 } }}
+		>
+			<Typography variant='h1'>Shareable Link</Typography>
+			<DialogContent sx={{
+				padding: 0,
+				marginTop: 5
+			}}>
+				<Box sx={{
+					display: 'flex',
+					alignItems: 'center',
+				}}>
+					<Typography variant='h5'>
+						{shareableLink}
+					</Typography>
+					<IconButton
+						sx={{ ml: 2 }}
+						onClick={() => {
+							handleLinkCopy(shareableLink);
+						}}>
+						{isLinkCopied ? <CheckIcon fontSize='small' /> : <CopyIcon />}
+					</IconButton>
+				</Box>
 			</DialogContent>
-			<DialogActions>
-				<Button variant='contained' onClick={() => setShareableLink('')}>Close</Button>
-			</DialogActions>
 		</Dialog>;
 	}
 
@@ -155,7 +183,7 @@ const CreateLink = ({ onClose, open, documentId }: Props) => {
 				}}>
 				<Box
 					width={580}
-					>
+				>
 					<CustomAccordion
 						title='Link Details'
 						defaultExpanded>
