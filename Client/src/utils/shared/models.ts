@@ -28,7 +28,7 @@ export type FileType = keyof typeof FileTypeConfig;
 
 // =========== DOCUMENT TYPE ===========
 
-export interface DocumentType {
+export interface Document {
 	document_id: string; // The unique DB identifier (cuid)
 	fileName: string;
 	filePath: string;

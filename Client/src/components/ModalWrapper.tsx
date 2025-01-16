@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import { FC, useState } from 'react';
 
@@ -23,6 +24,7 @@ import DeleteIcon from '../../public/assets/icons/teamPage/trash-icon.svg';
 
 import { FileTypeConfig } from '@/utils/shared/models';
 import { parseFileSize } from '@/utils/shared/utils';
+import { useFileInfoStore } from '@/store/useFileInfoStore';
 
 interface ModalVariant {
 	color: 'primary' | 'error';
@@ -31,9 +33,7 @@ interface ModalVariant {
 		maxFileSize?: string;
 		fileFormats?: string;
 		fileInfo: { name: string; size: string; type: string };
-		handleFileInfo: React.Dispatch<
-			React.SetStateAction<{ name: string; size: string; type: string }>
-		>;
+		handleFileInfo: Function;
 		progress: number;
 		handleProgress: React.Dispatch<React.SetStateAction<number>>;
 	}>;
@@ -88,18 +88,15 @@ export default function ModalWrapper({
 	maxFileSize = '1 MB',
 	fileFormats = 'PDF',
 }: ModalWrapperProps) {
-	const [progress, setProgress] = useState(10);
-	const [fileInfo, setFileInfo] = useState<FileInfoType>({
-		name: '',
-		size: '',
-		type: '',
-	});
+	const [progress, setProgress] = useState(90);
+	const { fileInfo, setFileInfo } = useFileInfoStore();
 
 	const { color, ContentComponent } = modalVariants[variant];
 
 	//Convert a human-readable size string (e.g., "20 KB") to its size in bytes.
 	const fileSizeInBytes = fileInfo.size ? parseFileSize(fileInfo.size) : 0;
 	const maxFileSizeInBytes = parseFileSize(maxFileSize);
+	const oneMBInBytes = 1048576;
 
 	const handleConfirm = () => {
 		toggleModal(), onClose();
@@ -108,12 +105,7 @@ export default function ModalWrapper({
 	const handleCancel = () => {
 		toggleModal();
 		if (variant === 'upload') {
-			setFileInfo((prevFileInfo) => ({
-				...prevFileInfo,
-				name: '',
-				size: '',
-				type: '',
-			}));
+			setFileInfo({ name: '', size: '', type: '' });
 		}
 	};
 
@@ -148,7 +140,6 @@ export default function ModalWrapper({
 					maxFileSize={maxFileSize}
 					fileFormats={fileFormats}
 					fileInfo={fileInfo}
-					handleFileInfo={setFileInfo}
 					progress={progress}
 					handleProgress={setProgress}
 				/>
@@ -161,7 +152,7 @@ export default function ModalWrapper({
 					{cancelButtonText}
 				</Button>
 				<Button
-					disabled={variant === 'upload' && !fileInfo.name}
+					disabled={variant === 'upload' && (fileSizeInBytes > oneMBInBytes || !fileInfo.name)}
 					variant='contained'
 					color={color}
 					onClick={handleConfirm}>

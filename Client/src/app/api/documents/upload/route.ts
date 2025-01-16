@@ -1,47 +1,57 @@
+import { NextRequest, NextResponse } from 'next/server';
 import { uploadFile } from '@/services/storageService';
 import { authenticate } from '@lib/middleware/authenticate';
 import prisma from '@lib/prisma';
-import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
 	try {
 		const userId = await authenticate(req);
 
-		// Extract the file from the form data
-		const formData = await req.formData();
-		const file = formData.get('file');
-		if (!(file instanceof File) || !file.name) {
-			return createErrorResponse('Invalid file type or missing file.', 400);
+		const data = await req.formData();
+		const files = data.getAll('files'); // Get all files from the form data
+
+		if (files.length === 0) {
+			return NextResponse.json({ message: 'No files found.', status: 404 });
 		}
 
-		// Convert File to Buffer
-		const arrayBuffer = await file.arrayBuffer();
-		const fileBuffer = Buffer.from(arrayBuffer);
+		// Process each file
+		const fileUploadPromises = files.map(async (file: File) => {
+			const bytes = await file.arrayBuffer();
+			const buffer = Buffer.from(bytes);
 
-		// Upload the file using the storage service
-		const uploadResult = await uploadFile(fileBuffer, {
-			fileName: file.name,
-			userId,
-			fileType: file.type,
-		});
-
-		if (!uploadResult) {
-			return createErrorResponse('File upload failed.', 500);
-		}
-
-		// Save the file details in the database
-		const document = await prisma.document.create({
-			data: {
-				user_id: userId,
+			// Upload the file using the storage service
+			const uploadResult = await uploadFile(buffer, {
 				fileName: file.name,
-				filePath: uploadResult, // Store the file path from upload result
+				userId,
 				fileType: file.type,
-				size: file.size,
-			},
+			});
+
+			if (!uploadResult) {
+				throw new Error(`Failed to upload file: ${file.name}`);
+			}
+
+			// Save the file details in the database
+			const document = await prisma.document.create({
+				data: {
+					user_id: userId,
+					fileName: file.name,
+					filePath: uploadResult,
+					fileType: file.type,
+					size: file.size,
+				},
+			});
+
+			return document; // Return the document for each file
 		});
 
-		// Respond with success
-		return NextResponse.json({ message: 'File uploaded successfully.', document }, { status: 200 });
+		// Wait for all file uploads to complete
+		const documents = await Promise.all(fileUploadPromises);
+
+		// Respond with success and the uploaded documents
+		return NextResponse.json(
+			{ message: 'Files uploaded successfully.', documents },
+			{ status: 200 },
+		);
 	} catch (error) {
 		return createErrorResponse('Server error.', 500, error);
 	}

@@ -1,95 +1,46 @@
-import useFileInfo from '@/hooks/useFileInfo';
+// src/components/CustomUploader.tsx
+import { useFileInfoStore } from '@/store/useFileInfoStore';
+import { Button, TextField, Box } from '@mui/material';
 import { useToast } from '@/hooks/useToast';
-import { Box, Button, TextField } from '@mui/material';
-import axios from 'axios';
-import { useSession } from 'next-auth/react';
-import { useState } from 'react';
-
+import { a11yDark } from '@react-email/components';
 interface CustomUploaderProps {
+	variant: 'inProgress' | 'completed' | 'failed';
+	maxFileSize?: string;
 	fileFormats?: string;
-	fileInfo: { name: string; size: string; type: string };
-	handleFileInfo: React.Dispatch<
-		React.SetStateAction<{ name: string; size: string; type: string }>
-	>;
+	progress: number;
+	handleProgress: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function CustomUploader({
-	fileFormats,
-	fileInfo,
-	handleFileInfo,
-}: CustomUploaderProps) {
-	const [uploading, setUploading] = useState(false);
-	const { data: session } = useSession();
+export default function CustomUploader({ fileFormats }: CustomUploaderProps) {
+	const { fileInfo, setFileInfo, file, setFile } = useFileInfoStore();
 	const { showToast } = useToast();
-	const { formatFileSize } = useFileInfo();
 
-	const handleUploadFile = () => {
-		console.log('File Uploaded Successfully!');
-		showToast({
-			message: 'File Uploaded Successfully!',
-			variant: 'success',
-		});
-	};
-
-	const handleFailedFileError = () => {
-		console.log('File Uploading Failed!');
-		showToast({
-			message: 'File Uploading Failed!',
-			variant: 'error',
-		});
-	};
-
-	const handleNotAuthenticatedError = () => {
-		console.log('User not authenticated!');
-		showToast({
-			message: 'User not authenticated!',
-			variant: 'error',
-		});
-	};
-
-	// Handle file selection
+	// Handle file selection and store it in Zustand
 	const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0];
+		const files = e.target.files;
 
-		if (file) {
-			const formattedFileSize = formatFileSize(file.size);
-			handleFileInfo((prevFileInfo) => ({
-				...prevFileInfo,
-				name: file.name,
-				size: formattedFileSize,
-				type: file.type,
-			}));
-		} else {
-			return;
-		}
+		if (files && files.length > 0) {
+			const selectedFile = files[0];
 
-		setUploading(true);
+			if (selectedFile) {
+				// Format file size
+				const formattedFileSize = (selectedFile.size / 1024).toFixed(2) + ' KB';
+				const fileInfo = {
+					name: selectedFile.name,
+					size: formattedFileSize,
+					type: selectedFile.type,
+				};
 
-		try {
-			if (!session) {
-				console.error('User not authenticated!');
-				handleNotAuthenticatedError();
-				setUploading(false);
-				return;
+				// Store file info and the actual file object in Zustand store
+				setFileInfo(fileInfo);
+				setFile(selectedFile);
+				if (selectedFile.size > 1 * 1024 * 1024) {
+					showToast({
+						message: 'Cannot upload file larger than 1 MB',
+						variant: 'error',
+					});
+				}
 			}
-
-			const formData = new FormData();
-			formData.append('file', file);
-
-			const response = await axios.post('/api/documents/upload', formData);
-
-			if (response?.status === 200 && response.data?.document) {
-				handleUploadFile();
-			} else {
-				handleFailedFileError();
-			}
-		} catch (error: any) {
-			const errorMessage =
-				error.response?.data?.error || error.message || 'Unexpected error occurred';
-			console.error('Error uploading file:', errorMessage, error);
-			handleFailedFileError();
-		} finally {
-			setUploading(false);
 		}
 	};
 
@@ -99,17 +50,13 @@ export default function CustomUploader({
 				value={fileInfo.name}
 				size='small'
 				fullWidth
+				disabled
 			/>
 			<Button
 				variant='outlined'
 				color='inherit'
 				size='small'
-				sx={{
-					borderColor: 'text.notes',
-					ml: 10,
-					fontSize: 13,
-					minWidth: '6rem',
-				}}
+				sx={{ borderColor: 'text.notes', ml: 10, fontSize: 13, minWidth: '6rem' }}
 				onClick={() => document.getElementById('file-input')?.click()}>
 				Browse
 			</Button>
