@@ -40,7 +40,7 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 
 	const initialFormValues: LinkFormValues = {
 		password: '',
-		isPublic: false,
+		isPublic: true,
 		otherEmails: '',
 		friendlyName: '',
 		expirationTime: '',
@@ -202,14 +202,14 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 			}}>
 			<DialogContent sx={{ display: 'flex', justifyContent: 'center', padding: '32px 0' }}>
 				<Box width={580}>
-					<CustomAccordion
+					{/* <CustomAccordion
 						title='Link Details'
 						defaultExpanded>
 						<LinkDetailsAccordion
 							formValues={values}
 							handleInputChange={handleInputChange}
 						/>
-					</CustomAccordion>
+					</CustomAccordion> */}
 
 					<CustomAccordion title='Sharing Options'>
 						<SharingOptionsAccordion
@@ -222,7 +222,7 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 						/>
 					</CustomAccordion>
 
-					{/* 
+					{/*
           // <CustomAccordion title="Sending">
           //   <SendingAccordion
           //     formValues={values}
