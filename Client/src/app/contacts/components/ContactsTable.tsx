@@ -1,4 +1,5 @@
 'use client';
+
 import Paginator from '@/components/Paginator';
 import { dummyData } from '@/data/dummyContacts';
 import { useSort } from '@/hooks/useSort';
@@ -17,6 +18,7 @@ import {
 import { useState } from 'react';
 import ContactsTableRow from './ContactsTableRow';
 import { Contact } from '@/utils/shared/models';
+import EmptyState from '@/components/EmptyState';
 
 const ContactsTable = () => {
 	const pageSize = 12;
@@ -62,12 +64,22 @@ const ContactsTable = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{paginatedData.map((row) => (
-							<ContactsTableRow
-								key={row.userId}
-								contact={row}
-							/>
-						))}
+						{!paginatedData.length ? (
+							<TableRow>
+								<TableCell
+									colSpan={4}
+									sx={{ width: '100%' }}>
+									<EmptyState message='When users download a file and provide personal information, they will appear here.' />
+								</TableCell>
+							</TableRow>
+						) : (
+							paginatedData.map((row) => (
+								<ContactsTableRow
+									key={row.userId}
+									contact={row}
+								/>
+							))
+						)}
 					</TableBody>
 				</Table>
 			</TableContainer>
