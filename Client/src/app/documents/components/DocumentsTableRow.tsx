@@ -1,5 +1,5 @@
-import { Document, FileTypeConfig } from '@/utils/shared/models';
-import { formatDate } from '@/utils/shared/utils';
+import { FileTypeConfig, DocumentType } from '@/utils/shared/models';
+import { formatDateTime } from '@/utils/shared/utils';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { Avatar, Box, Chip, IconButton, TableCell, TableRow, Typography } from '@mui/material';
 import { useState } from 'react';
@@ -9,8 +9,8 @@ import LinkIcon from '../../../../public/assets/icons/documentPage/LinkIcon';
 import CheckIcon from '@mui/icons-material/Check';
 
 interface Props {
-	document: Document;
-	onDelete: (documentId: number) => void;
+	document: DocumentType; // Ensure DocumentType is correctly defined as an object type
+	onDelete: (documentId: string) => void;
 }
 
 const DocumentsTableRow = ({ document, onDelete }: Props) => {
@@ -38,12 +38,15 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 		}
 	};
 
+	const fileTypeIcon =
+		FileTypeConfig[document.fileType as keyof typeof FileTypeConfig] || FileTypeConfig['General'];
+
 	return (
 		<TableRow hover>
 			<TableCell sx={{ pr: 0, textAlign: 'center' }}>
 				<Box
 					component='img'
-					src={FileTypeConfig[document.fileType] || FileTypeConfig['General']}
+					src={fileTypeIcon}
 					alt={`${document.fileType} icon`}
 					sx={{ width: 24, height: 24 }}
 				/>
@@ -63,7 +66,7 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 								alignItems: 'center',
 								gap: '0.5rem',
 							}}>
-							<span>{formatDate(document.createdAt)}</span>
+							<span>{formatDateTime(document.createdAt)}</span>
 							<span style={{ fontSize: 13 }}>•</span>
 							<span>{document.links} links</span>
 							<span style={{ fontSize: 13 }}>•</span>
@@ -126,7 +129,7 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 					open={open}
 					anchorEl={anchorEl}
 					onDelete={onDelete}
-					documentId={document.id}
+					documentId={document.document_id} // Ensure document_id exists
 					onClose={handleMenuClose}
 				/>
 			</TableCell>
