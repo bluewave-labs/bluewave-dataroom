@@ -9,9 +9,9 @@ interface Props {
 const ContactsTableRow = ({ contact }: Props) => (
 	<TableRow>
 		<TableCell>
-			{contact.name}
+			{contact.name || 'N/A'}
 			<br />
-			<Typography variant='caption'>{contact.email}</Typography>
+			<Typography variant='caption'>{contact.email || 'N/A'}</Typography>
 		</TableCell>
 		<TableCell>{contact.lastViewedLink}</TableCell>
 		<TableCell>{formatDateTime(contact.lastActivity, { includeTime: true })}</TableCell>
