@@ -23,6 +23,7 @@ import { Contact } from '@/utils/shared/models';
 import { useSort } from '@/hooks/useSort';
 import Paginator from '@/components/Paginator';
 import ContactsTableRow from './ContactsTableRow';
+import EmptyState from '@/components/EmptyState';
 
 export default function ContactsTable() {
 	const pageSize = 12;
@@ -108,12 +109,22 @@ export default function ContactsTable() {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{paginatedData.map((row) => (
-							<ContactsTableRow
-								key={row.id}
-								contact={row}
-							/>
-						))}
+						{!paginatedData.length ? (
+							<TableRow>
+								<TableCell
+									colSpan={4}
+									sx={{ width: '100%' }}>
+									<EmptyState message='When users download a file and provide personal information, they will appear here.' />
+								</TableCell>
+							</TableRow>
+						) : (
+							paginatedData.map((row) => (
+								<ContactsTableRow
+									key={row.id}
+									contact={row}
+								/>
+							))
+						)}
 					</TableBody>
 				</Table>
 			</TableContainer>
