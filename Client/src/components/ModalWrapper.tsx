@@ -120,16 +120,8 @@ export default function ModalWrapper({
 	return (
 		<Dialog
 			open={open}
-			sx={
-				variant === 'upload'
-					? {
-							'& .MuiPaper-root': {
-								width: 475,
-								maxWidth: 'none',
-							},
-						}
-					: undefined
-			}>
+			fullWidth
+			maxWidth={variant === 'upload' ? 'sm' : 'xs'}>
 			<DialogTitle variant='h2'>{title}</DialogTitle>
 			<DialogContent>
 				{description && (

@@ -26,6 +26,7 @@ export async function GET(req: NextRequest, { params }: { params: { documentId: 
 			id: link.id,
 			documentId: doc.document_id,
 			linkId: link.linkId,
+			friendlyName: link.friendlyName,
 			createdLink: link.linkUrl,
 			lastViewed: link.updatedAt,
 			linkViews: 0, // Placeholder

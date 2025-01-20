@@ -13,9 +13,10 @@ interface Props {
 	onClose: () => void;
 	anchorEl: HTMLElement | null;
 	onDelete: (documentId: string) => void;
+	onAnalytics?: () => void;
 }
 
-const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) => {
+const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete, onAnalytics }: Props) => {
 	const deleteModal = useModal();
 	const updateModal = useModal();
 
@@ -25,8 +26,9 @@ const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) =>
 		setOpen(true);
 	};
 
-	const handleClose = (value: string) => {
+	const handleClose = () => {
 		setOpen(false);
+		onClose();
 	};
 
 	return (
@@ -43,9 +45,9 @@ const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) =>
 					},
 				}}>
 				<MenuItem onClick={handleClickOpen}>Add new link</MenuItem>
-				<MenuItem onClick={onClose}>Duplicate document</MenuItem>
-				<MenuItem onClick={updateModal.openModal}>Update document</MenuItem>
-				<MenuItem onClick={onClose}>View analytics</MenuItem>
+				{/* <MenuItem onClick={onClose}>Duplicate document</MenuItem> */}
+				{/* <MenuItem onClick={updateModal.openModal}>Update document</MenuItem> */}
+				<MenuItem onClick={onAnalytics}>View analytics</MenuItem>
 				<MenuItem onClick={deleteModal.openModal}>
 					<Typography color='error'>Delete</Typography>
 				</MenuItem>

@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Avatar, Box, Chip, IconButton, TableCell, TableRow, Typography } from '@mui/material';
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const DocumentsTableRow = ({ document, onDelete }: Props) => {
+	const router = useRouter();
 	const [isLinkCopied, setIsLinkCopied] = useState(false);
 
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -32,6 +34,9 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 		setAnchorEl(null);
 	};
 
+	const routetoDocument = () => {
+		router.push(`/documents/${document.document_id}`);
+	};
 	const linkToCopy = document.createdLinks?.[0]?.createdLink;
 
 	const handleLinkCopy = () => {
@@ -140,6 +145,7 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 					onDelete={onDelete}
 					documentId={document.document_id}
 					onClose={handleMenuClose}
+					onAnalytics={routetoDocument}
 				/>
 			</TableCell>
 		</TableRow>

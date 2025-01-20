@@ -1,17 +1,17 @@
 import axios from 'axios';
-import React from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 
+import LinkIcon from '@mui/icons-material/Link';
 import {
 	Box,
-	Button,
+	Chip,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogTitle,
-	Typography,
 	IconButton,
+	Typography,
 } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
 
 import CustomAccordion from './CustomAccordion';
 import LinkDetailsAccordion from './LinkDetailsAccordion';
@@ -19,11 +19,12 @@ import SharingOptionsAccordion from './SharingOptionsAccordion';
 import SendingAccordion from './SendingAccordion';
 import LoadingButton from '@/components/LoadingButton';
 
-import { useFormSubmission, useValidatedFormData } from '@/hooks';
+import { useDocumentDetail, useFormSubmission, useValidatedFormData } from '@/hooks';
 
 import { LinkFormValues } from '@/utils/shared/models';
 import { computeExpirationDays } from '@/utils/shared/utils';
 import { minLengthRule } from '@/utils/shared/validators';
+import CheckIcon from '../../../../public/assets/icons/documentPage/CheckIcon';
 import CopyIcon from '../../../../public/assets/icons/documentPage/CopyIcon';
 
 interface CreateLinkProps {
@@ -33,10 +34,11 @@ interface CreateLinkProps {
 }
 
 export default function CreateLink({ onClose, open, documentId }: CreateLinkProps) {
-	const [isLinkCopied, setIsLinkCopied] = React.useState(false);
-	const [shareableLink, setShareableLink] = React.useState('');
-	const [expirationType, setExpirationType] = React.useState('days');
-	const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
+	const [expanded, setExpanded] = useState<string | false>('');
+	const [isLinkCopied, setIsLinkCopied] = useState(false);
+	const [shareableLink, setShareableLink] = useState('');
+	const [expirationType, setExpirationType] = useState('days');
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
 	const validationRules = {
 		password: [minLengthRule(5, 'Password must be at least 5 characters long.')],
@@ -58,6 +60,7 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 		initialValues: initialFormValues,
 		validationRules,
 	});
+	const document = useDocumentDetail(documentId);
 
 	const handleInputChange = React.useCallback(
 		(event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,6 +103,9 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 		[setValues],
 	);
 
+	const handleChange = (panel: string) => (event: SyntheticEvent, newExpanded: boolean) => {
+		setExpanded(newExpanded ? panel : false);
+	};
 	/**
 	 * useEffect to recalc expirationDays if expirationTime changes outside of direct user input
 	 */
@@ -134,6 +140,7 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 		if (values.expirationEnabled) {
 			payload.expirationTime = values.expirationTime;
 		}
+		payload.friendlyName = values.friendlyName;
 		return payload;
 	};
 
@@ -180,31 +187,58 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 		return (
 			<Dialog
 				open={!!shareableLink}
-				onClose={() => setShareableLink('')}
-				PaperProps={{ sx: { minWidth: 500, minHeight: 100, padding: 10 } }}>
-				<DialogTitle fontSize={20}>Shareable Link</DialogTitle>
+				onClose={() => {
+					setShareableLink(''), onClose('cancelled');
+				}}
+				fullWidth
+				maxWidth='sm'>
+				<Box
+					sx={{
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+						width: '100%',
+					}}>
+					<DialogTitle variant='h1'>Shareable Link </DialogTitle>
+				</Box>
 				<DialogContent
 					sx={{
-						padding: 0,
-						marginTop: 5,
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						gap: 5,
+						width: '100%',
 					}}>
-					<Box
+					<Chip
+						color='secondary'
+						icon={<LinkIcon />}
+						label={shareableLink}
 						sx={{
-							display: 'flex',
-							alignItems: 'center',
-						}}>
-						<Typography variant='h5'>{shareableLink}</Typography>
-					</Box>
-				</DialogContent>
-				<DialogActions>
+							typography: 'h4',
+							flexGrow: 1,
+							justifyContent: 'left',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap',
+						}}
+					/>
+
+					{/* Copy Button */}
 					<IconButton
-						sx={{ ml: 2 }}
-						onClick={() => {
-							handleLinkCopy(shareableLink);
+						onClick={() => handleLinkCopy(shareableLink)}
+						sx={{
+							transition: '0.2s',
 						}}>
-						{isLinkCopied ? <CheckIcon fontSize='small' /> : <CopyIcon />}
+						{isLinkCopied ? (
+							<CheckIcon
+								width={15}
+								height={15}
+							/>
+						) : (
+							<CopyIcon />
+						)}
 					</IconButton>
-				</DialogActions>
+				</DialogContent>
 			</Dialog>
 		);
 	}
@@ -213,23 +247,46 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 		<Dialog
 			open={open}
 			onClose={() => onClose('cancelled')}
-			PaperProps={{
-				component: 'form',
-				onSubmit: handleSubmit,
-				sx: { minWidth: 650, minHeight: 550 },
-			}}>
-			<DialogContent sx={{ display: 'flex', justifyContent: 'center', padding: '32px 0' }}>
-				<Box width={580}>
+			component={'form'}
+			onSubmit={handleSubmit}
+			fullWidth
+			maxWidth='sm'>
+			<DialogTitle
+				variant='h1'
+				color='text.primary'>
+				Create Shareable Link
+				<Typography
+					my={4}
+					variant='h6'>
+					Selected Document:{' '}
+					<Chip
+						sx={{
+							backgroundColor: 'alert.info',
+							borderRadius: 50,
+							verticalAlign: 'baseline',
+						}}
+						size='small'
+						label={document.document?.fileName}
+					/>
+				</Typography>
+			</DialogTitle>
+			<DialogContent sx={{ display: 'flex', justifyContent: 'center', overflow: 'hidden' }}>
+				<Box
+					width={580}
+					height={expanded ? 520 : 180}
+					sx={{ transition: 'height 0.6s' }}>
 					{/* <CustomAccordion
 						title='Link Details'
-						defaultExpanded>
-						<LinkDetailsAccordion
-							formValues={values}
-							handleInputChange={handleInputChange}
-						/>
-					</CustomAccordion> */}
+						defaultExpanded></CustomAccordion> */}
+					<LinkDetailsAccordion
+						formValues={values}
+						handleInputChange={handleInputChange}
+					/>
 
-					<CustomAccordion title='Sharing Options'>
+					<CustomAccordion
+						title='Sharing Options'
+						expanded={expanded === 'sharing-options'}
+						onChange={handleChange('sharing-options')}>
 						<SharingOptionsAccordion
 							formValues={values}
 							handleInputChange={handleInputChange}
@@ -240,18 +297,19 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 						/>
 					</CustomAccordion>
 
-					{/*
-          // <CustomAccordion title="Sending">
-          //   <SendingAccordion
-          //     formValues={values}
-          //     handleCheckboxChange={handleInputChange}
-          //   />
-          // </CustomAccordion>
-          */}
+					{/* <CustomAccordion
+						title='Sending'
+						expanded={expanded === 'sending-options'}
+						onChange={handleChange('sending-options')}>
+						<SendingAccordion
+							formValues={values}
+							handleCheckboxChange={handleInputChange}
+						/>
+					</CustomAccordion> */}
 				</Box>
 			</DialogContent>
 
-			<DialogActions sx={{ padding: '32px' }}>
+			<DialogActions>
 				<LoadingButton
 					loading={loading}
 					buttonText='Generate'
