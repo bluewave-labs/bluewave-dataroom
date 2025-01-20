@@ -9,7 +9,9 @@ import {
 	DialogContent,
 	DialogTitle,
 	Typography,
+	IconButton,
 } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
 
 import CustomAccordion from './CustomAccordion';
 import LinkDetailsAccordion from './LinkDetailsAccordion';
@@ -22,6 +24,7 @@ import { useFormSubmission, useValidatedFormData } from '@/hooks';
 import { LinkFormValues } from '@/utils/shared/models';
 import { computeExpirationDays } from '@/utils/shared/utils';
 import { minLengthRule } from '@/utils/shared/validators';
+import CopyIcon from '../../../../public/assets/icons/documentPage/CopyIcon';
 
 interface CreateLinkProps {
 	onClose: (action: string) => void;
@@ -30,6 +33,7 @@ interface CreateLinkProps {
 }
 
 export default function CreateLink({ onClose, open, documentId }: CreateLinkProps) {
+	const [isLinkCopied, setIsLinkCopied] = React.useState(false);
 	const [shareableLink, setShareableLink] = React.useState('');
 	const [expirationType, setExpirationType] = React.useState('days');
 	const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
@@ -165,27 +169,45 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 		errorMessage: 'Failed to create shareable link. Please try again later.',
 	});
 
+	const handleLinkCopy = (linkToCopy: string) => {
+		if (linkToCopy) {
+			navigator.clipboard.writeText(linkToCopy);
+			setIsLinkCopied(true);
+			setTimeout(() => {
+				setIsLinkCopied(false);
+			}, 3000);
+		}
+	};
+
 	// If shareableLink is set, show the link in a separate dialog
 	if (shareableLink) {
 		return (
 			<Dialog
 				open={!!shareableLink}
-				onClose={() => setShareableLink('')}>
+				onClose={() => setShareableLink('')}
+				PaperProps={{ sx: { minWidth: 500, minHeight: 100, padding: 10 } }}>
 				<DialogTitle fontSize={20}>Shareable Link</DialogTitle>
-				<DialogContent>
-					<Typography
-						color='text.secondary'
-						fontSize={15}
-						fontWeight={500}>
-						{shareableLink}
-					</Typography>
+				<DialogContent
+					sx={{
+						padding: 0,
+						marginTop: 5,
+					}}>
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+						}}>
+						<Typography variant='h5'>{shareableLink}</Typography>
+					</Box>
 				</DialogContent>
 				<DialogActions>
-					<Button
-						variant='contained'
-						onClick={() => setShareableLink('')}>
-						Close
-					</Button>
+					<IconButton
+						sx={{ ml: 2 }}
+						onClick={() => {
+							handleLinkCopy(shareableLink);
+						}}>
+						{isLinkCopied ? <CheckIcon fontSize='small' /> : <CopyIcon />}
+					</IconButton>
 				</DialogActions>
 			</Dialog>
 		);
