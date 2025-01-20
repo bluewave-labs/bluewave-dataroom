@@ -160,10 +160,6 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 			onClose('Form Submitted');
 		},
 		onError: (errMsg) => {
-			toast.showToast({
-				message: `Create link error: ${errMsg}`,
-				variant: 'error',
-			});
 			console.error('Create link error:', errMsg);
 		},
 		errorMessage: 'Failed to create shareable link. Please try again later.',

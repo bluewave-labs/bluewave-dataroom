@@ -108,7 +108,7 @@ const SharingOptionsAccordion = ({
 			<Typography
 				variant='body2'
 				mb={3}>
-				Link won’t be visible after a certain day or a certain date.
+				Link won't be visible after a certain day or a certain date.
 			</Typography>
 
 			<RadioGroup
