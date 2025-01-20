@@ -56,34 +56,26 @@ export interface User {
 	// ... etc
 }
 
-// =========== CONTACT TYPE ===========
-export interface Contact {
-	userId: string;
-	name: string;
-	email: string;
-	lastViewedLink: string;
-	lastActivity: string;
-	visits?: number;
-}
-
 // =========== LINK DETAIL ===========
 
 export interface LinkDetail {
 	linkId: string; // unique string
 	document_id: string; // The document_id from DB
 	createdLink: string; // The linkUrl from DB
-	lastViewed: Date; // The link's updatedAt
+	lastActivity: Date; // The link's updatedAt
 	linkViews: number; // If you track actual link views, you can use a real value
 }
 
 // =========== VISITOR DETAIL ===========
 
-export interface VisitorDetail {
+export interface Contact {
 	id: number;
-	visitor: string; // Combined first + last name
-	email?: string; // If LinkVisitors has an email field
+	name: string; // Combined first + last name
+	email: string; // If LinkVisitors has an email field
 	document_id: string; // The document_id from DB
-	lastViewed: Date;
+	lastActivity: Date; //The date/time of their last activity
+	lastViewedLink: string; //The last link or friendly name they viewed
+	totalVisits: number; //Total visits for that email across the user's links
 	downloads: number;
 	duration: string;
 	completion: string;

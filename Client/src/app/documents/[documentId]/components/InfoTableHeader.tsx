@@ -2,21 +2,17 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import { TableCell, TableRow, TableSortLabel } from '@mui/material';
 
-import { LinkDetail, VisitorDetail } from '@/utils/shared/models';
+import { LinkDetail, Contact } from '@/utils/shared/models';
 
-type SortableKeys = 'lastViewed';
+type SortableKeys = 'lastActivity';
 
 interface InfoTableHeaderProps {
 	variant?: 'linkTable' | 'visitorTable';
-	orderBy?: keyof LinkDetail | VisitorDetail | undefined;
+	orderBy?: keyof LinkDetail | Contact | undefined;
 	orderDirection?: 'asc' | 'desc' | undefined;
 	onSort?: (property: SortableKeys) => void;
 }
 
-/**
- * InfoTableHeader - Renders the table header row(s)
- * depending on link or visitor variant.
- */
 export default function InfoTableHeader({
 	variant,
 	orderBy,
@@ -25,7 +21,7 @@ export default function InfoTableHeader({
 }: InfoTableHeaderProps) {
 	const handleHeaderClick = () => {
 		if (onSort) {
-			onSort('lastViewed');
+			onSort('lastActivity');
 		}
 	};
 
@@ -37,7 +33,7 @@ export default function InfoTableHeader({
 				<TableCell sx={{ width: '45%', pl: 20 }}>LINK</TableCell>
 				<TableCell sx={{ width: '20%', textAlign: 'center' }}>
 					<TableSortLabel
-						active={orderBy === 'lastViewed'}
+						active={orderBy === 'lastActivity'}
 						direction={orderDirection}
 						onClick={handleHeaderClick}
 						hideSortIcon={false}
@@ -57,7 +53,7 @@ export default function InfoTableHeader({
 			<TableCell sx={{ width: '30%', pl: 20 }}>VISITOR</TableCell>
 			<TableCell sx={{ width: '25%', textAlign: 'center' }}>
 				<TableSortLabel
-					active={orderBy === 'lastViewed'}
+					active={orderBy === 'lastActivity'}
 					direction={orderDirection}
 					onClick={handleHeaderClick}
 					hideSortIcon={false}

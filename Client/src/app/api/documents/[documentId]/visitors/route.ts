@@ -37,9 +37,9 @@ export async function GET(req: NextRequest, { params }: { params: { documentId: 
 		const visitors = linkVisitors.map((visitor) => ({
 			id: visitor.id,
 			documentId: doc.document_id,
-			visitor: `${visitor.first_name} ${visitor.last_name}`.trim(),
+			name: `${visitor.first_name} ${visitor.last_name}`.trim(),
 			email: visitor.email,
-			lastViewed: visitor.updatedAt,
+			lastActivity: visitor.updatedAt,
 			// These are placeholders for now
 			downloads: 0,
 			duration: 0,

@@ -18,18 +18,16 @@ import InfoTableHeader from './InfoTableHeader';
 import InfoTableRow from './InfoTableRow';
 import Paginator from '@/components/Paginator';
 
-import { LinkDetail, VisitorDetail } from '@/utils/shared/models';
+import { LinkDetail, Contact } from '@/utils/shared/models';
 import { useDocumentData, useSort } from '@/hooks';
 
 interface InfoTableProps {
 	variant: 'linkTable' | 'visitorTable';
-	documentId: string; // We'll need this now to fetch from /api/documents/:id/...
+	documentId: string;
 }
 
-/**
- * InfoTable - Renders either a "link table" or "visitor table" based on the `variant`.
- * Integrates with new backend routes: /api/documents/[documentId]/links or /visitors
- */
+// InfoTable - Renders either a "link table" or "visitor table" based on the `variant`.
+
 export default function InfoTable({ variant, documentId }: InfoTableProps) {
 	const [page, setPage] = useState(1);
 	const pageSize = 4; // Items per page
@@ -38,9 +36,9 @@ export default function InfoTable({ variant, documentId }: InfoTableProps) {
 	const { data, loading, error } = useDocumentData(documentId, variant);
 
 	// 2) Sort the data (the updated useSort hook can handle Date automatically if we sort by "lastViewed")
-	const { sortedData, orderDirection, orderBy, handleSortRequest } = useSort<
-		LinkDetail | VisitorDetail
-	>(data);
+	const { sortedData, orderDirection, orderBy, handleSortRequest } = useSort<LinkDetail | Contact>(
+		data,
+	);
 
 	// 3) If still loading or error
 	if (loading) {
@@ -131,7 +129,6 @@ export default function InfoTable({ variant, documentId }: InfoTableProps) {
 				</Table>
 			</TableContainer>
 
-			{/* Paginator: only show if multiple pages */}
 			{totalPages > 1 && (
 				<Paginator
 					page={page}

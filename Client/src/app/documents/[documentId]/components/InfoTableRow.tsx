@@ -11,12 +11,12 @@ import DeleteIcon from '../../../../../public/assets/icons/teamPage/trash-icon.s
 import ModalWrapper from '@/components/ModalWrapper';
 
 import { useModal, useToast } from '@/hooks';
-import { LinkDetail, VisitorDetail } from '@/utils/shared/models';
+import { LinkDetail, Contact } from '@/utils/shared/models';
 import { formatDateTime } from '@/utils/shared/utils';
 
 interface InfoTableRowProps {
 	variant?: 'linkTable' | 'visitorTable';
-	documentDetail: LinkDetail | VisitorDetail;
+	documentDetail: LinkDetail | Contact;
 }
 
 export default function InfoTableRow({ documentDetail, variant }: InfoTableRowProps) {
@@ -24,13 +24,11 @@ export default function InfoTableRow({ documentDetail, variant }: InfoTableRowPr
 	const { showToast } = useToast();
 	const deleteModal = useModal();
 
-	// Type Guard for LinkDetail
-	const isLinkDetail = (d: LinkDetail | VisitorDetail): d is LinkDetail =>
+	const isLinkDetail = (d: LinkDetail | Contact): d is LinkDetail =>
 		(d as LinkDetail).createdLink !== undefined;
 
-	// Type Guard for VisitorDetail
-	const isVisitorDetail = (d: LinkDetail | VisitorDetail): d is VisitorDetail =>
-		(d as VisitorDetail).visitor !== undefined;
+	const isVisitorDetail = (d: LinkDetail | Contact): d is Contact =>
+		(d as Contact).name !== undefined;
 
 	const handleDeleteLink = async () => {
 		try {
@@ -68,7 +66,7 @@ export default function InfoTableRow({ documentDetail, variant }: InfoTableRowPr
 						</IconButton>
 					</TableCell>
 					<TableCell sx={{ width: '20%', textAlign: 'center' }}>
-						{formatDateTime(documentDetail.lastViewed)}
+						{formatDateTime(documentDetail.lastActivity)}
 					</TableCell>
 					<TableCell sx={{ width: '25%', textAlign: 'center' }}>
 						{documentDetail.linkViews}
@@ -104,12 +102,12 @@ export default function InfoTableRow({ documentDetail, variant }: InfoTableRowPr
 		return (
 			<TableRow hover>
 				<TableCell sx={{ width: '30%', pl: 20, py: 6 }}>
-					{documentDetail.visitor}
+					{documentDetail.name}
 					<br />
 					<Typography variant='caption'>{documentDetail.email}</Typography>
 				</TableCell>
 				<TableCell sx={{ width: '25%', textAlign: 'center' }}>
-					{formatDateTime(documentDetail.lastViewed)}
+					{formatDateTime(documentDetail.lastActivity)}
 				</TableCell>
 				<TableCell sx={{ width: '15%', textAlign: 'center' }}>{documentDetail.downloads}</TableCell>
 				<TableCell sx={{ width: '15%', textAlign: 'center' }}>{documentDetail.duration}</TableCell>
