@@ -26,7 +26,7 @@ const SharingOptionsAccordion = ({
 	handleExpirationChange,
 }: SharingOptionsAccordionProps) => {
 	return (
-		<Box py={4}>
+		<Box py={2}>
 			<CustomCheckbox
 				checked={formValues.requireUserDetails}
 				onChange={handleInputChange}
