@@ -1,10 +1,14 @@
 import prisma from '@lib/prisma';
 
-export async function fetchDocumentCount(): Promise<number> {
+export async function fetchDocumentCount(userId: string): Promise<number> {
 	try {
-		return await prisma.document.count();
+		return await prisma.document.count({
+			where: {
+				user_id: userId,
+			},
+		});
 	} catch (error) {
-		console.error('Error fetching document count:', error);
-		return 0; // Return a safe fallback value
+		console.error('Error fetching document count for user:', error);
+		return 0;
 	}
 }

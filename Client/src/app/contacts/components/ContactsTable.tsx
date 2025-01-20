@@ -1,11 +1,11 @@
 'use client';
 
-import Paginator from '@/components/Paginator';
-import { dummyData } from '@/data/dummyContacts';
-import { useSort } from '@/hooks/useSort';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
 import {
+	Box,
+	CircularProgress,
 	Paper,
 	Table,
 	TableBody,
@@ -14,31 +14,76 @@ import {
 	TableHead,
 	TableRow,
 	TableSortLabel,
+	Typography,
 } from '@mui/material';
-import { useState } from 'react';
-import ContactsTableRow from './ContactsTableRow';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
+
 import { Contact } from '@/utils/shared/models';
+import { useSort } from '@/hooks/useSort';
+import Paginator from '@/components/Paginator';
+import ContactsTableRow from './ContactsTableRow';
 import EmptyState from '@/components/EmptyState';
 
-const ContactsTable = () => {
+export default function ContactsTable() {
 	const pageSize = 12;
 	const [page, setPage] = useState(1);
+	const [data, setData] = useState<Contact[]>([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
 
-	// Sort the entire data set
+	useEffect(() => {
+		fetchContacts();
+	}, []);
+
+	const fetchContacts = async () => {
+		try {
+			const response = await axios.get('/api/contacts');
+			const contacts = response.data.data as Contact[];
+
+			const parsedContacts = contacts.map((contact) => ({
+				...contact,
+				lastActivity: new Date(contact.lastActivity),
+			}));
+			setData(parsedContacts);
+		} catch (err: any) {
+			setError(err.message || 'An error occurred while fetching contacts.');
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	const { sortedData, orderDirection, orderBy, handleSortRequest } = useSort<Contact>(
-		dummyData,
-		undefined,
-		(a: Contact, b: Contact, orderDirection: 'asc' | 'desc' | undefined): number => {
-			const timeA = new Date(a.lastActivity).getTime();
-			const timeB = new Date(b.lastActivity).getTime();
-			return orderDirection === 'asc' ? timeA - timeB : timeB - timeA;
-		},
+		data,
+		'lastActivity',
 	);
 
-	// Paginate the sorted data
 	const paginatedData = sortedData.slice((page - 1) * pageSize, page * pageSize);
-
 	const totalPages = Math.ceil(sortedData.length / pageSize);
+
+	if (loading) {
+		return (
+			<Box
+				display='flex'
+				justifyContent='center'
+				mt={4}>
+				<CircularProgress />
+			</Box>
+		);
+	}
+
+	if (error) {
+		return (
+			<Box mt={4}>
+				<Typography
+					color='error'
+					align='center'
+					variant='h6'>
+					{error}
+				</Typography>
+			</Box>
+		);
+	}
 
 	return (
 		<>
@@ -75,7 +120,7 @@ const ContactsTable = () => {
 						) : (
 							paginatedData.map((row) => (
 								<ContactsTableRow
-									key={row.userId}
+									key={row.id}
 									contact={row}
 								/>
 							))
@@ -83,17 +128,16 @@ const ContactsTable = () => {
 					</TableBody>
 				</Table>
 			</TableContainer>
+
 			{totalPages > 1 && (
 				<Paginator
 					page={page}
 					totalPages={totalPages}
 					onPageChange={setPage}
 					pageSize={pageSize}
-					totalItems={dummyData.length}
+					totalItems={data.length}
 				/>
 			)}
 		</>
 	);
-};
-
-export default ContactsTable;
+}

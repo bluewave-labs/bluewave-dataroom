@@ -1,12 +1,13 @@
-import { Document } from '@/utils/shared/models';
+import { TableCell, TableRow, TableSortLabel } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
-import { TableCell, TableRow, TableSortLabel } from '@mui/material';
+
+import { DocumentType } from '@/utils/shared/models';
 
 interface Props {
-	orderBy: keyof Document | undefined;
+	orderBy: keyof DocumentType | undefined;
 	orderDirection: 'asc' | 'desc' | undefined;
-	onSort: (property: keyof Document) => void;
+	onSort: (property: keyof DocumentType) => void;
 }
 
 const DocumentsTableHeader = ({ orderBy, orderDirection, onSort }: Props) => (

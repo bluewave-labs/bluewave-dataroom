@@ -1,43 +1,73 @@
-import bcryptjs from 'bcryptjs';
 import prisma from '@lib/prisma';
-import { NextResponse, NextRequest } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { authenticate } from '@lib/middleware/authenticate';
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
-  try {
-    const userId = await authenticate(req);
+	try {
+		const userId = await authenticate(req);
 
-    const visitors = await prisma.linkVisitors.groupBy({
-      by: ['email'],
-      _count: {
-        email: true,
-      },
-      _max: {
-        updatedAt: true,
-      },
-    });
+		const userLinks = await prisma.link.findMany({
+			where: { userId },
+			select: { linkId: true },
+		});
+		if (!userLinks.length) {
+			return NextResponse.json({ data: [] }, { status: 200 });
+		}
 
-    const visitorDetails = await Promise.all(visitors.map(async (visitor) => {
-      const lastVisit = await prisma.linkVisitors.findFirst({
-        where: { email: visitor.email },
-        orderBy: { updatedAt: 'desc' },
-        include: { Link: true },
-      });
+		const linkIds = userLinks.map((l) => l.linkId);
 
-      return {
-        firstName: lastVisit?.first_name || 'N/A',
-        lastName: lastVisit?.last_name || 'N/A',
-        email: visitor.email || 'N/A',
-        lastViewedLink: lastVisit?.Link?.linkUrl || lastVisit?.Link.friendlyName || 'N/A',
-        lastActivity: lastVisit?.updatedAt || 'N/A',
-        totalVisits: visitor._count.email,
-      };
-    }));
+		const visitors = await prisma.linkVisitors.groupBy({
+			by: ['email'],
+			where: {
+				linkId: { in: linkIds },
+			},
+			_count: {
+				email: true,
+			},
+			_max: {
+				updatedAt: true,
+			},
+		});
 
-    return NextResponse.json({ data: visitorDetails }, { status: 200 });
-  } catch (error) {
-    return createErrorResponse('Server error.', 500, error);
-  }
+		const visitorDetails = await Promise.all(
+			visitors.map(async (visitor) => {
+				const lastVisit = await prisma.linkVisitors.findFirst({
+					where: {
+						email: visitor.email,
+						linkId: { in: linkIds },
+					},
+					orderBy: { updatedAt: 'desc' },
+					include: {
+						Link: true,
+					},
+				});
+
+				if (!lastVisit) {
+					return null;
+				}
+
+				const firstName = lastVisit.first_name?.trim() || null;
+				const lastName = lastVisit.last_name?.trim() || null;
+				const fullName =
+					firstName || lastName ? `${firstName || ''} ${lastName || ''}`.trim() : null;
+
+				return {
+					id: lastVisit.id,
+					name: fullName,
+					email: visitor.email || null,
+					lastViewedLink: lastVisit.Link?.friendlyName || lastVisit.Link?.linkUrl || null,
+					lastActivity: lastVisit.updatedAt || null,
+					totalVisits: visitor._count.email || 0,
+				};
+			}),
+		);
+
+		const contacts = visitorDetails.filter(Boolean);
+
+		return NextResponse.json({ data: contacts }, { status: 200 });
+	} catch (error) {
+		return createErrorResponse('Server error.', 500, error);
+	}
 }
 
 function createErrorResponse(message: string, status: number, details?: any) {

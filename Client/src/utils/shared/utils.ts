@@ -172,3 +172,19 @@ export function formatDateTime(
 
 	return datePart;
 }
+
+/**
+ * computeExpirationDays
+ * ----------------------------------------------------------------------------
+ * Calculates how many whole days between `expirationTime` and now.
+ *
+ * @param expirationTime - A date string in ISO format (e.g., "2025-12-01T00:00:00Z")
+ * @returns Number of days (rounded up)
+ */
+export function computeExpirationDays(expirationTime: string): number {
+	if (!expirationTime) return 0;
+	const expirationDate = new Date(expirationTime);
+	const now = new Date();
+	const diffTime = Math.abs(expirationDate.getTime() - now.getTime());
+	return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+}
