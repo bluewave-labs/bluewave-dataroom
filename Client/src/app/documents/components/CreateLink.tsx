@@ -1,159 +1,202 @@
 import axios from 'axios';
 import React from 'react';
-import { useToast } from '@/hooks/useToast';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography, IconButton } from '@mui/material';
+
+import {
+	Box,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Typography,
+	IconButton,
+} from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 
-import CustomAccordion from './CustomAccordian';
-import SendingAccordion from './SendingAccordion';
+import CustomAccordion from './CustomAccordion';
 import LinkDetailsAccordion from './LinkDetailsAccordion';
 import SharingOptionsAccordion from './SharingOptionsAccordion';
+import SendingAccordion from './SendingAccordion';
+import LoadingButton from '@/components/LoadingButton';
+
+import { useFormSubmission, useValidatedFormData } from '@/hooks';
+
+import { LinkFormValues } from '@/utils/shared/models';
+import { computeExpirationDays } from '@/utils/shared/utils';
+import { minLengthRule } from '@/utils/shared/validators';
 import CopyIcon from '../../../../public/assets/icons/documentPage/CopyIcon';
 
-interface Props {
+interface CreateLinkProps {
 	onClose: (action: string) => void;
 	open: boolean;
 	documentId: string;
 }
 
-const CreateLink = ({ onClose, open, documentId }: Props) => {
+export default function CreateLink({ onClose, open, documentId }: CreateLinkProps) {
 	const [isLinkCopied, setIsLinkCopied] = React.useState(false);
-	const { showToast } = useToast();
-	const [loading, setLoading] = React.useState(true);
 	const [shareableLink, setShareableLink] = React.useState('');
-	const [error, setError] = React.useState<string | null>(null);
 	const [expirationType, setExpirationType] = React.useState('days');
 	const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
-	const initialFormValues = {
+
+	const validationRules = {
+		password: [minLengthRule(5, 'Password must be at least 5 characters long.')],
+	};
+
+	const initialFormValues: LinkFormValues = {
 		password: '',
-		isPublic: false,
+		isPublic: true,
 		otherEmails: '',
 		friendlyName: '',
 		expirationTime: '',
 		requirePassword: false,
 		expirationEnabled: false,
 		requireUserDetails: false,
-		requiredUserDetailsOption: 1
+		requiredUserDetailsOption: 1,
 	};
-	const [formValues, setFormValues] = React.useState(initialFormValues);
 
-	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value, type, checked } = event.target;
+	const { values, setValues, validateAll } = useValidatedFormData<LinkFormValues>({
+		initialValues: initialFormValues,
+		validationRules,
+	});
 
-		let expirationTime = formValues.expirationTime;
+	const handleInputChange = React.useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			const { name, value, type, checked } = event.target;
 
-		if (name === 'expirationDays') {
-			const days = parseInt(value, 10);
-			if (!isNaN(days)) {
-				const date = new Date();
-				date.setUTCDate(date.getUTCDate() + days);
-				expirationTime = date.toISOString();
+			// If user sets expirationDays
+			if (name === 'expirationDays') {
+				const days = parseInt(value, 10);
+				if (!isNaN(days)) {
+					const date = new Date();
+					date.setUTCDate(date.getUTCDate() + days);
+					setValues((prev) => ({
+						...prev,
+						expirationTime: date.toISOString(),
+						expirationDays: days.toString(),
+					}));
+				} else {
+					// If user empties the field
+					setValues((prev) => ({ ...prev, expirationDays: '' }));
+				}
 			}
-		} else if (name === 'expirationDate') {
-			const date = new Date(value);
-			expirationTime = date.toISOString();
-		}
+			// If user sets expirationDate
+			else if (name === 'expirationDate') {
+				const date = new Date(value);
+				setValues((prev) => ({
+					...prev,
+					expirationTime: date.toISOString(),
+					expirationDate: value,
+				}));
+			}
+			// Otherwise, default handleChange from useValidatedFormData
+			else {
+				// If it's a checkbox, we do the checked logic. If not, normal string value.
+				setValues((prev) => ({
+					...prev,
+					[name]: type === 'checkbox' ? checked : value,
+				}));
+			}
+		},
+		[setValues],
+	);
 
-		setFormValues((prev) => ({
-			...prev,
-			[name]: type === 'checkbox' ? checked : value,
-		}));
-	};
-
+	/**
+	 * useEffect to recalc expirationDays if expirationTime changes outside of direct user input
+	 */
 	React.useEffect(() => {
-		if (formValues.expirationTime) {
-			const expirationDate = new Date(formValues.expirationTime);
-			const now = new Date();
-			const diffTime = Math.abs(expirationDate.getTime() - now.getTime());
-			const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-			setFormValues((prev) => ({
+		if (values.expirationTime) {
+			const diffDays = computeExpirationDays(values.expirationTime);
+			setValues((prev) => ({
 				...prev,
 				expirationDays: diffDays.toString(),
-				expirationDate: expirationDate.toISOString().split('T')[0],
 			}));
 		}
-	}, [formValues.expirationTime]);
+	}, [values.expirationTime, setValues]);
 
-	const handleExpirationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setExpirationType(event.target.value);
+	const handleExpirationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setExpirationType(e.target.value);
 	};
 
-	const getRequestPayload = () => {
-		const payload: { [key: string]: any; } = {
+	/**
+	 * Build final payload for POST request
+	 */
+	const buildRequestPayload = (): Record<string, any> => {
+		const payload: Record<string, any> = {
 			documentId,
-			isPublic: formValues.isPublic,
+			isPublic: values.isPublic,
 		};
-
-		if (formValues.requireUserDetails) {
-			payload.requiredUserDetailsOption = formValues.requiredUserDetailsOption;
+		if (values.requireUserDetails) {
+			payload.requiredUserDetailsOption = values.requiredUserDetailsOption;
 		}
-
-		if (formValues.requirePassword) {
-			payload.password = formValues.password;
+		if (values.requirePassword) {
+			payload.password = values.password;
 		}
-
-		if (formValues.expirationEnabled) {
-			payload.expirationTime = formValues.expirationTime;
+		if (values.expirationEnabled) {
+			payload.expirationTime = values.expirationTime;
 		}
-
 		return payload;
 	};
 
-	const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		if (!document) return;
+	const { loading, handleSubmit, error, toast } = useFormSubmission({
+		onSubmit: async () => {
+			const hasError = validateAll();
+			if (hasError) {
+				throw new Error('Please correct any errors before generating a link.');
+			}
 
-		try {
-			setLoading(true);
-			let reqBody = getRequestPayload();
-			const response = await axios.post('/api/links', reqBody);
+			const payload = buildRequestPayload();
+			const response = await axios.post('/api/links', payload);
+			if (!response.data?.link?.linkUrl) {
+				throw new Error('No link returned by server.');
+			}
 			setShareableLink(response.data.link.linkUrl);
-			setFormValues(initialFormValues); // Reset form values
-			showToast({
-				message: 'Shareable link created successfully',
+			setValues(initialFormValues);
+		},
+		onSuccess: () => {
+			toast.showToast({
+				message: 'Shareable link created successfully!',
 				variant: 'success',
 			});
-
-		} catch (error) {
-			setError('Failed to create shareable link. Please try again later.');
-			showToast({
-				message: 'Failed to create shareable link. Please try again later.',
-				variant: 'error',
-			});
-		} finally {
-			setLoading(false);
-		}
-		onClose('Form Submitted');
-	};
+			onClose('Form Submitted');
+		},
+		onError: (errMsg) => {
+			console.error('Create link error:', errMsg);
+		},
+		errorMessage: 'Failed to create shareable link. Please try again later.',
+	});
 
 	const handleLinkCopy = (linkToCopy: string) => {
 		if (linkToCopy) {
 			navigator.clipboard.writeText(linkToCopy);
+			setIsLinkCopied(true);
 			setTimeout(() => {
-				setIsLinkCopied(true);
-			}, 300);
+				setIsLinkCopied(false);
+			}, 3000);
 		}
 	};
 
+	// If shareableLink is set, show the link in a separate dialog
 	if (shareableLink) {
-		return <Dialog
-			open={!!shareableLink}
-			onClose={() => setShareableLink('')}
-			PaperProps={{ sx: { minWidth: 500, minHeight: 100, padding: 10 } }}
-		>
-			<Typography variant='h1'>Shareable Link</Typography>
-			<DialogContent sx={{
-				padding: 0,
-				marginTop: 5
-			}}>
-				<Box sx={{
-					display: 'flex',
-					alignItems: 'center',
-				}}>
-					<Typography variant='h5'>
-						{shareableLink}
-					</Typography>
+		return (
+			<Dialog
+				open={!!shareableLink}
+				onClose={() => setShareableLink('')}
+				PaperProps={{ sx: { minWidth: 500, minHeight: 100, padding: 10 } }}>
+				<DialogTitle fontSize={20}>Shareable Link</DialogTitle>
+				<DialogContent
+					sx={{
+						padding: 0,
+						marginTop: 5,
+					}}>
+					<Box
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+						}}>
+						<Typography variant='h5'>{shareableLink}</Typography>
+					</Box>
+				</DialogContent>
+				<DialogActions>
 					<IconButton
 						sx={{ ml: 2 }}
 						onClick={() => {
@@ -161,9 +204,9 @@ const CreateLink = ({ onClose, open, documentId }: Props) => {
 						}}>
 						{isLinkCopied ? <CheckIcon fontSize='small' /> : <CopyIcon />}
 					</IconButton>
-				</Box>
-			</DialogContent>
-		</Dialog>;
+				</DialogActions>
+			</Dialog>
+		);
 	}
 
 	return (
@@ -172,29 +215,23 @@ const CreateLink = ({ onClose, open, documentId }: Props) => {
 			onClose={() => onClose('cancelled')}
 			PaperProps={{
 				component: 'form',
-				onSubmit: handleFormSubmit,
+				onSubmit: handleSubmit,
 				sx: { minWidth: 650, minHeight: 550 },
 			}}>
-			<DialogContent
-				sx={{
-					display: 'flex',
-					justifyContent: 'center',
-					padding: '32px 0',
-				}}>
-				<Box
-					width={580}
-				>
-					<CustomAccordion
+			<DialogContent sx={{ display: 'flex', justifyContent: 'center', padding: '32px 0' }}>
+				<Box width={580}>
+					{/* <CustomAccordion
 						title='Link Details'
 						defaultExpanded>
 						<LinkDetailsAccordion
-							formValues={formValues}
+							formValues={values}
 							handleInputChange={handleInputChange}
 						/>
-					</CustomAccordion>
+					</CustomAccordion> */}
+
 					<CustomAccordion title='Sharing Options'>
 						<SharingOptionsAccordion
-							formValues={formValues}
+							formValues={values}
 							handleInputChange={handleInputChange}
 							isPasswordVisible={isPasswordVisible}
 							setIsPasswordVisible={setIsPasswordVisible}
@@ -202,24 +239,27 @@ const CreateLink = ({ onClose, open, documentId }: Props) => {
 							handleExpirationChange={handleExpirationChange}
 						/>
 					</CustomAccordion>
-					{/* <CustomAccordion title='Sending'>
-						<SendingAccordion
-							formValues={formValues}
-							handleCheckboxChange={handleInputChange}
-						/>
-					</CustomAccordion> */}
-				</Box>
 
+					{/*
+          // <CustomAccordion title="Sending">
+          //   <SendingAccordion
+          //     formValues={values}
+          //     handleCheckboxChange={handleInputChange}
+          //   />
+          // </CustomAccordion>
+          */}
+				</Box>
 			</DialogContent>
+
 			<DialogActions sx={{ padding: '32px' }}>
-				<Button
+				<LoadingButton
+					loading={loading}
+					buttonText='Generate'
+					loadingText='Generating...'
+					fullWidth
 					type='submit'
-					variant='contained'>
-					Generate
-				</Button>
+				/>
 			</DialogActions>
 		</Dialog>
 	);
-};
-
-export default CreateLink;
+}

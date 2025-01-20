@@ -28,7 +28,11 @@ const CustomAccordion = ({ title, children, ...props }: CustomAccordionProps) =>
 					},
 				}}
 				expandIcon={<ArrowLeft />}>
-				<Typography variant="body1" color="text.brand" sx={{ py: 3, px: 4 }}>
+				<Typography
+					variant='body1'
+					color='text.brand'
+					py={3}
+					px={4}>
 					{title}
 				</Typography>
 			</AccordionSummary>

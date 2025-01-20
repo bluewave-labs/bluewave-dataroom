@@ -1,8 +1,11 @@
-import { getPasswordChecks } from '@/utils/shared/validators';
-import { Box, Typography } from '@mui/material';
 import { FC } from 'react';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
+
+import { Box, Typography } from '@mui/material';
+
+import CheckCircleIcon from '../../public/assets/icons/auth/CheckCircleIcon';
+import XCircleIcon from '../../public/assets/icons/auth/XCircleIcon';
+
+import { getPasswordChecks } from '@/utils/shared/validators';
 
 interface PasswordValidationProps {
 	passwordValue: string;
@@ -24,9 +27,9 @@ const PasswordValidation: FC<PasswordValidationProps> = ({ passwordValue, isBlur
 				alignItems='center'
 				gap={5}>
 				{passwordValue && !isLengthValid && isBlur ? (
-					<CloseIcon color='error' />
+					<XCircleIcon color='error' />
 				) : (
-					<CheckIcon color={isLengthValid ? 'success' : 'disabled'} />
+					<CheckCircleIcon color={isLengthValid ? 'success' : 'disabled'} />
 				)}
 				<Typography variant='body2'>Must be at least 8 characters</Typography>
 			</Box>
@@ -37,9 +40,9 @@ const PasswordValidation: FC<PasswordValidationProps> = ({ passwordValue, isBlur
 				alignItems='center'
 				gap={5}>
 				{passwordValue && !hasUppercaseLetter && isBlur ? (
-					<CloseIcon color='error' />
+					<XCircleIcon color='error' />
 				) : (
-					<CheckIcon color={hasUppercaseLetter ? 'success' : 'disabled'} />
+					<CheckCircleIcon color={hasUppercaseLetter ? 'success' : 'disabled'} />
 				)}
 				<Typography variant='body2'>Must contain at least one uppercase letter.</Typography>
 			</Box>
@@ -50,9 +53,9 @@ const PasswordValidation: FC<PasswordValidationProps> = ({ passwordValue, isBlur
 				alignItems='center'
 				gap={5}>
 				{passwordValue && !hasSymbol && isBlur ? (
-					<CloseIcon color='error' />
+					<XCircleIcon color='error' />
 				) : (
-					<CheckIcon color={hasSymbol ? 'success' : 'disabled'} />
+					<CheckCircleIcon color={hasSymbol ? 'success' : 'disabled'} />
 				)}
 				<Typography variant='body2'>Must Include at least one symbol.</Typography>
 			</Box>

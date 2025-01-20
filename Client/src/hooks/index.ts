@@ -1,7 +1,6 @@
 export { default as useDocumentAnalytics } from './useDocumentAnalytics';
 export { default as useDocumentData } from './useDocumentData';
 export { default as useDocumentDetail } from './useDocumentDetail';
-export { default as useFileInfo } from './useFileInfo';
 export { useFormSubmission } from './useFormSubmission';
 export { useModal } from './useModal';
 export { useSort } from './useSort';

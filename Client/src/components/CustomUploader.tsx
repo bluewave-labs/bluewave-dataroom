@@ -1,75 +1,76 @@
-import useFileInfo from '@/hooks/useFileInfo';
-import { useToast } from '@/hooks/useToast';
-import { Box, Button, TextField } from '@mui/material';
 import axios from 'axios';
+import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { useState } from 'react';
 
-interface CustomUploaderProps {
-	fileFormats?: string;
-	fileInfo: { name: string; size: string; type: string };
-	handleFileInfo: React.Dispatch<
-		React.SetStateAction<{ name: string; size: string; type: string }>
+import { Box, Button, TextField } from '@mui/material';
+
+import { useToast } from '@/hooks';
+import { formatFileSize } from '@/utils/shared/utils';
+
+interface DocumentUploaderProps {
+	allowedFormats?: string;
+	fileInfo: {
+		name: string;
+		size: string;
+		type: string;
+	};
+	onFileInfoChange: React.Dispatch<
+		React.SetStateAction<{
+			name: string;
+			size: string;
+			type: string;
+		}>
 	>;
+	onUploadSuccess?: () => void;
+	onUploadError?: (message?: string) => void;
 }
 
-export default function CustomUploader({
-	fileFormats,
+export default function DocumentUploader({
+	allowedFormats,
 	fileInfo,
-	handleFileInfo,
-}: CustomUploaderProps) {
+	onFileInfoChange,
+	onUploadSuccess,
+	onUploadError,
+}: DocumentUploaderProps) {
 	const [uploading, setUploading] = useState(false);
 	const { data: session } = useSession();
 	const { showToast } = useToast();
-	const { formatFileSize } = useFileInfo();
 
-	const handleUploadFile = () => {
-		console.log('File Uploaded Successfully!');
-		showToast({
-			message: 'File Uploaded Successfully!',
-			variant: 'success',
-		});
+	const getAcceptedTypes = (): string => {
+		if (!allowedFormats) return '*/*';
+
+		const upper = allowedFormats.toUpperCase();
+		if (upper.includes('JPG') || upper.includes('PNG')) return 'image/*';
+		if (upper.includes('PDF')) return 'application/pdf';
+		return '*/*';
 	};
 
-	const handleFailedFileError = () => {
-		console.log('File Uploading Failed!');
-		showToast({
-			message: 'File Uploading Failed!',
-			variant: 'error',
-		});
+	const handleUploadSuccess = () => {
+		showToast({ message: 'File uploaded successfully!', variant: 'success' });
+		onUploadSuccess?.();
 	};
 
-	const handleNotAuthenticatedError = () => {
-		console.log('User not authenticated!');
-		showToast({
-			message: 'User not authenticated!',
-			variant: 'error',
-		});
+	const handleUploadError = (msg?: string) => {
+		const errorMsg = msg || 'File uploading failed!';
+		showToast({ message: errorMsg, variant: 'error' });
+		onUploadError?.(errorMsg);
 	};
 
-	// Handle file selection
-	const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files?.[0];
+	const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+		const file = event.target.files?.[0];
+		if (!file) return;
 
-		if (file) {
-			const formattedFileSize = formatFileSize(file.size);
-			handleFileInfo((prevFileInfo) => ({
-				...prevFileInfo,
-				name: file.name,
-				size: formattedFileSize,
-				type: file.type,
-			}));
-		} else {
-			return;
-		}
+		onFileInfoChange({
+			name: file.name,
+			size: formatFileSize(file.size),
+			type: file.type,
+		});
 
 		setUploading(true);
 
 		try {
 			if (!session) {
-				console.error('User not authenticated!');
-				handleNotAuthenticatedError();
-				setUploading(false);
+				handleUploadError('User not authenticated!');
 				return;
 			}
 
@@ -79,15 +80,14 @@ export default function CustomUploader({
 			const response = await axios.post('/api/documents/upload', formData);
 
 			if (response?.status === 200 && response.data?.document) {
-				handleUploadFile();
+				handleUploadSuccess();
 			} else {
-				handleFailedFileError();
+				handleUploadError('Server responded with an error.');
 			}
 		} catch (error: any) {
 			const errorMessage =
-				error.response?.data?.error || error.message || 'Unexpected error occurred';
-			console.error('Error uploading file:', errorMessage, error);
-			handleFailedFileError();
+				error.response?.data?.error || error.message || 'Unexpected error occurred.';
+			handleUploadError(errorMessage);
 		} finally {
 			setUploading(false);
 		}
@@ -99,24 +99,27 @@ export default function CustomUploader({
 				value={fileInfo.name}
 				size='small'
 				fullWidth
+				placeholder='No file selected'
+				disabled
+				sx={{ mr: 2 }}
 			/>
 			<Button
 				variant='outlined'
 				color='inherit'
 				size='small'
+				onClick={() => document.getElementById('doc-file-input')?.click()}
+				disabled={uploading}
 				sx={{
 					borderColor: 'text.notes',
-					ml: 10,
 					fontSize: 13,
 					minWidth: '6rem',
-				}}
-				onClick={() => document.getElementById('file-input')?.click()}>
-				Browse
+				}}>
+				{uploading ? 'Uploading...' : 'Browse'}
 			</Button>
 			<input
+				id='doc-file-input'
 				type='file'
-				id='file-input'
-				accept={fileFormats === 'JPG, PNG' ? 'image/*' : 'application/pdf'}
+				accept={getAcceptedTypes()}
 				style={{ display: 'none' }}
 				onChange={handleFileSelect}
 			/>

@@ -94,12 +94,13 @@ model Link {
 }
 
 model LinkVisitors {
-  id        Int      @id @default(autoincrement())
-  linkId    String
-  name      String   @default("")
-  email     String   @default("")
-  createdAt DateTime @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  id         Int      @id @default(autoincrement())
+  linkId     String
+  first_name String   @default("")
+  last_name  String   @default("")
+  email      String   @default("")
+  createdAt  DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt  DateTime @updatedAt @db.Timestamptz(6)
 
   // Relations
   Link Link @relation(fields: [linkId], references: [linkId], onDelete: Cascade)

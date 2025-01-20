@@ -1,16 +1,21 @@
-import { Document, FileTypeConfig } from '@/utils/shared/models';
-import { formatDate } from '@/utils/shared/utils';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import { Avatar, Box, Chip, IconButton, TableCell, TableRow, Typography } from '@mui/material';
 import { useState } from 'react';
-import SettingsIcon from '../../../../public/assets/icons/sidebar/SettingsIcon';
-import ActionMenu from './ActionMenu';
+
+import { Avatar, Box, Chip, IconButton, TableCell, TableRow, Typography } from '@mui/material';
+
+import BarChartIcon from '@mui/icons-material/BarChart';
+import CheckIcon from '../../../../public/assets/icons/documentPage/CheckIcon';
 import LinkIcon from '../../../../public/assets/icons/documentPage/LinkIcon';
-import CheckIcon from '@mui/icons-material/Check';
+import SettingsIcon from '../../../../public/assets/icons/sidebar/SettingsIcon';
+
+import NavLink from '@/components/NavLink';
+import ActionMenu from './ActionMenu';
+
+import { DocumentType, FileTypeConfig } from '@/utils/shared/models';
+import { formatDateTime } from '@/utils/shared/utils';
 
 interface Props {
-	document: Document;
-	onDelete: (documentId: number) => void;
+	document: DocumentType;
+	onDelete: (documentId: string) => void;
 }
 
 const DocumentsTableRow = ({ document, onDelete }: Props) => {
@@ -32,9 +37,10 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 	const handleLinkCopy = () => {
 		if (linkToCopy) {
 			navigator.clipboard.writeText(linkToCopy);
+			setIsLinkCopied(true);
 			setTimeout(() => {
-				setIsLinkCopied(true);
-			}, 300);
+				setIsLinkCopied(false);
+			}, 3000);
 		}
 	};
 
@@ -53,8 +59,13 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 					display='flex'
 					alignItems='center'>
 					<Box>
-						{document.fileName}
-						<br />
+						<NavLink
+							href={`/documents/${document.document_id}`}
+							linkText={document.fileName}
+							color='text.primary'
+							prefetch={true}
+						/>
+
 						<Typography
 							variant='caption'
 							component='div'
@@ -63,11 +74,11 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 								alignItems: 'center',
 								gap: '0.5rem',
 							}}>
-							<span>{formatDate(document.createdAt)}</span>
+							<span>{formatDateTime(document.createdAt)}</span>
 							<span style={{ fontSize: 13 }}>•</span>
 							<span>{document.links} links</span>
 							<span style={{ fontSize: 13 }}>•</span>
-							<span>{document.viewers} viewers</span>
+							<span>Version 1</span>
 						</Typography>
 					</Box>
 				</Box>
@@ -75,7 +86,8 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 			<TableCell>
 				<Box
 					display='flex'
-					alignItems='center'>
+					alignItems='center'
+					textTransform='capitalize'>
 					{document.uploader.avatar ? (
 						<Avatar
 							src={document.uploader.avatar}
@@ -96,7 +108,7 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 			<TableCell>
 				<Chip
 					icon={<BarChartIcon />}
-					label={`${document.views} views`}
+					label={`${document.viewers} views`}
 					size='small'
 					color='secondary'
 					sx={{
@@ -109,7 +121,7 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 					disabled={document.createdLinks?.length === 0}
 					onClick={handleLinkCopy}>
 					{isLinkCopied ? (
-						<CheckIcon fontSize='small' />
+						<CheckIcon />
 					) : (
 						<LinkIcon disabled={document.createdLinks?.length === 0} />
 					)}
@@ -126,7 +138,7 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 					open={open}
 					anchorEl={anchorEl}
 					onDelete={onDelete}
-					documentId={document.id}
+					documentId={document.document_id}
 					onClose={handleMenuClose}
 				/>
 			</TableCell>

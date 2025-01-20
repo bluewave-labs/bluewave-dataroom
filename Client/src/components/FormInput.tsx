@@ -1,34 +1,46 @@
 /**
- * A reusable input component built on top of MUI's TextField.
- * - Use `label` to display a heading above the field.
- * - Use `errorMessage` to display inline error text if validation fails.
- * - Extends MUI’s `TextFieldProps`, so you can pass any standard props
- *   like `type`, `value`, `onChange`, `variant`, `size`, `fullWidth`, etc.
+ * FormInput.tsx
+ * ----------------------------------------------------------------------------
+ * A unified reusable input component built on top of MUI's TextField.
+ *
+ * NOTES:
+ * - Supports all standard TextFieldProps (type, disabled, etc.).
+ * - "label" is rendered above the TextField as a separate Typography element.
+ * - "errorMessage" will display inline below the TextField if provided.
+ * - "minWidth" is applied via sx props for basic styling.
  */
 
 import React, { FC } from 'react';
 import { Box, TextField, Typography, TextFieldProps } from '@mui/material';
 
 interface FormInputProps extends Omit<TextFieldProps, 'error' | 'helperText'> {
-	//  An optional label rendered above the TextField.
+	/** Optional label rendered above the TextField. */
 	label?: string;
+
+	/** The unique identifier for this field (used for id/name). */
 	id: string;
-	size?: 'small' | 'medium';
-	fullWidth?: boolean;
-	// An inline error message displayed below the TextField if validation fails.
-	// If this prop is provided, the TextField will display in an error state.
+
+	/** An inline error message displayed below the TextField if validation fails. */
 	errorMessage?: string;
+
+	/** An optional custom minimum width for the TextField, in pixels. */
+	minWidth?: number;
+
+	/** An optional custom minimum height for the TextField helpertext */
+	minHeight?: number;
 }
 
 const FormInput: FC<FormInputProps> = ({
 	label,
-	size = 'small',
 	id,
 	errorMessage = '',
+	minWidth,
+	minHeight = '1.5em',
 	fullWidth = true,
-	...textFieldProps
+	size = 'small',
+	// Any other TextField props
+	...props
 }) => {
-	// Determine if there is an error
 	const displayError = Boolean(errorMessage);
 
 	return (
@@ -43,19 +55,25 @@ const FormInput: FC<FormInputProps> = ({
 				</Typography>
 			)}
 
-			{/* Render the MUI TextField. 
-          - If `errorMessage` exists, we pass `error={true}` and `helperText` to show inline error.
-          - Any other props (like `value`, `onChange`, `type`, etc.) 
-            come from `...textFieldProps`.
-       */}
 			<TextField
-				{...textFieldProps}
-				size={size}
+				{...props}
 				id={id}
 				name={id}
+				size={size}
 				fullWidth={fullWidth}
 				error={displayError}
-				helperText={displayError ? errorMessage : ''}
+				{...(displayError && { helperText: errorMessage })}
+				slotProps={{
+					formHelperText: {
+						sx: {
+							minHeight: displayError ? minHeight : '0em',
+						},
+					},
+				}}
+				sx={{
+					minWidth,
+					...props.sx,
+				}}
 			/>
 		</Box>
 	);
