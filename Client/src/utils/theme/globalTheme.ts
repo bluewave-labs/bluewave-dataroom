@@ -82,7 +82,7 @@ const globalTheme = createTheme({
 		h3: { fontSize: '1.06rem', color: text.primary, fontWeight: 600 },
 		h4: { fontSize: '0.8rem', color: text.primary, fontWeight: 600 },
 		h5: { fontSize: '0.7rem', color: text.primary, fontWeight: 600 },
-		h6: { fontSize: '0.65rem', color: text.primary, fontWeight: 600 }, //Unused Currently
+		h6: { fontSize: '0.9rem', color: text.notes, fontWeight: 400 }, //Unused Currently
 		body1: { fontSize: '0.8rem', color: text.secondary, fontWeight: 400 },
 		body2: { fontSize: '0.7rem', color: text.notes, fontWeight: 400 },
 		subtitle1: { fontSize: '0.8rem', color: text.notes, fontWeight: 400 },
@@ -281,9 +281,8 @@ const globalTheme = createTheme({
 		MuiDialog: {
 			styleOverrides: {
 				paper: {
-					maxWidth: 410,
-					minWidth: 385,
-					padding: 4,
+					// Remove this after testing all models
+					// padding: 4,
 				},
 			},
 		},

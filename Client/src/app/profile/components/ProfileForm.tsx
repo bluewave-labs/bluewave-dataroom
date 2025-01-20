@@ -1,18 +1,22 @@
-import PageLoader from '../loading';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+
+import { Avatar, Box, Button, Divider, Link, Tooltip, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid2';
+
 import FormInput from '@/components/FormInput';
 import LoadingButton from '@/components/LoadingButton';
 import ModalWrapper from '@/components/ModalWrapper';
 import { useFormSubmission } from '@/hooks/useFormSubmission';
+import EditIcon from '@mui/icons-material/Edit';
+import PageLoader from '../loading';
+
 import { useModal } from '@/hooks/useModal';
 import { useToast } from '@/hooks/useToast';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+
 import { requiredFieldRule } from '@/utils/shared/validators';
-import EditIcon from '@mui/icons-material/Edit';
-import { Avatar, Box, Button, Divider, Link, Typography, Tooltip } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import axios from 'axios';
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
 
 export default function ProfileForm() {
 	const [fetchLoading, setFetchLoading] = useState(false);

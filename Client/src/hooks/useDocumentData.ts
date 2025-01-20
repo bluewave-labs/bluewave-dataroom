@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 
-import { LinkDetail, Contact } from '@/utils/shared/models';
+import { Contact, LinkDetail } from '@/utils/shared/models';
 
 interface UseDocumentDataReturn {
 	data: LinkDetail[] | Contact[];
@@ -37,6 +37,7 @@ export default function useDocumentData(
 			const res = await axios.get(url);
 			if (variant === 'linkTable') {
 				setData(res.data.links || []);
+				console.log('🚀 ~ fetchData ~ res.data.links:', res.data.links);
 			} else {
 				setData(res.data.visitors || []);
 			}
