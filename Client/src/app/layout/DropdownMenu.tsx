@@ -31,7 +31,7 @@ export default function DropdownMenu() {
 
 	const menuItems = [
 		{ text: 'Profile', icon: <ProfileIcon />, href: '/profile' },
-		{ text: 'Team', icon: <TeamIcon />, href: '/team' },
+		// { text: 'Team', icon: <TeamIcon />, href: '/team' },
 	];
 
 	return (

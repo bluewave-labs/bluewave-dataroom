@@ -26,7 +26,7 @@ export default function Sidebar() {
 	const menuItems = [
 		{ text: 'Documents', icon: <DocumentsIcon />, href: '/documents' },
 		{ text: 'Contacts', icon: <ContactsIcon />, href: '/contacts' },
-		{ text: 'Settings', icon: <SettingsIcon />, href: '/settings' },
+		// { text: 'Settings', icon: <SettingsIcon />, href: '/settings' },
 	];
 
 	return (
