@@ -1,9 +1,9 @@
 'use client';
+import { Box, Button } from '@mui/material';
 
 import ModalWrapper from '@/components/ModalWrapper';
-import { useModal } from '@/hooks/useModal';
-import { useToast } from '@/hooks/useToast';
-import { Box, Button } from '@mui/material';
+
+import { useModal, useToast } from '@/hooks';
 
 interface DragAndDropBoxProps {
 	text: string;

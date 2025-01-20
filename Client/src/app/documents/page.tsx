@@ -1,4 +1,5 @@
-import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import { NextRequest } from 'next/server';
+
 import {
 	Box,
 	Container,
@@ -8,15 +9,27 @@ import {
 	ListItemText,
 	Typography,
 } from '@mui/material';
-import axios from 'axios';
-import prisma from '@lib/prisma';
+
+import { fetchDocumentCount } from '@/services/documentService';
+import { authenticate } from '@lib/middleware/authenticate';
+
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import Background from '../../../public/assets/Background';
+
 import DocumentsTable from './components/DocumentsTable';
 import DragAndDropBox from './components/DragAndDropBox';
-import { fetchDocumentCount } from '@/services/documentService';
 
-export default async function DocumentsPage() {
-	const documentCount = await fetchDocumentCount();
+export default async function DocumentsPage(req: NextRequest) {
+	let documentCount = 0;
+
+	try {
+		// Authenticate the user and fetch their document count
+		const userId = await authenticate(req);
+		documentCount = await fetchDocumentCount(userId);
+	} catch (error) {
+		console.error('Error fetching document count or authenticating user:', error);
+	}
+
 	const isEmptyState = documentCount === 0;
 
 	return (
