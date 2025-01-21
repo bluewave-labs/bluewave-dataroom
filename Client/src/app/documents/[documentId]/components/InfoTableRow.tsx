@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-import { IconButton, TableCell, TableRow, Typography } from '@mui/material';
+import { Box, IconButton, TableCell, TableRow, Typography } from '@mui/material';
 import Image from 'next/image';
 
 import CheckIcon from '../../../../../public/assets/icons/documentPage/CheckIcon';
@@ -35,7 +35,7 @@ export default function InfoTableRow({ documentDetail, variant }: InfoTableRowPr
 			const link = documentDetail as LinkDetail;
 			await axios.delete(`/api/documents/${link.document_id}/links/${link.linkId}`);
 
-			showToast({ message: 'Link Deleted!', variant: 'success' });
+			showToast({ message: 'Link deleted!', variant: 'success' });
 			deleteModal.closeModal();
 		} catch (err) {
 			showToast({ message: 'Error deleting link', variant: 'error' });
@@ -57,13 +57,17 @@ export default function InfoTableRow({ documentDetail, variant }: InfoTableRowPr
 		return (
 			<>
 				<TableRow hover>
-					<TableCell sx={{ width: '45%', pl: 20, py: 11 }}>
-						{documentDetail.createdLink}
-						<IconButton
-							sx={{ ml: 10 }}
-							onClick={handleLinkCopy}>
-							{isLinkCopied ? <CheckIcon /> : <CopyIcon />}
-						</IconButton>
+					<TableCell
+						sx={{ width: '45%', pl: 20, py: { sm: '0.7rem', md: '0.92rem', lg: '1.18rem' } }}>
+						<Box
+							display='flex'
+							alignItems='center'
+							gap={10}>
+							{documentDetail.createdLink}
+							<IconButton onClick={handleLinkCopy}>
+								{isLinkCopied ? <CheckIcon /> : <CopyIcon />}
+							</IconButton>
+						</Box>
 					</TableCell>
 					<TableCell sx={{ width: '20%', textAlign: 'center' }}>
 						{formatDateTime(documentDetail.lastActivity)}
@@ -101,7 +105,7 @@ export default function InfoTableRow({ documentDetail, variant }: InfoTableRowPr
 	if (variant === 'visitorTable' && isVisitorDetail(documentDetail)) {
 		return (
 			<TableRow hover>
-				<TableCell sx={{ width: '30%', pl: 20, py: 6 }}>
+				<TableCell sx={{ width: '30%', pl: 20, py: { sm: '0.9rem', md: '1.1rem', lg: '1.3rem' } }}>
 					{documentDetail.name}
 					<br />
 					<Typography variant='caption'>{documentDetail.email}</Typography>

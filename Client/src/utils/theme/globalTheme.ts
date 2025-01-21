@@ -79,9 +79,8 @@ const globalTheme = createTheme({
 			'@media (min-width:1200px)': {
 				fontSize: '1.25rem',
 			},
-		}, //Unused Currently
+		}, //Custom name: largeTitle_bold
 		h2: {
-			fontSize: '1rem',
 			color: text.primary,
 			fontWeight: 600,
 			'@media (min-width:600px)': {
@@ -95,21 +94,19 @@ const globalTheme = createTheme({
 			},
 		}, //Custom name: title_bold
 		h3: {
-			fontSize: '1.06rem',
 			color: text.primary,
-			fontWeight: 600,
+			fontWeight: 500,
 			'@media (min-width:600px)': {
-				fontSize: '0.9rem',
+				fontSize: '0.7rem',
 			},
 			'@media (min-width:900px)': {
-				fontSize: '1rem',
+				fontSize: '0.75rem',
 			},
 			'@media (min-width:1200px)': {
-				fontSize: '1.06rem',
+				fontSize: '0.8rem',
 			},
-		}, //Unused Currently
+		}, //Custom name: description_midBold
 		h4: {
-			fontSize: '0.8rem',
 			color: text.primary,
 			fontWeight: 600,
 			'@media (min-width:600px)': {
@@ -123,7 +120,6 @@ const globalTheme = createTheme({
 			},
 		}, //Custom name: description_bold
 		h5: {
-			fontSize: '0.7rem',
 			color: text.primary,
 			fontWeight: 600,
 			'@media (min-width:600px)': {
@@ -137,7 +133,6 @@ const globalTheme = createTheme({
 			},
 		}, //Custom name: note_bold
 		h6: {
-			fontSize: '0.7rem',
 			color: text.secondary,
 			fontWeight: 400,
 			'@media (min-width:600px)': {
@@ -151,7 +146,6 @@ const globalTheme = createTheme({
 			},
 		}, //Custom name: note_darkGray
 		body1: {
-			fontSize: '0.8rem',
 			color: text.primary,
 			fontWeight: 400,
 			'@media (min-width:600px)': {
@@ -165,7 +159,6 @@ const globalTheme = createTheme({
 			},
 		}, //Custom name: description
 		body2: {
-			fontSize: '0.7rem',
 			color: text.notes,
 			fontWeight: 400,
 			'@media (min-width:600px)': {
@@ -179,7 +172,6 @@ const globalTheme = createTheme({
 			},
 		}, //Custom name: note_gray
 		subtitle1: {
-			fontSize: '0.8rem',
 			color: text.notes,
 			fontWeight: 400,
 			'@media (min-width:600px)': {
@@ -193,7 +185,6 @@ const globalTheme = createTheme({
 			},
 		}, //Custom name: description_gray
 		subtitle2: {
-			fontSize: '0.8rem',
 			color: text.secondary,
 			fontWeight: 400,
 			'@media (min-width:600px)': {
@@ -207,7 +198,6 @@ const globalTheme = createTheme({
 			},
 		}, //Custom name: description_darkGray
 		caption: {
-			fontSize: '0.7rem',
 			fontWeight: 400,
 			color: text.notes,
 			lineHeight: '20px',
@@ -224,9 +214,9 @@ const globalTheme = createTheme({
 		}, //Custom name: note_lineHeight
 
 		//// Font sizes based on rem
-		// h1: { fontSize: '1.25rem', color: text.brand, fontWeight: 600 }, //Unused Currently
+		// h1: { fontSize: '1.25rem', color: text.brand, fontWeight: 600 }, //Custom name: largeTitle_bold
 		// h2: { fontSize: '1rem', color: text.primary, fontWeight: 600 }, //Custom name: title_bold
-		// h3: { fontSize: '1.06rem', color: text.primary, fontWeight: 600 }, //Unused Currently
+		// h3: { fontSize: '0.8rem', color: text.primary, fontWeight: 500 }, //Custom name: description_midBold
 		// h4: { fontSize: '0.8rem', color: text.primary, fontWeight: 600 }, //Custom name: description_bold
 		// h5: { fontSize: '0.7rem', color: text.primary, fontWeight: 600 }, //Custom name: note_bold
 		// h6: { fontSize: '0.7rem', color: text.secondary, fontWeight: 400 }, //Custom name: note_darkGray
@@ -518,6 +508,21 @@ const globalTheme = createTheme({
 				},
 			},
 		},
+		MuiListItemText: {
+			styleOverrides: {
+				root: {
+					'@media (min-width:600px)': {
+						marginBottom: '0rem',
+					},
+					'@media (min-width:900px)': {
+						marginBottom: '0.2rem',
+					},
+					'@media (min-width:1200px)': {
+						marginBottom: '0.4rem',
+					},
+				},
+			},
+		},
 		MuiListItemButton: {
 			styleOverrides: {
 				root: {
@@ -563,10 +568,18 @@ const globalTheme = createTheme({
 				root: {
 					backgroundColor: 'inherit',
 					color: text.secondary,
-					fontSize: 13,
 					minWidth: 100,
 					'&:hover, &.Mui-selected, &.Mui-selected:hover, &.Mui-selected.Mui-focusVisible': {
 						backgroundColor: hover.tertiary,
+					},
+					'@media (min-width:600px)': {
+						fontSize: '0.7rem',
+					},
+					'@media (min-width:900px)': {
+						fontSize: '0.75rem',
+					},
+					'@media (min-width:1200px)': {
+						fontSize: '0.8rem',
 					},
 				},
 			},

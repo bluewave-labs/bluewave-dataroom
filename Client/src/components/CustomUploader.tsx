@@ -105,14 +105,13 @@ export default function DocumentUploader({
 			/>
 			<Button
 				variant='outlined'
-				color='inherit'
 				size='small'
 				onClick={() => document.getElementById('doc-file-input')?.click()}
 				disabled={uploading}
 				sx={{
 					borderColor: 'text.notes',
-					fontSize: 13,
 					minWidth: '6rem',
+					typography: 'subtitle2',
 				}}>
 				{uploading ? 'Uploading...' : 'Browse'}
 			</Button>

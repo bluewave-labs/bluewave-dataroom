@@ -56,11 +56,7 @@ export default function InfoTable({ variant, documentId }: InfoTableProps) {
 			<Box
 				textAlign='center'
 				mt={5}>
-				<Typography
-					variant='h6'
-					color='error'>
-					{error}
-				</Typography>
+				<Typography color='error'>{error}</Typography>
 			</Box>
 		);
 	}
@@ -96,10 +92,10 @@ export default function InfoTable({ variant, documentId }: InfoTableProps) {
 							<TableRow>
 								<TableCell
 									colSpan={4}
-									sx={{ textAlign: 'center', py: 7 }}>
+									sx={{ textAlign: 'center', py: { sm: '0.5rem', md: '0.7rem', lg: '0.9rem' } }}>
 									<Button
 										variant='contained'
-										sx={{ px: 70 }}>
+										sx={{ px: { sm: 50, md: 60, lg: 70 } }}>
 										Create a link
 									</Button>
 								</TableCell>
@@ -111,7 +107,7 @@ export default function InfoTable({ variant, documentId }: InfoTableProps) {
 							<TableRow>
 								<TableCell
 									colSpan={5}
-									sx={{ textAlign: 'center', py: 7 }}>
+									sx={{ textAlign: 'center', py: { sm: '0.5rem', md: '0.7rem', lg: '0.9rem' } }}>
 									<Typography>No visitor data found.</Typography>
 								</TableCell>
 							</TableRow>

@@ -157,7 +157,7 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 				message: 'Shareable link created successfully!',
 				variant: 'success',
 			});
-			onClose('Form Submitted');
+			onClose('Form submitted');
 		},
 		onError: (errMsg) => {
 			console.error('Create link error:', errMsg);
@@ -181,18 +181,16 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 			<Dialog
 				open={!!shareableLink}
 				onClose={() => setShareableLink('')}
-				PaperProps={{ sx: { minWidth: 500, minHeight: 100, padding: 10 } }}>
-				<DialogTitle fontSize={20}>Shareable Link</DialogTitle>
+				PaperProps={{ sx: { minWidth: 500, minHeight: 100, p: 10 } }}>
+				<DialogTitle variant='h2'>Shareable link</DialogTitle>
 				<DialogContent
 					sx={{
-						padding: 0,
-						marginTop: 5,
+						p: 0,
+						mt: 5,
 					}}>
 					<Box
-						sx={{
-							display: 'flex',
-							alignItems: 'center',
-						}}>
+						display='flex'
+						alignItems='center'>
 						<Typography variant='h5'>{shareableLink}</Typography>
 					</Box>
 				</DialogContent>
@@ -218,7 +216,7 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 				onSubmit: handleSubmit,
 				sx: { minWidth: 650, minHeight: 550 },
 			}}>
-			<DialogContent sx={{ display: 'flex', justifyContent: 'center', padding: '32px 0' }}>
+			<DialogContent sx={{ display: 'flex', justifyContent: 'center', py: 16, px: 0 }}>
 				<Box width={580}>
 					{/* <CustomAccordion
 						title='Link Details'
@@ -251,7 +249,7 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 				</Box>
 			</DialogContent>
 
-			<DialogActions sx={{ padding: '32px' }}>
+			<DialogActions sx={{ p: 16 }}>
 				<LoadingButton
 					loading={loading}
 					buttonText='Generate'

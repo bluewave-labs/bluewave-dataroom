@@ -48,9 +48,8 @@ const FormInput: FC<FormInputProps> = ({
 			{/* Render a top label if provided */}
 			{label && (
 				<Typography
-					variant='body1'
-					fontWeight={500}
-					mb={1}>
+					variant='h3'
+					mb={4}>
 					{label}
 				</Typography>
 			)}

@@ -35,19 +35,17 @@ const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete }: Props) =>
 				anchorEl={anchorEl}
 				open={open}
 				onClose={onClose}
-				disableScrollLock={true}
-				sx={{
-					'& .MuiPaper-root': {
-						boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-						borderRadius: '4px',
-					},
-				}}>
+				disableScrollLock={true}>
 				<MenuItem onClick={handleClickOpen}>Add new link</MenuItem>
 				<MenuItem onClick={onClose}>Duplicate document</MenuItem>
 				<MenuItem onClick={updateModal.openModal}>Update document</MenuItem>
 				<MenuItem onClick={onClose}>View analytics</MenuItem>
 				<MenuItem onClick={deleteModal.openModal}>
-					<Typography color='error'>Delete</Typography>
+					<Typography
+						variant='body1'
+						color='error'>
+						Delete
+					</Typography>
 				</MenuItem>
 			</Menu>
 

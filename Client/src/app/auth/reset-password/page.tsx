@@ -104,7 +104,7 @@ export default function ResetPassword() {
 				minWidth={400}
 				display='flex'
 				flexDirection='column'
-				gap={8}>
+				gap={{ sm: 8, md: 9, lg: 10 }}>
 				<FormInput
 					label='Password'
 					id='password'

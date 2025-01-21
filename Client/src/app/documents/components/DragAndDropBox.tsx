@@ -7,17 +7,17 @@ import { useModal, useToast } from '@/hooks';
 
 interface DragAndDropBoxProps {
 	text: string;
-	height?: number;
+	height?: { [key: string]: number };
 }
 
-const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
+const DragAndDropBox = ({ text, height = { sm: 150, md: 200, lg: 250 } }: DragAndDropBoxProps) => {
 	const { isOpen, openModal, closeModal } = useModal();
 	const { showToast } = useToast();
 
 	const handleUploadFile = () => {
-		console.log('File Uploaded Successfully!');
+		console.log('File uploaded successfully!');
 		showToast({
-			message: 'File Uploaded Successfully!',
+			message: 'File uploaded successfully!',
 			variant: 'success',
 		});
 	};
@@ -30,9 +30,8 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 				sx={{
 					border: '2px dashed rgba(236, 236, 236)',
 					borderRadius: 2,
-					padding: '2rem',
-					textAlign: 'center',
-					backgroundColor: 'rgba(255, 255, 255)',
+					p: { sm: '1rem', md: '1.5rem', lg: '2rem' },
+					bgcolor: 'background.fill',
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
@@ -44,9 +43,11 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 					component='img'
 					src='/assets/icons/documentPage/document-upload-icon.svg'
 					alt='Document Icon'
-					sx={{ width: '8rem', height: '8rem', mb: '0.5rem' }}
+					width={{ sm: '7rem', md: '7.5rem', lg: '8rem' }}
+					height={{ sm: '7rem', md: '7.5rem', lg: '8rem' }}
+					mb={{ sm: '0.1rem', md: '0.3rem', lg: '0.5rem' }}
 				/>
-				<Button color='inherit'>{text}</Button>
+				<Button color='secondary'>{text}</Button>
 			</Box>
 
 			{/* Modal Wrapper */}

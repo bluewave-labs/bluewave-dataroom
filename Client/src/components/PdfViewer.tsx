@@ -91,7 +91,7 @@ export default function PdfViewer({ pdfUrl }: PdfViewerProps) {
 					onClick={handlePrevPage}>
 					Previous
 				</Button>
-				<Typography>
+				<Typography variant='body1'>
 					Page {currentPage} of {totalPages}
 				</Typography>
 				<Button

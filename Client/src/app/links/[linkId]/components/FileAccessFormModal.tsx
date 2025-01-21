@@ -20,9 +20,7 @@ import FormInput from '@/components/FormInput';
 import LoadingButton from '@/components/LoadingButton';
 import { useFormSubmission } from '@/hooks/useFormSubmission';
 import { useValidatedFormData } from '@/hooks/useValidatedFormData';
-
 import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
-
 import FileDownloadIcon from '@/../public/assets/icons/link/FileDownloadIcon';
 
 const RowBox = styled(Box)({
@@ -32,7 +30,6 @@ const RowBox = styled(Box)({
 	width: '100%',
 	'& > p': {
 		flex: 2,
-		fontWeight: 500,
 	},
 	'& > div:nth-of-type(1)': {
 		flex: 7,
@@ -149,41 +146,36 @@ const FileAccessModal = (props: FileAccessModalProps) => {
 			PaperProps={{
 				component: 'form',
 				onSubmit: handleSubmit,
-				sx: { minWidth: 600, padding: 0 },
+				sx: { minWidth: 600, p: 0 },
 			}}>
 			<Box
-				sx={{
-					display: 'flex',
-					alignItems: 'center',
-					margin: '24px',
-				}}>
+				display='flex'
+				alignItems='center'
+				m={12}>
 				<Box
-					sx={{
-						borderRadius: '4px',
-						padding: '10px',
-						border: '1px solid #EAECF0',
-					}}>
+					borderRadius={2}
+					p={5}
+					border={1}
+					borderColor='border.light'>
 					<FileDownloadIcon />
 				</Box>
-				<Box sx={{ ml: 6 }}>
-					<Typography variant='h3'>Your Information</Typography>
+				<Box ml={6}>
+					<Typography variant='h2'>Your information</Typography>
 					<Typography variant='body1'>Enter your details to access the document</Typography>
 				</Box>
 			</Box>
 
 			<Divider />
 
-			<DialogContent sx={{ margin: '24 px' }}>
+			<DialogContent sx={{ m: 12 }}>
 				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						width: '100%',
-						gap: 10,
-					}}>
+					display='flex'
+					flexDirection='column'
+					width='100%'
+					gap={10}>
 					{[1, 2].includes(userDetailsOption) && (
 						<RowBox>
-							<Typography variant='body1'>Name</Typography>
+							<Typography variant='h3'>Name</Typography>
 							<FormInput
 								id='name'
 								value={values.name || ''}
@@ -198,7 +190,7 @@ const FileAccessModal = (props: FileAccessModalProps) => {
 
 					{userDetailsOption === 2 && (
 						<RowBox>
-							<Typography variant='body1'>Email</Typography>
+							<Typography variant='h3'>Email</Typography>
 							<FormInput
 								id='email'
 								type='email'
@@ -217,7 +209,7 @@ const FileAccessModal = (props: FileAccessModalProps) => {
 					{passwordRequired && (
 						<RowBox>
 							<Typography
-								variant='body1'
+								variant='h3'
 								mt={10}>
 								Password
 							</Typography>
@@ -231,10 +223,11 @@ const FileAccessModal = (props: FileAccessModalProps) => {
 								onBlur={handleBlur}
 								type={isPasswordVisible ? 'text' : 'password'}
 							/>
-							<Box>
+							<Box
+								ml={5}
+								mt={10}>
 								<IconButton
 									size='large'
-									sx={{ ml: 5, mt: 10 }}
 									onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
 									{isPasswordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
 								</IconButton>
@@ -246,7 +239,11 @@ const FileAccessModal = (props: FileAccessModalProps) => {
 
 			<Divider />
 
-			<DialogActions sx={{ padding: 0, margin: '24px' }}>
+			<DialogActions
+				sx={{
+					p: 0,
+					m: 12,
+				}}>
 				<LoadingButton
 					loading={loading}
 					buttonText='Confirm'

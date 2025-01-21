@@ -63,7 +63,7 @@ interface FileInfoType {
 
 interface ModalWrapperProps {
 	variant: 'upload' | 'delete' | 'invite';
-	dialogContentVariant?: 'subtitle2' | 'body2';
+	dialogContentVariant?: 'body1' | 'body2';
 	title: string;
 	description?: string;
 	confirmButtonText: string;
@@ -77,7 +77,7 @@ interface ModalWrapperProps {
 
 export default function ModalWrapper({
 	variant,
-	dialogContentVariant = 'subtitle2',
+	dialogContentVariant = 'body1',
 	title,
 	description,
 	confirmButtonText,
@@ -210,9 +210,7 @@ function UploadBox({
 				/>
 			</Box>
 			<Box mb={11}>
-				<Typography
-					variant='body2'
-					color='text.secondary'>
+				<Typography variant='h6'>
 					Supported formats: {fileFormats} | Max file size: {maxFileSize} each.
 				</Typography>
 			</Box>

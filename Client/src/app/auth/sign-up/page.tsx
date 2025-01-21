@@ -98,7 +98,7 @@ export default function SignUp() {
 
 	return (
 		<AuthFormWrapper>
-			<Box mb={20}>
+			<Box mb={{ sm: 8, md: 12, lg: 20 }}>
 				<BluewaveLogo
 					width={248}
 					height={64}
@@ -107,7 +107,7 @@ export default function SignUp() {
 
 			<Typography
 				variant='h2'
-				mb={12}>
+				mb={{ sm: 10, md: 11, lg: 12 }}>
 				Create an account
 			</Typography>
 
@@ -121,7 +121,7 @@ export default function SignUp() {
 				gap={8}>
 				<Box
 					display='flex'
-					gap={2}
+					gap={{ sm: 8, md: 9, lg: 10 }}
 					flexDirection='column'>
 					<FormInput
 						label='First name'

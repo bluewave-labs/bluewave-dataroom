@@ -2,7 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
+import { Contact } from '@/utils/shared/models';
+import { useSort } from '@/hooks/useSort';
+import Paginator from '@/components/Paginator';
+import ContactsTableRow from './ContactsTableRow';
+import EmptyState from '@/components/EmptyState';
 import {
 	Box,
 	CircularProgress,
@@ -16,18 +22,11 @@ import {
 	TableSortLabel,
 	Typography,
 } from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
-
-import { Contact } from '@/utils/shared/models';
-import { useSort } from '@/hooks/useSort';
-import Paginator from '@/components/Paginator';
-import ContactsTableRow from './ContactsTableRow';
-import EmptyState from '@/components/EmptyState';
 
 export default function ContactsTable() {
-	const pageSize = 12;
 	const [page, setPage] = useState(1);
+	const [pageSize, setPageSize] = useState(5);
+	const [rowHeight, setRowHeight] = useState(59);
 	const [data, setData] = useState<Contact[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -57,6 +56,35 @@ export default function ContactsTable() {
 		data,
 		'lastActivity',
 	);
+
+	//Calculate the row height of the table
+	const calculateRowHeight = () => {
+		const width = window.innerWidth;
+		if (width >= 1200) {
+			return 59; // lg
+		} else if (width >= 900) {
+			return 54; // md
+		} else {
+			return 47; // sm
+		}
+	};
+
+	//Calculate the pageSize based on resizing
+	useEffect(() => {
+		setRowHeight(calculateRowHeight());
+		const handleResize = () => {
+			const availableHeight = window.innerHeight - 200; // Adjust for header, footer, etc.
+			const calculatedRowsPerPage = Math.floor(availableHeight / rowHeight);
+			setPageSize(calculatedRowsPerPage);
+		};
+
+		// Initial calculation and add resize listener
+		handleResize();
+		window.addEventListener('resize', handleResize);
+
+		// Cleanup the event listener on unmount
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
 
 	const paginatedData = sortedData.slice((page - 1) * pageSize, page * pageSize);
 	const totalPages = Math.ceil(sortedData.length / pageSize);
@@ -91,9 +119,9 @@ export default function ContactsTable() {
 				<Table aria-label='Contacts Table'>
 					<TableHead>
 						<TableRow>
-							<TableCell sx={{ width: '30%' }}>NAME</TableCell>
+							<TableCell sx={{ width: '30%', pl: '2rem' }}>NAME</TableCell>
 							<TableCell sx={{ width: '25%' }}>LAST VIEWED LINK</TableCell>
-							<TableCell sx={{ width: '30%' }}>
+							<TableCell sx={{ width: '30%', textAlign: 'center' }}>
 								<TableSortLabel
 									active={orderBy === 'lastActivity'}
 									direction={orderDirection}
@@ -105,7 +133,7 @@ export default function ContactsTable() {
 									LAST ACTIVITY
 								</TableSortLabel>
 							</TableCell>
-							<TableCell sx={{ width: '15%' }}>VISITS</TableCell>
+							<TableCell sx={{ width: '15%', textAlign: 'center' }}>VISITS</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
