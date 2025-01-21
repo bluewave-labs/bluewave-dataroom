@@ -4,15 +4,14 @@ import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
+import FormInput from '@/components/FormInput';
 import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
+import PasswordValidation from '@/components/PasswordValidation';
 import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import FormInput from '@/components/FormInput';
-import PasswordValidation from '@/components/PasswordValidation';
 
-import { useFormSubmission } from '@/hooks/useFormSubmission';
-import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+import { useFormSubmission, useValidatedFormData } from '@/hooks';
 import {
 	passwordValidationRule,
 	requiredFieldRule,

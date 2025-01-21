@@ -116,10 +116,11 @@ export default function Sidebar() {
 												}}>
 												<ListItemIcon>
 													<Box
-														component={icon}
+														component='image'
 														width={{ sm: '1.1rem', md: '1.3rem', lg: '1.5rem' }}
-														height='auto'
-													/>
+														height='auto'>
+														{icon}
+													</Box>
 												</ListItemIcon>
 												<ListItemText primary={text} />
 											</ListItemButton>

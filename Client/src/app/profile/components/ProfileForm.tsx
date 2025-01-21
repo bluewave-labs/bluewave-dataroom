@@ -9,13 +9,10 @@ import FormInput from '@/components/FormInput';
 import LoadingButton from '@/components/LoadingButton';
 import ModalWrapper from '@/components/ModalWrapper';
 import PageLoader from '@/components/PageLoader';
-import { useFormSubmission } from '@/hooks/useFormSubmission';
+
 import EditIcon from '@mui/icons-material/Edit';
 
-import { useModal } from '@/hooks/useModal';
-import { useToast } from '@/hooks/useToast';
-import { useValidatedFormData } from '@/hooks/useValidatedFormData';
-
+import { useFormSubmission, useModal, useToast, useValidatedFormData } from '@/hooks';
 import { requiredFieldRule } from '@/utils/shared/validators';
 
 export default function ProfileForm() {

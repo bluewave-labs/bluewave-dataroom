@@ -7,12 +7,10 @@ import { useRouter } from 'next/navigation';
 import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
 import KeyIcon from '../../../../public/assets/icons/auth/KeyIcon';
-import AuthFormWrapper from '../components/AuthFormWrapper';
 import FormInput from '../../../components/FormInput';
+import AuthFormWrapper from '../components/AuthFormWrapper';
 
-import { useFormSubmission } from '@/hooks/useFormSubmission';
-import { useToast } from '@/hooks/useToast';
-import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+import { useFormSubmission, useToast, useValidatedFormData } from '@/hooks';
 import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
 
 export default function ForgotPassword() {

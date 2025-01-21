@@ -257,7 +257,7 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 				Create Shareable Link
 				<Typography
 					my={4}
-					variant='h6'>
+					variant='body2'>
 					Selected Document:{' '}
 					<Chip
 						sx={{

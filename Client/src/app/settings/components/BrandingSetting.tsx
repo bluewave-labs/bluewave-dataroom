@@ -1,12 +1,16 @@
 'use client';
-import ModalWrapper from '@/components/ModalWrapper';
-import { useModal } from '@/hooks/useModal';
-import EditIcon from '@mui/icons-material/Edit';
-import { Avatar, Box, Button, CircularProgress, Link, Typography } from '@mui/material';
-import ColorPickerBox from './ColorPickerBox';
-import Grid from '@mui/material/Grid2';
 import { useState } from 'react';
-import { useToast } from '@/hooks/useToast';
+
+import { Avatar, Box, Button, CircularProgress, Link, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid2';
+
+import ModalWrapper from '@/components/ModalWrapper';
+
+import ColorPickerBox from './ColorPickerBox';
+
+import { useModal, useToast } from '@/hooks';
+
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function BrandingSetting() {
 	const deleteModal = useModal();

@@ -5,7 +5,7 @@ import { Menu, MenuItem, Typography } from '@mui/material';
 import ModalWrapper from '@/components/ModalWrapper';
 import CreateLink from './CreateLink';
 
-import { useModal } from '@/hooks/useModal';
+import { useModal } from '@/hooks';
 
 interface Props {
 	open: boolean;

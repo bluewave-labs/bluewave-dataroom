@@ -1,14 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
-import { Contact } from '@/utils/shared/models';
-import { useSort } from '@/hooks/useSort';
-import Paginator from '@/components/Paginator';
-import ContactsTableRow from './ContactsTableRow';
-import EmptyState from '@/components/EmptyState';
+import { useEffect, useState } from 'react';
+
 import {
 	Box,
 	CircularProgress,
@@ -22,6 +16,17 @@ import {
 	TableSortLabel,
 	Typography,
 } from '@mui/material';
+
+import EmptyState from '@/components/EmptyState';
+import Paginator from '@/components/Paginator';
+
+import ContactsTableRow from './ContactsTableRow';
+
+import { useSort } from '@/hooks';
+import { Contact } from '@/utils/shared/models';
+
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 
 export default function ContactsTable() {
 	const [page, setPage] = useState(1);

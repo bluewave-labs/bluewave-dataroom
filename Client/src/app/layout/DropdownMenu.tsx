@@ -99,10 +99,11 @@ export default function DropdownMenu() {
 							onClick={handleClose}
 							sx={{ display: 'flex', alignItems: 'center', gap: 8 }}>
 							<Box
-								component={icon}
+								component='image'
 								width={{ sm: '0.8rem', md: '0.9rem', lg: '1rem' }}
-								height='auto'
-							/>
+								height='auto'>
+								{icon}
+							</Box>
 							<Typography variant='body1'>{text}</Typography>
 						</MenuItem>
 					</Link>
