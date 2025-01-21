@@ -30,8 +30,8 @@ export default function DropdownMenu() {
 	const fullName = `${firstName} ${lastName}`.trim() || 'No Name';
 
 	const menuItems = [
-		{ text: 'Profile', icon: ProfileIcon, href: '/profile' },
-		{ text: 'Team', icon: TeamIcon, href: '/team' },
+		{ text: 'Profile', icon: <ProfileIcon />, href: '/profile' },
+		// { text: 'Team', icon: <TeamIcon />, href: '/team' },
 	];
 
 	return (

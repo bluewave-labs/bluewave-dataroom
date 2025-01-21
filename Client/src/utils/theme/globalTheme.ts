@@ -477,9 +477,8 @@ const globalTheme = createTheme({
 		MuiDialog: {
 			styleOverrides: {
 				paper: {
-					maxWidth: 410,
-					minWidth: 385,
-					padding: 4,
+					// Remove this after testing all models
+					// padding: 4,
 				},
 			},
 		},

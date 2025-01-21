@@ -60,6 +60,7 @@ export interface User {
 
 export interface LinkDetail {
 	linkId: string; // unique string
+	friendlyName: string; // The links's friendly name
 	document_id: string; // The document_id from DB
 	createdLink: string; // The linkUrl from DB
 	lastActivity: Date; // The link's updatedAt

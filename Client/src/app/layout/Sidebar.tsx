@@ -32,9 +32,9 @@ export default function Sidebar() {
 	const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
 	const menuItems = [
-		{ text: 'Documents', icon: DocumentsIcon, href: '/documents' },
-		{ text: 'Contacts', icon: ContactsIcon, href: '/contacts' },
-		{ text: 'Settings', icon: SettingsIcon, href: '/settings' },
+		{ text: 'Documents', icon: <DocumentsIcon />, href: '/documents' },
+		{ text: 'Contacts', icon: <ContactsIcon />, href: '/contacts' },
+		// { text: 'Settings', icon: <SettingsIcon />, href: '/settings' },
 	];
 
 	const openSidebar = () => setIsOpen(true);

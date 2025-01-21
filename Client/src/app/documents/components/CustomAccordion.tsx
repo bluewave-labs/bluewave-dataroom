@@ -3,7 +3,6 @@ import {
 	AccordionDetails,
 	AccordionProps,
 	AccordionSummary,
-	Divider,
 	Typography,
 } from '@mui/material';
 import ArrowLeft from '../../../../public/assets/icons/documentPage/ArrowLeft';
@@ -14,7 +13,9 @@ interface CustomAccordionProps extends AccordionProps {
 
 const CustomAccordion = ({ title, children, ...props }: CustomAccordionProps) => {
 	return (
-		<Accordion {...props}>
+		<Accordion
+			slotProps={{ transition: { unmountOnExit: true } }}
+			{...props}>
 			<AccordionSummary
 				sx={{
 					flexDirection: 'row-reverse',
@@ -37,7 +38,6 @@ const CustomAccordion = ({ title, children, ...props }: CustomAccordionProps) =>
 				</Typography>
 			</AccordionSummary>
 			<AccordionDetails>{children}</AccordionDetails>
-			<Divider />
 		</Accordion>
 	);
 };

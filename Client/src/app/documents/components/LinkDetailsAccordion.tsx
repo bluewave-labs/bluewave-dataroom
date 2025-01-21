@@ -1,7 +1,5 @@
+import { Box, Typography } from '@mui/material';
 import React from 'react';
-import { Box, IconButton, Typography } from '@mui/material';
-
-import CopyIcon from '../../../../public/assets/icons/documentPage/CopyIcon';
 
 import CustomCheckbox from '@/components/CustomCheckbox';
 import FormInput from '@/components/FormInput';
@@ -13,7 +11,7 @@ interface Props {
 
 const LinkDetailsAccordion = ({ formValues, handleInputChange }: Props) => {
 	return (
-		<Box py={4}>
+		<Box py={2}>
 			{/* <Typography variant='body1'>Link URL</Typography>
 			<Typography
 				variant='body2'
@@ -35,26 +33,31 @@ const LinkDetailsAccordion = ({ formValues, handleInputChange }: Props) => {
 				<IconButton size='large'>
 					<CopyIcon />
 				</IconButton>
-			</Box>
+			</Box> */}
 
-			<Box my={13}>
-				<Typography>Friendly Link Name</Typography>
+			<Box
+				display='flex'
+				flexDirection='column'
+				my={2}
+				gap={2}>
+				<Typography>Link Name</Typography>
 				<FormInput
 					id='friendlyName'
 					minWidth={460}
+					type='text'
 					value={formValues.friendlyName}
 					onChange={handleInputChange}
 					placeholder='Enter a friendly name for the link'
 				/>
-			</Box> */}
 
-			<Typography variant='body1'>Status</Typography>
-			<CustomCheckbox
-				checked={formValues.isPublic}
-				onChange={handleInputChange}
-				name='isPublic'
-				label='Allow anyone with this link to preview and download'
-			/>
+				<CustomCheckbox
+					sx={{ my: 4, ml: 2 }}
+					checked={formValues.isPublic}
+					onChange={handleInputChange}
+					name='isPublic'
+					label='Allow anyone with this link to preview and download'
+				/>
+			</Box>
 		</Box>
 	);
 };
