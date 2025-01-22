@@ -32,9 +32,9 @@ export default function Sidebar() {
 	const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
 	const menuItems = [
-		{ text: 'Documents', icon: <DocumentsIcon />, href: '/documents' },
-		{ text: 'Contacts', icon: <ContactsIcon />, href: '/contacts' },
-		// { text: 'Settings', icon: <SettingsIcon />, href: '/settings' },
+		{ text: 'Documents', icon: DocumentsIcon, href: '/documents' },
+		{ text: 'Contacts', icon: ContactsIcon, href: '/contacts' },
+		// { text: 'Settings', icon: SettingsIcon, href: '/settings' },
 	];
 
 	const openSidebar = () => setIsOpen(true);
@@ -116,11 +116,10 @@ export default function Sidebar() {
 												}}>
 												<ListItemIcon>
 													<Box
-														component='image'
+														component={icon}
 														width={{ sm: '1.1rem', md: '1.3rem', lg: '1.5rem' }}
-														height='auto'>
-														{icon}
-													</Box>
+														height='auto'
+													/>
 												</ListItemIcon>
 												<ListItemText primary={text} />
 											</ListItemButton>

@@ -30,8 +30,8 @@ export default function DropdownMenu() {
 	const fullName = `${firstName} ${lastName}`.trim() || 'No Name';
 
 	const menuItems = [
-		{ text: 'Profile', icon: <ProfileIcon />, href: '/profile' },
-		// { text: 'Team', icon: <TeamIcon />, href: '/team' },
+		{ text: 'Profile', icon: ProfileIcon, href: '/profile' },
+		// { text: 'Team', icon: TeamIcon, href: '/team' },
 	];
 
 	return (
@@ -99,11 +99,10 @@ export default function DropdownMenu() {
 							onClick={handleClose}
 							sx={{ display: 'flex', alignItems: 'center', gap: 8 }}>
 							<Box
-								component='image'
+								component={icon}
 								width={{ sm: '0.8rem', md: '0.9rem', lg: '1rem' }}
-								height='auto'>
-								{icon}
-							</Box>
+								height='auto'
+							/>
 							<Typography variant='body1'>{text}</Typography>
 						</MenuItem>
 					</Link>

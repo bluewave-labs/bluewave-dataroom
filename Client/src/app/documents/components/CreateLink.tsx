@@ -193,13 +193,11 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 				fullWidth
 				maxWidth='sm'>
 				<Box
-					sx={{
-						display: 'flex',
-						justifyContent: 'space-between',
-						alignItems: 'center',
-						width: '100%',
-					}}>
-					<DialogTitle variant='h1'>Shareable Link </DialogTitle>
+					display='flex'
+					justifyContent='space-between'
+					alignItems='center'
+					width='100%'>
+					<DialogTitle variant='h2'>Shareable link </DialogTitle>
 				</Box>
 				<DialogContent
 					sx={{
@@ -251,10 +249,8 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 			onSubmit={handleSubmit}
 			fullWidth
 			maxWidth='sm'>
-			<DialogTitle
-				variant='h1'
-				color='text.primary'>
-				Create Shareable Link
+			<DialogTitle variant='h2'>
+				Create shareable link
 				<Typography
 					my={4}
 					variant='body2'>
