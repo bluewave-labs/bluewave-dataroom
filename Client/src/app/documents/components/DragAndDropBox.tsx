@@ -2,6 +2,7 @@
 import React from 'react';
 import { Box, Button } from '@mui/material';
 import { useSession } from 'next-auth/react';
+import { useRouter } from "next/navigation";
 
 import ModalWrapper from '@/components/ModalWrapper';
 import { useDropzone } from 'react-dropzone';
@@ -19,6 +20,7 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 	const { showToast } = useToast();
 	const { data: session } = useSession();
 	const [uploading, setUploading] = React.useState(false);
+	const router = useRouter();
 
 	const onDrop = React.useCallback((acceptedFiles: File[]) => {
 		const file = acceptedFiles[0];
@@ -56,6 +58,10 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 
 			if (response?.status === 200 && response.data?.document) {
 				handleUploadSuccess();
+				//TODO: Temporary fix, until we use tanstack query or zustand
+				setTimeout(() => {
+					router.refresh();
+				}, 1000);
 			} else {
 				handleUploadError('Server responded with an error.');
 			}
