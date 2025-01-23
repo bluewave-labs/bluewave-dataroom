@@ -4,7 +4,7 @@ import { Box, Button } from '@mui/material';
 import { useSession } from 'next-auth/react';
 
 import ModalWrapper from '@/components/ModalWrapper';
-import {useDropzone} from 'react-dropzone'
+import { useDropzone } from 'react-dropzone';
 
 import { useModal, useToast } from '@/hooks';
 import axios from 'axios';
@@ -26,7 +26,7 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 		handleFileSelect(file);
 	}, []);
 
-	const {getRootProps, getInputProps} = useDropzone({onDrop});
+	const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
 	const handleUploadSuccess = () => {
 		showToast({ message: 'File uploaded successfully!', variant: 'success' });
@@ -72,37 +72,32 @@ const DragAndDropBox = ({ text, height = 250 }: DragAndDropBoxProps) => {
 		<>
 			{/* Box for drag-and-drop UI */}
 			<div {...getRootProps()}>
-			<input {...getInputProps({ accept: 'image/png, application/pdf, image/jpeg', multiple: false,
-				onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-					const file = event.target.files?.[0];
-					handleFileSelect(file)
-				}
-			 })} />
-			<Box
-				sx={{
-					border: '2px dashed rgba(236, 236, 236)',
-					borderRadius: 2,
-					padding: '2rem',
-					textAlign: 'center',
-					backgroundColor: 'rgba(255, 255, 255)',
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-					flexDirection: 'column',
-					cursor: 'pointer',
-					height: { height },
-				}}>
+				<input {...getInputProps({ accept: 'image/png, application/pdf, image/jpeg', multiple: false })} />
 				<Box
-					component='img'
-					src='/assets/icons/documentPage/document-upload-icon.svg'
-					alt='Document Icon'
-					sx={{ width: '8rem', height: '8rem', mb: '0.5rem' }}
-				/>
-				<Button color='inherit'>{text}</Button>
-			</Box>
+					sx={{
+						border: '2px dashed rgba(236, 236, 236)',
+						borderRadius: 2,
+						padding: '2rem',
+						textAlign: 'center',
+						backgroundColor: 'rgba(255, 255, 255)',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						flexDirection: 'column',
+						cursor: 'pointer',
+						height: { height },
+					}}>
+					<Box
+						component='img'
+						src='/assets/icons/documentPage/document-upload-icon.svg'
+						alt='Document Icon'
+						sx={{ width: '8rem', height: '8rem', mb: '0.5rem' }}
+					/>
+					<Button color='inherit'>{text}</Button>
+				</Box>
 
-			{/* Modal Wrapper */}
-			{/* <ModalWrapper
+				{/* Modal Wrapper */}
+				{/* <ModalWrapper
 				variant='upload'
 				dialogContentVariant='body2'
 				title='Upload file(s)'
