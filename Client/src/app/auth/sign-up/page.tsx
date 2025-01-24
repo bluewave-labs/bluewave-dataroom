@@ -4,15 +4,14 @@ import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
+import FormInput from '@/components/FormInput';
 import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
+import PasswordValidation from '@/components/PasswordValidation';
 import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import FormInput from '@/components/FormInput';
-import PasswordValidation from '@/components/PasswordValidation';
 
-import { useFormSubmission } from '@/hooks/useFormSubmission';
-import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+import { useFormSubmission, useValidatedFormData } from '@/hooks';
 import {
 	passwordValidationRule,
 	requiredFieldRule,
@@ -98,7 +97,7 @@ export default function SignUp() {
 
 	return (
 		<AuthFormWrapper>
-			<Box mb={20}>
+			<Box mb={{ sm: 8, md: 12, lg: 20 }}>
 				<BluewaveLogo
 					width={248}
 					height={64}
@@ -107,7 +106,7 @@ export default function SignUp() {
 
 			<Typography
 				variant='h2'
-				mb={12}>
+				mb={{ sm: 10, md: 11, lg: 12 }}>
 				Create an account
 			</Typography>
 
@@ -121,7 +120,7 @@ export default function SignUp() {
 				gap={8}>
 				<Box
 					display='flex'
-					gap={2}
+					gap={{ sm: 8, md: 9, lg: 10 }}
 					flexDirection='column'>
 					<FormInput
 						label='First name'

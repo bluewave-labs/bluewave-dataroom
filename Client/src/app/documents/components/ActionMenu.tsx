@@ -5,7 +5,7 @@ import { Menu, MenuItem, Typography } from '@mui/material';
 import ModalWrapper from '@/components/ModalWrapper';
 import CreateLink from './CreateLink';
 
-import { useModal } from '@/hooks/useModal';
+import { useModal } from '@/hooks';
 
 interface Props {
 	open: boolean;
@@ -37,19 +37,17 @@ const ActionMenu = ({ anchorEl, open, onClose, documentId, onDelete, onAnalytics
 				anchorEl={anchorEl}
 				open={open}
 				onClose={onClose}
-				disableScrollLock={true}
-				sx={{
-					'& .MuiPaper-root': {
-						boxShadow: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-						borderRadius: '4px',
-					},
-				}}>
+				disableScrollLock={true}>
 				<MenuItem onClick={handleClickOpen}>Add new link</MenuItem>
 				{/* <MenuItem onClick={onClose}>Duplicate document</MenuItem> */}
 				{/* <MenuItem onClick={updateModal.openModal}>Update document</MenuItem> */}
 				<MenuItem onClick={onAnalytics}>View analytics</MenuItem>
 				<MenuItem onClick={deleteModal.openModal}>
-					<Typography color='error'>Delete</Typography>
+					<Typography
+						variant='body1'
+						color='error'>
+						Delete
+					</Typography>
 				</MenuItem>
 			</Menu>
 

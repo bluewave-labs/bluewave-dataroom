@@ -74,15 +74,13 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 						<Typography
 							variant='caption'
 							component='div'
-							sx={{
-								display: 'flex',
-								alignItems: 'center',
-								gap: '0.5rem',
-							}}>
+							display='flex'
+							alignItems='center'
+							gap='0.5rem'>
 							<span>{formatDateTime(document.createdAt)}</span>
-							<span style={{ fontSize: 13 }}>•</span>
+							<Typography variant='subtitle1'>•</Typography>
 							<span>{document.links} links</span>
-							<span style={{ fontSize: 13 }}>•</span>
+							<Typography variant='subtitle1'>•</Typography>
 							<span>Version 1</span>
 						</Typography>
 					</Box>
@@ -97,12 +95,12 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 						<Avatar
 							src={document.uploader.avatar}
 							alt={document.uploader.name}
-							sx={{ width: 24, height: 24, marginRight: 5 }}
+							sx={{ width: 24, height: 24, mr: 5 }}
 						/>
 					) : (
 						<Avatar
 							alt={document.uploader.name}
-							sx={{ width: 24, height: 24, marginRight: 5 }}>
+							sx={{ width: 24, height: 24, mr: 5 }}>
 							{document.uploader.name.charAt(0).toUpperCase()}
 						</Avatar>
 					)}
@@ -132,7 +130,7 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 					)}
 				</IconButton>
 			</TableCell>
-			<TableCell sx={{ paddingLeft: '1.5rem' }}>
+			<TableCell sx={{ pl: '1.5rem' }}>
 				<IconButton onClick={handleMenuOpen}>
 					<SettingsIcon
 						width={20}

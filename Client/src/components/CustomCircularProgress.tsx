@@ -1,5 +1,5 @@
 import { Box, CircularProgress, CircularProgressProps, Typography } from '@mui/material';
-import { useEffect} from 'react';
+import { useEffect } from 'react';
 
 const CircularProgressWithLabel = (props: CircularProgressProps & { value: number }) => {
 	return (
@@ -22,7 +22,7 @@ const CircularProgressWithLabel = (props: CircularProgressProps & { value: numbe
 				<Typography
 					variant='caption'
 					component='div'
-					sx={{ color: 'text.secondary' }}>{`${Math.round(props.value)}%`}</Typography>
+					color='text.secondary'>{`${Math.round(props.value)}%`}</Typography>
 			</Box>
 		</Box>
 	);

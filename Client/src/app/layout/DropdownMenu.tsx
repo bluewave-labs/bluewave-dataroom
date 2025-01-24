@@ -30,8 +30,8 @@ export default function DropdownMenu() {
 	const fullName = `${firstName} ${lastName}`.trim() || 'No Name';
 
 	const menuItems = [
-		{ text: 'Profile', icon: <ProfileIcon />, href: '/profile' },
-		// { text: 'Team', icon: <TeamIcon />, href: '/team' },
+		{ text: 'Profile', icon: ProfileIcon, href: '/profile' },
+		// { text: 'Team', icon: TeamIcon, href: '/team' },
 	];
 
 	return (
@@ -43,13 +43,19 @@ export default function DropdownMenu() {
 				onClick={handleClick}
 				size='small'
 				sx={{
-					typography: 'h2',
+					typography: 'body1',
 					textTransform: 'capitalize',
 				}}
 				startIcon={
 					<Avatar
 						src={'' /* Add avatarUrl */}
-						sx={{ bgcolor: '#F2F4F7', color: 'text.brand', mr: 5 }}>
+						sx={{
+							bgcolor: '#F2F4F7',
+							color: 'text.brand',
+							width: { sm: '2.1rem', md: '2.3rem', lg: '2.5rem' },
+							height: { sm: '2.1rem', md: '2.3rem', lg: '2.5rem' },
+							mr: { sm: '0.2rem', md: '0.4rem', lg: '0.6rem' },
+						}}>
 						{`${firstName?.[0] || ''}${lastName?.[0] || ''}`.toUpperCase()}
 					</Avatar>
 				}
@@ -60,8 +66,8 @@ export default function DropdownMenu() {
 						alt='Dropdown Arrow'
 						sx={{
 							mt: 1,
-							width: 20,
-							height: 20,
+							width: { sm: '1rem', md: '1.1rem', lg: '1.25rem' },
+							height: 'auto',
 							transform: open ? 'rotate(-180deg) translateY(-2px)' : 'rotate(0deg) translateY(0)',
 							transition: 'transform 0.4s ease-in-out',
 						}}
@@ -79,7 +85,6 @@ export default function DropdownMenu() {
 				sx={{
 					mt: -10,
 					mr: 2,
-					borderRadius: 2,
 					'& .MuiMenuItem-root': {
 						py: 7,
 						px: 10,
@@ -93,7 +98,11 @@ export default function DropdownMenu() {
 						<MenuItem
 							onClick={handleClose}
 							sx={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-							{icon}
+							<Box
+								component={icon}
+								width={{ sm: '0.8rem', md: '0.9rem', lg: '1rem' }}
+								height='auto'
+							/>
 							<Typography variant='body1'>{text}</Typography>
 						</MenuItem>
 					</Link>
@@ -106,8 +115,12 @@ export default function DropdownMenu() {
 						router.push('/');
 					}}
 					sx={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-					<LogOutIcon />
-					<Typography variant='body1'>Log Out</Typography>
+					<Box
+						component={LogOutIcon}
+						width={{ sm: '0.8rem', md: '0.9rem', lg: '1rem' }}
+						height='auto'
+					/>
+					<Typography variant='body1'>Log out</Typography>
 				</MenuItem>
 			</Menu>
 		</Box>

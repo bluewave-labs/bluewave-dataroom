@@ -1,11 +1,16 @@
 'use client';
-import ModalWrapper from '@/components/ModalWrapper';
-import { dummyTeams } from '@/data/dummyTeams';
-import { useModal } from '@/hooks/useModal';
-import { Box, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
+
+import { Box, Button } from '@mui/material';
+
+import ModalWrapper from '@/components/ModalWrapper';
+
+import { dummyTeams } from '@/data/dummyTeams';
 import FilterToggle from './FilterToggle';
 import UserTable from './UserTable';
+
+import { useModal } from '@/hooks';
+
 import { User } from '@/utils/shared/models';
 
 export default function TeamClient() {

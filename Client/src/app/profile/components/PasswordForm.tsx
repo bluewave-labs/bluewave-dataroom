@@ -1,14 +1,16 @@
-import { Box, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import { useState } from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import PasswordValidation from '@/components/PasswordValidation';
-import LoadingButton from '@/components/LoadingButton';
-import { useValidatedFormData } from '@/hooks/useValidatedFormData';
-import { passwordValidationRule, requiredFieldRule } from '@/utils/shared/validators';
+import { useState } from 'react';
+
+import { Box, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid2';
+
 import FormInput from '@/components/FormInput';
-import { useFormSubmission } from '@/hooks/useFormSubmission';
+import LoadingButton from '@/components/LoadingButton';
+import PasswordValidation from '@/components/PasswordValidation';
+
+import { useFormSubmission, useValidatedFormData } from '@/hooks';
+import { passwordValidationRule, requiredFieldRule } from '@/utils/shared/validators';
 
 export default function PasswordForm() {
 	const [isSubmitted, setIsSubmitted] = useState(false);
@@ -125,7 +127,7 @@ export default function PasswordForm() {
 				alignItems='center'>
 				{/* Current Password */}
 				<Grid size={5}>
-					<Typography variant='h3'>Current password</Typography>
+					<Typography variant='h4'>Current password</Typography>
 				</Grid>
 				<Grid size={7}>
 					<FormInput
@@ -140,7 +142,7 @@ export default function PasswordForm() {
 
 				{/* New Password */}
 				<Grid size={5}>
-					<Typography variant='h3'>New password</Typography>
+					<Typography variant='h4'>New password</Typography>
 				</Grid>
 				<Grid size={7}>
 					<FormInput
@@ -155,7 +157,7 @@ export default function PasswordForm() {
 
 				{/* Confirm Password */}
 				<Grid size={5}>
-					<Typography variant='h3'>Confirm password</Typography>
+					<Typography variant='h4'>Confirm password</Typography>
 				</Grid>
 				<Grid size={7}>
 					<FormInput
@@ -180,7 +182,10 @@ export default function PasswordForm() {
 			</Grid>
 
 			{/* Save Button */}
-			<Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 40 }}>
+			<Box
+				display='flex'
+				justifyContent='flex-end'
+				mt={40}>
 				<LoadingButton
 					loading={loading}
 					buttonText='Save'

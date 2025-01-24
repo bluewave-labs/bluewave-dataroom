@@ -60,6 +60,179 @@ const globalTheme = createTheme({
 	typography: {
 		fontFamily: fontFamilyDefault,
 		fontSize: 13,
+
+		/**
+		 * Responsive font sizes
+		 * sm (small): 600px and above
+		 * md (medium): 900px and above
+		 * lg (large): 1200px and above
+		 */
+		h1: {
+			color: text.brand,
+			fontWeight: 600,
+			'@media (min-width:600px)': {
+				fontSize: '1rem',
+			},
+			'@media (min-width:900px)': {
+				fontSize: '1.08rem',
+			},
+			'@media (min-width:1200px)': {
+				fontSize: '1.25rem',
+			},
+		}, //Custom name: largeTitle_bold
+		h2: {
+			color: text.primary,
+			fontWeight: 600,
+			'@media (min-width:600px)': {
+				fontSize: '0.8rem',
+			},
+			'@media (min-width:900px)': {
+				fontSize: '0.9rem',
+			},
+			'@media (min-width:1200px)': {
+				fontSize: '1rem',
+			},
+		}, //Custom name: title_bold
+		h3: {
+			color: text.primary,
+			fontWeight: 500,
+			'@media (min-width:600px)': {
+				fontSize: '0.7rem',
+			},
+			'@media (min-width:900px)': {
+				fontSize: '0.75rem',
+			},
+			'@media (min-width:1200px)': {
+				fontSize: '0.8rem',
+			},
+		}, //Custom name: description_midBold
+		h4: {
+			color: text.primary,
+			fontWeight: 600,
+			'@media (min-width:600px)': {
+				fontSize: '0.7rem',
+			},
+			'@media (min-width:900px)': {
+				fontSize: '0.75rem',
+			},
+			'@media (min-width:1200px)': {
+				fontSize: '0.8rem',
+			},
+		}, //Custom name: description_bold
+		h5: {
+			color: text.primary,
+			fontWeight: 600,
+			'@media (min-width:600px)': {
+				fontSize: '0.62rem',
+			},
+			'@media (min-width:900px)': {
+				fontSize: '0.65rem',
+			},
+			'@media (min-width:1200px)': {
+				fontSize: '0.7rem',
+			},
+		}, //Custom name: note_bold
+		h6: {
+			color: text.secondary,
+			fontWeight: 400,
+			'@media (min-width:600px)': {
+				fontSize: '0.62rem',
+			},
+			'@media (min-width:900px)': {
+				fontSize: '0.65rem',
+			},
+			'@media (min-width:1200px)': {
+				fontSize: '0.7rem',
+			},
+		}, //Custom name: note_darkGray
+		body1: {
+			color: text.primary,
+			fontWeight: 400,
+			'@media (min-width:600px)': {
+				fontSize: '0.7rem',
+			},
+			'@media (min-width:900px)': {
+				fontSize: '0.75rem',
+			},
+			'@media (min-width:1200px)': {
+				fontSize: '0.8rem',
+			},
+		}, //Custom name: description
+		body2: {
+			color: text.notes,
+			fontWeight: 400,
+			'@media (min-width:600px)': {
+				fontSize: '0.62rem',
+			},
+			'@media (min-width:900px)': {
+				fontSize: '0.65rem',
+			},
+			'@media (min-width:1200px)': {
+				fontSize: '0.7rem',
+			},
+		}, //Custom name: note_gray
+		subtitle1: {
+			color: text.notes,
+			fontWeight: 400,
+			'@media (min-width:600px)': {
+				fontSize: '0.7rem',
+			},
+			'@media (min-width:900px)': {
+				fontSize: '0.75rem',
+			},
+			'@media (min-width:1200px)': {
+				fontSize: '0.8rem',
+			},
+		}, //Custom name: description_gray
+		subtitle2: {
+			color: text.secondary,
+			fontWeight: 400,
+			'@media (min-width:600px)': {
+				fontSize: '0.7rem',
+			},
+			'@media (min-width:900px)': {
+				fontSize: '0.75rem',
+			},
+			'@media (min-width:1200px)': {
+				fontSize: '0.8rem',
+			},
+		}, //Custom name: description_darkGray
+		caption: {
+			fontWeight: 400,
+			color: text.notes,
+			lineHeight: '20px',
+			textAlign: 'left',
+			'@media (min-width:600px)': {
+				fontSize: '0.62rem',
+			},
+			'@media (min-width:900px)': {
+				fontSize: '0.65rem',
+			},
+			'@media (min-width:1200px)': {
+				fontSize: '0.7rem',
+			},
+		}, //Custom name: note_lineHeight
+
+		//// Font sizes based on rem
+		// h1: { fontSize: '1.25rem', color: text.brand, fontWeight: 600 }, //Custom name: largeTitle_bold
+		// h2: { fontSize: '1rem', color: text.primary, fontWeight: 600 }, //Custom name: title_bold
+		// h3: { fontSize: '0.8rem', color: text.primary, fontWeight: 500 }, //Custom name: description_midBold
+		// h4: { fontSize: '0.8rem', color: text.primary, fontWeight: 600 }, //Custom name: description_bold
+		// h5: { fontSize: '0.7rem', color: text.primary, fontWeight: 600 }, //Custom name: note_bold
+		// h6: { fontSize: '0.7rem', color: text.secondary, fontWeight: 400 }, //Custom name: note_darkGray
+		// body1: { fontSize: '0.8rem', color: text.primary, fontWeight: 400 }, //Custom name: description
+		// body2: { fontSize: '0.7rem', color: text.notes, fontWeight: 400 }, //Custom name: note_gray
+		// subtitle1: { fontSize: '0.8rem', color: text.notes, fontWeight: 400 }, //Custom name: description_gray
+		// subtitle2: { fontSize: '0.8rem', color: text.secondary, fontWeight: 400 }, //Custom name: description_darkGray
+		// caption: {
+		// 	fontSize: '0.7rem',
+		// 	fontWeight: 400,
+		// 	color: text.notes,
+		// 	lineHeight: '20px',
+		// 	textAlign: 'left',
+		// }, //Custom name: note_lineHeight
+
+		//// Font sizes based on px
 		// h1: { fontSize: 20, color: text.brand, fontWeight: 600 },
 		// h2: { fontSize: 16, color: text.primary, fontWeight: 600 },
 		// h3: { fontSize: 17, color: text.primary, fontWeight: 600 },
@@ -77,23 +250,6 @@ const globalTheme = createTheme({
 		// 	lineHeight: '20px',
 		// 	textAlign: 'left',
 		// },
-		h1: { fontSize: '1.25rem', color: text.brand, fontWeight: 600 },
-		h2: { fontSize: '1rem', color: text.primary, fontWeight: 600 },
-		h3: { fontSize: '1.06rem', color: text.primary, fontWeight: 600 },
-		h4: { fontSize: '0.8rem', color: text.primary, fontWeight: 600 },
-		h5: { fontSize: '0.7rem', color: text.primary, fontWeight: 600 },
-		h6: { fontSize: '0.9rem', color: text.notes, fontWeight: 400 }, //Unused Currently
-		body1: { fontSize: '0.8rem', color: text.secondary, fontWeight: 400 },
-		body2: { fontSize: '0.7rem', color: text.notes, fontWeight: 400 },
-		subtitle1: { fontSize: '0.8rem', color: text.notes, fontWeight: 400 },
-		subtitle2: { fontSize: '0.8rem', color: text.secondary, fontWeight: 400 },
-		caption: {
-			fontSize: '0.7rem',
-			fontWeight: 400,
-			color: text.notes,
-			lineHeight: '20px',
-			textAlign: 'left',
-		},
 	},
 	customShadows: {
 		menu: modalShadow,
@@ -150,29 +306,69 @@ const globalTheme = createTheme({
 			styleOverrides: {
 				root: {
 					fontWeight: 400,
-					fontSize: 13,
 					borderRadius: 4,
 					boxShadow: 'none',
 					textTransform: 'none',
-					minWidth: '9rem',
 					'&:focus': {
 						outline: 'none',
 					},
 					'&:hover': {
 						boxShadow: 'none',
 					},
+					'@media (min-width:600px)': {
+						fontSize: '0.7rem',
+						minWidth: '6rem',
+					},
+					'@media (min-width:900px)': {
+						fontSize: '0.75rem',
+						minWidth: '7.5rem',
+					},
+					'@media (min-width:1200px)': {
+						fontSize: '0.8rem',
+						minWidth: '9rem',
+					},
 				},
 				sizeLarge: {
-					padding: '0.4rem 1.5rem',
-					fontSize: 14,
+					'@media (min-width:600px)': {
+						padding: '0.2rem 0.8rem',
+						fontSize: '0.75rem',
+					},
+					'@media (min-width:900px)': {
+						padding: '0.3rem 1rem',
+						fontSize: '0.8rem',
+					},
+					'@media (min-width:1200px)': {
+						padding: '0.4rem 1.5rem',
+						fontSize: '0.87rem',
+					},
 				},
 				sizeMedium: {
-					padding: '0.4rem 1rem',
+					'@media (min-width:600px)': {
+						padding: '0.2rem 0.7rem',
+					},
+					'@media (min-width:900px)': {
+						padding: '0.3rem 0.8rem',
+					},
+					'@media (min-width:1200px)': {
+						padding: '0.4rem 1rem',
+					},
 				},
 				sizeSmall: {
-					padding: '0.3rem 0.8rem',
-					minWidth: '7rem',
-					fontSize: 12,
+					'@media (min-width:600px)': {
+						padding: '0.1rem 0.6rem',
+						minWidth: '5.5rem',
+						fontSize: '0.65rem',
+					},
+					'@media (min-width:900px)': {
+						padding: '0.2rem 0.7rem',
+						minWidth: '6.5rem',
+						fontSize: '0.7rem',
+					},
+					'@media (min-width:1200px)': {
+						padding: '0.3rem 0.8rem',
+						minWidth: '7rem',
+						fontSize: '0.75rem',
+					},
 				},
 				containedPrimary: {
 					backgroundColor: background.primary,
@@ -311,6 +507,21 @@ const globalTheme = createTheme({
 				},
 			},
 		},
+		MuiListItemText: {
+			styleOverrides: {
+				root: {
+					'@media (min-width:600px)': {
+						marginBottom: '0rem',
+					},
+					'@media (min-width:900px)': {
+						marginBottom: '0.2rem',
+					},
+					'@media (min-width:1200px)': {
+						marginBottom: '0.4rem',
+					},
+				},
+			},
+		},
 		MuiListItemButton: {
 			styleOverrides: {
 				root: {
@@ -335,6 +546,7 @@ const globalTheme = createTheme({
 				paper: {
 					borderRadius: 4,
 					marginTop: '0.5rem',
+					boxShadow: '0px 12px 16px -4px #10182814',
 					'& .MuiMenu-list': {
 						paddingTop: 0,
 						paddingBottom: 0,
@@ -355,10 +567,18 @@ const globalTheme = createTheme({
 				root: {
 					backgroundColor: 'inherit',
 					color: text.secondary,
-					fontSize: 13,
 					minWidth: 100,
 					'&:hover, &.Mui-selected, &.Mui-selected:hover, &.Mui-selected.Mui-focusVisible': {
 						backgroundColor: hover.tertiary,
+					},
+					'@media (min-width:600px)': {
+						fontSize: '0.7rem',
+					},
+					'@media (min-width:900px)': {
+						fontSize: '0.75rem',
+					},
+					'@media (min-width:1200px)': {
+						fontSize: '0.8rem',
 					},
 				},
 			},
@@ -469,6 +689,16 @@ const globalTheme = createTheme({
 			styleOverrides: {
 				root: {
 					textTransform: 'none',
+					fontWeight: 400,
+					'@media (min-width:600px)': {
+						fontSize: '0.7rem',
+					},
+					'@media (min-width:900px)': {
+						fontSize: '0.75rem',
+					},
+					'@media (min-width:1200px)': {
+						fontSize: '0.8rem',
+					},
 				},
 			},
 			defaultProps: {
@@ -479,19 +709,50 @@ const globalTheme = createTheme({
 		MuiTableCell: {
 			styleOverrides: {
 				root: {
-					fontSize: 14,
-					color: 'inherit',
+					'@media (min-width:600px)': {
+						fontSize: '0.7rem',
+					},
+					'@media (min-width:900px)': {
+						fontSize: '0.75rem',
+					},
+					'@media (min-width:1200px)': {
+						fontSize: '0.8rem',
+					},
 				},
 				head: {
 					color: text.notes,
-					fontSize: 12,
 					fontWeight: '500',
 					paddingX: '0.5rem',
-					paddingBottom: '0.6rem',
-					paddingTop: '0.6rem',
+					'@media (min-width:600px)': {
+						fontSize: '0.65rem',
+						paddingBottom: '0.3rem',
+						paddingTop: '0.3rem',
+					},
+					'@media (min-width:900px)': {
+						fontSize: '0.7rem',
+						paddingBottom: '0.4rem',
+						paddingTop: '0.4rem',
+					},
+					'@media (min-width:1200px)': {
+						fontSize: '0.75rem',
+						paddingBottom: '0.6rem',
+						paddingTop: '0.6rem',
+					},
 				},
 				body: {
-					padding: '0.6rem',
+					paddingX: '0.6rem',
+					'@media (min-width:600px)': {
+						paddingBottom: '0.3rem',
+						paddingTop: '0.3rem',
+					},
+					'@media (min-width:900px)': {
+						paddingBottom: '0.5rem',
+						paddingTop: '0.5rem',
+					},
+					'@media (min-width:1200px)': {
+						paddingBottom: '0.7rem',
+						paddingTop: '0.7rem',
+					},
 				},
 			},
 		},
@@ -552,6 +813,21 @@ const globalTheme = createTheme({
 					boxSizing: 'border-box',
 					border: 'none',
 					borderRadius: 0,
+					boxShadow: 'none',
+					margin: 0,
+				},
+			},
+		},
+
+		MuiAppBar: {
+			styleOverrides: {
+				root: {
+					backgroundColor: background.fill,
+					color: text.secondary,
+					paddingLeft: 15,
+					paddingRight: 5,
+					borderRadius: 0,
+					borderTop: 'none',
 					boxShadow: 'none',
 					margin: 0,
 				},

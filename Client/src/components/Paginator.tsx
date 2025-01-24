@@ -20,10 +20,15 @@ const Paginator = ({ page, totalPages, onPageChange, pageSize, totalItems }: Pag
 	}
 
 	return (
-		<Box display="flex" justifyContent="center" alignItems="center" marginTop="1rem" gap="5rem">
+		<Box
+			display='flex'
+			justifyContent='center'
+			alignItems='center'
+			mt='1rem'
+			gap='5rem'>
 			<Button
-				variant="outlined"
-				color="secondary"
+				variant='outlined'
+				color='secondary'
 				startIcon={<ArrowBackIcon />}
 				onClick={() => onPageChange(page > 1 ? page - 1 : page)}
 				disabled={page === 1}
@@ -36,15 +41,20 @@ const Paginator = ({ page, totalPages, onPageChange, pageSize, totalItems }: Pag
 				page={page}
 				hideNextButton
 				hidePrevButton
-				size="medium"
+				size='medium'
 				onChange={handlePageChange}
-				shape="rounded"
-				color="secondary"
-				renderItem={(item) => <PaginationItem {...item} sx={{ padding: '0 8px' }} />}
+				shape='rounded'
+				color='secondary'
+				renderItem={(item) => (
+					<PaginationItem
+						{...item}
+						sx={{ padding: '0 8px' }}
+					/>
+				)}
 			/>
 			<Button
-				variant="outlined"
-				color="secondary"
+				variant='outlined'
+				color='secondary'
 				endIcon={<ArrowForwardIcon />}
 				onClick={() => onPageChange(page < totalPages ? page + 1 : page)}
 				disabled={page === totalPages}

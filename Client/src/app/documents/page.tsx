@@ -55,21 +55,15 @@ export default async function DocumentsPage(req: NextRequest) {
 						<Typography
 							variant='h2'
 							component='span'
-							mb={10}>
-							Welcome to BlueWave{' '}
-							<Typography
-								variant='h1'
-								component='span'>
-								DataRoom
-							</Typography>
+							mb={{ sm: 5, md: 8, lg: 10 }}>
+							Welcome to BlueWave DataRoom
 						</Typography>
-
 						<List
 							sx={{
 								textAlign: 'left',
-								mb: 3,
 								maxWidth: '100%',
-								marginX: 'auto',
+								mb: { sm: 12, md: 17, lg: 22 },
+								mx: 'auto',
 							}}>
 							<ListItem>
 								<ListItemIcon>
@@ -97,20 +91,14 @@ export default async function DocumentsPage(req: NextRequest) {
 				<>
 					{/* Header Section */}
 					<Box
-						display='flex'
-						justifyContent='space-between'
-						alignItems='center'
-						mb={5}
-						textTransform='none'
+						mb={{ sm: 8, md: 10, lg: 12 }}
 						width='100%'>
-						<Box>
-							<Typography variant='h3'>Manage your documents</Typography>
-							<Typography variant='body1'>{documentCount} Documents</Typography>
-						</Box>
+						<Typography variant='h2'>Manage your documents</Typography>
+						<Typography variant='h6'>{documentCount} documents</Typography>
 					</Box>
 					{/* Drag-and-Drop Section */}
 					<Box
-						mb={5}
+						mb={{ sm: 8, md: 10, lg: 12 }}
 						width='100%'>
 						<DragAndDropBox text='Drag and drop your document here or click to upload' />
 					</Box>

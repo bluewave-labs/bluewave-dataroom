@@ -5,30 +5,27 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 export default function NotFound() {
 	return (
 		<Box
-			sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				textAlign: 'center',
-				position: 'fixed',
-				top: 0,
-				left: 0,
-				width: '100vw',
-				height: '100vh',
-				gap: 8,
-				zIndex: 1500,
-				pt: 40,
-				backgroundColor: 'background.content',
-			}}>
+			display='flex'
+			flexDirection='column'
+			alignItems='center'
+			textAlign='center'
+			position='fixed'
+			top={0}
+			left={0}
+			width='100vw'
+			height='100vh'
+			gap={8}
+			zIndex={1500}
+			pt={40}
+			bgcolor='background.content'>
 			<ErrorOutlineIcon sx={{ fontSize: 80, color: 'error.main', mb: 2 }} />
 			<Typography
-				variant='h3'
+				variant='h2'
 				gutterBottom>
 				Oops! Page Not Found
 			</Typography>
 			<Typography
-				variant='body1'
-				color='text.secondary'
+				variant='subtitle2'
 				mb={4}>
 				The page you’re looking for doesn’t exist. It might have been removed, or the URL might be
 				incorrect.
@@ -38,9 +35,7 @@ export default function NotFound() {
 				passHref>
 				<Button
 					variant='contained'
-					color='primary'
-					size='large'
-					sx={{ textTransform: 'none' }}>
+					size='large'>
 					Return to Home
 				</Button>
 			</Link>

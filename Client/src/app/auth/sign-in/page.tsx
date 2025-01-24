@@ -8,11 +8,10 @@ import CustomCheckbox from '@/components/CustomCheckbox';
 import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
 import BluewaveLogo from '../../../../public/assets/BluewaveLogo';
-import AuthFormWrapper from '../components/AuthFormWrapper';
 import FormInput from '../../../components/FormInput';
+import AuthFormWrapper from '../components/AuthFormWrapper';
 
-import { useFormSubmission } from '@/hooks/useFormSubmission';
-import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+import { useFormSubmission, useValidatedFormData } from '@/hooks';
 import { requiredFieldRule } from '@/utils/shared/validators';
 
 export default function SignIn() {
@@ -52,7 +51,7 @@ export default function SignIn() {
 
 	return (
 		<AuthFormWrapper>
-			<Box my={30}>
+			<Box my={{ sm: 8, md: 12, lg: 20 }}>
 				<BluewaveLogo
 					width={248}
 					height={64}
@@ -61,7 +60,7 @@ export default function SignIn() {
 
 			<Typography
 				variant='h2'
-				mb={15}>
+				mb={{ sm: 10, md: 12, lg: 15 }}>
 				Sign in to your account
 			</Typography>
 
@@ -75,7 +74,7 @@ export default function SignIn() {
 				gap={5}>
 				<Box
 					display='flex'
-					gap={5}
+					gap={{ sm: 8, md: 9, lg: 10 }}
 					flexDirection='column'>
 					<FormInput
 						label='Email'

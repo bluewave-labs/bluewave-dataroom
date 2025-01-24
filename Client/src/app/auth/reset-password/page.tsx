@@ -4,15 +4,14 @@ import { Box, Typography } from '@mui/material';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
 
+import FormInput from '@/components/FormInput';
 import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
+import PasswordValidation from '@/components/PasswordValidation';
 import LockIcon from '../../../../public/assets/icons/auth/LockIcon';
 import AuthFormWrapper from '../components/AuthFormWrapper';
-import FormInput from '@/components/FormInput';
-import PasswordValidation from '@/components/PasswordValidation';
 
-import { useFormSubmission } from '@/hooks/useFormSubmission';
-import { useValidatedFormData } from '@/hooks/useValidatedFormData';
+import { useFormSubmission, useValidatedFormData } from '@/hooks';
 import { passwordValidationRule, requiredFieldRule } from '@/utils/shared/validators';
 
 export default function ResetPassword() {
@@ -104,7 +103,7 @@ export default function ResetPassword() {
 				minWidth={400}
 				display='flex'
 				flexDirection='column'
-				gap={8}>
+				gap={{ sm: 8, md: 9, lg: 10 }}>
 				<FormInput
 					label='Password'
 					id='password'

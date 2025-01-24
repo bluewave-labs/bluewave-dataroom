@@ -3,12 +3,12 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Typography, Box, Button } from '@mui/material';
 
-import { useToast } from '@/hooks/useToast';
+import { useToast } from '@/hooks';
 
 import { formatFileSize } from '@/utils/shared/utils';
 
 const ActionButton = styled(Button)({
-	width: '250px',
+	width: 250,
 	fontWeight: 600,
 });
 
@@ -44,10 +44,7 @@ const FileDisplay: React.FC<FilePageProps> = ({ signedUrl, fileName, size }) => 
 	};
 
 	return (
-		<Box
-			sx={{
-				textAlign: 'center',
-			}}>
+		<Box textAlign='center'>
 			<Typography
 				variant='h1'
 				color='text.secondary'>
@@ -57,12 +54,11 @@ const FileDisplay: React.FC<FilePageProps> = ({ signedUrl, fileName, size }) => 
 				Thanks for verifying your details. You can now download the document.
 			</Typography>
 			<Box
-				sx={{
-					display: 'flex',
-					justifyContent: 'center',
-					margin: '40px 0',
-					gap: 2,
-				}}>
+				display='flex'
+				justifyContent='center'
+				my={20}
+				mx={0}
+				gap={2}>
 				<Typography variant='subtitle2'>Document:</Typography>
 				<Typography
 					variant='subtitle2'
@@ -71,22 +67,20 @@ const FileDisplay: React.FC<FilePageProps> = ({ signedUrl, fileName, size }) => 
 				</Typography>
 			</Box>
 			<Box
-				sx={{
-					display: 'flex',
-					justifyContent: 'space-between',
-					gap: 40,
-				}}>
+				display='flex'
+				justifyContent='space-between'
+				gap={40}>
 				<ActionButton
 					variant='contained'
 					onClick={() => {
 						window.open(signedUrl, '_blank');
 					}}>
-					View File
+					View file
 				</ActionButton>
 				<ActionButton
 					variant='contained'
 					onClick={handleDownload}>
-					Download File
+					Download file
 				</ActionButton>
 			</Box>
 		</Box>

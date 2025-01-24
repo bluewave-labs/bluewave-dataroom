@@ -15,7 +15,7 @@ const LinkDetailsAccordion = ({ formValues, handleInputChange }: Props) => {
 			{/* <Typography variant='body1'>Link URL</Typography>
 			<Typography
 				variant='body2'
-				sx={{ mb: 5 }}>
+				mb={5}>
 				This is an automatically generated link address.
 			</Typography>
 

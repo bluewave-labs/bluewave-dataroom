@@ -1,12 +1,16 @@
 'use client';
-import ModalWrapper from '@/components/ModalWrapper';
-import { useModal } from '@/hooks/useModal';
-import EditIcon from '@mui/icons-material/Edit';
-import { Avatar, Box, Button, CircularProgress, Link, Typography } from '@mui/material';
-import ColorPickerBox from './ColorPickerBox';
-import Grid from '@mui/material/Grid2';
 import { useState } from 'react';
-import { useToast } from '@/hooks/useToast';
+
+import { Avatar, Box, Button, CircularProgress, Link, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid2';
+
+import ModalWrapper from '@/components/ModalWrapper';
+
+import ColorPickerBox from './ColorPickerBox';
+
+import { useModal, useToast } from '@/hooks';
+
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function BrandingSetting() {
 	const deleteModal = useModal();
@@ -16,9 +20,9 @@ export default function BrandingSetting() {
 	const [loading, setLoading] = useState(false);
 
 	const handleDelete = () => {
-		console.log('Logo Deleted');
+		console.log('Logo deleted');
 		showToast({
-			message: 'Logo Deleted!',
+			message: 'Logo deleted!',
 			variant: 'error',
 		});
 	};
@@ -27,9 +31,9 @@ export default function BrandingSetting() {
 		setLoading(true);
 
 		setTimeout(() => {
-			console.log('Settings Updated Successfully!');
+			console.log('Settings updated successfully!');
 			showToast({
-				message: 'Settings Updated Successfully!',
+				message: 'Settings updated successfully!',
 				variant: 'success',
 			});
 			setLoading(false);
@@ -37,9 +41,9 @@ export default function BrandingSetting() {
 	};
 
 	const handleUpdate = () => {
-		console.log('Logo Updated Successfully!');
+		console.log('Logo updated successfully!');
 		showToast({
-			message: 'Logo Updated Successfully!',
+			message: 'Logo updated successfully!',
 			variant: 'success',
 		});
 	};
@@ -47,7 +51,7 @@ export default function BrandingSetting() {
 	return (
 		<>
 			<Box>
-				<Box mb={16}>
+				<Box mb={{ sm: 12, md: 14, lg: 16 }}>
 					<Typography variant='subtitle2'>
 						Customize how your brand appears to the public across DataRoom documents your visitors
 						see.
@@ -57,7 +61,7 @@ export default function BrandingSetting() {
 					<Grid
 						container
 						rowSpacing={12}
-						columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+						columnSpacing={{ sm: 1, md: 2, lg: 3 }}
 						alignItems='center'>
 						{/* Logo */}
 						<Grid size={5}>
@@ -84,7 +88,7 @@ export default function BrandingSetting() {
 										sx={{
 											width: '100%',
 											height: '100%',
-											backgroundColor: '#EDEEF1',
+											bgcolor: '#EDEEF1',
 											color: 'text.brand',
 											fontSize: 47,
 											fontWeight: 600,
@@ -148,10 +152,12 @@ export default function BrandingSetting() {
 						<Grid size={7}>
 							<ColorPickerBox />
 						</Grid>
+
 						<Box
 							width='100%'
 							display='flex'
-							justifyContent='flex-end'>
+							justifyContent='flex-end'
+							mt={{ sm: 40, md: 50, lg: 60 }}>
 							<Button
 								variant='contained'
 								onClick={handleSave}

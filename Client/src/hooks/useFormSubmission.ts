@@ -37,9 +37,9 @@
  * - `error` stores the most recent error message, if you want to show an inline alert.
  * - If you throw an Error in `onSubmit`, the hook will catch it, show a toast, and set `error`.
  */
+import { FormEvent, useState } from 'react';
 
-import { useState, FormEvent } from 'react';
-import { useToast } from '@/hooks/useToast';
+import { useToast } from '@/hooks';
 
 // Hook config interface
 interface UseFormSubmissionProps {

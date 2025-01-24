@@ -1,4 +1,5 @@
 'use client';
+
 import { Divider, Tab, Tabs } from '@mui/material';
 import { useState } from 'react';
 import PasswordForm from './PasswordForm';
@@ -16,9 +17,9 @@ export default function ProfileClient() {
 			<Tabs
 				value={tabValue}
 				onChange={handleTabChange}
-				aria-label="profile and password tabs">
-				<Tab label="Profile" sx={{ fontSize: '1rem' }} />
-				<Tab label="Password" sx={{ fontSize: '1rem' }} />
+				aria-label='profile and password tabs'>
+				<Tab label='Profile' />
+				<Tab label='Password' />
 			</Tabs>
 			<Divider sx={{ mb: 20 }} />
 			{tabValue === 0 && <ProfileForm />}

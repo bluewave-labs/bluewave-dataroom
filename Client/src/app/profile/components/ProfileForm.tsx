@@ -8,14 +8,11 @@ import Grid from '@mui/material/Grid2';
 import FormInput from '@/components/FormInput';
 import LoadingButton from '@/components/LoadingButton';
 import ModalWrapper from '@/components/ModalWrapper';
-import { useFormSubmission } from '@/hooks/useFormSubmission';
+import PageLoader from '@/components/PageLoader';
+
 import EditIcon from '@mui/icons-material/Edit';
-import PageLoader from '../loading';
 
-import { useModal } from '@/hooks/useModal';
-import { useToast } from '@/hooks/useToast';
-import { useValidatedFormData } from '@/hooks/useValidatedFormData';
-
+import { useFormSubmission, useModal, useToast, useValidatedFormData } from '@/hooks';
 import { requiredFieldRule } from '@/utils/shared/validators';
 
 export default function ProfileForm() {
@@ -81,7 +78,7 @@ export default function ProfileForm() {
 					// Handle success
 					if (response.status === 200) {
 						toast.showToast({
-							message: 'Profile Updated Successfully!',
+							message: 'Profile updated successfully!',
 							variant: 'success',
 						});
 					}
@@ -127,25 +124,25 @@ export default function ProfileForm() {
 	});
 
 	const handleDeleteAccount = () => {
-		console.log('Account Deleted!');
+		console.log('Account deleted!');
 		showToast({
-			message: 'Account Deleted!',
+			message: 'Account deleted!',
 			variant: 'error',
 		});
 	};
 
 	const handleDeletePhoto = () => {
-		console.log('Photo Deleted!');
+		console.log('Photo deleted!');
 		showToast({
-			message: 'Photo Deleted!',
+			message: 'Photo deleted!',
 			variant: 'error',
 		});
 	};
 
 	const handleUpdatePhoto = () => {
-		console.log('Picture Updated Successfully!');
+		console.log('Picture updated successfully!');
 		showToast({
-			message: 'Picture Updated Successfully!',
+			message: 'Picture updated successfully!',
 			variant: 'success',
 		});
 	};
@@ -180,7 +177,7 @@ export default function ProfileForm() {
 					alignItems='center'>
 					{/* First Name */}
 					<Grid size={6}>
-						<Typography variant='h3'>First name</Typography>
+						<Typography variant='h4'>First name</Typography>
 					</Grid>
 					<Grid size={6}>
 						<FormInput
@@ -193,7 +190,7 @@ export default function ProfileForm() {
 
 					{/* Last Name */}
 					<Grid size={6}>
-						<Typography variant='h3'>Last name</Typography>
+						<Typography variant='h4'>Last name</Typography>
 					</Grid>
 					<Grid size={6}>
 						<FormInput
@@ -206,7 +203,7 @@ export default function ProfileForm() {
 
 					{/* Email */}
 					<Grid size={6}>
-						<Typography variant='h3'>Email</Typography>
+						<Typography variant='h4'>Email</Typography>
 						<Typography variant='subtitle1'>
 							This is your current email address — it cannot be changed.
 						</Typography>
@@ -223,7 +220,7 @@ export default function ProfileForm() {
 
 					{/* Photo */}
 					<Grid size={6}>
-						<Typography variant='h3'>Your photo</Typography>
+						<Typography variant='h4'>Your photo</Typography>
 						<Typography variant='subtitle1'>
 							This photo will be displayed on your profile page.
 						</Typography>
@@ -244,7 +241,7 @@ export default function ProfileForm() {
 									},
 								}}>
 								<Avatar
-									alt='Profile Picture'
+									alt='Profile picture'
 									src='https://picsum.photos/200/200'
 									// src={values.image}
 									sx={{ width: 64, height: 64, mr: 7 }}
@@ -261,8 +258,7 @@ export default function ProfileForm() {
 										display: 'flex',
 										alignItems: 'center',
 										justifyContent: 'center',
-										backgroundColor: 'rgba(0, 0, 0, 0.15)',
-										color: 'white',
+										color: 'text.tertiary',
 										opacity: 0,
 										transition: 'opacity 0.3s',
 										cursor: 'pointer',
@@ -274,14 +270,15 @@ export default function ProfileForm() {
 							<Link
 								href='#'
 								underline='hover'
-								sx={{ px: 4, color: 'text.secondary' }}
+								pl={10}
+								color='text.secondary'
 								onClick={deletePhotoModal.openModal}>
 								Delete
 							</Link>
 							<Link
 								href='#'
 								underline='hover'
-								sx={{ px: 4, color: 'text.brand' }}
+								px={8}
 								onClick={uploadModal.openModal}>
 								Update
 							</Link>
@@ -310,14 +307,10 @@ export default function ProfileForm() {
 					flexDirection='column'
 					mb={4}
 					rowGap={6}>
-					<Typography
-						variant='h3'
-						fontWeight='bold'>
-						Delete account
-					</Typography>
+					<Typography variant='h4'>Delete account</Typography>
 					<Typography
 						variant='subtitle1'
-						sx={{ mb: 2 }}>
+						mb={2}>
 						Note that deleting your account will remove all data from our system. This is permanent
 						and non-recoverable.
 					</Typography>
@@ -330,7 +323,6 @@ export default function ProfileForm() {
 						<Box width='9rem'>
 							<Button
 								variant='contained'
-								size='medium'
 								color='error'
 								onClick={deleteAccountModal.openModal}
 								disabled={true}>
@@ -344,9 +336,9 @@ export default function ProfileForm() {
 			{/* Delete Photo Modal */}
 			<ModalWrapper
 				variant='delete'
-				title='Really delete this Photo?'
-				description='When you delete this Photo, all the links associated with the Photo will also be removed. This action is non-reversible.'
-				confirmButtonText='Delete Photo'
+				title='Really delete this photo?'
+				description='When you delete this photo, all the links associated with the photo will also be removed. This action is non-reversible.'
+				confirmButtonText='Delete photo'
 				open={deletePhotoModal.isOpen}
 				onClose={handleDeletePhoto}
 				toggleModal={deletePhotoModal.closeModal}

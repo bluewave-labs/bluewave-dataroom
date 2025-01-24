@@ -123,7 +123,7 @@ export default function DocumentView({ documentId }: DocumentViewProps) {
 				</Box>
 
 				{/* Bar Chart (for real data in the future) */}
-				<Box mt={10}>
+				<Box mt={{ sm: 6, md: 8, lg: 10 }}>
 					<CustomBarChart data={filteredData} />
 				</Box>
 
@@ -150,7 +150,7 @@ export default function DocumentView({ documentId }: DocumentViewProps) {
 				</Box>
 			</Box>
 
-			<Box mt={5}>
+			<Box mt={{ sm: 1, md: 3, lg: 5 }}>
 				<Tabs
 					value={activeTab}
 					onChange={handleTabChange}
@@ -163,7 +163,7 @@ export default function DocumentView({ documentId }: DocumentViewProps) {
 				<Divider />
 
 				{activeTab === 0 && (
-					<Box mt={4}>
+					<Box mt={{ sm: 1, md: 2, lg: 4 }}>
 						<InfoTable
 							variant='linkTable'
 							documentId={documentId}
@@ -171,7 +171,7 @@ export default function DocumentView({ documentId }: DocumentViewProps) {
 					</Box>
 				)}
 				{activeTab === 1 && (
-					<Box mt={4}>
+					<Box mt={{ sm: 1, md: 2, lg: 4 }}>
 						<InfoTable
 							variant='visitorTable'
 							documentId={documentId}
