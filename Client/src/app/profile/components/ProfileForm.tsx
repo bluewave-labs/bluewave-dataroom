@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid2';
 import FormInput from '@/components/FormInput';
 import LoadingButton from '@/components/LoadingButton';
 import ModalWrapper from '@/components/ModalWrapper';
-import PageLoader from '@/components/PageLoader';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -148,7 +148,7 @@ export default function ProfileForm() {
 	};
 
 	if (fetchLoading) {
-		return <PageLoader />;
+		return <LoadingSpinner />;
 	}
 
 	if (error) {
