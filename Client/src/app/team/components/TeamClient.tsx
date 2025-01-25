@@ -5,7 +5,7 @@ import { Box, Button } from '@mui/material';
 
 import ModalWrapper from '@/components/ModalWrapper';
 
-import { dummyTeams } from '@/data/dummyTeams';
+import { dummyTeams } from '@/seed/dummyTeams';
 import FilterToggle from './FilterToggle';
 import UserTable from './UserTable';
 

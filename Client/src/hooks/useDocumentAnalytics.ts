@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 
-import { mockGraphData } from '@/data/dummyDocuments';
+import { mockGraphData } from '@/seed/analytics';
 
 interface BarDataItem {
 	date: Date;
