@@ -3,8 +3,6 @@
 import axios from 'axios';
 import React from 'react';
 
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {
 	Box,
 	Dialog,
@@ -21,8 +19,9 @@ import LoadingButton from '@/components/LoadingButton';
 
 import { useFormSubmission, useValidatedFormData } from '@/hooks';
 
-import FileDownloadIcon from '@/../public/assets/icons/link/FileDownloadIcon';
 import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';
+
+import { EyeIcon, EyeOffIcon, FileDownloadIcon } from '@/../public/assets/icons';
 
 const RowBox = styled(Box)({
 	display: 'flex',
@@ -230,7 +229,7 @@ const FileAccessModal = (props: FileAccessModalProps) => {
 								<IconButton
 									size='large'
 									onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
-									{isPasswordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+									{isPasswordVisible ? <EyeOffIcon /> : <EyeIcon />}
 								</IconButton>
 							</Box>
 						</RowBox>

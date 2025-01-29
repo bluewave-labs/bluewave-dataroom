@@ -1,8 +1,8 @@
 import { TableCell, TableRow, TableSortLabel } from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 
 import { DocumentType } from '@/utils/shared/models';
+
+import { ChevronDownIcon, ChevronSelectorVerticalIcon } from '@/../public/assets/icons';
 
 interface Props {
 	orderBy: keyof DocumentType | undefined;
@@ -20,7 +20,9 @@ const DocumentsTableHeader = ({ orderBy, orderDirection, onSort }: Props) => (
 				direction={orderDirection}
 				onClick={() => onSort('uploader')}
 				hideSortIcon={false}
-				IconComponent={orderDirection === undefined ? UnfoldMoreIcon : KeyboardArrowDownIcon}>
+				IconComponent={
+					orderDirection === undefined ? ChevronSelectorVerticalIcon : ChevronDownIcon
+				}>
 				UPLOADER
 			</TableSortLabel>
 		</TableCell>

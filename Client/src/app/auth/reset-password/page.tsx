@@ -8,8 +8,9 @@ import FormInput from '@/components/FormInput';
 import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
 import PasswordValidation from '@/components/PasswordValidation';
-import LockIcon from '../../../../public/assets/icons/auth/LockIcon';
 import AuthFormWrapper from '../components/AuthFormWrapper';
+
+import { LockIcon } from '@/../public/assets/icons';
 
 import { useFormSubmission, useValidatedFormData } from '@/hooks';
 import { passwordValidationRule, requiredFieldRule } from '@/utils/shared/validators';

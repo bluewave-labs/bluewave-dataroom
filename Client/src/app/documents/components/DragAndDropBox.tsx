@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 import { Box, Button } from '@mui/material';
 import { useSession } from 'next-auth/react';
@@ -9,6 +10,8 @@ import { useDropzone } from 'react-dropzone';
 
 import { useModal, useToast } from '@/hooks';
 import axios from 'axios';
+
+import { FilePlusIcon } from '@/../public/assets/icons';
 
 interface DragAndDropBoxProps {
 	text: string;
@@ -97,9 +100,7 @@ const DragAndDropBox = ({ text, height = { sm: 150, md: 200, lg: 250 } }: DragAn
 						height: { height },
 					}}>
 					<Box
-						component='img'
-						src='/assets/icons/documentPage/document-upload-icon.svg'
-						alt='Document Icon'
+						component={FilePlusIcon}
 						width={{ sm: '7rem', md: '7.5rem', lg: '8rem' }}
 						height={{ sm: '7rem', md: '7.5rem', lg: '8rem' }}
 						mb={{ sm: '0.1rem', md: '0.3rem', lg: '0.5rem' }}

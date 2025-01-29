@@ -1,8 +1,8 @@
-import CloseIcon from '@mui/icons-material/Close';
 import { Alert, Box, IconButton, Slide, SlideProps, Snackbar } from '@mui/material';
 import { ReactNode } from 'react';
 import NavLink from './NavLink';
 import { ToastVariant } from '@/providers/toast/toastTypes';
+import { XCloseIcon } from '@/../public/assets/icons';
 
 interface BaseToastProps {
 	variant?: ToastVariant;
@@ -48,7 +48,7 @@ export default function Toast({
 }: ToastProps & { open: boolean; hideToast: () => void }) {
 	const action = (
 		<IconButton onClick={hideToast}>
-			<CloseIcon fontSize='small' />
+			<XCloseIcon />
 		</IconButton>
 	);
 

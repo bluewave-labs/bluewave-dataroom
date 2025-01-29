@@ -1,6 +1,6 @@
 import { Box, Button, Pagination, PaginationItem } from '@mui/material';
-import ArrowBackIcon from '../../public/assets/icons/pagination/ArrowBackIcon';
-import ArrowForwardIcon from '../../public/assets/icons/pagination/ArrowForwardIcon';
+
+import { ArrowNarrowLeftIcon, ArrowNarrowRightIcon } from '@/../public/assets/icons';
 
 interface PaginatorProps {
 	page: number;
@@ -29,7 +29,7 @@ const Paginator = ({ page, totalPages, onPageChange, pageSize, totalItems }: Pag
 			<Button
 				variant='outlined'
 				color='secondary'
-				startIcon={<ArrowBackIcon />}
+				startIcon={<ArrowNarrowLeftIcon />}
 				onClick={() => onPageChange(page > 1 ? page - 1 : page)}
 				disabled={page === 1}
 				sx={{ minWidth: '8rem' }}>
@@ -55,7 +55,7 @@ const Paginator = ({ page, totalPages, onPageChange, pageSize, totalItems }: Pag
 			<Button
 				variant='outlined'
 				color='secondary'
-				endIcon={<ArrowForwardIcon />}
+				endIcon={<ArrowNarrowRightIcon />}
 				onClick={() => onPageChange(page < totalPages ? page + 1 : page)}
 				disabled={page === totalPages}
 				sx={{ minWidth: '8rem' }}>

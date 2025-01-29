@@ -3,6 +3,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
+import { ChevronDownIcon, ChevronSelectorVerticalIcon } from '@/../public/assets/icons';
+
 import {
 	Box,
 	CircularProgress,
@@ -24,9 +26,6 @@ import ContactsTableRow from './ContactsTableRow';
 
 import { useSort } from '@/hooks';
 import { Contact } from '@/utils/shared/models';
-
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 
 export default function ContactsTable() {
 	const [page, setPage] = useState(1);
@@ -133,7 +132,7 @@ export default function ContactsTable() {
 									onClick={() => handleSortRequest('lastActivity')}
 									hideSortIcon={false}
 									IconComponent={
-										orderDirection === undefined ? UnfoldMoreIcon : KeyboardArrowDownIcon
+										orderDirection === undefined ? ChevronSelectorVerticalIcon : ChevronDownIcon
 									}>
 									LAST ACTIVITY
 								</TableSortLabel>

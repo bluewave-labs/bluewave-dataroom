@@ -10,8 +10,8 @@ interface TrashIconProps extends SVGProps<SVGSVGElement> {
 /**
  * A reusable SVG icon component for rendering an icon.
  *
- * @param {number} [width=20] - The width of the icon in pixels. Optional.
- * @param {number} [height=21] - The height of the icon in pixels. Optional.
+ * @param {number} [width=19] - The width of the icon in pixels. Optional.
+ * @param {number} [height=20] - The height of the icon in pixels. Optional.
  * @param {string} [color='#667085'] - The stroke color of the icon. Accepts any valid CSS color value. Optional.
  * @param {number} [strokeWidth=1.5] - The stroke width of the icon's path. Optional.
  * @param {SVGProps<SVGSVGElement>} props - Additional SVG props such as `className`, `style`, or custom attributes.
@@ -20,8 +20,8 @@ interface TrashIconProps extends SVGProps<SVGSVGElement> {
  */
 
 const TrashIcon: FC<TrashIconProps> = ({
-	width = 20,
-	height = 21,
+	width = 19,
+	height = 20,
 	color = '#667085',
 	strokeWidth = 1.5,
 	...props

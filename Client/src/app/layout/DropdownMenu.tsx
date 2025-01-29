@@ -1,15 +1,12 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, ReactElement, useState } from 'react';
 
 import { signOut, useSession } from 'next-auth/react';
 
 import { Avatar, Box, Button, Menu, MenuItem, Typography } from '@mui/material';
 
-import LogOutIcon from '../../../public/assets/icons/sidebar/LogOutIcon';
-import ProfileIcon from '../../../public/assets/icons/sidebar/ProfileIcon';
-import TeamIcon from '../../../public/assets/icons/sidebar/TeamIcon';
-import DropdownArrow from '../../../public/assets/icons/sidebar/sidebar-arrow-acc-icon.svg';
+import { ChevronUpIcon, LogOutIcon, UserIcon, UsersIcon } from '@/../public/assets/icons';
 
 export default function DropdownMenu() {
 	const router = useRouter();
@@ -30,8 +27,8 @@ export default function DropdownMenu() {
 	const fullName = `${firstName} ${lastName}`.trim() || 'No Name';
 
 	const menuItems = [
-		{ text: 'Profile', icon: ProfileIcon, href: '/profile' },
-		// { text: 'Team', icon: TeamIcon, href: '/team' },
+		{ text: 'Profile', icon: UserIcon, href: '/profile' },
+		// { text: 'Team', icon: UsersIcon, href: '/team' },
 	];
 
 	return (
@@ -61,9 +58,7 @@ export default function DropdownMenu() {
 				}
 				endIcon={
 					<Box
-						component='img'
-						src={DropdownArrow.src}
-						alt='Dropdown Arrow'
+						component={ChevronUpIcon}
 						sx={{
 							mt: 1,
 							width: { sm: '1rem', md: '1.1rem', lg: '1.25rem' },
@@ -102,6 +97,7 @@ export default function DropdownMenu() {
 								component={icon}
 								width={{ sm: '0.8rem', md: '0.9rem', lg: '1rem' }}
 								height='auto'
+								strokeWidth={2.2}
 							/>
 							<Typography variant='body1'>{text}</Typography>
 						</MenuItem>

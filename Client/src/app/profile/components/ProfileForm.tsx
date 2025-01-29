@@ -10,7 +10,7 @@ import LoadingButton from '@/components/LoadingButton';
 import ModalWrapper from '@/components/ModalWrapper';
 import LoadingSpinner from '@/components/LoadingSpinner';
 
-import EditIcon from '@mui/icons-material/Edit';
+import { PencilIcon } from '@/../public/assets/icons';
 
 import { useFormSubmission, useModal, useToast, useValidatedFormData } from '@/hooks';
 import { requiredFieldRule } from '@/utils/shared/validators';
@@ -258,13 +258,17 @@ export default function ProfileForm() {
 										display: 'flex',
 										alignItems: 'center',
 										justifyContent: 'center',
-										color: 'text.tertiary',
+										bgcolor: 'rgba(0, 0, 0, 0.15)',
 										opacity: 0,
 										transition: 'opacity 0.3s',
 										cursor: 'pointer',
 									}}
 									onClick={uploadModal.openModal}>
-									<EditIcon fontSize='medium' />
+									<PencilIcon
+										width={20}
+										height={20}
+										color='white'
+									/>
 								</Box>
 							</Box>
 							<Link

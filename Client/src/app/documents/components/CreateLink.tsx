@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { SyntheticEvent, useState } from 'react';
 
-import LinkIcon from '@mui/icons-material/Link';
 import {
 	Box,
 	Chip,
@@ -24,8 +23,8 @@ import { useDocumentDetail, useFormSubmission, useValidatedFormData } from '@/ho
 import { LinkFormValues } from '@/utils/shared/models';
 import { computeExpirationDays } from '@/utils/shared/utils';
 import { minLengthRule } from '@/utils/shared/validators';
-import CheckIcon from '../../../../public/assets/icons/documentPage/CheckIcon';
-import CopyIcon from '../../../../public/assets/icons/documentPage/CopyIcon';
+
+import { CheckIcon, CopyIcon, LinkIcon } from '@/../public/assets/icons';
 
 interface CreateLinkProps {
 	onClose: (action: string) => void;

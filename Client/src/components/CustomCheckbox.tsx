@@ -1,7 +1,8 @@
 import { Checkbox, CheckboxProps, FormControlLabel } from '@mui/material';
+
+import { CheckSquareIcon, SquareIcon } from '../../public/assets/icons';
+
 import { ChangeEvent } from 'react';
-import Checked from '../../public/assets/icons/documentPage/Checked';
-import Unchecked from '../../public/assets/icons/documentPage/Unchecked';
 
 interface CustomCheckboxProps extends CheckboxProps {
 	checked: boolean;
@@ -14,8 +15,8 @@ const CustomCheckbox = ({ checked, onChange, label, name, ...props }: CustomChec
 	<FormControlLabel
 		control={
 			<Checkbox
-				icon={<Unchecked />}
-				checkedIcon={<Checked />}
+				icon={<SquareIcon />}
+				checkedIcon={<CheckSquareIcon />}
 				checked={checked}
 				name={name}
 				onChange={onChange}

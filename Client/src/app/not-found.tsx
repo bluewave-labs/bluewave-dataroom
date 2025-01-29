@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from '@mui/material';
 import Link from 'next/link';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { AlertCircleIcon } from '@/../public/assets/icons';
 
 export default function NotFound() {
 	return (
@@ -18,7 +18,12 @@ export default function NotFound() {
 			zIndex={1500}
 			pt={40}
 			bgcolor='background.content'>
-			<ErrorOutlineIcon sx={{ fontSize: 80, color: 'error.main', mb: 2 }} />
+			<Box
+				component={AlertCircleIcon}
+				width={{ sm: '4rem', md: '4.5rem', lg: '5rem' }}
+				height='auto'
+				mb={10}
+			/>
 			<Typography
 				variant='h2'
 				gutterBottom>

@@ -1,28 +1,31 @@
 'use client';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+
 import { Box, Breadcrumbs, Typography } from '@mui/material';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import NavLink from './NavLink';
-import DocumentsIcon from '../../public/assets/icons/sidebar/DocumentsIcon';
-import ContactsIcon from '../../public/assets/icons/sidebar/ContactsIcon';
-import SettingsIcon from '../../public/assets/icons/sidebar/SettingsIcon';
-import ProfileIcon from '../../public/assets/icons/sidebar/ProfileIcon';
-import TeamIcon from '../../public/assets/icons/sidebar/TeamIcon';
-import HomeIcon from '../../public/assets/icons/breadcrumb/HomeIcon';
+
+import {
+	ChevronRightIcon,
+	FileIcon,
+	HomeIcon,
+	SettingsIcon,
+	UserIcon,
+	UsersIcon,
+} from '@/../public/assets/icons';
 
 const Breadcrumb = () => {
 	const pathname = usePathname();
 
 	const iconMap: { [key: string]: React.ReactNode } = {
 		documents: (
-			<DocumentsIcon
+			<FileIcon
 				width={20}
 				height={20}
 			/>
 		),
 		contacts: (
-			<ContactsIcon
+			<UserIcon
 				width={20}
 				height={20}
 			/>
@@ -34,13 +37,14 @@ const Breadcrumb = () => {
 			/>
 		),
 		profile: (
-			<ProfileIcon
+			<UserIcon
 				width={20}
 				height={20}
+				strokeWidth={2.2}
 			/>
 		),
 		team: (
-			<TeamIcon
+			<UsersIcon
 				width={20}
 				height={20}
 			/>
@@ -88,7 +92,12 @@ const Breadcrumb = () => {
 	return (
 		<Breadcrumbs
 			aria-label='breadcrumb'
-			separator={<NavigateNextIcon fontSize='small' />}
+			separator={
+				<ChevronRightIcon
+					width={19}
+					height={19}
+				/>
+			}
 			sx={{ mb: '1rem' }}>
 			<Box
 				display='flex'

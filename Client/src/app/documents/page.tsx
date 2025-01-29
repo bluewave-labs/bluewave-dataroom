@@ -13,7 +13,7 @@ import {
 import { fetchDocumentCount } from '@/services/documentService';
 import { authenticate } from '@lib/middleware/authenticate';
 
-import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import { CheckCircleIcon } from '@/../public/assets/icons';
 import Background from '../../../public/assets/Background';
 
 import DocumentsTable from './components/DocumentsTable';
@@ -67,19 +67,31 @@ export default async function DocumentsPage(req: NextRequest) {
 							}}>
 							<ListItem>
 								<ListItemIcon>
-									<CheckCircleOutlineOutlinedIcon color='primary' />
+									<CheckCircleIcon
+										width={20}
+										height={20}
+										color='primaryOutline'
+									/>
 								</ListItemIcon>
 								<ListItemText primary='Securely share files and manage permissions' />
 							</ListItem>
 							<ListItem>
 								<ListItemIcon>
-									<CheckCircleOutlineOutlinedIcon color='primary' />
+									<CheckCircleIcon
+										width={20}
+										height={20}
+										color='primaryOutline'
+									/>
 								</ListItemIcon>
 								<ListItemText primary='Keep your users updated with the latest documents' />
 							</ListItem>
 							<ListItem>
 								<ListItemIcon>
-									<CheckCircleOutlineOutlinedIcon color='primary' />
+									<CheckCircleIcon
+										width={20}
+										height={20}
+										color='primaryOutline'
+									/>
 								</ListItemIcon>
 								<ListItemText primary='Build trust with a professional user interface' />
 							</ListItem>

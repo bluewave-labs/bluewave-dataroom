@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
 import BlueWaveLogo from '../../../public/assets/BluewaveLogo';
-import ContactsIcon from '../../../public/assets/icons/sidebar/ContactsIcon';
-import DocumentsIcon from '../../../public/assets/icons/sidebar/DocumentsIcon';
-import SettingsIcon from '../../../public/assets/icons/sidebar/SettingsIcon';
-import MenuIcon from '@mui/icons-material/Menu';
+
+import { FileIcon, MenuIcon, SettingsIcon, UserIcon } from '@/../public/assets/icons';
+
 import DropdownMenu from './DropdownMenu';
 import { useState } from 'react';
+
 import {
 	Box,
 	Drawer,
@@ -32,8 +33,8 @@ export default function Sidebar() {
 	const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
 	const menuItems = [
-		{ text: 'Documents', icon: DocumentsIcon, href: '/documents' },
-		{ text: 'Contacts', icon: ContactsIcon, href: '/contacts' },
+		{ text: 'Documents', icon: FileIcon, href: '/documents' },
+		{ text: 'Contacts', icon: UserIcon, href: '/contacts' },
 		// { text: 'Settings', icon: SettingsIcon, href: '/settings' },
 	];
 
@@ -121,7 +122,10 @@ export default function Sidebar() {
 														height='auto'
 													/>
 												</ListItemIcon>
-												<ListItemText primary={text} />
+												<ListItemText
+													primary={text}
+													sx={{ mb: { sm: 2.5, md: 1, lg: 0 } }}
+												/>
 											</ListItemButton>
 										</Link>
 									</ListItem>

@@ -2,8 +2,7 @@ import { FC } from 'react';
 
 import { Box, Typography } from '@mui/material';
 
-import CheckCircleIcon from '../../public/assets/icons/auth/CheckCircleIcon';
-import XCircleIcon from '../../public/assets/icons/auth/XCircleIcon';
+import { CheckCircleIcon, XCircleIcon } from '@/../public/assets/icons';
 
 import { getPasswordChecks } from '@/utils/shared/validators';
 

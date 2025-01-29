@@ -10,7 +10,7 @@ import ColorPickerBox from './ColorPickerBox';
 
 import { useModal, useToast } from '@/hooks';
 
-import EditIcon from '@mui/icons-material/Edit';
+import { PencilIcon } from '@/../public/assets/icons';
 
 export default function BrandingSetting() {
 	const deleteModal = useModal();
@@ -108,14 +108,17 @@ export default function BrandingSetting() {
 											display: 'flex',
 											alignItems: 'center',
 											justifyContent: 'center',
-											backgroundColor: 'rgba(0, 0, 0, 0.15)',
-											color: 'white',
+											bgcolor: 'rgba(0, 0, 0, 0.15)',
 											opacity: 0,
 											transition: 'opacity 0.3s',
 											cursor: 'pointer',
 										}}
 										onClick={uploadModal.openModal}>
-										<EditIcon fontSize='large' />
+										<PencilIcon
+											width={25}
+											height={25}
+											color='white'
+										/>
 									</Box>
 								</Box>
 
