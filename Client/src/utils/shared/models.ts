@@ -1,27 +1,37 @@
 // Client/src/utils/shared/models.ts
 
+import {
+	PDFIcon,
+	WordIcon,
+	ExcelIcon,
+	PPTIcon,
+	ZIPIcon,
+	TextIcon,
+	ImageIcon,
+	AudioIcon,
+	VideoIcon,
+	GeneralIcon,
+} from '../../../public/assets/icons';
+
 // =========== ENUMS & CONFIGS ===========
 export const FileTypeConfig = {
-	'application/pdf': '/assets/icons/documentPage/pdf-icon.svg',
-	'application/msword': '/assets/icons/documentPage/word-icon.svg',
-	'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-		'/assets/icons/documentPage/word-icon.svg',
-	'application/vnd.ms-excel': '/assets/icons/documentPage/xlsx-icon.svg',
-	'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
-		'/assets/icons/documentPage/xlsx-icon.svg',
-	'application/vnd.ms-powerpoint': '/assets/icons/documentPage/ppt-icon.svg',
-	'application/vnd.openxmlformats-officedocument.presentationml.presentation':
-		'/assets/icons/documentPage/ppt-icon.svg',
-	'application/zip': '/assets/icons/documentPage/zip-icon.svg',
-	'text/plain': '/assets/icons/documentPage/txt-icon.svg',
-	'image/png': '/assets/icons/documentPage/image-icon.svg',
-	'image/jpeg': '/assets/icons/documentPage/image-icon.svg',
-	'image/gif': '/assets/icons/documentPage/image-icon.svg',
-	'audio/mpeg': '/assets/icons/documentPage/audio-icon.svg',
-	'audio/wav': '/assets/icons/documentPage/audio-icon.svg',
-	'video/mp4': '/assets/icons/documentPage/video-icon.svg',
-	'video/x-msvideo': '/assets/icons/documentPage/video-icon.svg',
-	General: '/assets/icons/documentPage/general-icon.svg',
+	'application/pdf': PDFIcon,
+	'application/msword': WordIcon,
+	'application/vnd.openxmlformats-officedocument.wordprocessingml.document': WordIcon,
+	'application/vnd.ms-excel': ExcelIcon,
+	'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ExcelIcon,
+	'application/vnd.ms-powerpoint': PPTIcon,
+	'application/vnd.openxmlformats-officedocument.presentationml.presentation': PPTIcon,
+	'application/zip': ZIPIcon,
+	'text/plain': TextIcon,
+	'image/png': ImageIcon,
+	'image/jpeg': ImageIcon,
+	'image/gif': ImageIcon,
+	'audio/mpeg': AudioIcon,
+	'audio/wav': AudioIcon,
+	'video/mp4': VideoIcon,
+	'video/x-msvideo': VideoIcon,
+	General: GeneralIcon,
 } as const;
 
 export type FileType = keyof typeof FileTypeConfig;

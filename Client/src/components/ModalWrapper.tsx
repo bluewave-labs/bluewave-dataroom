@@ -220,9 +220,7 @@ function UploadBox({
 						display='flex'
 						justifyContent='center'>
 						<Box
-							component='img'
-							src={iconSrc}
-							alt={`${fileInfo.type} icon`}
+							component={iconSrc}
 							sx={{ width: 35, height: 35 }}
 						/>
 					</Grid>

@@ -50,9 +50,7 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 		<TableRow hover>
 			<TableCell sx={{ pr: 0, textAlign: 'center' }}>
 				<Box
-					component='img'
-					src={FileTypeConfig[document.fileType] || FileTypeConfig['General']}
-					alt={`${document.fileType} icon`}
+					component={FileTypeConfig[document.fileType] || FileTypeConfig['General']}
 					sx={{ width: 24, height: 24 }}
 				/>
 			</TableCell>
