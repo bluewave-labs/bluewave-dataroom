@@ -2,11 +2,8 @@ import axios from 'axios';
 import { useState } from 'react';
 
 import { Box, IconButton, TableCell, TableRow, Tooltip, Typography } from '@mui/material';
-import Image from 'next/image';
 
-import CheckIcon from '../../../../../public/assets/icons/documentPage/CheckIcon';
-import CopyIcon from '../../../../../public/assets/icons/documentPage/CopyIcon';
-import DeleteIcon from '../../../../../public/assets/icons/teamPage/trash-icon.svg';
+import { CheckIcon, CopyIcon, TrashIcon } from '@/../public/assets/icons';
 
 import ModalWrapper from '@/components/ModalWrapper';
 
@@ -96,11 +93,10 @@ export default function InfoTableRow({ documentDetail, variant }: InfoTableRowPr
 					</TableCell>
 					<TableCell sx={{ width: '10%', textAlign: 'center' }}>
 						<IconButton onClick={deleteModal.openModal}>
-							<Image
-								width={15}
-								height={17}
-								src={DeleteIcon}
-								alt='Delete icon'
+							<Box
+								component={TrashIcon}
+								width={{ sm: '1rem', md: '1.1rem', lg: '1.18rem' }}
+								height='auto'
 							/>
 						</IconButton>
 					</TableCell>

@@ -1,7 +1,8 @@
 import React from 'react';
+
 import { Box, Typography } from '@mui/material';
 
-import LinkIcon from '../../../../../public/assets/icons/link/LinkIcon';
+import { LinkBrokenIcon } from '@/../public/assets/icons';
 
 interface LinkMessageProps {
 	message: string;
@@ -30,7 +31,7 @@ const LinkMessage: React.FC<LinkMessageProps> = (props) => {
 						color='text.error'>
 						{props.message}
 					</Typography>
-					<LinkIcon />
+					<LinkBrokenIcon />
 				</Box>
 				<Typography variant='body1'>
 					The link you used is no longer active. If you believe this is an error, please contact the

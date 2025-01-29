@@ -1,6 +1,7 @@
 import Dropdown from '@/components/Dropdown';
 import Paginator from '@/components/Paginator';
-import DeleteIcon from '../../../../public/assets/icons/teamPage/trash-icon.svg';
+
+import { TrashIcon } from '@/../public/assets/icons';
 
 import {
 	Paper,
@@ -11,9 +12,10 @@ import {
 	TableHead,
 	TableRow,
 	Typography,
+	Box,
 } from '@mui/material';
+
 import IconButton from '@mui/material/IconButton';
-import Image from 'next/image';
 import { User } from '@/utils/shared/models';
 
 interface Props {
@@ -60,9 +62,10 @@ const UserTable = ({ users, page, setPage, pageSize, totalUsers }: Props) => (
 							</TableCell>
 							<TableCell>
 								<IconButton>
-									<Image
-										src={DeleteIcon}
-										alt='Delete icon'
+									<Box
+										component={TrashIcon}
+										width={{ sm: '1rem', md: '1.1rem', lg: '1.18rem' }}
+										height='auto'
 									/>
 								</IconButton>
 							</TableCell>

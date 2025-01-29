@@ -5,7 +5,8 @@ import {
 	AccordionSummary,
 	Typography,
 } from '@mui/material';
-import ArrowLeft from '../../../../public/assets/icons/documentPage/ArrowLeft';
+
+import { ChevronRightIcon } from '@/../public/assets/icons';
 
 interface CustomAccordionProps extends AccordionProps {
 	title: string;
@@ -28,7 +29,7 @@ const CustomAccordion = ({ title, children, ...props }: CustomAccordionProps) =>
 						transition: 'transform 0.3s ease',
 					},
 				}}
-				expandIcon={<ArrowLeft />}>
+				expandIcon={<ChevronRightIcon />}>
 				<Typography
 					variant='body1'
 					color='text.brand'

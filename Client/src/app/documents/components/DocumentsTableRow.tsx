@@ -3,10 +3,7 @@ import { useState } from 'react';
 
 import { Avatar, Box, Chip, IconButton, TableCell, TableRow, Typography } from '@mui/material';
 
-import BarChartIcon from '@mui/icons-material/BarChart';
-import CheckIcon from '../../../../public/assets/icons/documentPage/CheckIcon';
-import LinkIcon from '../../../../public/assets/icons/documentPage/LinkIcon';
-import SettingsIcon from '../../../../public/assets/icons/sidebar/SettingsIcon';
+import { BarChartIcon, CheckIcon, LinkIcon, SettingsIcon } from '@/../public/assets/icons';
 
 import NavLink from '@/components/NavLink';
 import ActionMenu from './ActionMenu';
@@ -53,9 +50,7 @@ const DocumentsTableRow = ({ document, onDelete }: Props) => {
 		<TableRow hover>
 			<TableCell sx={{ pr: 0, textAlign: 'center' }}>
 				<Box
-					component='img'
-					src={FileTypeConfig[document.fileType] || FileTypeConfig['General']}
-					alt={`${document.fileType} icon`}
+					component={FileTypeConfig[document.fileType] || FileTypeConfig['General']}
 					sx={{ width: 24, height: 24 }}
 				/>
 			</TableCell>

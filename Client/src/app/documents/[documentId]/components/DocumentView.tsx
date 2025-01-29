@@ -86,10 +86,8 @@ export default function DocumentView({ documentId }: DocumentViewProps) {
 					alignItems='center'>
 					<Typography variant='h2'>{fileName}</Typography>
 					<Box
-						component='img'
+						component={FileTypeConfig[fileType] || FileTypeConfig['General']}
 						pl={2}
-						src={FileTypeConfig[fileType] || FileTypeConfig['General']}
-						alt={`${fileType} icon`}
 						sx={{ width: 24, height: 24 }}
 					/>
 				</Box>

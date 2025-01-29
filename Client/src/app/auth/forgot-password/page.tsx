@@ -6,9 +6,10 @@ import { useRouter } from 'next/navigation';
 
 import LoadingButton from '@/components/LoadingButton';
 import NavLink from '@/components/NavLink';
-import KeyIcon from '../../../../public/assets/icons/auth/KeyIcon';
 import FormInput from '../../../components/FormInput';
 import AuthFormWrapper from '../components/AuthFormWrapper';
+
+import { KeyIcon } from '@/../public/assets/icons';
 
 import { useFormSubmission, useToast, useValidatedFormData } from '@/hooks';
 import { requiredFieldRule, validEmailRule } from '@/utils/shared/validators';

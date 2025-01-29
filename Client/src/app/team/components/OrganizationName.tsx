@@ -1,6 +1,6 @@
 'use client';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
+
+import { PencilIcon, SaveIcon } from '@/../public/assets/icons';
 import { Box, IconButton, TextField, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 
@@ -33,15 +33,22 @@ const OrganizationName = () => {
 	}, [isEditing]);
 
 	return (
-		<Box display="flex" flexDirection={'column'} alignItems="left" gap={10}>
-			<Typography variant="h4">Organization name</Typography>
-			<Box display="flex" alignItems="center" height={5}>
+		<Box
+			display='flex'
+			flexDirection={'column'}
+			alignItems='left'
+			gap={10}>
+			<Typography variant='h4'>Organization name</Typography>
+			<Box
+				display='flex'
+				alignItems='center'
+				height={5}>
 				{isEditing ? (
 					<TextField
 						value={companyName}
 						onChange={handleNameChange}
-						variant="standard"
-						size="small"
+						variant='standard'
+						size='small'
 						inputRef={inputRef}
 						sx={{
 							marginRight: '1rem',
@@ -61,7 +68,7 @@ const OrganizationName = () => {
 					/>
 				) : (
 					<Typography
-						variant="body1"
+						variant='body1'
 						sx={{
 							marginRight: '3rem',
 							fontSize: '1rem',
@@ -71,8 +78,10 @@ const OrganizationName = () => {
 						{companyName}
 					</Typography>
 				)}
-				<IconButton size="small" onClick={isEditing ? handleSaveClick : handleEditClick}>
-					{isEditing ? <SaveIcon fontSize="small" /> : <EditIcon fontSize="small" />}
+				<IconButton
+					size='small'
+					onClick={isEditing ? handleSaveClick : handleEditClick}>
+					{isEditing ? <SaveIcon /> : <PencilIcon />}
 				</IconButton>
 			</Box>
 		</Box>

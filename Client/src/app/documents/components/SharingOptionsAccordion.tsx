@@ -2,8 +2,7 @@ import React from 'react';
 
 import { Box, IconButton, MenuItem, RadioGroup, Select, Typography } from '@mui/material';
 
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { EyeIcon, EyeOffIcon } from '@/../public/assets/icons';
 
 import CustomCheckbox from '@/components/CustomCheckbox';
 import FormInput from '@/components/FormInput';
@@ -95,7 +94,7 @@ const SharingOptionsAccordion = ({
 					size='large'
 					sx={{ ml: 4 }}
 					onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
-					{isPasswordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+					{isPasswordVisible ? <EyeOffIcon /> : <EyeIcon />}
 				</IconButton>
 			</Box>
 

@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { FC, useState } from 'react';
 
 import {
@@ -19,7 +18,7 @@ import CustomCircularProgress from './CustomCircularProgress';
 import DocumentUploader from './CustomUploader';
 import Dropdown from './Dropdown';
 
-import DeleteIcon from '../../public/assets/icons/teamPage/trash-icon.svg';
+import { TrashIcon } from '@/../public/assets/icons';
 
 import { FileTypeConfig } from '@/utils/shared/models';
 import { parseFileSize } from '@/utils/shared/utils';
@@ -221,9 +220,7 @@ function UploadBox({
 						display='flex'
 						justifyContent='center'>
 						<Box
-							component='img'
-							src={iconSrc}
-							alt={`${fileInfo.type} icon`}
+							component={iconSrc}
 							sx={{ width: 35, height: 35 }}
 						/>
 					</Grid>
@@ -249,11 +246,10 @@ function UploadBox({
 						)}
 						{variant === 'completed' && (
 							<IconButton>
-								<Image
-									width={18}
-									height={20}
-									src={DeleteIcon}
-									alt='Delete icon'
+								<Box
+									component={TrashIcon}
+									width={{ sm: '1rem', md: '1.1rem', lg: '1.18rem' }}
+									height='auto'
 								/>
 							</IconButton>
 						)}

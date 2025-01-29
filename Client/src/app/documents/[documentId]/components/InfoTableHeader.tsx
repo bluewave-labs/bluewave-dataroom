@@ -1,8 +1,8 @@
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import { TableCell, TableRow, TableSortLabel } from '@mui/material';
 
 import { LinkDetail, Contact } from '@/utils/shared/models';
+
+import { ChevronDownIcon, ChevronSelectorVerticalIcon } from '@/../public/assets/icons';
 
 type SortableKeys = 'lastActivity';
 
@@ -25,7 +25,7 @@ export default function InfoTableHeader({
 		}
 	};
 
-	const sortIcon = orderDirection === undefined ? UnfoldMoreIcon : KeyboardArrowDownIcon;
+	const sortIcon = orderDirection === undefined ? ChevronSelectorVerticalIcon : ChevronDownIcon;
 
 	if (variant === 'linkTable') {
 		return (
