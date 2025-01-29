@@ -182,118 +182,60 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 		}
 	};
 
-	// If shareableLink is set, show the link in a separate dialog
-	if (shareableLink) {
-		return (
+	return (
+		<React.Fragment>
 			<Dialog
-				open={!!shareableLink}
-				onClose={() => {
-					setShareableLink(''), onClose('cancelled');
-				}}
+				open={open}
+				onClose={() => onClose('cancelled')}
+				component={'form'}
+				onSubmit={handleSubmit}
 				fullWidth
 				maxWidth='sm'>
-				<Box
-					display='flex'
-					justifyContent='space-between'
-					alignItems='center'
-					width='100%'>
-					<DialogTitle variant='h2'>Shareable link </DialogTitle>
-				</Box>
-				<DialogContent
-					sx={{
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'space-between',
-						gap: 5,
-						width: '100%',
-					}}>
-					<Chip
-						color='secondary'
-						icon={<LinkIcon />}
-						label={shareableLink}
-						sx={{
-							typography: 'h4',
-							flexGrow: 1,
-							justifyContent: 'left',
-							overflow: 'hidden',
-							textOverflow: 'ellipsis',
-							whiteSpace: 'nowrap',
-						}}
-					/>
-
-					{/* Copy Button */}
-					<IconButton
-						onClick={() => handleLinkCopy(shareableLink)}
-						sx={{
-							transition: '0.2s',
-						}}>
-						{isLinkCopied ? (
-							<CheckIcon
-								width={15}
-								height={15}
-							/>
-						) : (
-							<CopyIcon />
-						)}
-					</IconButton>
-				</DialogContent>
-			</Dialog>
-		);
-	}
-
-	return (
-		<Dialog
-			open={open}
-			onClose={() => onClose('cancelled')}
-			component={'form'}
-			onSubmit={handleSubmit}
-			fullWidth
-			maxWidth='sm'>
-			<DialogTitle variant='h2'>
-				Create shareable link
-				<Typography
-					my={4}
-					variant='body2'>
-					Selected Document:{' '}
-					<Chip
-						sx={{
-							backgroundColor: 'alert.info',
-							borderRadius: 50,
-							verticalAlign: 'baseline',
-						}}
-						size='small'
-						label={document.document?.fileName}
-					/>
-				</Typography>
-			</DialogTitle>
-			<DialogContent sx={{ display: 'flex', justifyContent: 'center', overflow: 'hidden' }}>
-				<Box
-					width={580}
-					height={expanded ? 520 : 180}
-					sx={{ transition: 'height 0.6s' }}>
-					{/* <CustomAccordion
+				<DialogTitle variant='h2'>
+					Create shareable link
+					<Typography
+						my={4}
+						variant='body2'>
+						Selected Document:{' '}
+						<Chip
+							sx={{
+								backgroundColor: 'alert.info',
+								borderRadius: 50,
+								verticalAlign: 'baseline',
+							}}
+							size='small'
+							label={document.document?.fileName}
+						/>
+					</Typography>
+				</DialogTitle>
+				<DialogContent sx={{ display: 'flex', justifyContent: 'center', overflow: 'hidden' }}>
+					<Box
+						width={580}
+						height={expanded ? 520 : 180}
+						sx={{ transition: 'height 0.6s' }}>
+						{/* <CustomAccordion
 						title='Link Details'
 						defaultExpanded></CustomAccordion> */}
-					<LinkDetailsAccordion
-						formValues={values}
-						handleInputChange={handleInputChange}
-					/>
-
-					<CustomAccordion
-						title='Sharing Options'
-						expanded={expanded === 'sharing-options'}
-						onChange={handleChange('sharing-options')}>
-						<SharingOptionsAccordion
+						<LinkDetailsAccordion
 							formValues={values}
 							handleInputChange={handleInputChange}
-							isPasswordVisible={isPasswordVisible}
-							setIsPasswordVisible={setIsPasswordVisible}
-							expirationType={expirationType}
-							handleExpirationChange={handleExpirationChange}
 						/>
-					</CustomAccordion>
 
-					{/* <CustomAccordion
+						<CustomAccordion
+							title='Sharing Options'
+							expanded={expanded === 'sharing-options'}
+							onChange={handleChange('sharing-options')}>
+							<SharingOptionsAccordion
+								formValues={values}
+								handleInputChange={handleInputChange}
+								isPasswordVisible={isPasswordVisible}
+								setIsPasswordVisible={setIsPasswordVisible}
+								expirationType={expirationType}
+								handleExpirationChange={handleExpirationChange}
+							/>
+						</CustomAccordion>
+
+						{/* <CustomAccordion
 						title='Sending'
 						expanded={expanded === 'sending-options'}
 						onChange={handleChange('sending-options')}>
@@ -302,18 +244,75 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 							handleCheckboxChange={handleInputChange}
 						/>
 					</CustomAccordion> */}
-				</Box>
-			</DialogContent>
+					</Box>
+				</DialogContent>
 
-			<DialogActions sx={{ p: 16 }}>
-				<LoadingButton
-					loading={loading}
-					buttonText='Generate'
-					loadingText='Generating...'
+				<DialogActions sx={{ p: 16 }}>
+					<LoadingButton
+						loading={loading}
+						buttonText='Generate'
+						loadingText='Generating...'
+						fullWidth
+						type='submit'
+					/>
+				</DialogActions>
+			</Dialog>
+
+			{shareableLink && (
+				<Dialog
+					open={!!shareableLink}
+					onClose={() => {
+						setShareableLink(''), onClose('cancelled');
+					}}
 					fullWidth
-					type='submit'
-				/>
-			</DialogActions>
-		</Dialog>
+					maxWidth='sm'>
+					<Box
+						display='flex'
+						justifyContent='space-between'
+						alignItems='center'
+						width='100%'>
+						<DialogTitle variant='h2'>Shareable link </DialogTitle>
+					</Box>
+					<DialogContent
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'space-between',
+							gap: 5,
+							width: '100%',
+						}}>
+						<Chip
+							color='secondary'
+							icon={<LinkIcon />}
+							label={shareableLink}
+							sx={{
+								typography: 'h4',
+								flexGrow: 1,
+								justifyContent: 'left',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								whiteSpace: 'nowrap',
+							}}
+						/>
+
+						<IconButton
+							onClick={() => handleLinkCopy(shareableLink)}
+							sx={{
+								transition: '0.2s',
+							}}>
+							{isLinkCopied ? (
+								<CheckIcon
+									width={15}
+									height={15}
+								/>
+							) : (
+								<CopyIcon />
+							)}
+						</IconButton>
+					</DialogContent>
+				</Dialog>
+			)}
+
+		</React.Fragment>
 	);
 }
