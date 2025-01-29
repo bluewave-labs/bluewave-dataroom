@@ -6,6 +6,7 @@ import { EyeIcon, EyeOffIcon } from '@/../public/assets/icons';
 
 import CustomCheckbox from '@/components/CustomCheckbox';
 import FormInput from '@/components/FormInput';
+import { LinkFormValues } from '@/utils/shared/models';
 
 interface SharingOptionsAccordionProps {
 	formValues: any;
@@ -13,10 +14,12 @@ interface SharingOptionsAccordionProps {
 	isPasswordVisible: boolean;
 	setIsPasswordVisible: (visible: boolean) => void;
 	expirationType: string;
+	getError: (fieldName: keyof LinkFormValues) => string;
 	handleExpirationChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const SharingOptionsAccordion = ({
+	getError,
 	formValues,
 	handleInputChange,
 	isPasswordVisible,
@@ -74,6 +77,7 @@ const SharingOptionsAccordion = ({
 				mb={4}
 				ml={13}>
 				<FormInput
+
 					id='password'
 					minWidth={420}
 					value={formValues.password}
@@ -89,6 +93,7 @@ const SharingOptionsAccordion = ({
 					placeholder='Enter password'
 					type={isPasswordVisible ? 'text' : 'password'}
 					disabled={!formValues.requirePassword}
+					errorMessage={getError('password')}
 				/>
 				<IconButton
 					size='large'

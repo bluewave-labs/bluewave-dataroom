@@ -44,10 +44,8 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 	};
 
 	const initialFormValues: LinkFormValues = {
-		password: '',
 		isPublic: true,
 		otherEmails: '',
-		friendlyName: '',
 		expirationTime: '',
 		requirePassword: false,
 		expirationEnabled: false,
@@ -55,9 +53,9 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 		requiredUserDetailsOption: 1,
 	};
 
-	const { values, setValues, validateAll } = useValidatedFormData<LinkFormValues>({
+	const { values, setValues, validateAll, getError } = useValidatedFormData<LinkFormValues>({
 		initialValues: initialFormValues,
-		validationRules,
+		validationRules
 	});
 	const document = useDocumentDetail(documentId);
 
@@ -157,6 +155,7 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 			}
 			setShareableLink(response.data.link.linkUrl);
 			setValues(initialFormValues);
+			setExpanded(false);
 		},
 		onSuccess: () => {
 			toast.showToast({
@@ -181,11 +180,17 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 		}
 	};
 
+	const handleFormCleanup = () => {
+		setValues(initialFormValues);
+		setExpanded(false);
+		onClose('cancelled');
+	}
+
 	return (
 		<React.Fragment>
 			<Dialog
 				open={open}
-				onClose={() => onClose('cancelled')}
+				onClose={handleFormCleanup}
 				component={'form'}
 				onSubmit={handleSubmit}
 				fullWidth
@@ -225,6 +230,7 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 							expanded={expanded === 'sharing-options'}
 							onChange={handleChange('sharing-options')}>
 							<SharingOptionsAccordion
+								getError={getError}
 								formValues={values}
 								handleInputChange={handleInputChange}
 								isPasswordVisible={isPasswordVisible}
