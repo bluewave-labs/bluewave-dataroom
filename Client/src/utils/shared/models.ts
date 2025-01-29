@@ -85,11 +85,11 @@ export interface Contact {
 // =========== LINK TYPE ===========
 
 export interface LinkFormValues {
-	password: string;
+	password?: string;
 	isPublic: boolean;
 	otherEmails: string;
-	friendlyName: string;
-	expirationTime: string;
+	friendlyName?: string;
+	expirationTime?: string;
 	requirePassword: boolean;
 	expirationEnabled: boolean;
 	requireUserDetails: boolean;
