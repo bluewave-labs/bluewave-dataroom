@@ -27,14 +27,16 @@ const RowBox = styled(Box)({
 	display: 'flex',
 	justifyContent: 'space-between',
 	alignItems: 'center',
+	gap: 10,
 	width: '100%',
-	'& > p': {
+	'& > h3': {
 		flex: 2,
 	},
 	'& > div:nth-of-type(1)': {
 		flex: 7,
 	},
 	'& > div:nth-of-type(2)': {
+		marginLeft: 0,
 		flex: 1,
 	},
 });
@@ -224,8 +226,8 @@ const FileAccessModal = (props: FileAccessModalProps) => {
 								type={isPasswordVisible ? 'text' : 'password'}
 							/>
 							<Box
-								ml={5}
-								mt={10}>
+								mt={10}
+								>
 								<IconButton
 									size='large'
 									onClick={() => setIsPasswordVisible(!isPasswordVisible)}>
