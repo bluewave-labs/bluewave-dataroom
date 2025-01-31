@@ -53,7 +53,7 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 		requiredUserDetailsOption: 1,
 	};
 
-	const { values, setValues, validateAll, getError } = useValidatedFormData<LinkFormValues>({
+	const { values, setValues, validateAll, getError, handleBlur } = useValidatedFormData<LinkFormValues>({
 		initialValues: initialFormValues,
 		validationRules
 	});
@@ -144,6 +144,7 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 	const { loading, handleSubmit, error, toast } = useFormSubmission({
 		onSubmit: async () => {
 			const hasError = validateAll();
+
 			if (hasError) {
 				throw new Error('Please correct any errors before generating a link.');
 			}
@@ -232,6 +233,7 @@ export default function CreateLink({ onClose, open, documentId }: CreateLinkProp
 							<SharingOptionsAccordion
 								getError={getError}
 								formValues={values}
+								handleBlur={handleBlur}
 								handleInputChange={handleInputChange}
 								isPasswordVisible={isPasswordVisible}
 								setIsPasswordVisible={setIsPasswordVisible}
