@@ -22,16 +22,15 @@
 
 # Ignore all settings.json files
 **/settings.json
-
-# Except the one in .vscode/
-!.vscode/settings.json
+/.vscode/
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# env files
+# Ignore all .env files.env
+.env
 .env.local
 .env.prod
 
