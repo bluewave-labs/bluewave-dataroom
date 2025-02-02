@@ -36,7 +36,7 @@ const ChevronSelectorVerticalIcon: FC<ChevronSelectorVerticalIconProps> = ({
 			aria-label='Chevron Selector Vertical Icon'
 			role='img'
 			{...props}>
-			<g clip-path='url(#clip0_4303_3121)'>
+			<g clipPath='url(#clip0_4303_3121)'>
 				<path
 					d='M4.66675 10L8.00008 13.3333L11.3334 10'
 					stroke={color}

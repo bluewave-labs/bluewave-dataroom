@@ -40,7 +40,7 @@ export default function DropdownMenu() {
 				onClick={handleClick}
 				size='small'
 				sx={{
-					typography: 'body1',
+					typography: 'h2',
 					textTransform: 'capitalize',
 				}}
 				startIcon={
@@ -95,7 +95,7 @@ export default function DropdownMenu() {
 							sx={{ display: 'flex', alignItems: 'center', gap: 8 }}>
 							<Box
 								component={icon}
-								width={{ sm: '0.8rem', md: '0.9rem', lg: '1rem' }}
+								width={{ sm: '0.8rem', md: '0.9rem', lg: '1.25rem' }}
 								height='auto'
 								strokeWidth={2.2}
 							/>
@@ -113,7 +113,7 @@ export default function DropdownMenu() {
 					sx={{ display: 'flex', alignItems: 'center', gap: 8 }}>
 					<Box
 						component={LogOutIcon}
-						width={{ sm: '0.8rem', md: '0.9rem', lg: '1rem' }}
+						width={{ sm: '0.8rem', md: '0.9rem', lg: '1.1rem' }}
 						height='auto'
 					/>
 					<Typography variant='body1'>Log out</Typography>

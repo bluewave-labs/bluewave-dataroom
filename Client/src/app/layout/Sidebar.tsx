@@ -97,6 +97,7 @@ export default function Sidebar() {
 								return (
 									<ListItem
 										key={text}
+										sx={{ mb: { sm: 1, md: 2, lg: 4 } }}
 										disablePadding>
 										<Link
 											href={href}
@@ -109,6 +110,7 @@ export default function Sidebar() {
 												selected={isActive}
 												sx={{
 													px: 4,
+													py: { sm: 2, md: 4, lg: 6 },
 													borderLeft: 3,
 													borderLeftColor: 'transparent',
 													'&.Mui-selected': {
@@ -124,7 +126,17 @@ export default function Sidebar() {
 												</ListItemIcon>
 												<ListItemText
 													primary={text}
-													sx={{ mb: { sm: 2.5, md: 1, lg: 0 } }}
+													//For MUI V7 - ListItemText no longer accepts primaryTypographyProps
+													// slotProps={
+													// 	isActive
+													// 		? { variant: 'h3', color: 'text.icon' }
+													// 		: { variant: 'h3', fontWeight: 400, color: 'text.primary' }
+													// }
+													primaryTypographyProps={
+														isActive
+															? { variant: 'h3', color: 'text.icon' }
+															: { variant: 'h3', fontWeight: 400, color: 'text.primary' }
+													}
 												/>
 											</ListItemButton>
 										</Link>

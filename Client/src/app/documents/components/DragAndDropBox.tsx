@@ -82,7 +82,7 @@ const DragAndDropBox = ({ text, height = { sm: 150, md: 200, lg: 250 } }: DragAn
 			<div {...getRootProps()}>
 				<input
 					{...getInputProps({
-						accept: 'image/png, application/pdf, image/jpeg',
+						accept: 'application/pdf',
 						multiple: false,
 					})}
 				/>

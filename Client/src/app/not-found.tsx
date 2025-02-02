@@ -18,12 +18,13 @@ export default function NotFound() {
 			zIndex={1500}
 			pt={40}
 			bgcolor='background.content'>
-			<Box
-				component={AlertCircleIcon}
-				width={{ sm: '4rem', md: '4.5rem', lg: '5rem' }}
-				height='auto'
-				mb={10}
-			/>
+			<Box mb={10}>
+				<AlertCircleIcon
+					width='5rem'
+					height='auto'
+				/>
+			</Box>
+
 			<Typography
 				variant='h2'
 				gutterBottom>

@@ -1,8 +1,6 @@
 import React, { FC, SVGProps } from 'react';
 
 interface AlertCircleIconProps extends SVGProps<SVGSVGElement> {
-	width?: number;
-	height?: number;
 	color?: string;
 	strokeWidth?: number;
 }
