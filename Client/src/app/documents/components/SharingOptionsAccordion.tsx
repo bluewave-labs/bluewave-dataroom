@@ -16,6 +16,7 @@ interface SharingOptionsAccordionProps {
 	expirationType: string;
 	getError: (fieldName: keyof LinkFormValues) => string;
 	handleExpirationChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	handleBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 const SharingOptionsAccordion = ({
@@ -25,6 +26,7 @@ const SharingOptionsAccordion = ({
 	isPasswordVisible,
 	setIsPasswordVisible,
 	expirationType,
+	handleBlur,
 	handleExpirationChange,
 }: SharingOptionsAccordionProps) => {
 	return (
@@ -77,7 +79,6 @@ const SharingOptionsAccordion = ({
 				mb={4}
 				ml={13}>
 				<FormInput
-
 					id='password'
 					minWidth={420}
 					value={formValues.password}
@@ -94,6 +95,7 @@ const SharingOptionsAccordion = ({
 					type={isPasswordVisible ? 'text' : 'password'}
 					disabled={!formValues.requirePassword}
 					errorMessage={getError('password')}
+					onBlur={handleBlur}
 				/>
 				<IconButton
 					size='large'
